@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+<base href="/oll/">
+<link href="./dist/main.bundle.css" rel="stylesheet">
+
+<title>OLL</title>
+<style>
+body {
+  margin: 0;
+}
+header ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 10px;
+}
+header {
+  border-bottom: 1px solid #6C9BD2;
+  padding: 10px 25px;
+  margin-bottom: 20px;
+}
+header a {
+  text-decoration: none;
+  color: #aaa;
+}
+header a.active {
+  color: #6c9bd2;
+}
+#learn {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+#list {
+    display: grid;
+    margin: 0 45px;
+    gap: 15px;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+#list .checked {
+  background: #cf9;
+}
+</style>
+
+<div id="app"></div>
+<script src="./dist/main.js"></script>
