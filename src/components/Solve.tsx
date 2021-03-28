@@ -103,14 +103,21 @@ export const Solve: FC<Props> = ({ index }) => {
     <>
       <Oll index={index} />
       <br />
-      {Object.keys(groups).find(key => groups[key].includes(index + 1))}
+      {Object.keys(groups).find((key) => groups[key].includes(index + 1))}
       <br />
-      {solves[index].map(solve => (
+      {solves[index].map((solve) => (
         <>
           solve:{solve}
           <br />
           scramble:{calculateScramble(solve)}
           <br />
+          <a
+            href={`http://algdb.net/puzzle/333/oll/oll${index + 1}`}
+            className="underline text-blue-400"
+            target="_blank"
+          >
+            AlgDb.net で他のやり方を調べる
+          </a>
         </>
       ))}
     </>
