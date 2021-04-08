@@ -1,25 +1,18 @@
 import { FC } from 'react';
 import { NavLink } from 'react-router-dom';
+import { Route } from './route';
 
 export const Header: FC = () => (
   <header>
     <nav>
       <ul>
-        <li>
-          <NavLink to="/" exact>
-            oll
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/learn" exact>
-            learn
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/list" exact>
-            checklist
-          </NavLink>
-        </li>
+        {Route.map(({ path, name }) => (
+          <li key="path">
+            <NavLink to={path} exact>
+              {name}
+            </NavLink>
+          </li>
+        ))}
       </ul>
     </nav>
   </header>

@@ -67,7 +67,7 @@ export const faces: CubeFace[] = [
   [0, 1, 0, 0, 1, 1, 0, 0, 0],
   [0, 1, 0, 0, 1, 0, 0, 1, 0],
   [0, 0, 0, 1, 1, 1, 0, 0, 0],
-  [1, 0, 1, 1, 1, 1, 1, 0, 1]
+  [1, 0, 1, 1, 1, 1, 1, 0, 1],
 ];
 export const solves = [
   [`R U'2 R'2 F R F' U2 R' F R F'`], // 0
@@ -88,7 +88,7 @@ export const solves = [
   [`Rw U Rw' R U R' U' Rw U' Rw'`], // 15
   [
     `Fw R U R' U' Fw' U' R U R' U' R' F R F'`,
-    `(U') Fw R U R' U' Fw' U R U R' U' R' F R F'`
+    `(U') Fw R U R' U' Fw' U R U R' U' R' F R F'`,
   ],
   [`R U'2 R'2 F R F' U2 M' U R U' Rw'`],
   [`Rw' R U R U R' U' Rw R'2 F R F'`],
@@ -121,7 +121,7 @@ export const solves = [
   [`R' U' R' F R F' U R`],
   [
     `R' U' x R' U R U' R' U R U' x' U R`,
-    `(U') F U R U' R' F' R U R' U R U2 R'`
+    `(U') F U R U' R' F' R U R' U R U2 R'`,
   ],
   [`F R U R' U' R U R' U' F'`],
   [`R B' R'2 F R2 B R'2 F' R`],
@@ -132,7 +132,7 @@ export const solves = [
   [`Rw U R' U R U' R' U R U'2 Rw'`],
   [`Rw U2 R'2 F R F' U2 Rw' F R F'`, `(U) R' F U R U' R'2 F' R2 U R' U' R`],
   [`Rw' U' Rw U' R' U R U' R' U R Rw' U Rw`],
-  [`R U R' U' M' U R U' Rw'`]
+  [`R U R' U' M' U R U' Rw'`],
 ];
 export const groups: Record<string, number[]> = {
   'A. すでに覚えているもの': [21, 22, 23, 24, 25, 26, 27],
@@ -146,7 +146,7 @@ export const groups: Record<string, number[]> = {
     7,
     8,
     11,
-    12
+    12,
   ],
   'G. コーナーが全て揃っているもの': [20, 28, 57],
   'H. エッジが1個も揃っていないもの　残り': [3, 4, 17, 18, 19],
@@ -154,7 +154,7 @@ export const groups: Record<string, number[]> = {
   'J. 大きいL型のもの': [13, 14, 15, 16],
   'K. 小さいL型のもの': [47, 48, 49, 50, 53, 54],
   'L. 棒型のもの': [51, 52, 55, 56],
-  'M. 変な形のもの': [29, 30, 41, 42]
+  'M. 変な形のもの': [29, 30, 41, 42],
 };
 
 export const rotate = (arr: CubeFace): CubeFace => {
@@ -167,7 +167,7 @@ export const rotate = (arr: CubeFace): CubeFace => {
     arr[7],
     arr[0],
     arr[3],
-    arr[6]
+    arr[6],
   ];
 };
 export const useFace = (): {
@@ -180,7 +180,7 @@ export const useFace = (): {
   return {
     cubeStatus,
     toggleCube: (index: number) => {
-      setIsCheckedList(list => {
+      setIsCheckedList((list) => {
         const copied = list.concat() as CubeFace;
         copied[index] = 1 - copied[index];
         return copied;
@@ -188,13 +188,13 @@ export const useFace = (): {
     },
     clearCube: () => {
       setIsCheckedList(init);
-    }
+    },
   } as const;
 };
 export const calculateScramble = (solve: string): string => {
   const scramble = solve
     .split(' ')
-    .map(direction => {
+    .map((direction) => {
       if (direction.includes(`'`)) return direction.replace(/'/, '');
       if (direction === `(U)`) return `(U')`;
       if (direction === `(U')`) return `(U)`;
@@ -205,10 +205,10 @@ export const calculateScramble = (solve: string): string => {
     .reverse();
   const _rotations = solve
     .split(' ')
-    .filter(direction => {
+    .filter((direction) => {
       return /[xyzMESw]/.test(direction);
     })
-    .flatMap(direction => {
+    .flatMap((direction) => {
       const isTwiceRotation = direction.includes('2');
       if (isTwiceRotation) {
         direction = direction.replace(/'/, '').replace(/2/, '');
@@ -307,7 +307,7 @@ export const useCheck = (): CheckList => {
     check,
     reset: () => {
       setCheckList(Array(57).fill(false));
-    }
+    },
   };
 };
 export const useCheckbox = (
@@ -318,6 +318,6 @@ export const useCheckbox = (
     checked,
     (event: ChangeEvent<HTMLInputElement>) => {
       setChecked(event.target.checked);
-    }
+    },
   ];
 };

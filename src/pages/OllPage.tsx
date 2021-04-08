@@ -7,7 +7,7 @@ import '../index.css';
 
 const CubeFace = ({
   cubeStatus,
-  toggleCube
+  toggleCube,
 }: {
   cubeStatus: CubeFace;
   toggleCube: (index: number) => void;
@@ -38,7 +38,7 @@ export const OllPage: FC = () => {
       <div className="flex overflow-x-scroll gap-3">
         {faces.map((_face, index) => {
           for (let face = _face, j = 0; j < 4; ++j, face = rotate(face)) {
-            if ([...Array(9).keys()].every(i => cubeStatus[i] === face[i])) {
+            if ([...Array(9).keys()].every((i) => cubeStatus[i] === face[i])) {
               return (
                 <div className="flex-shrink-0 px-12 border-l-4 border-gray-300 first:border-0">
                   <Solve index={index} />

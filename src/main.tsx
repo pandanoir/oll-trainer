@@ -1,9 +1,10 @@
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Header } from './Header';
-import { LearningPage, ListPage, OllPage } from './pages';
+import { OllPage } from './pages';
 import { CheckContext, useCheck } from './utils';
 import './index.css';
+import { Route as RouteInfo } from './route';
 
 const App = () => {
   const { checkList, check, reset } = useCheck();
@@ -12,15 +13,14 @@ const App = () => {
       <Router basename="/oll">
         <Header />
         <Switch>
-          <Route path={['/', '/oll']} exact>
+          <Route path={['/oll']} exact>
             <OllPage />
           </Route>
-          <Route path="/learn" exact>
-            <LearningPage />
-          </Route>
-          <Route path="/list" exact>
-            <ListPage />
-          </Route>
+          {RouteInfo.map(({ path, component }) => (
+            <Route path={path} exact key={path}>
+              {component}
+            </Route>
+          ))}
         </Switch>
       </Router>
     </CheckContext.Provider>
