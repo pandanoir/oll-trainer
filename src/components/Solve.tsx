@@ -111,13 +111,6 @@ export const Solve: FC<Props> = ({ index }) => {
           <br />
           scramble:{calculateScramble(solve)}
           <br />
-          <a
-            href={`http://algdb.net/puzzle/333/oll/oll${index + 1}`}
-            className="underline text-blue-400"
-            target="_blank"
-          >
-            AlgDb.net で他のやり方を調べる
-          </a>
         </>
       ))}
     </>

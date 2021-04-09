@@ -42,6 +42,14 @@ export const OllPage: FC = () => {
               return (
                 <div className="flex-shrink-0 px-12 border-l-4 border-gray-300 first:border-0">
                   <Solve index={index} />
+                  <a
+                    href={`http://algdb.net/puzzle/333/oll/oll${index + 1}`}
+                    className="underline text-blue-400"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    AlgDb.net で他のやり方を調べる
+                  </a>
                 </div>
               );
             }
