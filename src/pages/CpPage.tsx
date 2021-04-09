@@ -506,13 +506,27 @@ export const CpPage: VFC = () => {
         <>
           逆手順: {calculateScramble(value)}
           <br />
-          {topFaceType}{' '}
+          無交換(Skip,U,H,Z-perm): {topFaceType}{' '}
           {
             ['no-swap', 'diagonal', 'F-swap', 'B-swap', 'L-swap', 'R-swap'][
               cpIndex
             ]
           }
           <CubeFace cube={cpList[topFaceType][cpIndex]} />
+          <br />
+          対角交換(E,N,V,Y-perm): {topFaceType}{' '}
+          {
+            ['no-swap', 'diagonal', 'F-swap', 'B-swap', 'L-swap', 'R-swap'][
+              cpIndex % 2 === 0 ? cpIndex + 1 : cpIndex - 1
+            ]
+          }
+          <CubeFace
+            cube={
+              cpList[topFaceType][cpIndex % 2 === 0 ? cpIndex + 1 : cpIndex - 1]
+            }
+          />
+          <br />
+          隣接交換(A,F,G,J,R,T-perm): その他
         </>
       )}
     </div>
