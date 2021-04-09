@@ -346,6 +346,13 @@ const cpList: Record<string, TopFace[]> = {
       ['yellow', null, 'blue'],
     ],
     [
+      ['red', null, 'yellow'],
+      ['green', 'yellow', null, 'green', 'orange'],
+      [null, null, 'yellow', null, null],
+      ['blue', 'orange', null, 'blue', 'yellow'],
+      ['yellow', null, 'red'],
+    ],
+    [
       ['orange', null, 'yellow'],
       ['blue', 'yellow', null, 'red', 'green'],
       [null, null, 'yellow', null, null],
