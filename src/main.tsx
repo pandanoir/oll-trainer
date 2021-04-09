@@ -5,7 +5,7 @@ import { Header } from './Header';
 import { OllPage } from './pages';
 import { CheckContext, useCheck } from './utils';
 import './index.css';
-import { Route as RouteInfo } from './route';
+import { RouteList } from './route';
 
 const App: VFC = () => {
   const { checkList, check, reset } = useCheck();
@@ -17,7 +17,7 @@ const App: VFC = () => {
           <Route path={['/oll']} exact>
             <OllPage />
           </Route>
-          {RouteInfo.map(({ path, component }) => (
+          {RouteList.map(({ path, component }) => (
             <Route path={path} exact key={path}>
               {component}
             </Route>
