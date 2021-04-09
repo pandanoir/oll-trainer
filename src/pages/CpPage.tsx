@@ -1,4 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useState, VFC } from 'react';
+import { useLocation } from 'react-router-dom';
 import RubiksCube, { Rotation } from '@pandanoir/rubikscube';
 import { calculateScramble } from '../utils';
 
@@ -406,8 +407,11 @@ const useInput = (initialValue = '') => {
     onChange,
   };
 };
+const useQuery = () => new URLSearchParams(useLocation().search);
+
 export const CpPage: VFC = () => {
-  const { value, onChange } = useInput();
+  const query = useQuery();
+  const { value, onChange } = useInput(query.get('solve') || '');
   const [topFaceType, setTopFaceType] = useState<null | string>(null);
   const [cpIndex, setCpIndex] = useState(0);
   useEffect(() => {
