@@ -1,7 +1,9 @@
 import { VFC, PropsWithChildren } from 'react';
+import { Link } from 'react-router-dom';
 import { groups, solves, calculateScramble } from '../utils';
 import { OLL } from '../oll';
 import '../index.css';
+import { RouteInfo } from '../route';
 
 interface Props {
   index: number;
@@ -108,7 +110,15 @@ export const Solve: VFC<Props> = ({ index }) => {
       <br />
       {solves[index].map((solve) => (
         <>
-          solve:{solve}
+          solve: {solve}{' '}
+          <Link
+            className="underline text-blue-400"
+            to={`${RouteInfo['cp check'].path}?solve=${encodeURIComponent(
+              solve
+            )}`}
+          >
+            CPパターンを確認する
+          </Link>
           <br />
           scramble:{calculateScramble(solve)}
           <br />
