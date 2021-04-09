@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { VFC, PropsWithChildren } from 'react';
 import { groups, solves, calculateScramble } from '../utils';
 import { OLL } from '../oll';
 import '../index.css';
@@ -7,20 +7,21 @@ interface Props {
   index: number;
 }
 
-const Left: FC = ({ children }) => {
+type Empty = Record<PropertyKey, unknown>;
+const Left: VFC<PropsWithChildren<Empty>> = ({ children }) => {
   return <div className="grid grid-rows-3 justify-end gap-1">{children}</div>;
 };
-const Right: FC = ({ children }) => {
+const Right: VFC<PropsWithChildren<Empty>> = ({ children }) => {
   return <div className="grid grid-rows-3 gap-1">{children}</div>;
 };
-const Top: FC = ({ children }) => {
+const Top: VFC<PropsWithChildren<Empty>> = ({ children }) => {
   return <div className="grid grid-cols-3 col-span-3 gap-1">{children}</div>;
 };
-const Bottom: FC = ({ children }) => {
+const Bottom: VFC<PropsWithChildren<Empty>> = ({ children }) => {
   return <div className="grid grid-cols-3 col-span-3 gap-1">{children}</div>;
 };
-const Empty: FC = () => <div />;
-const Oll: FC<{ index: number }> = ({ index }) => {
+const Empty: VFC = () => <div />;
+const Oll: VFC<{ index: number }> = ({ index }) => {
   // if (!OLL[index]) return null;
   const cell = 'w-14 h-14 border border-gray-500';
   const sideCell = 'w-4 h-14 border border-gray-500';
@@ -98,7 +99,7 @@ const Oll: FC<{ index: number }> = ({ index }) => {
     </div>
   );
 };
-export const Solve: FC<Props> = ({ index }) => {
+export const Solve: VFC<Props> = ({ index }) => {
   return (
     <>
       <Oll index={index} />

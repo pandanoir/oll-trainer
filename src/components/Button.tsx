@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, DetailedHTMLProps, FC } from 'react';
+import { ButtonHTMLAttributes, DetailedHTMLProps, VFC } from 'react';
 import '../index.css';
 
 export const basicButtonStyle =
@@ -8,7 +8,7 @@ export type ButtonProps = DetailedHTMLProps<
   ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 >;
-export const Button: FC<ButtonProps> = ({ children, ...props }) => {
+export const Button: VFC<ButtonProps> = ({ children, ...props }) => {
   return (
     <button {...props} className={`${basicButtonStyle} border-gray-200`}>
       {children}

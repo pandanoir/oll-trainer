@@ -1,17 +1,14 @@
-import { FC } from 'react';
+import { VFC } from 'react';
 
 import { useFace, faces, rotate, CubeFace } from '../utils';
 import { Solve } from '../components/Solve';
 import { Button } from '../components/Button';
 import '../index.css';
 
-const CubeFace = ({
-  cubeStatus,
-  toggleCube,
-}: {
+const CubeFace: VFC<{
   cubeStatus: CubeFace;
   toggleCube: (index: number) => void;
-}) => {
+}> = ({ cubeStatus, toggleCube }) => {
   return (
     <div className="mx-auto border border-gray-800 grid grid-cols-3 max-w-max">
       {cubeStatus.map((isChecked, index) => (
@@ -29,7 +26,7 @@ const CubeFace = ({
   );
 };
 
-export const OllPage: FC = () => {
+export const OllPage: VFC = () => {
   const { cubeStatus, toggleCube, clearCube } = useFace();
   return (
     <div>

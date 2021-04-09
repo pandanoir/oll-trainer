@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useState } from 'react';
+import { VFC, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { DangerButton } from '../components/DangerButton';
@@ -6,7 +6,7 @@ import { PrimaryButton } from '../components/PrimaryButton';
 import { Solve } from '../components/Solve';
 import { CheckContext, nextIndex, prevIndex } from '../utils';
 
-export const LearningPage: FC = () => {
+export const LearningPage: VFC = () => {
   const { checkList, check, reset } = useContext(CheckContext);
   const size = 57 - checkList.reduce((acc, item) => acc + (item ? 1 : 0), 0);
 

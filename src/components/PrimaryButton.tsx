@@ -1,8 +1,8 @@
-import { ButtonHTMLAttributes, DetailedHTMLProps, FC } from 'react';
+import { VFC } from 'react';
 import { basicButtonStyle, ButtonProps } from './Button';
 import '../index.css';
 
-export const PrimaryButton: FC<ButtonProps> = ({ children, ...props }) => {
+export const PrimaryButton: VFC<ButtonProps> = ({ children, ...props }) => {
   return (
     <button
       {...props}

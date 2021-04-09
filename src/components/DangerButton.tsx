@@ -1,8 +1,8 @@
-import { ButtonHTMLAttributes, DetailedHTMLProps, FC } from 'react';
+import { VFC } from 'react';
 import { basicButtonStyle, ButtonProps } from './Button';
 import '../index.css';
 
-export const DangerButton: FC<ButtonProps> = ({ children, ...props }) => {
+export const DangerButton: VFC<ButtonProps> = ({ children, ...props }) => {
   return (
     <button
       {...props}

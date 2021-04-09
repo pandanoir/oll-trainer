@@ -1,9 +1,9 @@
-import { FC, useContext } from 'react';
+import { VFC, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Solve } from '../components/Solve';
 import { CheckContext, useCheckbox } from '../utils';
 
-export const ListPage: FC = () => {
+export const ListPage: VFC = () => {
   const { checkList, check } = useContext(CheckContext);
   const [shows, onChange] = useCheckbox();
 

@@ -1,3 +1,4 @@
+import { VFC } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Header } from './Header';
@@ -6,7 +7,7 @@ import { CheckContext, useCheck } from './utils';
 import './index.css';
 import { Route as RouteInfo } from './route';
 
-const App = () => {
+const App: VFC = () => {
   const { checkList, check, reset } = useCheck();
   return (
     <CheckContext.Provider value={{ checkList, check, reset }}>

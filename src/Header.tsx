@@ -1,8 +1,8 @@
-import { FC } from 'react';
+import { VFC } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Route } from './route';
 
-export const Header: FC = () => (
+export const Header: VFC = () => (
   <header>
     <nav>
       <ul>
