@@ -1,12 +1,12 @@
 import { VFC } from 'react';
 
-import { useFace, faces, rotate, CubeFace } from '../utils';
+import { useFace, faces, rotate, CubeFace as CubeFaceType } from '../utils';
 import { Solve } from '../components/Solve';
 import { Button } from '../components/Button';
 import '../index.css';
 
 const CubeFace: VFC<{
-  cubeStatus: CubeFace;
+  cubeStatus: CubeFaceType;
   toggleCube: (index: number) => void;
 }> = ({ cubeStatus, toggleCube }) => {
   return (
