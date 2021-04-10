@@ -2,8 +2,8 @@ import { useEffect, useState, VFC } from 'react';
 import RubiksCube, { Rotation } from '@pandanoir/rubikscube';
 import { calculateScramble } from '../utils';
 import { TopFace, Color, cpList } from '../data/cpList';
-import { useInput } from '../utils/useInput';
-import { useQuery } from '../utils/useQuery';
+import { useInput } from '../utils/hooks/useInput';
+import { useQuery } from '../utils/hooks/useQuery';
 
 const Cube: VFC<{ color: string; onClick?: () => void }> = ({
   color,

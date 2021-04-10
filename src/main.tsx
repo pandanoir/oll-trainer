@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Header } from './Header';
 import { OllPage } from './pages';
-import { CheckContext, useCheck } from './utils';
+import { CheckContext, useCheck } from './utils/hooks/useCheck';
 import './index.css';
 import { RouteList } from './route';
 

@@ -1,6 +1,7 @@
 import { VFC } from 'react';
 
-import { useFace, faces, rotate, CubeFace as CubeFaceType } from '../utils';
+import { faces, rotate, CubeFace as CubeFaceType } from '../utils';
+import { useFace } from '../utils/hooks/useFace';
 import { Solve } from '../components/Solve';
 import { Button } from '../components/Button';
 import '../index.css';

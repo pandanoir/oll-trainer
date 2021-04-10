@@ -1,4 +1,3 @@
-import { ChangeEvent, createContext, useEffect, useState } from 'react';
 export type CubeFace = [
   number,
   number,
@@ -170,27 +169,6 @@ export const rotate = (arr: CubeFace): CubeFace => {
     arr[6],
   ];
 };
-export const useFace = (): {
-  cubeStatus: CubeFace;
-  toggleCube: (index: number) => void;
-  clearCube: () => void;
-} => {
-  const init: CubeFace = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-  const [cubeStatus, setIsCheckedList] = useState<CubeFace>(init);
-  return {
-    cubeStatus,
-    toggleCube: (index: number) => {
-      setIsCheckedList((list) => {
-        const copied = list.concat() as CubeFace;
-        copied[index] = 1 - copied[index];
-        return copied;
-      });
-    },
-    clearCube: () => {
-      setIsCheckedList(init);
-    },
-  } as const;
-};
 export const calculateScramble = (solve: string): string => {
   const scramble = solve
     .split(' ')
@@ -266,58 +244,7 @@ export const calculateScramble = (solve: string): string => {
   return [...rotations, ...scramble].join(' ');
 };
 
-const CHECKED_STORE = 'OLL_RANDOM_CHECKED' as const;
-interface CheckList {
-  checkList: boolean[];
-  check: (index: number) => void;
-  reset: () => void;
-}
-export const CheckContext = createContext<CheckList>({} as CheckList);
-
 export const nextIndex = (index: number, size: number): number =>
     (index + 1) % size,
   prevIndex = (index: number, size: number): number =>
     (index - 1 + size) % size;
-const useStorage = <T extends unknown>(
-  key: string,
-  value: T,
-  setter: (arg: T) => void
-) => {
-  useEffect(() => {
-    const json = localStorage.getItem(key);
-    if (json !== null) {
-      setter(JSON.parse(json));
-    }
-  }, []);
-  useEffect(() => {
-    localStorage.setItem(key, JSON.stringify(value));
-  }, [value]);
-};
-export const useCheck = (): CheckList => {
-  const [checkList, setCheckList] = useState<boolean[]>(() =>
-    Array(57).fill(false)
-  );
-  useStorage(CHECKED_STORE, checkList, setCheckList);
-
-  const check = (index: number) => {
-    setCheckList(Object.assign([], checkList, { [index]: !checkList[index] }));
-  };
-  return {
-    checkList,
-    check,
-    reset: () => {
-      setCheckList(Array(57).fill(false));
-    },
-  };
-};
-export const useCheckbox = (
-  init = false
-): [boolean, (event: ChangeEvent<HTMLInputElement>) => void] => {
-  const [checked, setChecked] = useState(init);
-  return [
-    checked,
-    (event: ChangeEvent<HTMLInputElement>) => {
-      setChecked(event.target.checked);
-    },
-  ];
-};

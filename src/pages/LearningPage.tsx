@@ -4,7 +4,8 @@ import { Button } from '../components/Button';
 import { DangerButton } from '../components/DangerButton';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { Solve } from '../components/Solve';
-import { CheckContext, nextIndex, prevIndex } from '../utils';
+import { CheckContext } from '../utils/hooks/useCheck';
+import { nextIndex, prevIndex } from '../utils';
 
 export const LearningPage: VFC = () => {
   const { checkList, check, reset } = useContext(CheckContext);
