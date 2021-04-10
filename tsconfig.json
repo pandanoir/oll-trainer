@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
     "lib": [
@@ -13,13 +13,11 @@
     "strict": true,
     "baseUrl": ".",
     "types": [
-      "@types/node"
+      "@types/node",
+      "vite/client"
     ],
-    "jsx": "react-jsx"
+    "noEmit": true,
+    "jsx": "react-jsx",
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "public"
-  ]
+  "include": ["./src"]
 }

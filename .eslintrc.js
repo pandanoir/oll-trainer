@@ -16,7 +16,7 @@ module.exports = {
     ecmaVersion: 6,
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     project: './tsconfig.json',
   },
@@ -25,5 +25,7 @@ module.exports = {
     'react/prop-types': 'off',
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
+    'no-empty': ['error', { allowEmptyCatch: true }],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
   },
-}
+};
