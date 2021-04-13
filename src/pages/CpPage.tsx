@@ -1,9 +1,13 @@
 import { useEffect, useState, VFC } from 'react';
-import RubiksCube, { Rotation } from '@pandanoir/rubikscube';
 import { calculateScramble } from '../utils';
 import { TopFace, Color, cpList } from '../data/cpList';
 import { useInput } from '../utils/hooks/useInput';
 import { useQuery } from '../utils/hooks/useQuery';
+import {
+  checkCpPattern,
+  cpSwapPatterns,
+  getCompanionSwap,
+} from '../utils/checkCpPattern';
 
 const Cube: VFC<{ color: string; onClick?: () => void }> = ({
   color,
@@ -44,75 +48,16 @@ export const CpPage: VFC = () => {
   const [topFaceType, setTopFaceType] = useState<null | string>(null);
   const [cpIndex, setCpIndex] = useState(0);
   useEffect(() => {
-    setTopFaceType(null);
-    setCpIndex(0);
     try {
-      const sides: Color[] = ['orange', 'blue', 'red', 'green'];
-      let found = false;
-      for (let i = 0; i < 4 && !found; ++i) {
-        const cube = new RubiksCube({
-          U: Array(9).fill('yellow'),
-          F: Array(9).fill(sides[i]),
-          R: Array(9).fill(sides[(i + 1) % 4]),
-          B: Array(9).fill(sides[(i + 2) % 4]),
-          L: Array(9).fill(sides[(i + 3) % 4]),
-          D: Array(9).fill('white'),
-        }).rotate(...(calculateScramble(value).split(' ') as Rotation[]));
-
-        const UFace = [
-          [cube.face.B[6], null, cube.face.B[8]],
-          [
-            cube.face.L[0],
-            cube.face.U[0],
-            null,
-            cube.face.U[2],
-            cube.face.R[2],
-          ],
-          [null, null, 'yellow', null, null],
-          [
-            cube.face.L[2],
-            cube.face.U[6],
-            null,
-            cube.face.U[8],
-            cube.face.R[0],
-          ],
-          [cube.face.F[0], null, cube.face.F[2]],
-        ] as TopFace;
-        const rotate = (face: TopFace): TopFace => {
-          return [
-            [face[3][0], face[2][0], face[1][0]],
-            [face[4][0], face[3][1], face[2][1], face[1][1], face[0][0]],
-            [face[4][1], face[3][2], face[2][2], face[1][2], face[0][1]],
-            [face[4][2], face[3][3], face[2][3], face[1][3], face[0][2]],
-            [face[3][4], face[2][4], face[1][4]],
-          ];
-        };
-        for (const key of Object.keys(cpList)) {
-          for (let i = 0; i < 4; ++i) {
-            const cpIndex = cpList[key].findIndex((_cube) => {
-              let cube = _cube;
-              for (let j = 0; j < i; ++j) {
-                cube = rotate(cube);
-              }
-              for (let i = 0; i < cube.length; ++i) {
-                for (let j = 0; j < cube[i].length; ++j) {
-                  if (cube[i][j] !== UFace[i][j]) {
-                    return false;
-                  }
-                }
-              }
-              return true;
-            });
-            if (cpIndex !== -1) {
-              setTopFaceType(key);
-              setCpIndex(cpIndex);
-              found = true;
-              break;
-            }
-          }
-        }
+      const res = checkCpPattern(value);
+      if (res) {
+        setTopFaceType(res[0]);
+        setCpIndex(res[1]);
       }
-    } catch {}
+    } catch {
+      setTopFaceType(null);
+      setCpIndex(0);
+    }
   }, [value]);
   return (
     <div>
@@ -128,25 +73,12 @@ export const CpPage: VFC = () => {
         <>
           逆手順: {calculateScramble(value)}
           <br />
-          無交換(Skip,U,H,Z-perm): {topFaceType}{' '}
-          {
-            ['no-swap', 'diagonal', 'F-swap', 'B-swap', 'L-swap', 'R-swap'][
-              cpIndex
-            ]
-          }
+          無交換(Skip,U,H,Z-perm): {topFaceType} {cpSwapPatterns[cpIndex]}
           <CubeFace cube={cpList[topFaceType][cpIndex]} />
           <br />
           対角交換(E,N,V,Y-perm): {topFaceType}{' '}
-          {
-            ['no-swap', 'diagonal', 'F-swap', 'B-swap', 'L-swap', 'R-swap'][
-              cpIndex % 2 === 0 ? cpIndex + 1 : cpIndex - 1
-            ]
-          }
-          <CubeFace
-            cube={
-              cpList[topFaceType][cpIndex % 2 === 0 ? cpIndex + 1 : cpIndex - 1]
-            }
-          />
+          {cpSwapPatterns[getCompanionSwap(cpIndex)]}
+          <CubeFace cube={cpList[topFaceType][getCompanionSwap(cpIndex)]} />
           <br />
           隣接交換(A,F,G,J,R,T-perm): その他
         </>
