@@ -18,29 +18,31 @@ const Cube: VFC<{ color: string; onClick?: () => void }> = ({
     style={{ width: 30, height: 30, background: color }}
   ></div>
 );
-const EmptyCube: VFC = () => {
-  return <div style={{ width: 30, height: 30, background: '#333' }}></div>;
-};
-const CubeFace: VFC<{ cube: TopFace }> = ({ cube }) => {
-  return (
-    <div>
-      {[0, 1, 2, 3, 4].map((row) => (
-        <div
-          key={row}
-          style={{
-            width: 150,
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          {cube[row].map((color: Color | null, column: number) =>
-            color === null ? <EmptyCube /> : <Cube key={column} color={color} />
-          )}
-        </div>
-      ))}
-    </div>
-  );
-};
+const EmptyCube: VFC = () => (
+  <div style={{ width: 30, height: 30, background: '#333' }}></div>
+);
+const CubeFace: VFC<{ cube: TopFace }> = ({ cube }) => (
+  <div>
+    {[0, 1, 2, 3, 4].map((row) => (
+      <div
+        key={row}
+        style={{
+          width: 150,
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        {cube[row].map((color: Color | null, column: number) =>
+          color === null ? (
+            <EmptyCube key={column} />
+          ) : (
+            <Cube key={column} color={color} />
+          )
+        )}
+      </div>
+    ))}
+  </div>
+);
 
 export const CpPage: VFC = () => {
   const query = useQuery();
