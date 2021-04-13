@@ -4,6 +4,7 @@ import { groups, solves, calculateScramble } from '../utils';
 import { OLL } from '../oll';
 import '../index.css';
 import { RouteInfo } from '../route';
+import { checkCpPattern, cpSwapPatterns } from '../utils/checkCpPattern';
 
 interface Props {
   index: number;
@@ -103,27 +104,38 @@ const Oll: VFC<{ index: number }> = ({ index }) => {
 };
 export const Solve: VFC<Props> = ({ index }) => {
   return (
-    <>
+    <div>
       <Oll index={index} />
       <br />
       {Object.keys(groups).find((key) => groups[key].includes(index + 1))}
       <br />
-      {solves[index].map((solve) => (
-        <>
-          solve: {solve}{' '}
-          <Link
-            className="underline text-blue-400"
-            to={`${RouteInfo['cp check'].path}?solve=${encodeURIComponent(
-              solve
-            )}`}
-          >
-            CPパターンを確認する
-          </Link>
-          <br />
-          scramble:{calculateScramble(solve)}
-          <br />
-        </>
-      ))}
-    </>
+      {solves[index].map((solve) => {
+        const cpPattern = checkCpPattern(solve);
+        return (
+          <div key={solve} className="my-3">
+            <span className="text-sm">solve</span>: {solve}
+            <br />
+            <span className="text-sm">scramble</span>:{' '}
+            {calculateScramble(solve)}
+            <br />
+            {cpPattern && (
+              <>
+                <span className="text-sm">CPパターン</span>: {cpPattern[0]}{' '}
+                {cpSwapPatterns[cpPattern[1]]} &#9654;{' '}
+                <Link
+                  className="underline text-blue-400"
+                  to={`${RouteInfo['cp check'].path}?solve=${encodeURIComponent(
+                    solve
+                  )}`}
+                >
+                  確認する
+                </Link>
+              </>
+            )}
+            <br />
+          </div>
+        );
+      })}
+    </div>
   );
 };
