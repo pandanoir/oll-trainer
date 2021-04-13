@@ -8,20 +8,6 @@ export const ListPage: VFC = () => {
   const { checkList, check } = useContext(CheckContext);
   const [shows, onChange] = useCheckbox();
 
-  console.log(
-    checkList.map((isChecked, index) => {
-      if (!shows && isChecked) return null;
-      return (
-        <div
-          key={index}
-          className={isChecked ? 'checked' : ''}
-          onClick={() => check(index)}
-        >
-          <Solve index={index} />
-        </div>
-      );
-    })
-  );
   return (
     <div id="list">
       <div>
