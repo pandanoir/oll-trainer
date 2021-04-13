@@ -7,7 +7,7 @@ export const Header: VFC = () => (
     <nav>
       <ul>
         {RouteList.map(({ path, name }) => (
-          <li key="path">
+          <li key={path}>
             <NavLink to={path} exact>
               {name}
             </NavLink>
