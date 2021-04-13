@@ -9,16 +9,19 @@ export const ListPage: VFC = () => {
   const [shows, onChange] = useCheckbox();
 
   return (
-    <div id="list">
+    <div
+      id="list"
+      className="grid gap-2 grid-cols-1 mx-2 sm:grid-cols-2 lg:grid-cols-3"
+    >
       <div>
         <Link to="/learn">戻る</Link>
         <br />
         <input type="checkbox" checked={shows} onChange={onChange} />
-        チェックしたもの{shows ? 'を非表示にする' : 'も表示する'}
+        チェックしたものを表示する
       </div>
-      {checkList.map((isChecked, index) => {
-        if (!shows && isChecked) return null;
-        return (
+      {checkList
+        .filter((isChecked) => shows || !isChecked)
+        .map((isChecked, index) => (
           <div
             key={index}
             className={isChecked ? 'checked' : ''}
@@ -26,8 +29,7 @@ export const ListPage: VFC = () => {
           >
             <Solve index={index} />
           </div>
-        );
-      })}
+        ))}
     </div>
   );
 };
