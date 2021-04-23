@@ -1,11 +1,11 @@
 import { VFC, useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Button } from '../components/Button';
 import { DangerButton } from '../components/DangerButton';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { Solve } from '../components/Solve';
 import { CheckContext } from '../utils/hooks/useCheck';
 import { nextIndex, prevIndex } from '../utils';
+import { ListModal } from '../components/ListModal';
 
 export const LearningPage: VFC = () => {
   const { checkList, check, reset } = useContext(CheckContext);
@@ -30,11 +30,15 @@ export const LearningPage: VFC = () => {
     .filter(([, index]) => !checkList[index])[index];
   const next = () => setIndex(nextIndex(index, size)),
     prev = () => setIndex(prevIndex(index, size));
+  const [showsModal, setShowsModal] = useState(false);
 
+  const openListModal = () => {
+    setShowsModal(true);
+  };
   return target === undefined ? (
     <div>all done!</div>
   ) : (
-    <div id="learn">
+    <div className="flex flex-col items-center">
       のこり {size} 個
       <Solve index={target[0]} />
       <div className="flex gap-2">
@@ -49,7 +53,8 @@ export const LearningPage: VFC = () => {
           reset
         </DangerButton>
       </div>
-      <Link to="/list">一覧</Link>
+      <button onClick={openListModal}>一覧</button>
+      {showsModal && <ListModal onClose={() => setShowsModal(false)} />}
     </div>
   );
 };
