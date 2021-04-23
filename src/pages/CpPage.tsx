@@ -63,14 +63,16 @@ export const CpPage: VFC = () => {
   }, [value]);
   return (
     <div>
-      <h1>CP判断用</h1>
+      <h1>CP(Corner PLL)判断用</h1>
       <p>OLL の手順を入力するとそれに対応するCPを表示します。</p>
-      <input
-        type="text"
-        value={value}
-        className="border rounded-md mt-1 block w-full"
-        onChange={onChange}
-      />
+      <div className="flex">
+        <input
+          type="text"
+          value={value}
+          className="border rounded-md mt-1 mx-2 block flex-grow"
+          onChange={onChange}
+        />
+      </div>
       {topFaceType && (
         <>
           逆手順: {calculateScramble(value)}
