@@ -16,9 +16,9 @@ export const getCompanionSwap = (cpIndex: number) =>
 const notFilter = <T extends unknown[]>(f: (...args: T) => boolean) => (
   ...args: T
 ) => !f(...args);
-const isAUF = (rot: string) => rot === '(U)' || rot === "(U')";
+const isAUF = (rot: string) => /\(U(?:'2|2'|['2]?)\)/.test(rot);
 
-export const checkCpPattern = (value: string) => {
+export const checkCpPattern = (solve: string) => {
   const sides: Color[] = ['orange', 'blue', 'red', 'green'];
   const rotate = (face: TopFace): TopFace => [
     [face[3][0], face[2][0], face[1][0]],
@@ -36,7 +36,7 @@ export const checkCpPattern = (value: string) => {
       L: Array(9).fill(sides[(i + 3) % 4]),
       D: Array(9).fill('white'),
     }).rotate(
-      ...(calculateScramble(value)
+      ...(calculateScramble(solve)
         .split(' ')
         .filter(notFilter(isAUF)) as Rotation[])
     );
