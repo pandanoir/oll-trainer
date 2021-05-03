@@ -1,5 +1,4 @@
-import { OllPage, LearningPage, CpPage } from './pages';
-import { ScramblePage } from './pages/ScramblePage';
+import { OllPage, LearningPage, CpPage, ScramblePage } from './pages';
 
 export const RouteList = [
   { path: '/', component: <OllPage />, name: 'oll' },
