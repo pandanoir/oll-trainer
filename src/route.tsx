@@ -1,10 +1,17 @@
-import { OllPage, LearningPage, CpPage, ScramblePage } from './pages';
+import {
+  OllPage,
+  LearningPage,
+  CpPage,
+  ScramblePage,
+  TimerPage,
+} from './pages';
 
 export const RouteList = [
   { path: '/', component: <OllPage />, name: 'oll' },
   { path: '/learn', component: <LearningPage />, name: 'learn' },
   { path: '/scramble', component: <ScramblePage />, name: 'scramble' },
   { path: '/cp', component: <CpPage />, name: 'cp check' },
+  { path: '/timer', component: <TimerPage />, name: 'timer' },
 ] as const;
 
 type UnionToIntersection<U> = (
@@ -25,4 +32,5 @@ export const RouteInfo: Hoge = {
   learn: RouteList[1],
   scramble: RouteList[2],
   'cp check': RouteList[3],
+  timer: RouteList[4],
 } as const;
