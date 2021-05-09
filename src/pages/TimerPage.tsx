@@ -212,20 +212,22 @@ export const TimerPage: VFC = () => {
             )}
           </Timer>
         )}
-        <RecordModifier
-          record={times[times.length - 1]}
-          changeToDNF={() => changeToDNF(times.length - 1)}
-          imposePenalty={() => imposePenalty(times.length - 1)}
-          undoDNF={() => undoDNF(times.length - 1)}
-          undoPenalty={() => undoPenalty(times.length - 1)}
-          deleteRecord={() => {
-            const deletedRecord = deleteRecord(times.length - 1);
-            openToast('削除しました', '元に戻す', () => {
-              insertRecord(times.length - 1, deletedRecord);
-              closeToast();
-            });
-          }}
-        />
+        {times.length > 0 && (
+          <RecordModifier
+            record={times[times.length - 1]}
+            changeToDNF={() => changeToDNF(times.length - 1)}
+            imposePenalty={() => imposePenalty(times.length - 1)}
+            undoDNF={() => undoDNF(times.length - 1)}
+            undoPenalty={() => undoPenalty(times.length - 1)}
+            deleteRecord={() => {
+              const deletedRecord = deleteRecord(times.length - 1);
+              openToast('削除しました', '元に戻す', () => {
+                insertRecord(times.length - 1, deletedRecord);
+                closeToast();
+              });
+            }}
+          />
+        )}
       </div>
       <Times
         times={times}
