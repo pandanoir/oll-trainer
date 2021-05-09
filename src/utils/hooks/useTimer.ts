@@ -93,13 +93,13 @@ export const useTimer = ({
     if (timerState === READY) {
       const id = setTimeout(() => {
         setTimerState(STEADY);
-      }, 500);
+      }, 300);
       return () => clearTimeout(id);
     }
     if (timerState === INSPECTION_READY) {
       const id = setTimeout(() => {
         setTimerState(INSPECTION_STEADY);
-      }, 500);
+      }, 300);
       return () => clearTimeout(id);
     }
   }, [timerState]);
