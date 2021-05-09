@@ -1,14 +1,6 @@
-import { VFC } from 'react';
-import { basicButtonStyle, ButtonProps } from './Button';
-import '../index.css';
+import tw from 'twin.macro';
+import { Button } from './Button';
 
-export const DangerButton: VFC<ButtonProps> = ({ children, ...props }) => {
-  return (
-    <button
-      {...props}
-      className={`${basicButtonStyle} border-red-200 bg-red-600 text-white`}
-    >
-      {children}
-    </button>
-  );
-};
+export const DangerButton = tw(
+  Button
+)`px-10 py-1.5 border-pink-400 bg-pink-600 text-white rounded`;
