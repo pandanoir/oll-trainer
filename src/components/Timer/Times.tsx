@@ -50,7 +50,12 @@ export const Times: VFC<{
 
   return (
     <>
-      <ul className="flex flex-col-reverse">
+      <ul className="flex flex-col-reverse px-3">
+        <li className="grid grid-cols-3 border-b border-gray-300 order-1">
+          <span>record</span>
+          <span>ao5</span>
+          <span>ao12</span>
+        </li>
         {times.map((time, index) => {
           const ao5 = ao5List[index];
           const ao12 = ao12List[index];
