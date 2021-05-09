@@ -7,13 +7,11 @@ export const useLocalStorage = <T>(
   const [state, setStateRaw] = useState<T>(() => {
     try {
       const item = localStorage.getItem(storageKey);
-      if (item === null) {
-        return initialValue instanceof Function ? initialValue() : initialValue;
+      if (item !== null) {
+        return JSON.parse(item);
       }
-      return JSON.parse(item);
-    } catch {
-      return initialValue instanceof Function ? initialValue() : initialValue;
-    }
+    } catch {}
+    return initialValue instanceof Function ? initialValue() : initialValue;
   });
   const setState: Dispatch<SetStateAction<T>> = useCallback(
     (action: SetStateAction<T>) => {
@@ -21,7 +19,7 @@ export const useLocalStorage = <T>(
       setStateRaw(newValue);
       localStorage.setItem(storageKey, JSON.stringify(newValue));
     },
-    [storageKey]
+    [storageKey, state]
   );
   return [state, setState] as const;
 };
