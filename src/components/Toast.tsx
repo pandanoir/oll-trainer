@@ -2,9 +2,9 @@ import { useRef, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 type Props =
-  | { title: string }
-  | { title: string; label: string; onClick: () => void };
-export const Toast = ({ title, ...props }: Props) => {
+  | { title: string; onClose: () => void }
+  | { title: string; onClose: () => void; label: string; onClick: () => void };
+export const Toast = ({ title, onClose, ...props }: Props) => {
   const $el = useRef(document.createElement('div'));
   useEffect(() => {
     const current = $el.current;
@@ -13,11 +13,19 @@ export const Toast = ({ title, ...props }: Props) => {
       document.body.removeChild(current);
     };
   }, []);
+
   return createPortal(
-    <div className="flex fixed justify-between w-72 px-6 py-3 right-0 bottom-3 bg-gray-900 text-white bg-opacity-90 shadow-md rounded-md">
+    <div
+      onClick={onClose}
+      className="flex fixed justify-between w-72 px-6 py-3 right-0 bottom-3 bg-gray-900 text-white bg-opacity-90 shadow-md rounded-md"
+    >
       <span>{title}</span>
       {'label' in props && (
-        <span>
+        <span
+          onClick={(event) => {
+            event.stopPropagation();
+          }}
+        >
           <button
             onClick={props.onClick}
             className="border-none bg-transparent text-blue-500 font-bold"
@@ -36,6 +44,7 @@ export const useToast = () => {
   const [toastProps, setToastProps] = useState<Props>({
     title: '',
     label: '',
+    onClose: () => void 0,
     onClick: () => void 0,
   });
   const openToast = (
@@ -44,7 +53,12 @@ export const useToast = () => {
     callback: () => void
   ) => {
     setShowsToast(true);
-    setToastProps({ title, label: buttonLabel, onClick: callback });
+    setToastProps({
+      title,
+      label: buttonLabel,
+      onClose: closeToast,
+      onClick: callback,
+    });
   };
   const closeToast = () => {
     setShowsToast(false);
