@@ -1,6 +1,6 @@
 import { Modal } from '../Modal';
 import { BigRecord } from './BigRecord';
-import { RecordTool } from './RecordTool';
+import { RecordModifier } from './RecordModifier';
 import { TimeData } from './timeData';
 
 export const RecordModal = ({
@@ -24,7 +24,7 @@ export const RecordModal = ({
     <Modal onClose={onClose}>
       <div className="flex flex-col gap-6 p-6">
         <BigRecord record={record} onClick={onClose} />
-        <RecordTool
+        <RecordModifier
           record={record}
           changeToDNF={changeToDNF}
           undoDNF={undoDNF}
