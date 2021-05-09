@@ -1,8 +1,12 @@
-import { useState } from 'react';
 import { TimeData } from '../../components/Timer/timeData';
+import { useLocalStorage } from './useLocalStorage';
+import { storagePrefix } from '../../constants';
 
 export const useTimes = (initialTimes: TimeData[] = []) => {
-  const [times, setTimes] = useState(initialTimes);
+  const [times, setTimes] = useLocalStorage(
+    `${storagePrefix}-times`,
+    initialTimes
+  );
   const changeToDNF = (index: number) => {
     setTimes((times) => [
       ...times.slice(0, index),
