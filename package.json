@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint src/*.ts{,x}",
+    "lint": "eslint src/**/*.ts{,x}",
     "dev": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview"
@@ -30,6 +30,7 @@
     "@types/styled-components": "^5.1.9",
     "autoprefixer": "^9.8.6",
     "eslint": "^7.7.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
     "npm-watch": "^0.7.0",
     "postcss": "^7.0.35",
     "react": "^17.0.2",

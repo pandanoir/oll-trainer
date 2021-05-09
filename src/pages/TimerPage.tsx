@@ -63,7 +63,7 @@ export const TimerPage: VFC = () => {
         addTime({ time, scramble: scrambles[index], date: Date.now() });
         swiper?.slideNext();
       },
-      [swiper, addTime]
+      [addTime, scrambles, index, swiper]
     ),
   });
 

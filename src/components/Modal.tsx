@@ -15,16 +15,17 @@ export const Modal = ({
   const $el = useRef(document.createElement('div'));
   const $modal = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    document.body.appendChild($el.current);
+    const current = $el.current;
+    document.body.appendChild(current);
     return () => {
-      document.body.removeChild($el.current);
+      document.body.removeChild(current);
     };
   }, []);
   useEffect(() => {
     if ($modal.current) {
       return clickAway($modal.current, onClose);
     }
-  }, []);
+  }, [onClose]);
 
   return createPortal(
     <div className="fixed inset-0 w-full h-full bg-gray-400 bg-opacity-60">

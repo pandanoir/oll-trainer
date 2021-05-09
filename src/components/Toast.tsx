@@ -7,9 +7,10 @@ type Props =
 export const Toast = ({ title, ...props }: Props) => {
   const $el = useRef(document.createElement('div'));
   useEffect(() => {
-    document.body.appendChild($el.current);
+    const current = $el.current;
+    document.body.appendChild(current);
     return () => {
-      document.body.removeChild($el.current);
+      document.body.removeChild(current);
     };
   }, []);
   return createPortal(
