@@ -33,6 +33,8 @@ export const calcAo = (n: number, times: TimeData[]) => {
     }
     if (dnfCount >= 2) {
       ao.push(DNF);
+    } else if (dnfCount === 1) {
+      ao.push((sum - minHeap.top()) / (n - 2));
     } else {
       ao.push((sum - maxHeap.top() - minHeap.top()) / (n - 2));
     }
