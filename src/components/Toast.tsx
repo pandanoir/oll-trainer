@@ -17,9 +17,9 @@ export const Toast = ({ title, onClose, ...props }: Props) => {
   return createPortal(
     <div
       onClick={onClose}
-      className="flex fixed justify-between w-72 px-6 py-3 right-0 bottom-3 bg-gray-900 text-white bg-opacity-90 shadow-md rounded-md"
+      className="flex fixed justify-between w-72 right-0 bottom-3 bg-gray-900 text-white bg-opacity-90 shadow-md rounded-md"
     >
-      <span>{title}</span>
+      <span className="pl-6 py-3">{title}</span>
       {'label' in props && (
         <span
           onClick={(event) => {
@@ -28,7 +28,7 @@ export const Toast = ({ title, onClose, ...props }: Props) => {
         >
           <button
             onClick={props.onClick}
-            className="border-none bg-transparent text-blue-500 font-bold"
+            className="border-l border-white my-3 px-4 bg-transparent text-blue-500 font-bold focus:outline-none"
           >
             {props.label}
           </button>
