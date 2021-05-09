@@ -6,6 +6,7 @@ import {
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { clickAway } from '../utils/clickAway';
 
 export const Modal = ({
@@ -26,6 +27,9 @@ export const Modal = ({
       return clickAway($modal.current, onClose);
     }
   }, [onClose]);
+  useHotkeys('esc', () => {
+    onClose();
+  });
 
   return createPortal(
     <div className="fixed inset-0 w-full h-full bg-gray-400 bg-opacity-60">
