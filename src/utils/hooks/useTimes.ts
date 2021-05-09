@@ -31,6 +31,17 @@ export const useTimes = (initialTimes: TimeData[] = []) => {
       ...times.slice(index + 1),
     ]);
   };
+  const deleteRecord = (index: number) => {
+    setTimes((times) => [...times.slice(0, index), ...times.slice(index + 1)]);
+    return times[index];
+  };
+  const insertRecord = (index: number, record: TimeData) => {
+    setTimes((times) => [
+      ...times.slice(0, index),
+      record,
+      ...times.slice(index + 1),
+    ]);
+  };
   const addTime = (time: TimeData) => {
     setTimes((times) => [...times, time]);
   };
@@ -40,6 +51,8 @@ export const useTimes = (initialTimes: TimeData[] = []) => {
     undoDNF,
     imposePenalty,
     undoPenalty,
+    deleteRecord,
+    insertRecord,
     addTime,
   } as const;
 };
