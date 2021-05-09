@@ -45,6 +45,7 @@ export const TimerPage: VFC = () => {
     addTime,
   } = useTimes();
 
+  const [penalty, setPenalty] = useState<null | '+2' | 'DNF'>(null);
   const {
     time,
     inspectionTime,
@@ -60,10 +61,26 @@ export const TimerPage: VFC = () => {
   } = useTimer({
     onFinishTimer: useCallback(
       (time) => {
+        if (penalty === '+2') {
+          addTime({
+            time,
+            scramble: scrambles[index],
+            date: Date.now(),
+            penalty: true,
+          });
+        } else if (penalty === 'DNF') {
+          addTime({
+            time,
+            scramble: scrambles[index],
+            date: Date.now(),
+            isDNF: true,
+          });
+        } else {
         addTime({ time, scramble: scrambles[index], date: Date.now() });
+        }
         swiper?.slideNext();
       },
-      [addTime, scrambles, index, swiper]
+      [addTime, scrambles, index, swiper, penalty]
     ),
   });
 
@@ -75,6 +92,11 @@ export const TimerPage: VFC = () => {
       return () => clearTimeout(id);
     }
   });
+  useEffect(() => {
+    if (timerState === IDOLING) {
+      setPenalty(null);
+    }
+  }, [timerState]);
 
   const spacePressed = useRef(false);
   /**
@@ -120,6 +142,17 @@ export const TimerPage: VFC = () => {
               break;
             case STEADY:
             case INSPECTION_STEADY:
+              if (usesInspection) {
+                if (inspectionTime >= 0) {
+                  // 問題なし
+                } else if (inspectionTime >= -2000) {
+                  // +2
+                  setPenalty('+2');
+                } else {
+                  // DNF
+                  setPenalty('DNF');
+                }
+              }
               startTimer();
               break;
             default:
@@ -160,7 +193,18 @@ export const TimerPage: VFC = () => {
       }
     },
     { keyup: true, keydown: true },
-    [usesInspection, timerState, inputsTimeManually]
+    [
+      usesInspection,
+      timerState,
+      inputsTimeManually,
+      cancelTimer,
+      returnToInspection,
+      startTimer,
+      finishTimer,
+      startInspection,
+      tapTimer,
+      tapTimerInInspection,
+    ]
   );
   const { openToast, closeToast, toastProps, showsToast } = useToast();
 
@@ -200,7 +244,13 @@ export const TimerPage: VFC = () => {
             {timerState === INSPECTION ||
             timerState === INSPECTION_READY ||
             timerState === INSPECTION_STEADY ? (
+              Math.ceil(inspectionTime / 1000) > 0 ? (
               Math.ceil(inspectionTime / 1000)
+              ) : Math.ceil(inspectionTime / 1000) > -2 ? (
+                '+ 2'
+              ) : (
+                'DNF'
+              )
             ) : timerState === IDOLING && times.length > 0 ? (
               <Record record={times[times.length - 1]} />
             ) : timerState === READY ? (
