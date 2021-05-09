@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useCallback, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useRef, useState } from 'react';
 
 export const useLocalStorage = <T>(
   storageKey: string,
@@ -13,13 +13,16 @@ export const useLocalStorage = <T>(
     } catch {}
     return initialValue instanceof Function ? initialValue() : initialValue;
   });
+  const stateRef = useRef(state);
   const setState: Dispatch<SetStateAction<T>> = useCallback(
     (action: SetStateAction<T>) => {
-      const newValue = action instanceof Function ? action(state) : action;
-      setStateRaw(newValue);
+      const newValue =
+        action instanceof Function ? action(stateRef.current) : action;
+      stateRef.current = newValue;
+      setStateRaw(action);
       localStorage.setItem(storageKey, JSON.stringify(newValue));
     },
-    [storageKey, state]
+    [storageKey]
   );
   return [state, setState] as const;
 };
