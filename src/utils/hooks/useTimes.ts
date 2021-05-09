@@ -7,33 +7,21 @@ export const useTimes = (initialTimes: TimeData[] = []) => {
     `${storagePrefix}-times`,
     initialTimes
   );
+  const updateItem = (index: number, newItem: TimeData) => (
+    times: TimeData[]
+  ) => [...times.slice(0, index), newItem, ...times.slice(index + 1)];
+
   const changeToDNF = (index: number) => {
-    setTimes((times) => [
-      ...times.slice(0, index),
-      { ...times[index], isDNF: true },
-      ...times.slice(index + 1),
-    ]);
+    setTimes(updateItem(index, { ...times[index], isDNF: true }));
   };
   const undoDNF = (index: number) => {
-    setTimes((times) => [
-      ...times.slice(0, index),
-      { ...times[index], isDNF: false },
-      ...times.slice(index + 1),
-    ]);
+    setTimes(updateItem(index, { ...times[index], isDNF: false }));
   };
   const imposePenalty = (index: number) => {
-    setTimes((times) => [
-      ...times.slice(0, index),
-      { ...times[index], penalty: true },
-      ...times.slice(index + 1),
-    ]);
+    setTimes(updateItem(index, { ...times[index], penalty: true }));
   };
   const undoPenalty = (index: number) => {
-    setTimes((times) => [
-      ...times.slice(0, index),
-      { ...times[index], penalty: false },
-      ...times.slice(index + 1),
-    ]);
+    setTimes(updateItem(index, { ...times[index], penalty: false }));
   };
   const deleteRecord = (index: number) => {
     setTimes((times) => [...times.slice(0, index), ...times.slice(index + 1)]);
@@ -43,7 +31,7 @@ export const useTimes = (initialTimes: TimeData[] = []) => {
     setTimes((times) => [
       ...times.slice(0, index),
       record,
-      ...times.slice(index + 1),
+      ...times.slice(index),
     ]);
   };
   const addTime = (time: TimeData) => {
