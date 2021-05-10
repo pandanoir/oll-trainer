@@ -1,12 +1,4 @@
-import {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  VFC,
-} from 'react';
+import { useCallback, useEffect, useRef, useState, VFC } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -31,55 +23,9 @@ import { useTimes } from '../utils/hooks/useTimes';
 import { RecordModifier } from '../components/Timer/RecordModifier';
 import { Record } from '../components/Timer/Record';
 import { Toast, useToast } from '../components/Toast';
-import { TimeData } from '../components/Timer/timeData';
+import { TypingTimer } from '../components/Timer/TypingTimer';
 
 SwiperCore.use([Navigation, Keyboard]);
-
-const TypingTimer: VFC<{
-  prevTime?: TimeData;
-  onInput: (time: number) => void;
-}> = ({ prevTime, onInput }) => {
-  const [value, setValue] = useState('');
-  useEffect(() => {
-    setValue('');
-  }, [prevTime]);
-
-  const onChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-      setValue(e.currentTarget.value),
-    []
-  );
-
-  const placeholder = useMemo(() => {
-    if (!prevTime) {
-      return 'タイムを入力';
-    }
-    const { isDNF, penalty, time } = prevTime;
-    if (isDNF) {
-      return 'DNF';
-    }
-    return `${showTime(time)}${penalty ? ' + 2' : ''}`;
-  }, [prevTime]);
-
-  return (
-    <input
-      className="rounded font-bold text-6xl text-center"
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      onKeyDown={(event) => {
-        if (event.key !== 'Enter') {
-          return;
-        }
-        if (isNaN(parseInt(value, 10))) {
-          return;
-        }
-
-        onInput(parseInt(value, 10) / 100);
-      }}
-    />
-  );
-};
 
 export const TimerPage: VFC = () => {
   const [scrambles, setScrambles] = useState<string[]>([]);
