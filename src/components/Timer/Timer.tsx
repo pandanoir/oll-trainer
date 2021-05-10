@@ -1,4 +1,4 @@
-import { VFC, PropsWithChildren } from 'react';
+import { VFC, PropsWithChildren, PointerEventHandler } from 'react';
 import { exhaustiveCheck } from '../../utils/exhaustiveCheck';
 import {
   TimerState,
@@ -11,12 +11,17 @@ import {
   INSPECTION,
 } from './timerState';
 
-export const Timer: VFC<PropsWithChildren<{ timerState: TimerState }>> = ({
-  timerState,
-  children,
-}) => {
+export const Timer: VFC<
+  PropsWithChildren<{
+    timerState: TimerState;
+    onPointerDown: PointerEventHandler<HTMLDivElement>;
+    onPointerUp: PointerEventHandler<HTMLDivElement>;
+  }>
+> = ({ timerState, onPointerDown, onPointerUp, children }) => {
   return (
     <div
+      onPointerDown={onPointerDown}
+      onPointerUp={onPointerUp}
       className={`${
         timerState === STEADY || timerState === INSPECTION_STEADY
           ? 'text-green-400'
@@ -27,7 +32,7 @@ export const Timer: VFC<PropsWithChildren<{ timerState: TimerState }>> = ({
             timerState === INSPECTION
           ? 'text-blue-900'
           : exhaustiveCheck(timerState)
-      } font-bold text-6xl`}
+      } font-bold text-6xl select-none`}
     >
       {children}
     </div>

@@ -153,6 +153,75 @@ export const TimerPage: VFC = () => {
     }
   }, [timerState]);
 
+  const onPointerDown = useCallback(() => {
+      switch (timerState) {
+        case READY:
+        case STEADY:
+        case INSPECTION_READY:
+        case INSPECTION_STEADY:
+          break;
+        case IDOLING:
+          if (usesInspection) {
+            startInspection();
+          } else {
+            tapTimer();
+          }
+          break;
+        case INSPECTION:
+          tapTimerInInspection();
+          break;
+        case WORKING:
+          finishTimer();
+          break;
+        default:
+          exhaustiveCheck(timerState);
+      }
+    }, [
+      finishTimer,
+      startInspection,
+      tapTimer,
+      tapTimerInInspection,
+      timerState,
+      usesInspection,
+    ]),
+    onPointerUp = useCallback(() => {
+      switch (timerState) {
+        case IDOLING:
+        case INSPECTION:
+        case WORKING:
+          break;
+        case READY:
+          cancelTimer();
+          break;
+        case INSPECTION_READY:
+          returnToInspection();
+          break;
+        case STEADY:
+        case INSPECTION_STEADY:
+          if (usesInspection) {
+            if (inspectionTime >= 0) {
+              // 問題なし
+            } else if (inspectionTime >= -2000) {
+              // +2
+              setPenalty('+2');
+            } else {
+              // DNF
+              setPenalty('DNF');
+            }
+          }
+          startTimer();
+          break;
+        default:
+          exhaustiveCheck(timerState);
+      }
+    }, [
+      cancelTimer,
+      inspectionTime,
+      returnToInspection,
+      startTimer,
+      timerState,
+      usesInspection,
+    ]);
   const spacePressed = useRef(false);
   /**
    * なんでかわからないけど space,esc で設定をするとバグがある。
@@ -184,82 +253,20 @@ export const TimerPage: VFC = () => {
         event.preventDefault();
         if (type === 'keyup') {
           spacePressed.current = false;
-          switch (timerState) {
-            case IDOLING:
-            case INSPECTION:
-            case WORKING:
-              break;
-            case READY:
-              cancelTimer();
-              break;
-            case INSPECTION_READY:
-              returnToInspection();
-              break;
-            case STEADY:
-            case INSPECTION_STEADY:
-              if (usesInspection) {
-                if (inspectionTime >= 0) {
-                  // 問題なし
-                } else if (inspectionTime >= -2000) {
-                  // +2
-                  setPenalty('+2');
-                } else {
-                  // DNF
-                  setPenalty('DNF');
-                }
-              }
-              startTimer();
-              break;
-            default:
-              exhaustiveCheck(timerState);
-          }
+          onPointerUp();
           return;
         }
         if (type !== 'keydown') {
           return;
         }
-        switch (timerState) {
-          case READY:
-          case STEADY:
-          case INSPECTION_READY:
-          case INSPECTION_STEADY:
-            break;
-          case IDOLING:
-            if (!spacePressed.current) {
-              if (usesInspection) {
-                startInspection();
-              } else {
-                tapTimer();
-              }
-            }
-            break;
-          case INSPECTION:
-            if (!spacePressed.current) {
-              tapTimerInInspection();
-            }
-            break;
-          case WORKING:
-            finishTimer();
-            break;
-          default:
-            exhaustiveCheck(timerState);
+        if (!spacePressed.current) {
+          onPointerDown();
         }
         spacePressed.current = true;
       }
     },
     { keyup: true, keydown: true },
-    [
-      usesInspection,
-      timerState,
-      inputsTimeManually,
-      cancelTimer,
-      returnToInspection,
-      startTimer,
-      finishTimer,
-      startInspection,
-      tapTimer,
-      tapTimerInInspection,
-    ]
+    [cancelTimer, inputsTimeManually, onPointerDown, onPointerUp, timerState]
   );
   const { openToast, closeToast, toastProps, showsToast } = useToast();
   const onTypingTimerInput = useCallback(
@@ -306,7 +313,11 @@ export const TimerPage: VFC = () => {
             onInput={onTypingTimerInput}
           />
         ) : (
-          <Timer timerState={timerState}>
+          <Timer
+            onPointerDown={onPointerDown}
+            onPointerUp={onPointerUp}
+            timerState={timerState}
+          >
             {timerState === INSPECTION ||
             timerState === INSPECTION_READY ||
             timerState === INSPECTION_STEADY ? (
