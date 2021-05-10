@@ -268,7 +268,7 @@ export const TimerPage: VFC = () => {
     { keyup: true, keydown: true },
     [cancelTimer, inputsTimeManually, onPointerDown, onPointerUp, timerState]
   );
-  const { openToast, closeToast, toastProps, showsToast } = useToast();
+  const { openToast, closeToast, ...toastProps } = useToast();
   const onTypingTimerInput = useCallback(
     (secTime) => {
       addTime({
@@ -348,9 +348,14 @@ export const TimerPage: VFC = () => {
             undoPenalty={() => undoPenalty(times.length - 1)}
             deleteRecord={() => {
               const deletedRecord = deleteRecord(times.length - 1);
-              openToast('削除しました', '元に戻す', () => {
-                insertRecord(times.length - 1, deletedRecord);
-                closeToast();
+              openToast({
+                title: '削除しました',
+                buttonLabel: '元に戻す',
+                callback: () => {
+                  insertRecord(times.length - 1, deletedRecord);
+                  closeToast();
+                },
+                timeout: 10 * 1000,
               });
             }}
           />
@@ -365,7 +370,7 @@ export const TimerPage: VFC = () => {
         deleteRecord={deleteRecord}
         insertRecord={insertRecord}
       />
-      {showsToast && <Toast {...toastProps} />}
+      <Toast {...toastProps} />
     </div>
   );
 };

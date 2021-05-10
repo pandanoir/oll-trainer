@@ -1,10 +1,14 @@
 import { useRef, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-type Props =
-  | { title: string; onClose: () => void }
-  | { title: string; onClose: () => void; label: string; onClick: () => void };
-export const Toast = ({ title, onClose, ...props }: Props) => {
+type Props = {
+  title: string;
+  onClose: () => void;
+  label?: string;
+  onClick?: () => void;
+  shows: boolean;
+};
+export const Toast = ({ title, onClose, label, onClick, shows }: Props) => {
   const $el = useRef(document.createElement('div'));
   useEffect(() => {
     const current = $el.current;
@@ -13,46 +17,81 @@ export const Toast = ({ title, onClose, ...props }: Props) => {
       document.body.removeChild(current);
     };
   }, []);
+  const [hidden, setHidden] = useState(true);
+  useEffect(() => {
+    if (shows) {
+      setHidden(false);
+    }
+  }, [shows]);
 
   return createPortal(
-    <div
-      onClick={onClose}
-      className="flex fixed justify-between w-72 right-0 bottom-3 bg-gray-900 text-white bg-opacity-90 shadow-md rounded-md"
-    >
-      <span className="pl-6 py-3">{title}</span>
-      {'label' in props && (
-        <span
-          onClick={(event) => {
-            event.stopPropagation();
-          }}
-        >
-          <button
-            onClick={props.onClick}
-            className="border-l border-white my-3 px-4 bg-transparent text-blue-500 font-bold focus:outline-none"
+    hidden ? null : (
+      <div
+        onClick={onClose}
+        className={`flex fixed justify-between w-72 right-0 bottom-3 bg-gray-900 text-white bg-opacity-90 shadow-md rounded-md ${
+          shows
+            ? 'opacity-100'
+            : 'opacity-0 duration-200 ease-out transition-opacity'
+        }`}
+        onTransitionEnd={() => {
+          setHidden(true);
+        }}
+      >
+        <span className="pl-6 py-3">{title}</span>
+        {label && (
+          <span
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
           >
-            {props.label}
-          </button>
-        </span>
-      )}
-    </div>,
+            <button
+              onClick={onClick}
+              className="border-l border-white my-3 px-4 bg-transparent text-blue-500 font-bold focus:outline-none"
+            >
+              {label}
+            </button>
+          </span>
+        )}
+      </div>
+    ),
     $el.current
   );
 };
 
 export const useToast = () => {
-  const [showsToast, setShowsToast] = useState(false);
-  const [toastProps, setToastProps] = useState<Props>({
+  const [shows, setShows] = useState(false);
+  const [toastProps, setToastProps] = useState<Omit<Props, 'shows'>>({
     title: '',
     label: '',
     onClose: () => void 0,
     onClick: () => void 0,
   });
-  const openToast = (
-    title: string,
-    buttonLabel: string,
-    callback: () => void
-  ) => {
-    setShowsToast(true);
+  const [timeout, setTimeoutState] = useState<number | null>(null);
+  useEffect(() => {
+    if (shows && timeout !== null) {
+      const id = setTimeout(closeToast, timeout);
+      return () => {
+        clearTimeout(id);
+        setTimeoutState(null);
+      };
+    }
+  }, [timeout, shows]);
+
+  const openToast = ({
+    title,
+    buttonLabel,
+    callback,
+    timeout,
+  }: {
+    title: string;
+    buttonLabel?: string;
+    callback?: () => void;
+    timeout?: number;
+  }) => {
+    setShows(true);
+    if (typeof timeout === 'number') {
+      setTimeoutState(timeout);
+    }
     setToastProps({
       title,
       label: buttonLabel,
@@ -61,7 +100,7 @@ export const useToast = () => {
     });
   };
   const closeToast = () => {
-    setShowsToast(false);
+    setShows(false);
   };
-  return { showsToast, toastProps, openToast, closeToast } as const;
+  return { shows, ...toastProps, openToast, closeToast } as const;
 };

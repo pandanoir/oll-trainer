@@ -46,7 +46,7 @@ export const Times: VFC<{
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const { showsModal, openModal, closeModal } = useModal();
-  const { openToast, closeToast, toastProps, showsToast } = useToast();
+  const { openToast, closeToast, ...toastProps } = useToast();
 
   return (
     <>
@@ -88,14 +88,19 @@ export const Times: VFC<{
           deleteRecord={() => {
             const deletedRecord = deleteRecord(selectedIndex);
             closeModal();
-            openToast('削除しました', '元に戻す', () => {
-              insertRecord(selectedIndex, deletedRecord);
-              closeToast();
+            openToast({
+              title: '削除しました',
+              buttonLabel: '元に戻す',
+              callback: () => {
+                insertRecord(selectedIndex, deletedRecord);
+                closeToast();
+              },
+              timeout: 10 * 1000,
             });
           }}
         />
       )}
-      {showsToast && <Toast {...toastProps} />}
+      <Toast {...toastProps} />
     </>
   );
 };
