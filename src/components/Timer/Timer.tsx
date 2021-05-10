@@ -32,7 +32,7 @@ export const Timer: VFC<
             timerState === INSPECTION
           ? 'text-blue-900'
           : exhaustiveCheck(timerState)
-      } font-bold text-6xl select-none`}
+      } font-bold text-6xl select-none py-6`}
     >
       {children}
     </div>

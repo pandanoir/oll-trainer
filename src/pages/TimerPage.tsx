@@ -283,7 +283,7 @@ export const TimerPage: VFC = () => {
 
   return (
     <div className="w-full">
-      <div className="flex gap-1 px-3">
+      <div className="flex gap-1 px-3 overflow-x-scroll">
         <Switch checked={usesInspection} onChange={setUsesInspection}>
           インスペクションを使用
         </Switch>
