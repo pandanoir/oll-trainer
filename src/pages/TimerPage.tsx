@@ -24,6 +24,7 @@ import { RecordModifier } from '../components/Timer/RecordModifier';
 import { Record } from '../components/Timer/Record';
 import { Toast, useToast } from '../components/Toast';
 import { TypingTimer } from '../components/Timer/TypingTimer';
+import { FileInput } from '../components/Timer/FileInput';
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -240,6 +241,7 @@ export const TimerPage: VFC = () => {
         <Switch checked={inputsTimeManually} onChange={setInputsTimeManually}>
           手動でタイムを入力
         </Switch>
+        <FileInput onChange={importFromCsTimer} />
       </div>
       <div className="font-bold text-3xl text-center">#{index + 1}</div>
       <Swiper

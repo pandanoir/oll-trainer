@@ -13,16 +13,30 @@ export type SessionData = {
   name: string;
 };
 export const DNF = 'dnf';
+const excludeSessionData = (json: unknown) => {
+  const PROPERTIES = 'properties',
+    SESSION_DATA = 'sessionData';
+  if (!isUnknownObject(json) || !(PROPERTIES in json)) return null;
 
+  const properties = json[PROPERTIES];
+  if (!isUnknownObject(properties) || !(SESSION_DATA in properties))
+    return null;
+
+  const sessionData = properties[SESSION_DATA];
+  if (typeof sessionData !== 'string') return null;
+  return sessionData;
+};
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isUnknownObject = (item: any): item is Record<PropertyKey, unknown> => {
   return typeof item === 'object' && item !== null;
 };
-export const fromCsTimer = (json: unknown) => {
+export const fromCsTimer = (json: unknown): SessionData[] => {
   if (!isUnknownObject(json)) {
     throw new Error('invalid JSON given');
   }
-  return Object.keys(json).reduce((acc: TimeData[][], key) => {
+  const sessionData = JSON.parse(excludeSessionData(json) || 'null');
+
+  return Object.keys(json).reduce((acc: SessionData[], key): SessionData[] => {
     if (!key.startsWith('session')) {
       return acc;
     }
@@ -30,9 +44,10 @@ export const fromCsTimer = (json: unknown) => {
     if (!Array.isArray(arr)) {
       throw new Error('invalid JSON given');
     }
-    return [
-      ...acc,
-      arr.map((item: unknown) => {
+    const copied = acc.concat();
+
+    copied[sessionData[key.replace(/^session/, '')].rank - 1] = {
+      times: arr.map((item: unknown) => {
         if (!Array.isArray(item)) {
           throw new Error('invalid JSON given');
         }
@@ -40,10 +55,12 @@ export const fromCsTimer = (json: unknown) => {
           penalty: item[0][0] === 2000,
           isDNF: item[0][0] === -1,
           scramble: item[1],
-          date: item[3],
+          date: item[3] * 1000,
           time: item[0][1],
         };
       }),
-    ];
+      name: sessionData[key.replace(/^session/, '')].name,
+    };
+    return copied;
   }, []);
 };
