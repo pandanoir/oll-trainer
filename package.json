@@ -31,6 +31,7 @@
     "autoprefixer": "^9.8.6",
     "eslint": "^7.7.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "immer": "^9.0.2",
     "npm-watch": "^0.7.0",
     "postcss": "^7.0.35",
     "react": "^17.0.2",
@@ -42,6 +43,7 @@
     "swiper": "^6.5.8",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "twin.macro": "^2.4.1",
+    "use-immer": "^0.5.2",
     "vite-plugin-babel-macros": "^1.0.5"
   },
   "devDependencies": {
