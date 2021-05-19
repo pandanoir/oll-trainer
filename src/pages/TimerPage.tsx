@@ -24,6 +24,7 @@ import { RecordModifier } from '../components/Timer/RecordModifier';
 import { Record } from '../components/Timer/Record';
 import { Toast, useToast } from '../components/Toast';
 import { TypingTimer } from '../components/Timer/TypingTimer';
+import { ExportButton } from '../components/Timer/ExportButton';
 import { FileInput } from '../components/Timer/FileInput';
 
 SwiperCore.use([Navigation, Keyboard]);
@@ -242,6 +243,9 @@ export const TimerPage: VFC = () => {
           手動でタイムを入力
         </Switch>
         <FileInput onChange={importFromCsTimer} />
+        <ExportButton getContent={() => JSON.stringify(toCsTimer(sessions))}>
+          ファイルをエクスポート
+        </ExportButton>
       </div>
       <div className="font-bold text-3xl text-center">#{index + 1}</div>
       <Swiper
