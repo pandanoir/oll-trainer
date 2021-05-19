@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, VFC } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState, VFC } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -26,6 +26,9 @@ import { Toast, useToast } from '../components/Toast';
 import { TypingTimer } from '../components/Timer/TypingTimer';
 import { ExportButton } from '../components/Timer/ExportButton';
 import { FileInput } from '../components/Timer/FileInput';
+import { DNF, toCsTimer } from '../components/Timer/timeData';
+import { calcAo } from '../utils/calcAo';
+import '../swiper.css';
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -51,6 +54,15 @@ export const TimerPage: VFC = () => {
     insertRecord,
     addTime,
   } = useSessions();
+  const { times } = sessions[sessionIndex];
+  const ao5 = useMemo(
+    () => calcAo(5, sessions[sessionIndex].times.slice(-5)).pop(),
+    [sessions, sessionIndex]
+  );
+  const ao12 = useMemo(
+    () => calcAo(12, sessions[sessionIndex].times.slice(-12)).pop(),
+    [sessions, sessionIndex]
+  );
 
   const [penalty, setPenalty] = useState<null | '+2' | 'DNF'>(null);
   const {
@@ -234,8 +246,8 @@ export const TimerPage: VFC = () => {
   );
 
   return (
-    <div className="w-full">
-      <div className="flex gap-1 px-3 overflow-x-scroll">
+    <div className="w-full flex flex-col flex-1 overflow-hidden">
+      <div className="flex gap-1 px-3 overflow-x-auto">
         <Switch checked={usesInspection} onChange={setUsesInspection}>
           インスペクションを使用
         </Switch>
@@ -250,9 +262,7 @@ export const TimerPage: VFC = () => {
       <div className="font-bold text-3xl text-center">#{index + 1}</div>
       <Swiper
         slidesOffsetAfter={27 * 2}
-        onSlideChange={({ activeIndex }: { activeIndex: number }) =>
-          setIndex(activeIndex)
-        }
+        onSlideChange={({ activeIndex }) => setIndex(activeIndex)}
         keyboard
         spaceBetween={50}
         navigation
@@ -262,7 +272,7 @@ export const TimerPage: VFC = () => {
           <SwiperSlide key={index}>{scramble}</SwiperSlide>
         ))}
       </Swiper>
-      <div className="my-6 text-center">
+      <div className="text-center flex-1 flex flex-col justify-center">
         {inputsTimeManually ? (
           <TypingTimer
             prevTime={times.length > 0 ? times[times.length - 1] : undefined}
@@ -295,6 +305,8 @@ export const TimerPage: VFC = () => {
             )}
           </Timer>
         )}
+        <div>ao5: {ao5 ? (ao5 === DNF ? 'DNF' : showTime(ao5)) : '-'}</div>
+        <div>ao12: {ao12 ? (ao12 === DNF ? 'DNF' : showTime(ao12)) : '-'}</div>
         {times.length > 0 && (
           <RecordModifier
             record={times[times.length - 1]}
@@ -324,15 +336,15 @@ export const TimerPage: VFC = () => {
             changeSessionName(value);
           }}
         />
-      <Times
-        times={times}
-        changeToDNF={changeToDNF}
-        imposePenalty={imposePenalty}
-        undoDNF={undoDNF}
-        undoPenalty={undoPenalty}
-        deleteRecord={deleteRecord}
-        insertRecord={insertRecord}
-      />
+        <Times
+          times={times}
+          changeToDNF={changeToDNF}
+          imposePenalty={imposePenalty}
+          undoDNF={undoDNF}
+          undoPenalty={undoPenalty}
+          deleteRecord={deleteRecord}
+          insertRecord={insertRecord}
+        />
       </div>
       <Toast {...toastProps} />
     </div>
