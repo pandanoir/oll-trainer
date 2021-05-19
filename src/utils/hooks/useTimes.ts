@@ -1,68 +1,97 @@
-import { TimeData } from '../../components/Timer/timeData';
-import { useLocalStorage } from './useLocalStorage';
+import { SessionData, TimeData } from '../../components/Timer/timeData';
+import { useStoragedImmerState } from './useLocalStorage';
 import { storagePrefix } from '../../constants';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
-export const useTimes = (initialTimes: TimeData[] = []) => {
-  const [times, setTimes] = useLocalStorage(
-    `${storagePrefix}-times`,
-    initialTimes
-  );
-  const updateItem = (
-    index: number,
-    convert: (prevValue: TimeData) => TimeData
-  ) => (times: TimeData[]) => [
-    ...times.slice(0, index),
-    convert(times[index]),
-    ...times.slice(index + 1),
-  ];
-
-  const changeToDNF = useCallback(
-    (index: number) => {
-      setTimes(updateItem(index, (prev) => ({ ...prev, isDNF: true })));
+export const useSessions = (
+  initialSessions: SessionData[] = [
+    {
+      times: [],
+      name: 'session1',
     },
-    [setTimes]
+  ]
+) => {
+  const [sessions, updateSessions] = useStoragedImmerState(
+    `${storagePrefix}-sessions`,
+    initialSessions
+  );
+  useEffect(() => {
+    // 最低1セッション以上を確保する
+    // これ、あとで整合性とるの大変そうだな…
+    if (sessions.length === 0) {
+      updateSessions([
+        {
+          times: [],
+          name: 'session1',
+        },
+      ]);
+    }
+  }, [sessions, updateSessions]);
+  const [sessionIndex, setSessionIndex] = useState(0);
+
+  const changeSessionName = useCallback(
+    (name: string): void =>
+      updateSessions((draft) => {
+        draft[sessionIndex].name = name;
+      }),
+    [updateSessions, sessionIndex]
+  );
+  const changeToDNF = useCallback(
+    (index: number): void =>
+      updateSessions((draft) => {
+        draft[sessionIndex].times[index].isDNF = true;
+      }),
+    [updateSessions, sessionIndex]
   );
   const undoDNF = useCallback(
-    (index: number) => {
-      setTimes(updateItem(index, (prev) => ({ ...prev, isDNF: false })));
-    },
-    [setTimes]
+    (index: number): void =>
+      updateSessions((draft) => {
+        draft[sessionIndex].times[index].isDNF = false;
+      }),
+    [updateSessions, sessionIndex]
   );
   const imposePenalty = useCallback(
-    (index: number) => {
-      setTimes(updateItem(index, (prev) => ({ ...prev, penalty: true })));
-    },
-    [setTimes]
+    (index: number): void =>
+      updateSessions((draft) => {
+        draft[sessionIndex].times[index].penalty = true;
+      }),
+    [updateSessions, sessionIndex]
   );
   const undoPenalty = useCallback(
-    (index: number) => {
-      setTimes(updateItem(index, (prev) => ({ ...prev, penalty: false })));
-    },
-    [setTimes]
+    (index: number): void =>
+      updateSessions((draft) => {
+        draft[sessionIndex].times[index].penalty = false;
+      }),
+    [updateSessions, sessionIndex]
   );
   const deleteRecord = useCallback(
-    (index: number) => {
-      setTimes((times) => [
-        ...times.slice(0, index),
-        ...times.slice(index + 1),
-      ]);
-      return times[index];
+    (index: number): TimeData => {
+      updateSessions((draft) => {
+        draft[sessionIndex].times.splice(index, 1);
+      });
+      return sessions[sessionIndex].times[index];
     },
-    [times, setTimes]
+    [sessionIndex, sessions, updateSessions]
   );
   const insertRecord = (index: number, record: TimeData) => {
-    setTimes((times) => [
-      ...times.slice(0, index),
-      record,
-      ...times.slice(index),
-    ]);
+    updateSessions((draft) => {
+      draft[sessionIndex].times.splice(index, 0, record);
+    });
   };
   const addTime = (time: TimeData) => {
-    setTimes((times) => [...times, time]);
+    updateSessions((draft) => {
+      draft[sessionIndex].times.push(time);
+    });
+  };
+  const importFromCsTimer = (data: SessionData[]) => {
+    updateSessions(data);
   };
   return {
-    times,
+    sessions,
+    sessionIndex,
+    setSessionIndex,
+    changeSessionName,
+    importFromCsTimer,
     changeToDNF,
     undoDNF,
     imposePenalty,

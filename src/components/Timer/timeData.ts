@@ -8,6 +8,10 @@ export type TimeData = {
   scramble: string;
   date: number; // millisec
 };
+export type SessionData = {
+  times: TimeData[];
+  name: string;
+};
 export const DNF = 'dnf';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

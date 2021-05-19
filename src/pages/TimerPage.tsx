@@ -19,7 +19,7 @@ import { showTime } from '../components/Timer/showTime';
 import { Times } from '../components/Timer/Times';
 import { Switch } from '../components/Switch';
 import { useTimer } from '../utils/hooks/useTimer';
-import { useTimes } from '../utils/hooks/useTimes';
+import { useSessions } from '../utils/hooks/useTimes';
 import { RecordModifier } from '../components/Timer/RecordModifier';
 import { Record } from '../components/Timer/Record';
 import { Toast, useToast } from '../components/Toast';
@@ -36,7 +36,11 @@ export const TimerPage: VFC = () => {
   const [swiper, setControlledSwiper] = useState<SwiperCore>();
 
   const {
-    times,
+    sessions,
+    sessionIndex,
+    setSessionIndex,
+    importFromCsTimer,
+    changeSessionName,
     changeToDNF,
     undoDNF,
     imposePenalty,
@@ -44,7 +48,7 @@ export const TimerPage: VFC = () => {
     deleteRecord,
     insertRecord,
     addTime,
-  } = useTimes();
+  } = useSessions();
 
   const [penalty, setPenalty] = useState<null | '+2' | 'DNF'>(null);
   const {
@@ -307,6 +311,13 @@ export const TimerPage: VFC = () => {
           />
         )}
       </div>
+      <div className="h-32 md:h-64 overflow-y-scroll">
+        <input
+          value={sessions[sessionIndex].name}
+          onChange={({ target: { value } }) => {
+            changeSessionName(value);
+          }}
+        />
       <Times
         times={times}
         changeToDNF={changeToDNF}
@@ -316,6 +327,7 @@ export const TimerPage: VFC = () => {
         deleteRecord={deleteRecord}
         insertRecord={insertRecord}
       />
+      </div>
       <Toast {...toastProps} />
     </div>
   );
