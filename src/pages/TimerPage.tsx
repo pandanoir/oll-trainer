@@ -16,7 +16,6 @@ import {
 import { exhaustiveCheck } from '../utils/exhaustiveCheck';
 import { Timer } from '../components/Timer/Timer';
 import { showTime } from '../components/Timer/showTime';
-import { Times } from '../components/Timer/Times';
 import { Switch } from '../components/Switch';
 import { useTimer } from '../utils/hooks/useTimer';
 import { useSessions } from '../utils/hooks/useTimes';
@@ -25,11 +24,11 @@ import { RecordItem } from '../components/Timer/RecordItem';
 import { Toast, useToast } from '../components/Toast';
 import { TypingTimer } from '../components/Timer/TypingTimer';
 import { ExportButton } from '../components/Timer/ExportButton';
-import { RecordListHeader } from '../components/Timer/RecordListHeader';
 import { FileInput } from '../components/Timer/FileInput';
 import { DNF, toCsTimer } from '../components/Timer/timeData';
 import { calcAo } from '../utils/calcAo';
 import '../swiper.css';
+import { Record } from '../components/Timer/Record';
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -246,8 +245,6 @@ export const TimerPage: VFC = () => {
     },
     [addTime, scrambles, index, swiper]
   );
-  const recordListRef = useRef<HTMLDivElement>(null);
-  const [opensRecordList, setOpensRecordList] = useState(true);
 
   return (
     <div className="w-full flex flex-col flex-1 overflow-hidden">
@@ -344,41 +341,20 @@ export const TimerPage: VFC = () => {
           />
         )}
       </div>
-      <div
-        className={`${
-          opensRecordList ? `h-32 md:h-64 overflow-y-scroll` : `h-6`
-        } transition-all duration-300`}
-        ref={recordListRef}
-      >
-        <RecordListHeader
-          sessionIndex={sessionIndex}
-          setSessionIndex={setSessionIndex}
-          changeSessionName={changeSessionName}
-          sessions={sessions}
-          resetScroll={() => {
-            if (recordListRef.current) {
-              recordListRef.current.scrollTo(0, 0);
-            }
-          }}
-          open={opensRecordList}
-          onOpenButtonClick={() => setOpensRecordList((open) => !open)}
-          addSession={() => {
-            addSession();
-            if (sessions.length - 1 === sessionIndex) {
-              setSessionIndex(sessions.length);
-            }
-          }}
-        />
-        <Times
-          times={times}
-          changeToDNF={changeToDNF}
-          imposePenalty={imposePenalty}
-          undoDNF={undoDNF}
-          undoPenalty={undoPenalty}
-          deleteRecord={deleteRecord}
-          insertRecord={insertRecord}
-        />
-      </div>
+      <Record
+        times={times}
+        changeToDNF={changeToDNF}
+        imposePenalty={imposePenalty}
+        undoDNF={undoDNF}
+        undoPenalty={undoPenalty}
+        deleteRecord={deleteRecord}
+        insertRecord={insertRecord}
+        sessionIndex={sessionIndex}
+        setSessionIndex={setSessionIndex}
+        changeSessionName={changeSessionName}
+        sessions={sessions}
+        addSession={addSession}
+      />
       <Toast {...toastProps} />
     </div>
   );
