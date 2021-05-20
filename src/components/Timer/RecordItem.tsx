@@ -2,7 +2,7 @@ import { VFC, DetailedHTMLProps, HTMLAttributes } from 'react';
 import { showTime } from './showTime';
 import { TimeData } from './timeData';
 
-export const Record: VFC<
+export const RecordItem: VFC<
   {
     record: TimeData;
   } & DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>

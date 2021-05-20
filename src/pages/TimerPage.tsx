@@ -21,7 +21,7 @@ import { Switch } from '../components/Switch';
 import { useTimer } from '../utils/hooks/useTimer';
 import { useSessions } from '../utils/hooks/useTimes';
 import { RecordModifier } from '../components/Timer/RecordModifier';
-import { Record } from '../components/Timer/Record';
+import { RecordItem } from '../components/Timer/RecordItem';
 import { Toast, useToast } from '../components/Toast';
 import { TypingTimer } from '../components/Timer/TypingTimer';
 import { ExportButton } from '../components/Timer/ExportButton';
@@ -310,7 +310,7 @@ export const TimerPage: VFC = () => {
                 'DNF'
               )
             ) : timerState === IDOLING && times.length > 0 ? (
-              <Record record={times[times.length - 1]} />
+              <RecordItem record={times[times.length - 1]} />
             ) : timerState === READY ? (
               'READY'
             ) : timerState === STEADY ? (

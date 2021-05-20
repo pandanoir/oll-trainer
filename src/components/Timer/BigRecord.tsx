@@ -1,6 +1,6 @@
 import tw from 'twin.macro';
-import { Record } from './Record';
+import { RecordItem } from './RecordItem';
 
 export const BigRecord = tw(
-  Record
+  RecordItem
 )`text-center text-4xl md:text-8xl font-bold cursor-pointer`;
