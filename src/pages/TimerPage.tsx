@@ -274,7 +274,19 @@ export const TimerPage: VFC = () => {
           <SwiperSlide key={index}>{scramble}</SwiperSlide>
         ))}
       </Swiper>
-      <div className="text-center flex-1 flex flex-col justify-center">
+      <div
+        className="text-center flex-1 flex flex-col justify-center"
+        onPointerDown={(event) => {
+          if (event.currentTarget === event.target) {
+            onPointerDown();
+          }
+        }}
+        onPointerUp={(event) => {
+          if (event.currentTarget === event.target) {
+            onPointerUp();
+          }
+        }}
+      >
         {inputsTimeManually ? (
           <TypingTimer
             prevTime={times.length > 0 ? times[times.length - 1] : undefined}
