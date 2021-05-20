@@ -4,6 +4,7 @@ import {
   faAngleLeft,
   faAngleRight,
   faAngleUp,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SessionData } from './timeData';
@@ -16,6 +17,7 @@ export const RecordListHeader = ({
   sessions,
   open,
   onOpenButtonClick,
+  addSession,
 }: {
   sessionIndex: number;
   setSessionIndex: Dispatch<SetStateAction<number>>;
@@ -24,6 +26,7 @@ export const RecordListHeader = ({
   sessions: SessionData[];
   open: boolean;
   onOpenButtonClick: () => void;
+  addSession: () => void;
 }) => {
   return (
     <div className="sticky top-0 bg-white flex justify-between">
@@ -53,6 +56,12 @@ export const RecordListHeader = ({
           }}
         >
           <FontAwesomeIcon icon={faAngleRight} />
+        </button>
+        <button
+          className="px-2 text-white bg-gray-400 rounded"
+          onClick={addSession}
+        >
+          <FontAwesomeIcon icon={faPlus} />
         </button>
       </div>
       <div>

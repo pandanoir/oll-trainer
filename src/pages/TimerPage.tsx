@@ -54,6 +54,7 @@ export const TimerPage: VFC = () => {
     deleteRecord,
     insertRecord,
     addTime,
+    addSession,
   } = useSessions();
   const { times } = sessions[sessionIndex];
   const ao5 = useMemo(
@@ -362,6 +363,12 @@ export const TimerPage: VFC = () => {
           }}
           open={opensRecordList}
           onOpenButtonClick={() => setOpensRecordList((open) => !open)}
+          addSession={() => {
+            addSession();
+            if (sessions.length - 1 === sessionIndex) {
+              setSessionIndex(sessions.length);
+            }
+          }}
         />
         <Times
           times={times}

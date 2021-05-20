@@ -73,16 +73,30 @@ export const useSessions = (
     },
     [sessionIndex, sessions, updateSessions]
   );
-  const insertRecord = (index: number, record: TimeData) => {
+  const insertRecord = useCallback(
+    (index: number, record: TimeData) => {
+      updateSessions((draft) => {
+        draft[sessionIndex].times.splice(index, 0, record);
+      });
+    },
+    [sessionIndex, updateSessions]
+  );
+  const addTime = useCallback(
+    (time: TimeData) => {
+      updateSessions((draft) => {
+        draft[sessionIndex].times.push(time);
+      });
+    },
+    [sessionIndex, updateSessions]
+  );
+  const addSession = useCallback(() => {
     updateSessions((draft) => {
-      draft[sessionIndex].times.splice(index, 0, record);
+      draft.push({
+        times: [],
+        name: `session${draft.length + 1}`,
+      });
     });
-  };
-  const addTime = (time: TimeData) => {
-    updateSessions((draft) => {
-      draft[sessionIndex].times.push(time);
-    });
-  };
+  }, [updateSessions]);
   const importFromCsTimer = (data: SessionData[]) => {
     updateSessions(data);
   };
@@ -99,5 +113,6 @@ export const useSessions = (
     deleteRecord,
     insertRecord,
     addTime,
+    addSession,
   } as const;
 };
