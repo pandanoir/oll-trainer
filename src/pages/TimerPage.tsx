@@ -246,6 +246,7 @@ export const TimerPage: VFC = () => {
     [addTime, scrambles, index, swiper]
   );
   const recordListRef = useRef<HTMLDivElement>(null);
+  const [opensRecordList, setOpensRecordList] = useState(true);
 
   return (
     <div className="w-full flex flex-col flex-1 overflow-hidden">
@@ -343,7 +344,12 @@ export const TimerPage: VFC = () => {
           />
         )}
       </div>
-      <div className="h-32 md:h-64 overflow-y-scroll" ref={recordListRef}>
+      <div
+        className={`${
+          opensRecordList ? `h-32 md:h-64 overflow-y-scroll` : `h-6`
+        } transition-all duration-300`}
+        ref={recordListRef}
+      >
         <RecordListHeader
           sessionIndex={sessionIndex}
           setSessionIndex={setSessionIndex}
@@ -354,6 +360,8 @@ export const TimerPage: VFC = () => {
               recordListRef.current.scrollTo(0, 0);
             }
           }}
+          open={opensRecordList}
+          onOpenButtonClick={() => setOpensRecordList((open) => !open)}
         />
         <Times
           times={times}
