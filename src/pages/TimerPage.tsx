@@ -25,6 +25,7 @@ import { Record } from '../components/Timer/Record';
 import { Toast, useToast } from '../components/Toast';
 import { TypingTimer } from '../components/Timer/TypingTimer';
 import { ExportButton } from '../components/Timer/ExportButton';
+import { RecordListHeader } from '../components/Timer/RecordListHeader';
 import { FileInput } from '../components/Timer/FileInput';
 import { DNF, toCsTimer } from '../components/Timer/timeData';
 import { calcAo } from '../utils/calcAo';
@@ -244,6 +245,7 @@ export const TimerPage: VFC = () => {
     },
     [addTime, scrambles, index, swiper]
   );
+  const recordListRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="w-full flex flex-col flex-1 overflow-hidden">
@@ -329,11 +331,16 @@ export const TimerPage: VFC = () => {
           />
         )}
       </div>
-      <div className="h-32 md:h-64 overflow-y-scroll">
-        <input
-          value={sessions[sessionIndex].name}
-          onChange={({ target: { value } }) => {
-            changeSessionName(value);
+      <div className="h-32 md:h-64 overflow-y-scroll" ref={recordListRef}>
+        <RecordListHeader
+          sessionIndex={sessionIndex}
+          setSessionIndex={setSessionIndex}
+          changeSessionName={changeSessionName}
+          sessions={sessions}
+          resetScroll={() => {
+            if (recordListRef.current) {
+              recordListRef.current.scrollTo(0, 0);
+            }
           }}
         />
         <Times
