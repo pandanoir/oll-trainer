@@ -263,7 +263,6 @@ export const TimerPage: VFC = () => {
           ファイルをエクスポート
         </ExportButton>
       </div>
-      <div className="font-bold text-3xl text-center">#{index + 1}</div>
       <Swiper
         slidesOffsetAfter={27 * 2}
         onSlideChange={({ activeIndex }) => setIndex(activeIndex)}
