@@ -1,7 +1,7 @@
 import { SessionData, TimeData } from '../../components/Timer/timeData';
-import { useStoragedImmerState } from './useLocalStorage';
+import { useStoragedImmerState, useStoragedState } from './useLocalStorage';
 import { storagePrefix } from '../../constants';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 
 export const useSessions = (
   initialSessions: SessionData[] = [
@@ -27,7 +27,10 @@ export const useSessions = (
       ]);
     }
   }, [sessions, updateSessions]);
-  const [sessionIndex, setSessionIndex] = useState(0);
+  const [sessionIndex, setSessionIndex] = useStoragedState(
+    `${storagePrefix}-sessionIndex`,
+    0
+  );
 
   const changeSessionName = useCallback(
     (name: string): void =>
