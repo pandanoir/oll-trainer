@@ -273,13 +273,12 @@ export const TimerPage: VFC = () => {
         ))}
       </Swiper>
       <div
-        className="text-center flex-1 flex flex-col justify-center"
-        onPointerDown={(event) => {
+        onTouchStart={(event) => {
           if (event.currentTarget === event.target) {
             onPointerDown();
           }
         }}
-        onPointerUp={(event) => {
+        onTouchEnd={(event) => {
           if (event.currentTarget === event.target) {
             onPointerUp();
           }
@@ -292,8 +291,8 @@ export const TimerPage: VFC = () => {
           />
         ) : (
           <Timer
-            onPointerDown={onPointerDown}
-            onPointerUp={onPointerUp}
+            onTouchStart={onPointerDown}
+            onTouchEnd={onPointerUp}
             timerState={timerState}
           >
             {timerState === INSPECTION ||

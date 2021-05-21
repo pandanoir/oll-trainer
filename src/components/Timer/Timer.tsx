@@ -1,4 +1,5 @@
-import { VFC, PropsWithChildren, PointerEventHandler } from 'react';
+import { VFC, PropsWithChildren, HTMLAttributes } from 'react';
+import tw from 'twin.macro';
 import { exhaustiveCheck } from '../../utils/exhaustiveCheck';
 import {
   TimerState,
@@ -12,27 +13,27 @@ import {
 } from './timerState';
 
 export const Timer: VFC<
-  PropsWithChildren<{
-    timerState: TimerState;
-    onPointerDown: PointerEventHandler<HTMLDivElement>;
-    onPointerUp: PointerEventHandler<HTMLDivElement>;
-  }>
-> = ({ timerState, onPointerDown, onPointerUp, children }) => {
+  PropsWithChildren<
+    {
+      timerState: TimerState;
+    } & HTMLAttributes<HTMLDivElement>
+  >
+> = ({ timerState, children, ...props }) => {
   return (
     <div
-      onPointerDown={onPointerDown}
-      onPointerUp={onPointerUp}
-      className={`${
+      css={[
         timerState === STEADY || timerState === INSPECTION_STEADY
-          ? 'text-green-400'
+          ? tw`text-green-400`
           : timerState === READY || timerState === INSPECTION_READY
-          ? 'text-red-500'
+          ? tw`text-red-500`
           : timerState === WORKING ||
             timerState === IDOLING ||
             timerState === INSPECTION
-          ? 'text-blue-900'
-          : exhaustiveCheck(timerState)
-      } font-bold text-6xl select-none`}
+          ? tw`text-blue-900`
+          : exhaustiveCheck(timerState),
+        tw`font-bold text-6xl select-none`,
+      ]}
+      {...props}
     >
       {children}
     </div>
