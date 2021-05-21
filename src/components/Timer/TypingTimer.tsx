@@ -6,6 +6,7 @@ import {
   ChangeEvent,
   useMemo,
 } from 'react';
+import 'twin.macro';
 import { showTime } from './showTime';
 import { TimeData } from './timeData';
 
@@ -37,7 +38,7 @@ export const TypingTimer: VFC<{
 
   return (
     <input
-      className="w-full font-bold text-6xl text-center"
+      tw="w-full font-bold text-6xl text-center"
       type="text"
       inputMode="numeric"
       placeholder={placeholder}

@@ -2,6 +2,7 @@ import { useEffect, useState, VFC } from 'react';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Scrambo from 'scrambo';
+import 'twin.macro';
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -17,8 +18,8 @@ export const ScramblePage: VFC = () => {
     }
   });
   return (
-    <div className="w-screen">
-      <div className="font-bold text-3xl text-center">#{index + 1}</div>
+    <div tw="w-screen">
+      <div tw="font-bold text-3xl text-center">#{index + 1}</div>
       <Swiper
         onSlideChange={({ activeIndex }: { activeIndex: number }) =>
           setIndex(activeIndex)

@@ -1,3 +1,4 @@
+import 'twin.macro';
 import { VFC, useMemo, useState } from 'react';
 import { calcAo } from '../../utils/calcAo';
 import { useModal } from '../Modal';
@@ -18,7 +19,7 @@ const SimpleRecord: VFC<{
     : showTime(time);
 
   return (
-    <span onClick={onClick} className="cursor-pointer">
+    <span onClick={onClick} tw="cursor-pointer">
       {index + 1}. {record}
     </span>
   );
@@ -50,8 +51,8 @@ export const Times: VFC<{
 
   return (
     <>
-      <ul className="flex flex-col-reverse px-3">
-        <li className="grid grid-cols-3 border-b border-gray-300 order-1">
+      <ul tw="flex flex-col-reverse px-3">
+        <li tw="grid grid-cols-3 border-b border-gray-300 order-1">
           <span>record</span>
           <span>ao5</span>
           <span>ao12</span>
@@ -60,7 +61,7 @@ export const Times: VFC<{
           const ao5 = ao5List[index];
           const ao12 = ao12List[index];
           return (
-            <li key={time.date} className="grid grid-cols-3">
+            <li key={time.date} tw="grid grid-cols-3">
               <SimpleRecord
                 index={index}
                 time={time}

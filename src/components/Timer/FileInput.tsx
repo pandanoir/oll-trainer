@@ -31,7 +31,7 @@ export const FileInput = ({
           }
         }}
         accept="text/*"
-        className="hidden"
+        tw="hidden"
       />
       <FileButton
         onClick={() => {

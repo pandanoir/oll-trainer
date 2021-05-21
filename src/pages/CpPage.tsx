@@ -1,4 +1,6 @@
 import { useEffect, useState, VFC } from 'react';
+import 'twin.macro';
+
 import { calculateScramble } from '../utils';
 import { TopFace, Color, cpList } from '../data/cpList';
 import { useInput } from '../utils/hooks/useInput';
@@ -65,11 +67,11 @@ export const CpPage: VFC = () => {
     <div>
       <h1>CP(Corner PLL)判断用</h1>
       <p>OLL の手順を入力するとそれに対応するCPを表示します。</p>
-      <div className="flex">
+      <div tw="flex">
         <input
           type="text"
           value={value}
-          className="border rounded-md mt-1 mx-2 block flex-grow"
+          tw="border rounded-md mt-1 mx-2 block flex-grow"
           onChange={onChange}
         />
       </div>

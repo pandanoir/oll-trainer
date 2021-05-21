@@ -3,6 +3,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Scrambo from 'scrambo';
+import 'twin.macro';
 
 import {
   IDOLING,
@@ -247,8 +248,8 @@ export const TimerPage: VFC = () => {
   );
 
   return (
-    <div className="w-full flex flex-col flex-1 overflow-hidden">
-      <div className="flex gap-1 px-3 overflow-x-auto">
+    <div tw="w-full flex flex-col flex-1 overflow-hidden">
+      <div tw="flex gap-1 px-3 overflow-x-auto">
         <Switch checked={usesInspection} onChange={setUsesInspection}>
           インスペクションを使用
         </Switch>
@@ -273,6 +274,7 @@ export const TimerPage: VFC = () => {
         ))}
       </Swiper>
       <div
+        tw="text-center flex-1 flex flex-col justify-center"
         onTouchStart={(event) => {
           if (event.currentTarget === event.target) {
             onPointerDown();

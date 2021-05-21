@@ -1,3 +1,4 @@
+import 'twin.macro';
 import { PrimaryButton } from '../PrimaryButton';
 import { DangerButton } from '../DangerButton';
 import { TimeData } from './timeData';
@@ -20,7 +21,7 @@ export const RecordModifier = ({
 }) => {
   if (record.isDNF) {
     return (
-      <div className="flex justify-center">
+      <div tw="flex justify-center">
         <DangerButton onClick={undoDNF}>undo DNF</DangerButton>
         <SecondaryButton onClick={deleteRecord}>delete</SecondaryButton>
       </div>
@@ -28,7 +29,7 @@ export const RecordModifier = ({
   }
   if (record.penalty) {
     return (
-      <div className="flex justify-center gap-2">
+      <div tw="flex justify-center gap-2">
         <PrimaryButton onClick={undoPenalty}>undo +2</PrimaryButton>
         <DangerButton onClick={changeToDNF}>DNF</DangerButton>
         <SecondaryButton onClick={deleteRecord}>delete</SecondaryButton>
@@ -36,7 +37,7 @@ export const RecordModifier = ({
     );
   }
   return (
-    <div className="flex justify-center gap-2">
+    <div tw="flex justify-center gap-2">
       <PrimaryButton onClick={imposePenalty}>+2</PrimaryButton>
       <DangerButton onClick={changeToDNF}>DNF</DangerButton>
       <SecondaryButton onClick={deleteRecord}>delete</SecondaryButton>

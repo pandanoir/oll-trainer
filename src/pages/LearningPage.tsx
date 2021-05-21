@@ -1,4 +1,6 @@
 import { VFC, useContext, useEffect, useState } from 'react';
+import 'twin.macro';
+
 import { Button } from '../components/Button';
 import { DangerButton } from '../components/DangerButton';
 import { PrimaryButton } from '../components/PrimaryButton';
@@ -38,10 +40,10 @@ export const LearningPage: VFC = () => {
   return target === undefined ? (
     <div>all done!</div>
   ) : (
-    <div className="flex flex-col items-center">
+    <div tw="flex flex-col items-center">
       のこり {size} 個
       <Solve index={target[0]} />
-      <div className="flex gap-2">
+      <div tw="flex gap-2">
         <Button onClick={prev}>prev</Button>
         <Button onClick={next}>next</Button>
         <PrimaryButton onClick={() => check(target[1])}>check</PrimaryButton>

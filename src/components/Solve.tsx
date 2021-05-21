@@ -5,6 +5,7 @@ import { OLL } from '../oll';
 import '../index.css';
 import { RouteInfo } from '../route';
 import { checkCpPattern, cpSwapPatterns } from '../utils/checkCpPattern';
+import tw from 'twin.macro';
 
 interface Props {
   index: number;
@@ -12,16 +13,16 @@ interface Props {
 
 type Empty = Record<PropertyKey, unknown>;
 const Left: VFC<PropsWithChildren<Empty>> = ({ children }) => {
-  return <div className="grid grid-rows-3 justify-end gap-1">{children}</div>;
+  return <div tw="grid grid-rows-3 justify-end gap-1">{children}</div>;
 };
 const Right: VFC<PropsWithChildren<Empty>> = ({ children }) => {
-  return <div className="grid grid-rows-3 gap-1">{children}</div>;
+  return <div tw="grid grid-rows-3 gap-1">{children}</div>;
 };
 const Top: VFC<PropsWithChildren<Empty>> = ({ children }) => {
-  return <div className="grid grid-cols-3 col-span-3 gap-1">{children}</div>;
+  return <div tw="grid grid-cols-3 col-span-3 gap-1">{children}</div>;
 };
 const Bottom: VFC<PropsWithChildren<Empty>> = ({ children }) => {
-  return <div className="grid grid-cols-3 col-span-3 gap-1">{children}</div>;
+  return <div tw="grid grid-cols-3 col-span-3 gap-1">{children}</div>;
 };
 const Empty: VFC = () => <div />;
 const Oll: VFC<{ index: number }> = ({ index }) => {
@@ -32,13 +33,13 @@ const Oll: VFC<{ index: number }> = ({ index }) => {
   const yellow = 'bg-yellow-200',
     gray = 'bg-gray-600';
   return (
-    <div className="grid grid-cols-5 gap-0.5 max-w-max m-auto auto-cols-min">
+    <div tw="grid grid-cols-5 gap-0.5 max-w-max m-auto auto-cols-min">
       <Empty />
       <Top>
         {OLL[index][0].map((isPainted, index) => (
           <div
             key={index}
-            className={`${bottomCell} mb-1 ${isPainted ? yellow : gray}`}
+            css={[bottomCell, tw`mb-1`, isPainted ? yellow : gray]}
           />
         ))}
       </Top>
@@ -48,34 +49,25 @@ const Oll: VFC<{ index: number }> = ({ index }) => {
           (isPainted, index) => (
             <div
               key={index}
-              className={`mr-1 ${sideCell} ${isPainted ? yellow : gray}`}
+              css={[tw`mr-1`, sideCell, isPainted ? yellow : gray]}
             />
           )
         )}
       </Left>
-      <div className="grid grid-rows-3 col-span-3 gap-0.5">
-        <div className="grid grid-cols-3 gap-0.5">
+      <div tw="grid grid-rows-3 col-span-3 gap-0.5">
+        <div tw="grid grid-cols-3 gap-0.5">
           {OLL[index][1].slice(1, 4).map((isPainted, index) => (
-            <div
-              key={index}
-              className={`${cell} ${isPainted ? yellow : gray}`}
-            />
+            <div key={index} css={[cell, isPainted ? yellow : gray]} />
           ))}
         </div>
-        <div className="grid grid-cols-3 gap-0.5">
+        <div tw="grid grid-cols-3 gap-0.5">
           {OLL[index][2].slice(1, 4).map((isPainted, index) => (
-            <div
-              key={index}
-              className={`${cell} ${isPainted ? yellow : gray}`}
-            />
+            <div key={index} css={[cell, isPainted ? yellow : gray]} />
           ))}
         </div>
-        <div className="grid grid-cols-3 gap-0.5">
+        <div tw="grid grid-cols-3 gap-0.5">
           {OLL[index][3].slice(1, 4).map((isPainted, index) => (
-            <div
-              key={index}
-              className={`${cell} ${isPainted ? yellow : gray}`}
-            />
+            <div key={index} css={[cell, isPainted ? yellow : gray]} />
           ))}
         </div>
       </div>
@@ -84,7 +76,7 @@ const Oll: VFC<{ index: number }> = ({ index }) => {
           (isPainted, index) => (
             <div
               key={index}
-              className={`ml-1 ${sideCell} ${isPainted ? yellow : gray}`}
+              css={[tw`ml-1`, sideCell, isPainted ? yellow : gray]}
             />
           )
         )}
@@ -94,7 +86,7 @@ const Oll: VFC<{ index: number }> = ({ index }) => {
         {OLL[index][4].map((isPainted, index) => (
           <div
             key={index}
-            className={`${bottomCell} mt-1 ${isPainted ? yellow : gray}`}
+            css={[bottomCell, tw`mt-1`, isPainted ? yellow : gray]}
           />
         ))}
       </Bottom>
@@ -112,18 +104,17 @@ export const Solve: VFC<Props> = ({ index }) => {
       {solves[index].map((solve) => {
         const cpPattern = checkCpPattern(solve);
         return (
-          <div key={solve} className="my-3">
-            <span className="text-sm">solve</span>: {solve}
+          <div key={solve} tw="my-3">
+            <span tw="text-sm">solve</span>: {solve}
             <br />
-            <span className="text-sm">scramble</span>:{' '}
-            {calculateScramble(solve)}
+            <span tw="text-sm">scramble</span>: {calculateScramble(solve)}
             <br />
             {cpPattern && (
               <>
-                <span className="text-sm">CPパターン</span>: {cpPattern[0]}{' '}
+                <span tw="text-sm">CPパターン</span>: {cpPattern[0]}{' '}
                 {cpSwapPatterns[cpPattern[1]]} &#9654;{' '}
                 <Link
-                  className="underline text-blue-400"
+                  tw="underline text-blue-400"
                   to={`${RouteInfo['cp check'].path}?solve=${encodeURIComponent(
                     solve
                   )}`}

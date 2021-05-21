@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import tw from 'twin.macro';
 
 type Props = {
   title: string;
@@ -28,16 +29,18 @@ export const Toast = ({ title, onClose, label, onClick, shows }: Props) => {
     hidden ? null : (
       <div
         onClick={onClose}
-        className={`flex fixed justify-between w-72 right-0 bottom-3 bg-gray-900 text-white bg-opacity-90 shadow-md rounded-md ${
+        css={[
+          tw`flex fixed justify-between w-72 right-0 bottom-3`,
+          tw`bg-gray-900 text-white bg-opacity-90 shadow-md rounded-md`,
           shows
-            ? 'opacity-100'
-            : 'opacity-0 duration-200 ease-out transition-opacity'
-        }`}
+            ? tw`opacity-100`
+            : tw`opacity-0 duration-200 ease-out transition-opacity`,
+        ]}
         onTransitionEnd={() => {
           setHidden(true);
         }}
       >
-        <span className="pl-6 py-3">{title}</span>
+        <span tw="pl-6 py-3">{title}</span>
         {label && (
           <span
             onClick={(event) => {
@@ -46,7 +49,7 @@ export const Toast = ({ title, onClose, label, onClick, shows }: Props) => {
           >
             <button
               onClick={onClick}
-              className="border-l border-white my-3 px-4 bg-transparent text-blue-500 font-bold focus:outline-none"
+              tw="border-l border-white my-3 px-4 bg-transparent text-blue-500 font-bold focus:outline-none"
             >
               {label}
             </button>

@@ -7,6 +7,7 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import { useHotkeys } from 'react-hotkeys-hook';
+import 'twin.macro';
 import { clickAway } from '../utils/clickAway';
 
 export const Modal = ({
@@ -32,11 +33,8 @@ export const Modal = ({
   });
 
   return createPortal(
-    <div className="fixed inset-0 w-full h-full bg-gray-400 bg-opacity-60">
-      <div
-        className="bg-white fixed inset-8 opacity-100 rounded-md"
-        ref={$modal}
-      >
+    <div tw="fixed inset-0 w-full h-full bg-gray-400 bg-opacity-60">
+      <div tw="bg-white fixed inset-8 opacity-100 rounded-md" ref={$modal}>
         {children}
       </div>
     </div>,

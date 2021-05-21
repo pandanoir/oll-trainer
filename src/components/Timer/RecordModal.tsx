@@ -1,3 +1,4 @@
+import 'twin.macro';
 import { Modal } from '../Modal';
 import { BigRecord } from './BigRecord';
 import { RecordModifier } from './RecordModifier';
@@ -22,7 +23,7 @@ export const RecordModal = ({
 }) => {
   return (
     <Modal onClose={onClose}>
-      <div className="flex flex-col gap-6 p-6">
+      <div tw="flex flex-col gap-6 p-6">
         <BigRecord record={record} onClick={onClose} />
         <RecordModifier
           record={record}
@@ -32,10 +33,10 @@ export const RecordModal = ({
           undoPenalty={undoPenalty}
           deleteRecord={deleteRecord}
         />
-        <span className="flex gap-2">
+        <span tw="flex gap-2">
           <span>scramble:</span>
           <textarea
-            className="inline-block resize-none flex-1"
+            tw="inline-block resize-none flex-1"
             readOnly
             value={record.scramble}
           />
