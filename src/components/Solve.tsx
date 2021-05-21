@@ -1,11 +1,11 @@
 import { VFC, PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
+import tw from 'twin.macro';
 import { groups, solves, calculateScramble } from '../utils';
 import { OLL } from '../oll';
 import '../index.css';
 import { RouteInfo } from '../route';
 import { checkCpPattern, cpSwapPatterns } from '../utils/checkCpPattern';
-import tw from 'twin.macro';
 
 interface Props {
   index: number;
@@ -27,11 +27,11 @@ const Bottom: VFC<PropsWithChildren<Empty>> = ({ children }) => {
 const Empty: VFC = () => <div />;
 const Oll: VFC<{ index: number }> = ({ index }) => {
   // if (!OLL[index]) return null;
-  const cell = 'w-14 h-14 border border-gray-500';
-  const sideCell = 'w-4 h-14 border border-gray-500';
-  const bottomCell = 'w-14 h-4 border border-gray-500';
-  const yellow = 'bg-yellow-200',
-    gray = 'bg-gray-600';
+  const cell = tw`w-14 h-14 border border-gray-500`;
+  const sideCell = tw`w-4 h-14 border border-gray-500`;
+  const bottomCell = tw`w-14 h-4 border border-gray-500`;
+  const yellow = tw`bg-yellow-200`,
+    gray = tw`bg-gray-600`;
   return (
     <div tw="grid grid-cols-5 gap-0.5 max-w-max m-auto auto-cols-min">
       <Empty />

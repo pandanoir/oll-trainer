@@ -1,12 +1,11 @@
 import { VFC } from 'react';
-import 'twin.macro';
+import tw from 'twin.macro';
 
 import { faces, rotate, CubeFace as CubeFaceType } from '../utils';
 import { useFace } from '../utils/hooks/useFace';
 import { Solve } from '../components/Solve';
 import { Button } from '../components/Button';
 import '../index.css';
-import tw from 'twin.macro';
 
 const CubeFace: VFC<{
   cubeStatus: CubeFaceType;
