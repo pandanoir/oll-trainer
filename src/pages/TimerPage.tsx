@@ -282,23 +282,30 @@ export const TimerPage: VFC = () => {
         ))}
       </Swiper>
       <div
-        tw="text-center flex-1 flex flex-col justify-center"
+        tw="text-center flex-1 flex flex-col justify-center items-center"
         onTouchStart={(event) => {
+          event.preventDefault();
           if (event.currentTarget === event.target) {
             onPointerDown();
           }
         }}
         onMouseDown={(event) => {
+          event.preventDefault();
+
           if (event.currentTarget === event.target) {
             onPointerDown();
           }
         }}
         onTouchEnd={(event) => {
+          event.preventDefault();
+
           if (event.currentTarget === event.target) {
             onPointerUp();
           }
         }}
         onMouseUp={(event) => {
+          event.preventDefault();
+
           if (event.currentTarget === event.target) {
             onPointerUp();
           }
