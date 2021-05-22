@@ -120,6 +120,9 @@ export const TimerPage: VFC = () => {
   }, [timerState]);
 
   const onPointerDown = useCallback(() => {
+      if (inputsTimeManually) {
+        return;
+      }
       switch (timerState) {
         case READY:
         case STEADY:
@@ -144,6 +147,7 @@ export const TimerPage: VFC = () => {
       }
     }, [
       finishTimer,
+      inputsTimeManually,
       startInspection,
       tapTimer,
       tapTimerInInspection,
@@ -151,6 +155,9 @@ export const TimerPage: VFC = () => {
       usesInspection,
     ]),
     onPointerUp = useCallback(() => {
+      if (inputsTimeManually) {
+        return;
+      }
       switch (timerState) {
         case IDOLING:
         case INSPECTION:
@@ -182,6 +189,7 @@ export const TimerPage: VFC = () => {
       }
     }, [
       cancelTimer,
+      inputsTimeManually,
       inspectionTime,
       returnToInspection,
       startTimer,
