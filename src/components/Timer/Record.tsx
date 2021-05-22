@@ -188,12 +188,12 @@ export const Record = ({
             <LineChart
               width={500}
               height={300}
-              data={times.map(({ time }, index) => {
+              data={times.map(({ time, isDNF, penalty }, index) => {
                 const ao5 = ao5List[index],
                   ao12 = ao12List[index];
                 return {
                   name: index + 1,
-                  time: time / 1000,
+                  time: isDNF ? null : time / 1000 + (penalty ? 2 : 0),
                   ao5: typeof ao5 === 'number' ? ao5 / 1000 : null,
                   ao12: typeof ao12 === 'number' ? ao12 / 1000 : null,
                 };
