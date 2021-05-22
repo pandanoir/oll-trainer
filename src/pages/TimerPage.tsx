@@ -296,6 +296,15 @@ export const TimerPage: VFC = () => {
           }
         }}
       >
+        {timerState !== IDOLING && (
+          <div
+            onTouchStart={onPointerDown}
+            onTouchEnd={onPointerUp}
+            onMouseDown={onPointerDown}
+            onMouseUp={onPointerUp}
+            tw="absolute inset-0 bg-gray-50 z-10 bg-opacity-50"
+          />
+        )}
         {inputsTimeManually ? (
           <TypingTimer
             prevTime={times.length > 0 ? times[times.length - 1] : undefined}
@@ -303,6 +312,7 @@ export const TimerPage: VFC = () => {
           />
         ) : (
           <Timer
+            className="z-20"
             onTouchStart={onPointerDown}
             onTouchEnd={onPointerUp}
             onMouseDown={onPointerDown}
