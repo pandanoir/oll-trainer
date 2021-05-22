@@ -280,7 +280,17 @@ export const TimerPage: VFC = () => {
             onPointerDown();
           }
         }}
+        onMouseDown={(event) => {
+          if (event.currentTarget === event.target) {
+            onPointerDown();
+          }
+        }}
         onTouchEnd={(event) => {
+          if (event.currentTarget === event.target) {
+            onPointerUp();
+          }
+        }}
+        onMouseUp={(event) => {
           if (event.currentTarget === event.target) {
             onPointerUp();
           }
@@ -295,6 +305,8 @@ export const TimerPage: VFC = () => {
           <Timer
             onTouchStart={onPointerDown}
             onTouchEnd={onPointerUp}
+            onMouseDown={onPointerDown}
+            onMouseUp={onPointerUp}
             timerState={timerState}
           >
             {timerState === INSPECTION ||
