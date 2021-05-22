@@ -30,6 +30,7 @@ import { DNF, toCsTimer } from '../components/Timer/timeData';
 import { calcAo } from '../utils/calcAo';
 import '../swiper.css';
 import { Record } from '../components/Timer/Record';
+import { PrimaryButton } from '../components/PrimaryButton';
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -327,7 +328,7 @@ export const TimerPage: VFC = () => {
           />
         ) : (
           <Timer
-            className="z-20"
+            tw="z-20"
             onTouchStart={onPointerDown}
             onTouchEnd={onPointerUp}
             onMouseDown={onPointerDown}
@@ -357,26 +358,34 @@ export const TimerPage: VFC = () => {
         )}
         <div>ao5: {ao5 ? (ao5 === DNF ? 'DNF' : showTime(ao5)) : '-'}</div>
         <div>ao12: {ao12 ? (ao12 === DNF ? 'DNF' : showTime(ao12)) : '-'}</div>
-        {times.length > 0 && (
-          <RecordModifier
-            record={times[times.length - 1]}
-            changeToDNF={() => changeToDNF(times.length - 1)}
-            imposePenalty={() => imposePenalty(times.length - 1)}
-            undoDNF={() => undoDNF(times.length - 1)}
-            undoPenalty={() => undoPenalty(times.length - 1)}
-            deleteRecord={() => {
-              const deletedRecord = deleteRecord(times.length - 1);
-              openToast({
-                title: '削除しました',
-                buttonLabel: '元に戻す',
-                callback: () => {
-                  insertRecord(times.length - 1, deletedRecord);
-                  closeToast();
-                },
-                timeout: 10 * 1000,
-              });
-            }}
-          />
+        {timerState === INSPECTION ||
+        timerState === INSPECTION_READY ||
+        timerState === INSPECTION_STEADY ? (
+          <div tw="z-20 select-none inline-block w-min">
+            <PrimaryButton onClick={cancelTimer}>cancel</PrimaryButton>
+          </div>
+        ) : (
+          times.length > 0 && (
+            <RecordModifier
+              record={times[times.length - 1]}
+              changeToDNF={() => changeToDNF(times.length - 1)}
+              imposePenalty={() => imposePenalty(times.length - 1)}
+              undoDNF={() => undoDNF(times.length - 1)}
+              undoPenalty={() => undoPenalty(times.length - 1)}
+              deleteRecord={() => {
+                const deletedRecord = deleteRecord(times.length - 1);
+                openToast({
+                  title: '削除しました',
+                  buttonLabel: '元に戻す',
+                  callback: () => {
+                    insertRecord(times.length - 1, deletedRecord);
+                    closeToast();
+                  },
+                  timeout: 10 * 1000,
+                });
+              }}
+            />
+          )
         )}
       </div>
       <Record
