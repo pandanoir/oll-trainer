@@ -285,29 +285,26 @@ export const TimerPage: VFC = () => {
       <div
         tw="text-center flex-1 flex flex-col justify-center items-center"
         onTouchStart={(event) => {
-          event.preventDefault();
           if (event.currentTarget === event.target) {
+            event.preventDefault();
             onPointerDown();
           }
         }}
         onMouseDown={(event) => {
-          event.preventDefault();
-
           if (event.currentTarget === event.target) {
+            event.preventDefault();
             onPointerDown();
           }
         }}
         onTouchEnd={(event) => {
-          event.preventDefault();
-
           if (event.currentTarget === event.target) {
+            event.preventDefault();
             onPointerUp();
           }
         }}
         onMouseUp={(event) => {
-          event.preventDefault();
-
           if (event.currentTarget === event.target) {
+            event.preventDefault();
             onPointerUp();
           }
         }}
@@ -361,9 +358,9 @@ export const TimerPage: VFC = () => {
         {timerState === INSPECTION ||
         timerState === INSPECTION_READY ||
         timerState === INSPECTION_STEADY ? (
-          <div tw="z-20 select-none inline-block w-min">
-            <PrimaryButton onClick={cancelTimer}>cancel</PrimaryButton>
-          </div>
+          <PrimaryButton tw="z-20 select-none" onClick={cancelTimer}>
+            cancel
+          </PrimaryButton>
         ) : (
           times.length > 0 && (
             <RecordModifier
