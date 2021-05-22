@@ -39,8 +39,7 @@ export const TypingTimer: VFC<{
   return (
     <input
       tw="w-full font-bold text-6xl text-center"
-      type="text"
-      inputMode="numeric"
+      type="number"
       placeholder={placeholder}
       value={value}
       onChange={onChange}
