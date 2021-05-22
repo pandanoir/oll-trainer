@@ -227,7 +227,7 @@ export const Record = ({
                 strokeDasharray="4"
               />
               <Line
-                name="ao5"
+                name="ao12"
                 type="linear"
                 dataKey="ao12"
                 stroke="#db2777"
