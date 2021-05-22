@@ -47,11 +47,18 @@ export const TypingTimer: VFC<{
         if (event.key !== 'Enter') {
           return;
         }
-        if (isNaN(parseInt(value, 10))) {
+        const input = parseInt(value, 10);
+        if (isNaN(input)) {
           return;
         }
 
-        onInput(parseInt(value, 10) / 100);
+        const centisec = input % 100;
+        const sec = (Math.floor(input / 100) % 100) % 60;
+        const min =
+          Math.floor(input / 100 / 100) +
+          Math.floor(((input / 100) % 100) / 60);
+        console.log(min, sec, centisec);
+        onInput(min * 60 + sec + centisec / 100);
       }}
     />
   );
