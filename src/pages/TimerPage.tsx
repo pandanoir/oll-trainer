@@ -122,10 +122,19 @@ export const TimerPage: VFC = () => {
     }
   }, [timerState]);
 
+  const isTouching = useRef(false);
+  const hasStartedAndPointerupNotFiring = useRef(false); // スタート後、pointerupが発火するまでtrue
   const onPointerDown = useCallback(() => {
       if (inputsTimeManually) {
         return;
       }
+      if (hasStartedAndPointerupNotFiring.current) {
+        return;
+      }
+      if (isTouching.current) {
+        return;
+      }
+      isTouching.current = true;
       switch (timerState) {
         case READY:
         case STEADY:
@@ -138,6 +147,7 @@ export const TimerPage: VFC = () => {
           } else {
             tapTimer();
           }
+          hasStartedAndPointerupNotFiring.current = true;
           break;
         case INSPECTION:
           tapTimerInInspection();
@@ -161,6 +171,16 @@ export const TimerPage: VFC = () => {
       if (inputsTimeManually) {
         return;
       }
+      if (hasStartedAndPointerupNotFiring.current) {
+        hasStartedAndPointerupNotFiring.current = false;
+        isTouching.current = false;
+        return;
+      }
+      if (!isTouching.current) {
+        return;
+      }
+      isTouching.current = false;
+
       switch (timerState) {
         case IDOLING:
         case INSPECTION:
@@ -286,37 +306,51 @@ export const TimerPage: VFC = () => {
       </Swiper>
       <div
         tw="text-center flex-1 flex flex-col justify-center items-center"
-        onTouchStart={(event) => {
-          if (event.currentTarget === event.target) {
-            event.preventDefault();
-            onPointerDown();
-          }
+        onTouchStart={() => {
+          if (timerState !== IDOLING) return;
+          event.stopPropagation();
+          onPointerDown();
         }}
         onMouseDown={(event) => {
-          if (event.currentTarget === event.target) {
-            event.preventDefault();
-            onPointerDown();
-          }
+          if (timerState !== IDOLING) return;
+          event.preventDefault();
+          event.stopPropagation();
+          onPointerDown();
         }}
         onTouchEnd={(event) => {
-          if (event.currentTarget === event.target) {
-            event.preventDefault();
-            onPointerUp();
-          }
+          if (timerState !== IDOLING) return;
+          event.preventDefault();
+          event.stopPropagation();
+          onPointerUp();
         }}
         onMouseUp={(event) => {
-          if (event.currentTarget === event.target) {
-            event.preventDefault();
-            onPointerUp();
-          }
+          if (timerState !== IDOLING) return;
+          event.preventDefault();
+          event.stopPropagation();
+          onPointerUp();
         }}
       >
         {timerState !== IDOLING && (
           <div
-            onTouchStart={onPointerDown}
-            onTouchEnd={onPointerUp}
-            onMouseDown={onPointerDown}
-            onMouseUp={onPointerUp}
+            onTouchStart={(event) => {
+              event.stopPropagation();
+              onPointerDown();
+            }}
+            onTouchEnd={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onPointerUp();
+            }}
+            onMouseDown={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onPointerDown();
+            }}
+            onMouseUp={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onPointerUp();
+            }}
             tw="absolute inset-0 bg-gray-50 z-10 bg-opacity-50"
           />
         )}
@@ -328,10 +362,25 @@ export const TimerPage: VFC = () => {
         ) : (
           <Timer
             tw="z-20"
-            onTouchStart={onPointerDown}
-            onTouchEnd={onPointerUp}
-            onMouseDown={onPointerDown}
-            onMouseUp={onPointerUp}
+            onTouchStart={(event) => {
+              event.stopPropagation();
+              onPointerDown();
+            }}
+            onTouchEnd={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onPointerUp();
+            }}
+            onMouseDown={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onPointerDown();
+            }}
+            onMouseUp={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              onPointerUp();
+            }}
             timerState={timerState}
           >
             {timerState === INSPECTION ||
