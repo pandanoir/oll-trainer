@@ -3,6 +3,7 @@ import { PrimaryButton } from '../PrimaryButton';
 import { DangerButton } from '../DangerButton';
 import { TimeData } from './timeData';
 import { SecondaryButton } from '../SecondaryButton';
+import { EventHandler, SyntheticEvent } from 'react';
 
 export const RecordModifier = ({
   record,
@@ -19,22 +20,23 @@ export const RecordModifier = ({
   undoPenalty: () => void;
   deleteRecord: () => void;
 }) => {
+  const stopPropagation: EventHandler<SyntheticEvent> = (event) => {
+    event.stopPropagation();
+  };
   if (record.isDNF) {
     return (
-      <div tw="flex justify-center flex-wrap" className="">
+      <div tw="flex justify-center flex-wrap">
         <DangerButton
-          onClick={(event) => {
-            event.stopPropagation();
-            undoDNF();
-          }}
+          onMouseDown={stopPropagation}
+          onTouchStart={stopPropagation}
+          onClick={undoDNF}
         >
           undo DNF
         </DangerButton>
         <SecondaryButton
-          onClick={(event) => {
-            event.stopPropagation();
-            deleteRecord();
-          }}
+          onMouseDown={stopPropagation}
+          onTouchStart={stopPropagation}
+          onClick={deleteRecord}
         >
           delete
         </SecondaryButton>
@@ -45,26 +47,23 @@ export const RecordModifier = ({
     return (
       <div tw="flex justify-center gap-2 flex-wrap">
         <PrimaryButton
-          onClick={(event) => {
-            event.stopPropagation();
-            undoPenalty();
-          }}
+          onMouseDown={stopPropagation}
+          onTouchStart={stopPropagation}
+          onClick={undoPenalty}
         >
           undo +2
         </PrimaryButton>
         <DangerButton
-          onClick={(event) => {
-            event.stopPropagation();
-            changeToDNF();
-          }}
+          onMouseDown={stopPropagation}
+          onTouchStart={stopPropagation}
+          onClick={changeToDNF}
         >
           DNF
         </DangerButton>
         <SecondaryButton
-          onClick={(event) => {
-            event.stopPropagation();
-            deleteRecord();
-          }}
+          onMouseDown={stopPropagation}
+          onTouchStart={stopPropagation}
+          onClick={deleteRecord}
         >
           delete
         </SecondaryButton>
@@ -74,26 +73,23 @@ export const RecordModifier = ({
   return (
     <div tw="flex justify-center gap-2 flex-wrap">
       <PrimaryButton
-        onClick={(event) => {
-          event.stopPropagation();
-          imposePenalty();
-        }}
+        onMouseDown={stopPropagation}
+        onTouchStart={stopPropagation}
+        onClick={imposePenalty}
       >
         +2
       </PrimaryButton>
       <DangerButton
-        onClick={(event) => {
-          event.stopPropagation();
-          changeToDNF();
-        }}
+        onMouseDown={stopPropagation}
+        onTouchStart={stopPropagation}
+        onClick={changeToDNF}
       >
         DNF
       </DangerButton>
       <SecondaryButton
-        onClick={(event) => {
-          event.stopPropagation();
-          deleteRecord();
-        }}
+        onMouseDown={stopPropagation}
+        onTouchStart={stopPropagation}
+        onClick={deleteRecord}
       >
         delete
       </SecondaryButton>
