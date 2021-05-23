@@ -128,9 +128,6 @@ export const TimerPage: VFC = () => {
       if (inputsTimeManually) {
         return;
       }
-      if (hasStartedAndPointerupNotFiring.current) {
-        return;
-      }
       if (isTouching.current) {
         return;
       }
@@ -171,15 +168,14 @@ export const TimerPage: VFC = () => {
       if (inputsTimeManually) {
         return;
       }
-      if (hasStartedAndPointerupNotFiring.current) {
-        hasStartedAndPointerupNotFiring.current = false;
-        isTouching.current = false;
-        return;
-      }
       if (!isTouching.current) {
         return;
       }
       isTouching.current = false;
+      if (hasStartedAndPointerupNotFiring.current) {
+        hasStartedAndPointerupNotFiring.current = false;
+        return;
+      }
 
       switch (timerState) {
         case IDOLING:
@@ -305,7 +301,7 @@ export const TimerPage: VFC = () => {
         ))}
       </Swiper>
       <div
-        tw="text-center flex-1 flex flex-col justify-center items-center"
+        tw="text-center flex-1 flex flex-col justify-center items-center select-none"
         onTouchStart={(event) => {
           if (timerState !== IDOLING) return;
           event.stopPropagation();
@@ -351,7 +347,7 @@ export const TimerPage: VFC = () => {
               event.stopPropagation();
               onPointerUp();
             }}
-            tw="absolute inset-0 bg-gray-50 z-10 bg-opacity-50"
+            tw="absolute inset-0 bg-gray-50 z-10 bg-opacity-50 select-none"
           />
         )}
         {inputsTimeManually ? (
