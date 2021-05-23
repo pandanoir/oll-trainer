@@ -7,6 +7,8 @@ import { CheckContext, useCheck } from './utils/hooks/useCheck';
 import './index.css';
 import { RouteList } from './route';
 
+console.log(process.env.SOURCE_COMMIT);
+
 const App: VFC = () => {
   const { checkList, check, reset } = useCheck();
   return (
