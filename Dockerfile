@@ -4,6 +4,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
+COPY __patch__/Radar.d.ts  ./node_modules/recharts/types/polar/
 RUN npm run build
 
 # 本番環境

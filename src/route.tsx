@@ -32,5 +32,5 @@ export const RouteInfo: Hoge = {
   learn: RouteList[1],
   scramble: RouteList[2],
   'cp check': RouteList[3],
-  timer: RouteList[4],
+  'Hi-Timer': RouteList[4],
 } as const;

@@ -306,7 +306,7 @@ export const TimerPage: VFC = () => {
       </Swiper>
       <div
         tw="text-center flex-1 flex flex-col justify-center items-center"
-        onTouchStart={() => {
+        onTouchStart={(event) => {
           if (timerState !== IDOLING) return;
           event.stopPropagation();
           onPointerDown();
