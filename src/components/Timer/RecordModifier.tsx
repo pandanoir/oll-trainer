@@ -22,25 +22,81 @@ export const RecordModifier = ({
   if (record.isDNF) {
     return (
       <div tw="flex justify-center flex-wrap" className="">
-        <DangerButton onClick={undoDNF}>undo DNF</DangerButton>
-        <SecondaryButton onClick={deleteRecord}>delete</SecondaryButton>
+        <DangerButton
+          onClick={(event) => {
+            event.stopPropagation();
+            undoDNF();
+          }}
+        >
+          undo DNF
+        </DangerButton>
+        <SecondaryButton
+          onClick={(event) => {
+            event.stopPropagation();
+            deleteRecord();
+          }}
+        >
+          delete
+        </SecondaryButton>
       </div>
     );
   }
   if (record.penalty) {
     return (
       <div tw="flex justify-center gap-2 flex-wrap">
-        <PrimaryButton onClick={undoPenalty}>undo +2</PrimaryButton>
-        <DangerButton onClick={changeToDNF}>DNF</DangerButton>
-        <SecondaryButton onClick={deleteRecord}>delete</SecondaryButton>
+        <PrimaryButton
+          onClick={(event) => {
+            event.stopPropagation();
+            undoPenalty();
+          }}
+        >
+          undo +2
+        </PrimaryButton>
+        <DangerButton
+          onClick={(event) => {
+            event.stopPropagation();
+            changeToDNF();
+          }}
+        >
+          DNF
+        </DangerButton>
+        <SecondaryButton
+          onClick={(event) => {
+            event.stopPropagation();
+            deleteRecord();
+          }}
+        >
+          delete
+        </SecondaryButton>
       </div>
     );
   }
   return (
     <div tw="flex justify-center gap-2 flex-wrap">
-      <PrimaryButton onClick={imposePenalty}>+2</PrimaryButton>
-      <DangerButton onClick={changeToDNF}>DNF</DangerButton>
-      <SecondaryButton onClick={deleteRecord}>delete</SecondaryButton>
+      <PrimaryButton
+        onClick={(event) => {
+          event.stopPropagation();
+          imposePenalty();
+        }}
+      >
+        +2
+      </PrimaryButton>
+      <DangerButton
+        onClick={(event) => {
+          event.stopPropagation();
+          changeToDNF();
+        }}
+      >
+        DNF
+      </DangerButton>
+      <SecondaryButton
+        onClick={(event) => {
+          event.stopPropagation();
+          deleteRecord();
+        }}
+      >
+        delete
+      </SecondaryButton>
     </div>
   );
 };
