@@ -3,10 +3,12 @@ import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Scrambo from 'scrambo';
 import 'twin.macro';
+import { useTitle } from '../utils/hooks/useTitle';
 
 SwiperCore.use([Navigation, Keyboard]);
 
 export const ScramblePage: VFC = () => {
+  useTitle('Scramble');
   const [scrambles, setScrambles] = useState<string[]>([]);
   const [index, setIndex] = useState(0);
   useEffect(() => {

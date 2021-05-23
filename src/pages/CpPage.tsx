@@ -10,6 +10,7 @@ import {
   cpSwapPatterns,
   getCompanionSwap,
 } from '../utils/checkCpPattern';
+import { useTitle } from '../utils/hooks/useTitle';
 
 const Cube: VFC<{ color: string; onClick?: () => void }> = ({
   color,
@@ -47,6 +48,7 @@ const CubeFace: VFC<{ cube: TopFace }> = ({ cube }) => (
 );
 
 export const CpPage: VFC = () => {
+  useTitle('Cp check');
   const query = useQuery();
   const { value, onChange } = useInput(query.get('solve') || '');
   const [topFaceType, setTopFaceType] = useState<null | string>(null);

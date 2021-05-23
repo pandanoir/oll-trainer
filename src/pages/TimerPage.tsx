@@ -31,10 +31,12 @@ import { calcAo } from '../utils/calcAo';
 import '../swiper.css';
 import { Record } from '../components/Timer/Record';
 import { PrimaryButton } from '../components/PrimaryButton';
+import { useTitle } from '../utils/hooks/useTitle';
 
 SwiperCore.use([Navigation, Keyboard]);
 
 export const TimerPage: VFC = () => {
+  useTitle('Hi-Timer');
   const [scrambles, setScrambles] = useState<string[]>([]);
   const [index, setIndex] = useState(0);
   const [usesInspection, setUsesInspection] = useState(true);

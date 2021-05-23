@@ -8,8 +8,10 @@ import { Solve } from '../components/Solve';
 import { CheckContext } from '../utils/hooks/useCheck';
 import { nextIndex, prevIndex } from '../utils';
 import { ListModal } from '../components/ListModal';
+import { useTitle } from '../utils/hooks/useTitle';
 
 export const LearningPage: VFC = () => {
+  useTitle('Learn OLL');
   const { checkList, check, reset } = useContext(CheckContext);
   const size = 57 - checkList.reduce((acc, item) => acc + (item ? 1 : 0), 0);
 

@@ -6,6 +6,7 @@ import { useFace } from '../utils/hooks/useFace';
 import { Solve } from '../components/Solve';
 import { Button } from '../components/Button';
 import '../index.css';
+import { useTitle } from '../utils/hooks/useTitle';
 
 const CubeFace: VFC<{
   cubeStatus: CubeFaceType;
@@ -30,6 +31,7 @@ const CubeFace: VFC<{
 };
 
 export const OllPage: VFC = () => {
+  useTitle('OLL');
   const { cubeStatus, toggleCube, clearCube } = useFace();
   return (
     <div>
