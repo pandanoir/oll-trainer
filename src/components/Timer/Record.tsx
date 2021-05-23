@@ -106,7 +106,7 @@ export const Record = ({
   addSession: () => void;
 }) => {
   const recordListRef = useRef<HTMLDivElement>(null);
-  const [opensRecordList, setOpensRecordList] = useState(true);
+  const [opensRecordList, setOpensRecordList] = useState(false);
   const ao5List = useMemo(() => calcAo(5, times), [times]);
   const ao12List = useMemo(() => calcAo(12, times), [times]);
 
@@ -121,12 +121,10 @@ export const Record = ({
     <div
       css={[
         opensRecordList
-          ? [tw`h-32 md:h-64`, showsGraph ? '' : tw`overflow-y-scroll`]
+          ? [tw`h-4/5`, showsGraph ? '' : tw`overflow-y-scroll`]
           : [tw`h-6`],
-        tw`flex`,
-        tw`flex-col`,
-        tw`transition-all`,
-        tw`duration-300`,
+        tw`w-full absolute z-30 bottom-0 flex flex-col bg-white border-t-2 border-gray-200`,
+        tw`transition-all duration-300`,
       ]}
       ref={recordListRef}
     >
