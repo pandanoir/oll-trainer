@@ -84,7 +84,6 @@ const toSessionData = (sessions: SessionData[]) =>
     {}
   );
 export const toCsTimer = (sessions: SessionData[]) => {
-  console.log(sessions);
   return {
     ...sessions.reduce(
       (acc, session, index) => ({

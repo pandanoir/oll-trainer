@@ -57,7 +57,6 @@ export const TypingTimer: VFC<{
         const min =
           Math.floor(input / 100 / 100) +
           Math.floor(((input / 100) % 100) / 60);
-        console.log(min, sec, centisec);
         onInput(min * 60 + sec + centisec / 100);
       }}
     />

@@ -39,7 +39,6 @@ export const useTimer = ({
       setTimerState(READY);
     }, []),
     cancelTimer = useCallback(() => {
-      console.log('cancel');
       setTimerState(IDOLING);
       // TODO: ここの扱い、かなりしっかり考えないとまずそう
     }, []),
