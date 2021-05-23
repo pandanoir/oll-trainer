@@ -13,11 +13,13 @@
     "strict": true,
     "baseUrl": ".",
     "types": [
-      "@types/node",
       "vite/client"
     ],
     "noEmit": true,
     "jsx": "react-jsx",
   },
-  "include": ["./src"]
+  "include": [
+    "./src",
+    "./src/types"
+  ]
 }
