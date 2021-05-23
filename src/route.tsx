@@ -11,7 +11,7 @@ export const RouteList = [
   { path: '/learn', component: <LearningPage />, name: 'learn' },
   { path: '/scramble', component: <ScramblePage />, name: 'scramble' },
   { path: '/cp', component: <CpPage />, name: 'cp check' },
-  { path: '/timer', component: <TimerPage />, name: 'timer' },
+  { path: '/timer', component: <TimerPage />, name: 'Hi-Timer' },
 ] as const;
 
 type UnionToIntersection<U> = (
