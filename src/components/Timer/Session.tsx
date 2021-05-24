@@ -120,68 +120,21 @@ export const Session = ({
   };
   return (
     <div
-      css={[
-        opensRecordList
-          ? [tw`h-4/5`, showsGraph ? '' : tw`overflow-y-scroll`]
-          : [tw`h-6 overflow-y-hidden`],
-        tw`w-full absolute z-30 bottom-0 flex flex-col bg-white border-t-2 border-gray-200`,
-        tw`transition-all duration-300`,
-      ]}
+      css={[tw`w-full absolute z-30 bottom-0 flex flex-col overflow-hidden`]}
       ref={recordListRef}
     >
-      <RecordListHeader
-        left={
-          <div>
-            <AngleLeftButton
-              disabled={sessionIndex <= 0}
-              onClick={() => {
-                setSessionIndex((index) => index - 1);
-                resetScroll();
-              }}
-            />
-            <input
-              value={sessions[sessionIndex].name}
-              onChange={({ target: { value } }) => changeSessionName(value)}
-            />
-            <AngleRightButton
-              disabled={sessionIndex + 1 >= sessions.length}
-              onClick={() => {
-                setSessionIndex((index) => index + 1);
-                resetScroll();
-              }}
-            />
-            <PlusButton
-              onClick={() => {
-                addSession();
-                if (sessions.length - 1 === sessionIndex) {
-                  setSessionIndex(sessions.length);
-                }
-              }}
-            />
-          </div>
-        }
-        right={
-          <div>
-            {showsGraph ? (
-              <IconButton
-                onClick={() => setShowsGraph(false)}
-                icon={faServer}
-              />
-            ) : (
-              <IconButton
-                onClick={() => setShowsGraph(true)}
-                icon={faChartBar}
-              />
-            )}
-            <IconButton
-              tw="px-2"
-              onClick={() => setOpensRecordList((open) => !open)}
-              icon={opensRecordList ? faAngleDown : faAngleUp}
-            />
-          </div>
-        }
-      />
-      <div tw="flex-1">
+      <div
+        css={[
+          tw`bg-white w-full`,
+          opensRecordList
+            ? [
+                tw`h-96 border-t-2 border-gray-200`,
+                showsGraph ? '' : tw`overflow-x-hidden overflow-y-auto`,
+              ]
+            : tw`h-0 overflow-hidden`,
+          tw`transition-height duration-300`,
+        ]}
+      >
         {showsGraph ? (
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
@@ -247,6 +200,65 @@ export const Session = ({
           />
         )}
       </div>
+      <RecordListHeader
+        left={
+          <div>
+            <AngleLeftButton
+              disabled={sessionIndex <= 0}
+              onClick={() => {
+                setSessionIndex((index) => index - 1);
+                resetScroll();
+              }}
+            />
+            <input
+              value={sessions[sessionIndex].name}
+              tw="w-36"
+              onChange={({ target: { value } }) => changeSessionName(value)}
+            />
+            <AngleRightButton
+              disabled={sessionIndex + 1 >= sessions.length}
+              onClick={() => {
+                setSessionIndex((index) => index + 1);
+                resetScroll();
+              }}
+            />
+            <PlusButton
+              onClick={() => {
+                addSession();
+                if (sessions.length - 1 === sessionIndex) {
+                  setSessionIndex(sessions.length);
+                }
+              }}
+            />
+          </div>
+        }
+        right={
+          <div>
+            {showsGraph ? (
+              <IconButton
+                tw="px-2 py-1 text-lg"
+                onClick={() => setShowsGraph(false)}
+                icon={faServer}
+              />
+            ) : (
+              <IconButton
+                tw="px-2 py-1 text-lg"
+                onClick={() => setShowsGraph(true)}
+                icon={faChartBar}
+              />
+            )}
+            <IconButton
+              css={[
+                tw`px-2 py-1 text-lg`,
+                tw`transform transition-all duration-300`,
+                opensRecordList ? tw`-rotate-180` : tw`rotate-0`,
+              ]}
+              onClick={() => setOpensRecordList((open) => !open)}
+              icon={faAngleUp}
+            />
+          </div>
+        }
+      />
     </div>
   );
 };

@@ -7,7 +7,7 @@ export const RecordListHeader = ({
   right: JSX.Element;
 }) => {
   return (
-    <div tw="sticky top-0 bg-white flex justify-between">
+    <div tw="w-full bg-white flex justify-between z-10">
       {left}
       {right}
     </div>
