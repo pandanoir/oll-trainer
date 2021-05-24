@@ -29,6 +29,8 @@ export const RecordModifier = ({
         <DangerButton
           onMouseDown={stopPropagation}
           onTouchStart={stopPropagation}
+          onMouseUp={stopPropagation}
+          onTouchEnd={stopPropagation}
           onClick={undoDNF}
         >
           undo DNF
@@ -36,6 +38,8 @@ export const RecordModifier = ({
         <SecondaryButton
           onMouseDown={stopPropagation}
           onTouchStart={stopPropagation}
+          onMouseUp={stopPropagation}
+          onTouchEnd={stopPropagation}
           onClick={deleteRecord}
         >
           delete
@@ -49,6 +53,8 @@ export const RecordModifier = ({
         <PrimaryButton
           onMouseDown={stopPropagation}
           onTouchStart={stopPropagation}
+          onMouseUp={stopPropagation}
+          onTouchEnd={stopPropagation}
           onClick={undoPenalty}
         >
           undo +2
@@ -56,6 +62,8 @@ export const RecordModifier = ({
         <DangerButton
           onMouseDown={stopPropagation}
           onTouchStart={stopPropagation}
+          onMouseUp={stopPropagation}
+          onTouchEnd={stopPropagation}
           onClick={changeToDNF}
         >
           DNF
@@ -63,6 +71,8 @@ export const RecordModifier = ({
         <SecondaryButton
           onMouseDown={stopPropagation}
           onTouchStart={stopPropagation}
+          onMouseUp={stopPropagation}
+          onTouchEnd={stopPropagation}
           onClick={deleteRecord}
         >
           delete
@@ -75,6 +85,8 @@ export const RecordModifier = ({
       <PrimaryButton
         onMouseDown={stopPropagation}
         onTouchStart={stopPropagation}
+        onMouseUp={stopPropagation}
+        onTouchEnd={stopPropagation}
         onClick={imposePenalty}
       >
         +2
@@ -82,6 +94,8 @@ export const RecordModifier = ({
       <DangerButton
         onMouseDown={stopPropagation}
         onTouchStart={stopPropagation}
+        onMouseUp={stopPropagation}
+        onTouchEnd={stopPropagation}
         onClick={changeToDNF}
       >
         DNF
@@ -89,6 +103,8 @@ export const RecordModifier = ({
       <SecondaryButton
         onMouseDown={stopPropagation}
         onTouchStart={stopPropagation}
+        onMouseUp={stopPropagation}
+        onTouchEnd={stopPropagation}
         onClick={deleteRecord}
       >
         delete

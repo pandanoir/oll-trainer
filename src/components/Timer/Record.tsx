@@ -122,7 +122,7 @@ export const Record = ({
       css={[
         opensRecordList
           ? [tw`h-4/5`, showsGraph ? '' : tw`overflow-y-scroll`]
-          : [tw`h-6`],
+          : [tw`h-6 overflow-y-hidden`],
         tw`w-full absolute z-30 bottom-0 flex flex-col bg-white border-t-2 border-gray-200`,
         tw`transition-all duration-300`,
       ]}
