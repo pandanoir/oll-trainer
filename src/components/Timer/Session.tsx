@@ -124,14 +124,14 @@ export const Session = ({
     >
       <div
         css={[
-          tw`bg-white w-full`,
+          tw`relative bg-white w-full h-96`,
           opensRecordList
             ? [
-                tw`h-96 border-t-2 border-gray-200`,
+                tw`bottom-0 border-t-2 border-gray-200`,
                 showsGraph ? '' : tw`overflow-x-hidden overflow-y-auto`,
               ]
-            : tw`h-0 overflow-hidden`,
-          tw`transition-height duration-300`,
+            : tw`-bottom-96`,
+          tw`transition-all duration-300`,
         ]}
       >
         {showsGraph ? (
