@@ -3,7 +3,6 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Scrambo from 'scrambo';
-import 'twin.macro';
 
 import {
   IDOLING,
@@ -32,6 +31,7 @@ import '../swiper.css';
 import { Record } from '../components/Timer/Record';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { useTitle } from '../utils/hooks/useTitle';
+import tw from 'twin.macro';
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -274,6 +274,8 @@ export const TimerPage: VFC = () => {
     [addTime, scrambles, index, swiper]
   );
 
+  const [isTouchingCover, setIsTouchingCover] = useState(false);
+
   return (
     <div tw="w-full flex flex-col flex-1 overflow-hidden">
       <div tw="flex gap-1 px-3 overflow-x-auto">
@@ -314,40 +316,46 @@ export const TimerPage: VFC = () => {
           onPointerDown();
         }}
         onTouchEnd={(event) => {
-          if (timerState !== IDOLING) return;
           event.preventDefault();
           event.stopPropagation();
           onPointerUp();
         }}
         onMouseUp={(event) => {
-          if (timerState !== IDOLING) return;
           event.preventDefault();
           event.stopPropagation();
           onPointerUp();
         }}
       >
-        {timerState !== IDOLING && (
+        {(timerState !== IDOLING || isTouchingCover) && (
           <div
             onTouchStart={(event) => {
               event.stopPropagation();
               onPointerDown();
+              setIsTouchingCover(true);
             }}
             onTouchEnd={(event) => {
               event.preventDefault();
               event.stopPropagation();
+              setIsTouchingCover(false);
               onPointerUp();
             }}
             onMouseDown={(event) => {
               event.preventDefault();
               event.stopPropagation();
+              setIsTouchingCover(true);
               onPointerDown();
             }}
             onMouseUp={(event) => {
               event.preventDefault();
               event.stopPropagation();
+              setIsTouchingCover(false);
               onPointerUp();
             }}
-            tw="absolute inset-0 bg-gray-50 z-10 bg-opacity-50 select-none"
+            css={[
+              timerState === IDOLING && isTouchingCover
+                ? tw`absolute inset-0 z-10 bg-transparent select-none`
+                : tw`absolute inset-0 bg-gray-50 z-10 bg-opacity-50 select-none`,
+            ]}
           />
         )}
         {inputsTimeManually ? (
