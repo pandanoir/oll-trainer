@@ -41,6 +41,7 @@ const IconButton = ({
     <FontAwesomeIcon icon={icon} />
   </button>
 );
+
 const AngleLeftButton = ({
   onClick,
   disabled = false,
@@ -48,13 +49,12 @@ const AngleLeftButton = ({
   onClick: () => void;
   disabled?: boolean;
 }) => (
-  <button
-    css={[tw`px-3`, disabled ? tw`text-gray-400` : '']}
+  <IconButton
+    css={[tw`px-3 py-1 text-lg`, disabled ? tw`text-gray-400` : '']}
     disabled={disabled}
     onClick={onClick}
-  >
-    <FontAwesomeIcon icon={faAngleLeft} />
-  </button>
+    icon={faAngleLeft}
+  />
 );
 const AngleRightButton = ({
   onClick,
@@ -63,18 +63,19 @@ const AngleRightButton = ({
   onClick: () => void;
   disabled?: boolean;
 }) => (
-  <button
-    css={[tw`px-3`, disabled ? tw`text-gray-400` : '']}
+  <IconButton
+    css={[tw`px-3 py-1 text-lg`, disabled ? tw`text-gray-400` : '']}
     disabled={disabled}
     onClick={onClick}
-  >
-    <FontAwesomeIcon icon={faAngleRight} />
-  </button>
+    icon={faAngleRight}
+  />
 );
 const PlusButton = ({ onClick }: { onClick: () => void }) => (
-  <button tw="px-1.5 text-white bg-gray-700 rounded" onClick={onClick}>
-    <FontAwesomeIcon icon={faPlus} />
-  </button>
+  <IconButton
+    tw="px-1.5 text-lg text-white bg-gray-700 rounded"
+    onClick={onClick}
+    icon={faPlus}
+  />
 );
 export const Session = ({
   times,
