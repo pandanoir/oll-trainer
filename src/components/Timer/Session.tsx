@@ -7,21 +7,10 @@ import {
   useState,
 } from 'react';
 import {
-  ResponsiveContainer,
-  LineChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  Line,
-} from 'recharts';
-import {
   faAngleLeft,
   faAngleRight,
   faPlus,
   faChartBar,
-  faAngleDown,
   faAngleUp,
   faServer,
 } from '@fortawesome/free-solid-svg-icons';
@@ -31,6 +20,7 @@ import { calcAo } from '../../utils/calcAo';
 import { TimeData, SessionData } from './timeData';
 import { Times } from './Times';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { TimeGraph } from './TimeGraph';
 
 const IconButton = ({
   icon,
@@ -135,58 +125,18 @@ export const Session = ({
         ]}
       >
         {showsGraph ? (
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              width={500}
-              height={300}
-              data={times.map(({ time, isDNF, penalty }, index) => {
-                const ao5 = ao5List[index],
-                  ao12 = ao12List[index];
-                return {
-                  name: index + 1,
-                  time: isDNF ? null : time / 1000 + (penalty ? 2 : 0),
-                  ao5: typeof ao5 === 'number' ? ao5 / 1000 : null,
-                  ao12: typeof ao12 === 'number' ? ao12 / 1000 : null,
-                };
-              })}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <Legend verticalAlign="top" />
-              <XAxis dataKey="name" />
-              <YAxis dataKey="time" />
-              <Legend />
-              <Tooltip />
-              <Line
-                name="time"
-                type="linear"
-                dataKey="time"
-                stroke="#000"
-                dot={false}
-              />
-              <Line
-                name="ao5"
-                type="linear"
-                dataKey="ao5"
-                stroke="#3b82f6"
-                dot={false}
-                strokeDasharray="4"
-              />
-              <Line
-                name="ao12"
-                type="linear"
-                dataKey="ao12"
-                stroke="#db2777"
-                dot={false}
-                strokeDasharray="2 2"
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          <TimeGraph
+            times={times.map(({ time, isDNF, penalty }, index) => {
+              const ao5 = ao5List[index],
+                ao12 = ao12List[index];
+              return {
+                name: index + 1,
+                time: isDNF ? null : time / 1000 + (penalty ? 2 : 0),
+                ao5: typeof ao5 === 'number' ? ao5 / 1000 : null,
+                ao12: typeof ao12 === 'number' ? ao12 / 1000 : null,
+              };
+            })}
+          />
         ) : (
           <Times
             times={times}
@@ -200,59 +150,59 @@ export const Session = ({
         )}
       </div>
       <div tw="w-full bg-white flex justify-between z-10">
-          <div>
-            <AngleLeftButton
-              disabled={sessionIndex <= 0}
-              onClick={() => {
-                setSessionIndex((index) => index - 1);
-                resetScroll();
-              }}
-            />
-            <input
-              value={sessions[sessionIndex].name}
-              tw="w-36"
-              onChange={({ target: { value } }) => changeSessionName(value)}
-            />
-            <AngleRightButton
-              disabled={sessionIndex + 1 >= sessions.length}
-              onClick={() => {
-                setSessionIndex((index) => index + 1);
-                resetScroll();
-              }}
-            />
-            <PlusButton
-              onClick={() => {
-                addSession();
+        <div>
+          <AngleLeftButton
+            disabled={sessionIndex <= 0}
+            onClick={() => {
+              setSessionIndex((index) => index - 1);
+              resetScroll();
+            }}
+          />
+          <input
+            value={sessions[sessionIndex].name}
+            tw="w-36"
+            onChange={({ target: { value } }) => changeSessionName(value)}
+          />
+          <AngleRightButton
+            disabled={sessionIndex + 1 >= sessions.length}
+            onClick={() => {
+              setSessionIndex((index) => index + 1);
+              resetScroll();
+            }}
+          />
+          <PlusButton
+            onClick={() => {
+              addSession();
               if (sessionIndex === sessions.length - 1) {
-                  setSessionIndex(sessions.length);
-                }
-              }}
-            />
-          </div>
-          <div>
-            {showsGraph ? (
-              <IconButton
-                tw="px-2 py-1 text-lg"
-                onClick={() => setShowsGraph(false)}
-                icon={faServer}
-              />
-            ) : (
-              <IconButton
-                tw="px-2 py-1 text-lg"
-                onClick={() => setShowsGraph(true)}
-                icon={faChartBar}
-              />
-            )}
+                setSessionIndex(sessions.length);
+              }
+            }}
+          />
+        </div>
+        <div>
+          {showsGraph ? (
             <IconButton
-              css={[
-                tw`px-2 py-1 text-lg`,
-                tw`transform transition-all duration-300`,
-                opensRecordList ? tw`-rotate-180` : tw`rotate-0`,
-              ]}
-              onClick={() => setOpensRecordList((open) => !open)}
-              icon={faAngleUp}
+              tw="px-2 py-1 text-lg"
+              onClick={() => setShowsGraph(false)}
+              icon={faServer}
             />
-          </div>
+          ) : (
+            <IconButton
+              tw="px-2 py-1 text-lg"
+              onClick={() => setShowsGraph(true)}
+              icon={faChartBar}
+            />
+          )}
+          <IconButton
+            css={[
+              tw`px-2 py-1 text-lg`,
+              tw`transform transition-all duration-300`,
+              opensRecordList ? tw`-rotate-180` : tw`rotate-0`,
+            ]}
+            onClick={() => setOpensRecordList((open) => !open)}
+            icon={faAngleUp}
+          />
+        </div>
       </div>
     </div>
   );
