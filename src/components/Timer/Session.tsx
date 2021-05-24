@@ -28,7 +28,6 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import tw from 'twin.macro';
 import { calcAo } from '../../utils/calcAo';
-import { RecordListHeader } from './RecordListHeader';
 import { TimeData, SessionData } from './timeData';
 import { Times } from './Times';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -200,8 +199,7 @@ export const Session = ({
           />
         )}
       </div>
-      <RecordListHeader
-        left={
+      <div tw="w-full bg-white flex justify-between z-10">
           <div>
             <AngleLeftButton
               disabled={sessionIndex <= 0}
@@ -225,14 +223,12 @@ export const Session = ({
             <PlusButton
               onClick={() => {
                 addSession();
-                if (sessions.length - 1 === sessionIndex) {
+              if (sessionIndex === sessions.length - 1) {
                   setSessionIndex(sessions.length);
                 }
               }}
             />
           </div>
-        }
-        right={
           <div>
             {showsGraph ? (
               <IconButton
@@ -257,8 +253,7 @@ export const Session = ({
               icon={faAngleUp}
             />
           </div>
-        }
-      />
+      </div>
     </div>
   );
 };
