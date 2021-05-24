@@ -61,7 +61,7 @@ const AngleRightButton = ({
 );
 const PlusButton = ({ onClick }: { onClick: () => void }) => (
   <IconButton
-    tw="px-1.5 text-lg text-white bg-gray-700 rounded"
+    tw="px-1.5 my-1.5 text-lg text-white bg-gray-700 rounded"
     onClick={onClick}
     icon={faPlus}
   />
@@ -109,18 +109,16 @@ export const Session = ({
   };
   return (
     <div
-      css={[tw`w-full absolute z-30 bottom-0 flex flex-col overflow-hidden`]}
+      css={[tw`w-full relative z-30 bottom-0 flex flex-col`]}
       ref={recordListRef}
     >
       <div
         css={[
-          tw`relative bg-white w-full h-96`,
+          tw`absolute bg-white w-full h-96 mb-12`,
           opensRecordList
-            ? [
-                tw`bottom-0 border-t-2 border-gray-200`,
-                showsGraph ? '' : tw`overflow-x-hidden overflow-y-auto`,
-              ]
+            ? [tw`bottom-0 border-t-2 border-gray-200`]
             : tw`-bottom-96`,
+          showsGraph ? '' : tw`overflow-x-hidden overflow-y-auto`,
           tw`transition-all duration-300`,
         ]}
       >
@@ -149,8 +147,8 @@ export const Session = ({
           />
         )}
       </div>
-      <div tw="w-full bg-white flex justify-between z-10">
-        <div>
+      <div tw="w-full h-12 bg-white flex justify-between z-10">
+        <div tw="flex content-center">
           <AngleLeftButton
             disabled={sessionIndex <= 0}
             onClick={() => {
@@ -179,7 +177,7 @@ export const Session = ({
             }}
           />
         </div>
-        <div>
+        <div tw="flex content-center">
           {showsGraph ? (
             <IconButton
               tw="px-2 py-1 text-lg"
