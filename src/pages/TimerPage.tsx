@@ -28,7 +28,7 @@ import { FileInput } from '../components/Timer/FileInput';
 import { DNF, toCsTimer } from '../components/Timer/timeData';
 import { calcAo } from '../utils/calcAo';
 import '../swiper.css';
-import { Record } from '../components/Timer/Record';
+import { Session } from '../components/Timer/Session';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { useTitle } from '../utils/hooks/useTitle';
 import tw from 'twin.macro';
@@ -440,7 +440,7 @@ export const TimerPage: VFC = () => {
           )
         )}
       </div>
-      <Record
+      <Session
         times={times}
         changeToDNF={changeToDNF}
         imposePenalty={imposePenalty}

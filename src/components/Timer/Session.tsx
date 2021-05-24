@@ -76,7 +76,7 @@ const PlusButton = ({ onClick }: { onClick: () => void }) => (
     <FontAwesomeIcon icon={faPlus} />
   </button>
 );
-export const Record = ({
+export const Session = ({
   times,
   changeToDNF,
   imposePenalty,
