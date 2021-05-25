@@ -114,7 +114,7 @@ export const Session = ({
     >
       <div
         css={[
-          tw`absolute bg-white w-full h-96 mb-12`,
+          tw`absolute bg-white w-full max-h-1/2-screen h-96 mb-12`,
           opensRecordList
             ? [tw`bottom-0 border-t-2 border-gray-200`]
             : tw`-bottom-96`,
