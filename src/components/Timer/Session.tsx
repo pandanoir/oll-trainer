@@ -1,11 +1,4 @@
-import {
-  ButtonHTMLAttributes,
-  Dispatch,
-  SetStateAction,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { Dispatch, SetStateAction, useMemo, useRef, useState } from 'react';
 import {
   faAngleLeft,
   faAngleRight,
@@ -14,58 +7,13 @@ import {
   faAngleUp,
   faServer,
 } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import tw from 'twin.macro';
 import { calcAo } from '../../utils/calcAo';
 import { TimeData, SessionData } from './timeData';
 import { Times } from './Times';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { TimeGraph } from './TimeGraph';
+import { IconButton } from '../IconButton';
 
-const IconButton = ({
-  icon,
-  ...props
-}: { icon: IconProp } & ButtonHTMLAttributes<HTMLButtonElement>) => (
-  <button {...props}>
-    <FontAwesomeIcon icon={icon} />
-  </button>
-);
-
-const AngleLeftButton = ({
-  onClick,
-  disabled = false,
-}: {
-  onClick: () => void;
-  disabled?: boolean;
-}) => (
-  <IconButton
-    css={[tw`px-3 py-1 text-lg`, disabled ? tw`text-gray-400` : '']}
-    disabled={disabled}
-    onClick={onClick}
-    icon={faAngleLeft}
-  />
-);
-const AngleRightButton = ({
-  onClick,
-  disabled = false,
-}: {
-  onClick: () => void;
-  disabled?: boolean;
-}) => (
-  <IconButton
-    css={[tw`px-3 py-1 text-lg`, disabled ? tw`text-gray-400` : '']}
-    disabled={disabled}
-    onClick={onClick}
-    icon={faAngleRight}
-  />
-);
-const PlusButton = ({ onClick }: { onClick: () => void }) => (
-  <IconButton
-    tw="px-1.5 my-1.5 text-lg text-white bg-gray-700 rounded"
-    onClick={onClick}
-    icon={faPlus}
-  />
-);
 export const Session = ({
   times,
   changeToDNF,
@@ -149,32 +97,45 @@ export const Session = ({
       </div>
       <div tw="w-full h-12 bg-white flex justify-between z-10">
         <div tw="flex content-center">
-          <AngleLeftButton
+          <IconButton
+            css={[
+              tw`px-3 py-1 text-lg`,
+              sessionIndex <= 0 ? tw`text-gray-400` : '',
+            ]}
             disabled={sessionIndex <= 0}
             onClick={() => {
               setSessionIndex((index) => index - 1);
               resetScroll();
             }}
+            icon={faAngleLeft}
           />
           <input
             value={sessions[sessionIndex].name}
             tw="w-36"
             onChange={({ target: { value } }) => changeSessionName(value)}
           />
-          <AngleRightButton
+
+          <IconButton
+            css={[
+              tw`px-3 py-1 text-lg`,
+              sessionIndex + 1 >= sessions.length ? tw`text-gray-400` : '',
+            ]}
             disabled={sessionIndex + 1 >= sessions.length}
             onClick={() => {
               setSessionIndex((index) => index + 1);
               resetScroll();
             }}
+            icon={faAngleRight}
           />
-          <PlusButton
+          <IconButton
+            tw="px-1.5 my-1.5 text-lg text-white bg-gray-700 rounded"
             onClick={() => {
               addSession();
               if (sessionIndex === sessions.length - 1) {
                 setSessionIndex(sessions.length);
               }
             }}
+            icon={faPlus}
           />
         </div>
         <div tw="flex content-center">
