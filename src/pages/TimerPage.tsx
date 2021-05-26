@@ -273,11 +273,9 @@ export const TimerPage: VFC = () => {
   );
   const onTouchMove = useCallback((event) => {
     event.stopPropagation();
-    event.preventDefault();
   }, []);
   const onTouchEnd = useCallback(
     (event) => {
-      event.preventDefault();
       event.stopPropagation();
       onPointerUp();
     },
@@ -323,7 +321,6 @@ export const TimerPage: VFC = () => {
           : {
               onMouseDown: (event) => {
                 if (timerState !== IDOLING) return;
-                event.preventDefault();
                 event.stopPropagation();
                 onPointerDown();
               },
@@ -340,7 +337,6 @@ export const TimerPage: VFC = () => {
                   },
                   onTouchMove,
                   onTouchEnd: (event) => {
-                    event.preventDefault();
                     event.stopPropagation();
                     setIsTouchingCover(false);
                     onPointerUp();
@@ -348,13 +344,11 @@ export const TimerPage: VFC = () => {
                 }
               : {
                   onMouseDown: (event) => {
-                    event.preventDefault();
                     event.stopPropagation();
                     setIsTouchingCover(true);
                     onPointerDown();
                   },
                   onMouseUp: (event) => {
-                    event.preventDefault();
                     event.stopPropagation();
                     setIsTouchingCover(false);
                     onPointerUp();
@@ -383,7 +377,6 @@ export const TimerPage: VFC = () => {
                 }
               : {
                   onMouseDown: (event) => {
-                    event.preventDefault();
                     event.stopPropagation();
                     onPointerDown();
                   },

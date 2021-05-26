@@ -38,10 +38,11 @@ export const TypingTimer: VFC<{
 
   return (
     <input
-      tw="w-full font-bold text-6xl text-center"
-      type="number"
+      tw="w-full font-bold text-6xl text-center bg-transparent"
       placeholder={placeholder}
       value={value}
+      onTouchStart={(event) => event.stopPropagation()}
+      onMouseDown={(event) => event.stopPropagation()}
       onChange={onChange}
       onKeyDown={(event) => {
         if (event.key !== 'Enter') {
