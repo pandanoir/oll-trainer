@@ -3,6 +3,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Scrambo from 'scrambo';
+import 'twin.macro';
 
 import {
   IDOLING,
@@ -27,11 +28,11 @@ import { ExportButton } from '../components/Timer/ExportButton';
 import { FileInput } from '../components/Timer/FileInput';
 import { DNF, toCsTimer } from '../components/Timer/timeData';
 import { calcAo } from '../utils/calcAo';
-import '../swiper.css';
 import { Session } from '../components/Timer/Session';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { useTitle } from '../utils/hooks/useTitle';
-import tw from 'twin.macro';
+import '../swiper.css';
+import './TimerPage.css';
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -283,7 +284,7 @@ export const TimerPage: VFC = () => {
   );
 
   return (
-    <div tw="w-full flex flex-col flex-1 overflow-hidden">
+    <div tw="w-full flex flex-col flex-1 overflow-hidden dark:bg-gray-800 dark:text-white">
       <div tw="flex gap-1 px-3 overflow-x-auto">
         <Switch checked={usesInspection} onChange={setUsesInspection}>
           インスペクションを使用
@@ -355,10 +356,11 @@ export const TimerPage: VFC = () => {
                   },
                 })}
             css={[
+            className={
               timerState === IDOLING && isTouchingCover
-                ? tw`absolute inset-0 z-10 bg-transparent select-none`
-                : tw`absolute inset-0 bg-gray-50 z-10 bg-opacity-50 select-none`,
-            ]}
+                ? 'cover-transparent'
+                : 'cover'
+            }
           />
         )}
         {inputsTimeManually ? (

@@ -11,7 +11,7 @@ export const Switch: VFC<
       css={[
         checked
           ? tw`border border-blue-400 bg-blue-500 text-white px-1.5`
-          : tw`border border-gray-400 px-3.5`,
+          : tw`border border-gray-400 px-3.5 bg-white text-black`,
         tw`inline-block rounded cursor-pointer select-none whitespace-nowrap`,
       ]}
       onClick={() => onChange(!checked)}

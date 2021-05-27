@@ -1,5 +1,4 @@
-import { VFC, PropsWithChildren, HTMLAttributes } from 'react';
-import tw from 'twin.macro';
+import { VFC, PropsWithChildren, HTMLAttributes, forwardRef } from 'react';
 import { exhaustiveCheck } from '../../utils/exhaustiveCheck';
 import {
   TimerState,
@@ -11,31 +10,33 @@ import {
   INSPECTION_READY,
   INSPECTION,
 } from './timerState';
+import './Timer.css';
 
-export const Timer: VFC<
+export const Timer = forwardRef<
+  HTMLDivElement,
   PropsWithChildren<
     {
       timerState: TimerState;
     } & HTMLAttributes<HTMLDivElement>
   >
-> = ({ timerState, children, ...props }) => {
+>(function Timer({ timerState, children, className = '', ...props }, ref) {
   return (
     <div
-      css={[
+      className={`${
         timerState === STEADY || timerState === INSPECTION_STEADY
-          ? tw`text-green-400`
+          ? 'steady'
           : timerState === READY || timerState === INSPECTION_READY
-          ? tw`text-red-500`
+          ? 'ready'
           : timerState === WORKING ||
             timerState === IDOLING ||
             timerState === INSPECTION
-          ? tw`text-blue-900`
-          : exhaustiveCheck(timerState),
-        tw`font-bold text-6xl select-none`,
-      ]}
+          ? 'timer'
+          : exhaustiveCheck(timerState)
+      } ${className}`}
       {...props}
+      ref={ref}
     >
       {children}
     </div>
   );
-};
+});

@@ -1,0 +1,26 @@
+.default {
+  @apply font-bold text-6xl select-none;
+}
+.steady {
+  @apply text-green-400;
+  @apply default;
+}
+.dark .steady {
+  @apply text-green-600;
+}
+
+.ready {
+  @apply text-red-500;
+  @apply default;
+}
+.dark .ready {
+  @apply text-red-700;
+}
+
+.timer {
+  @apply text-blue-900;
+  @apply default;
+}
+.dark .timer {
+  @apply text-blue-600;
+}

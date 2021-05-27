@@ -62,12 +62,12 @@ export const Session = ({
     >
       <div
         css={[
-          tw`absolute bg-white w-full max-h-1/2-screen h-96 mb-12`,
+          tw`absolute bg-white dark:bg-gray-800 w-full max-h-1/2-screen h-96 mb-12`,
           opensRecordList
             ? [tw`bottom-0 border-t-2 border-gray-200`]
             : tw`-bottom-96`,
           showsGraph ? '' : tw`overflow-x-hidden overflow-y-auto`,
-          tw`transition-all duration-300`,
+          tw`transition-position duration-300`,
         ]}
       >
         {showsGraph ? (
@@ -95,7 +95,7 @@ export const Session = ({
           />
         )}
       </div>
-      <div tw="w-full h-12 bg-white flex justify-between z-10">
+      <div tw="w-full h-12 bg-white dark:bg-gray-800 flex justify-between z-10">
         <div tw="flex content-center">
           <IconButton
             css={[
@@ -111,7 +111,7 @@ export const Session = ({
           />
           <input
             value={sessions[sessionIndex].name}
-            tw="w-36"
+            tw="w-36 bg-transparent"
             onChange={({ target: { value } }) => changeSessionName(value)}
           />
 

@@ -4,4 +4,4 @@ import '../index.css';
 
 export const SecondaryButton = tw(
   Button
-)`border-4 border-pink-600 bg-white rounded-md font-bold`;
+)`border-4 border-pink-600 bg-white text-black rounded-md font-bold`;

@@ -1,32 +1,57 @@
 import { VFC } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { faMoon } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { Header } from './Header';
 import { OllPage } from './pages';
 import { CheckContext, useCheck } from './utils/hooks/useCheck';
 import './index.css';
 import { RouteList } from './route';
+import { useDarkMode, DarkModeContext } from './utils/hooks/useDarkMode';
+import { SwitchButton } from './components/SwitchButton';
 
 console.log(process.env.SOURCE_COMMIT);
 
 const App: VFC = () => {
   const { checkList, check, reset } = useCheck();
+  const { darkMode, setLightMode, setDarkMode } = useDarkMode();
+
   return (
-    <CheckContext.Provider value={{ checkList, check, reset }}>
-      <Router basename="/oll">
-        <Header />
-        <Switch>
-          <Route path={['/oll']} exact>
-            <OllPage />
-          </Route>
-          {RouteList.map(({ path, component }) => (
-            <Route path={path} exact key={path}>
-              {component}
+    <DarkModeContext.Provider value={darkMode}>
+      <CheckContext.Provider value={{ checkList, check, reset }}>
+        <Router basename="/oll">
+          <Header
+            right={
+              <div tw="flex items-center">
+                <SwitchButton
+                  value={darkMode ? 'right' : 'left'}
+                  onChange={(value) => {
+                    if (value === 'left') {
+                      setLightMode();
+                    } else {
+                      setDarkMode();
+                    }
+                  }}
+                />
+                <FontAwesomeIcon icon={faMoon} />
+              </div>
+            }
+          />
+          <Switch>
+            <Route path={['/oll']} exact>
+              <OllPage />
             </Route>
-          ))}
-        </Switch>
-      </Router>
-    </CheckContext.Provider>
+            {RouteList.map(({ path, component }) => (
+              <Route path={path} exact key={path}>
+                {component}
+              </Route>
+            ))}
+          </Switch>
+        </Router>
+      </CheckContext.Provider>
+    </DarkModeContext.Provider>
   );
 };
 render(<App />, document.querySelector('#app'));
