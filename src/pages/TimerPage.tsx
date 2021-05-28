@@ -129,6 +129,11 @@ export const TimerPage: VFC = () => {
     }
   }, [timerState]);
 
+  const inspectionTimeRef = useRef(inspectionTime);
+  useEffect(() => {
+    inspectionTimeRef.current = inspectionTime;
+  }, [inspectionTime]);
+
   const onPointerDown = useCallback(() => {
       if (inputsTimeManually) {
         return;
@@ -182,9 +187,9 @@ export const TimerPage: VFC = () => {
         case STEADY:
         case INSPECTION_STEADY:
           if (usesInspection) {
-            if (inspectionTime >= 0) {
+            if (inspectionTimeRef.current >= 0) {
               // 問題なし
-            } else if (inspectionTime >= -2000) {
+            } else if (inspectionTimeRef.current >= -2000) {
               // +2
               setPenalty('+2');
             } else {
@@ -200,7 +205,6 @@ export const TimerPage: VFC = () => {
     }, [
       cancelTimer,
       inputsTimeManually,
-      inspectionTime,
       returnToInspection,
       startTimer,
       timerState,
