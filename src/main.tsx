@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import 'twin.macro';
 
 import { Header } from './Header';
 import { OllPage } from './pages';
@@ -24,7 +25,7 @@ const App: VFC = () => {
         <Router basename="/oll">
           <Header
             right={
-              <div tw="flex items-center">
+              <div tw="flex items-center flex-nowrap">
                 <SwitchButton
                   value={darkMode ? 'right' : 'left'}
                   onChange={(value) => {
