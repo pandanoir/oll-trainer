@@ -31,6 +31,8 @@ import { calcAo } from '../utils/calcAo';
 import { Session } from '../components/Timer/Session';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { useTitle } from '../utils/hooks/useTitle';
+import { useStoragedState } from '../utils/hooks/useLocalStorage';
+import { storagePrefix } from '../constants';
 import '../swiper.css';
 import './TimerPage.css';
 import { usePreventDefault } from '../utils/hooks/usePreventDefault';
@@ -42,7 +44,10 @@ export const TimerPage: VFC = () => {
   const [scrambles, setScrambles] = useState<string[]>([]);
   const [index, setIndex] = useState(0);
   const [usesInspection, setUsesInspection] = useState(true);
-  const [inputsTimeManually, setInputsTimeManually] = useState(false);
+  const [inputsTimeManually, setInputsTimeManually] = useStoragedState(
+    `${storagePrefix}-inputs-time-manually`,
+    false
+  );
 
   const [swiper, setControlledSwiper] = useState<SwiperCore>();
 
