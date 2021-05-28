@@ -33,9 +33,11 @@ import { PrimaryButton } from '../components/PrimaryButton';
 import { useTitle } from '../utils/hooks/useTitle';
 import { useStoragedState } from '../utils/hooks/useLocalStorage';
 import { storagePrefix } from '../constants';
+import { usePreventDefault } from '../utils/hooks/usePreventDefault';
+import { withStopPropagation } from '../utils/withStopPropagation';
+import { noop } from '../utils/noop';
 import '../swiper.css';
 import './TimerPage.css';
-import { usePreventDefault } from '../utils/hooks/usePreventDefault';
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -411,7 +413,13 @@ export const TimerPage: VFC = () => {
         {timerState === INSPECTION ||
         timerState === INSPECTION_READY ||
         timerState === INSPECTION_STEADY ? (
-          <PrimaryButton tw="z-20 select-none" onClick={cancelTimer}>
+          <PrimaryButton
+            tw="z-20 select-none"
+            onMouseDown={withStopPropagation(noop)}
+            onTouchStart={withStopPropagation(noop)}
+            onMouseUp={withStopPropagation(cancelTimer)}
+            onTouchEnd={withStopPropagation(cancelTimer)}
+          >
             cancel
           </PrimaryButton>
         ) : (

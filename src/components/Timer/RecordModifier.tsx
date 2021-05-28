@@ -1,9 +1,11 @@
 import 'twin.macro';
+
 import { PrimaryButton } from '../PrimaryButton';
 import { DangerButton } from '../DangerButton';
 import { TimeData } from './timeData';
 import { SecondaryButton } from '../SecondaryButton';
-import { EventHandler, SyntheticEvent } from 'react';
+import { noop } from '../../utils/noop';
+import { withStopPropagation } from '../../utils/withStopPropagation';
 
 export const RecordModifier = ({
   record,
@@ -20,27 +22,22 @@ export const RecordModifier = ({
   undoPenalty: () => void;
   deleteRecord: () => void;
 }) => {
-  const stopPropagation: EventHandler<SyntheticEvent> = (event) => {
-    event.stopPropagation();
-  };
   if (record.isDNF) {
     return (
       <div tw="flex justify-center flex-wrap">
         <DangerButton
-          onMouseDown={stopPropagation}
-          onTouchStart={stopPropagation}
-          onMouseUp={stopPropagation}
-          onTouchEnd={stopPropagation}
-          onClick={undoDNF}
+          onMouseDown={withStopPropagation(noop)}
+          onTouchStart={withStopPropagation(undoDNF)}
+          onMouseUp={withStopPropagation(undoDNF)}
+          onTouchEnd={withStopPropagation(noop)}
         >
           undo DNF
         </DangerButton>
         <SecondaryButton
-          onMouseDown={stopPropagation}
-          onTouchStart={stopPropagation}
-          onMouseUp={stopPropagation}
-          onTouchEnd={stopPropagation}
-          onClick={deleteRecord}
+          onMouseDown={withStopPropagation(noop)}
+          onTouchStart={withStopPropagation(deleteRecord)}
+          onMouseUp={withStopPropagation(deleteRecord)}
+          onTouchEnd={withStopPropagation(noop)}
         >
           delete
         </SecondaryButton>
@@ -51,29 +48,26 @@ export const RecordModifier = ({
     return (
       <div tw="flex justify-center gap-2 flex-wrap">
         <PrimaryButton
-          onMouseDown={stopPropagation}
-          onTouchStart={stopPropagation}
-          onMouseUp={stopPropagation}
-          onTouchEnd={stopPropagation}
-          onClick={undoPenalty}
+          onMouseDown={withStopPropagation(noop)}
+          onTouchStart={withStopPropagation(undoPenalty)}
+          onMouseUp={withStopPropagation(undoPenalty)}
+          onTouchEnd={withStopPropagation(noop)}
         >
           undo +2
         </PrimaryButton>
         <DangerButton
-          onMouseDown={stopPropagation}
-          onTouchStart={stopPropagation}
-          onMouseUp={stopPropagation}
-          onTouchEnd={stopPropagation}
-          onClick={changeToDNF}
+          onMouseDown={withStopPropagation(noop)}
+          onTouchStart={withStopPropagation(changeToDNF)}
+          onMouseUp={withStopPropagation(changeToDNF)}
+          onTouchEnd={withStopPropagation(noop)}
         >
           DNF
         </DangerButton>
         <SecondaryButton
-          onMouseDown={stopPropagation}
-          onTouchStart={stopPropagation}
-          onMouseUp={stopPropagation}
-          onTouchEnd={stopPropagation}
-          onClick={deleteRecord}
+          onMouseDown={withStopPropagation(noop)}
+          onTouchStart={withStopPropagation(deleteRecord)}
+          onMouseUp={withStopPropagation(deleteRecord)}
+          onTouchEnd={withStopPropagation(noop)}
         >
           delete
         </SecondaryButton>
@@ -83,29 +77,26 @@ export const RecordModifier = ({
   return (
     <div tw="flex justify-center gap-2 flex-wrap">
       <PrimaryButton
-        onMouseDown={stopPropagation}
-        onTouchStart={stopPropagation}
-        onMouseUp={stopPropagation}
-        onTouchEnd={stopPropagation}
-        onClick={imposePenalty}
+        onMouseDown={withStopPropagation(noop)}
+        onTouchStart={withStopPropagation(imposePenalty)}
+        onMouseUp={withStopPropagation(imposePenalty)}
+        onTouchEnd={withStopPropagation(noop)}
       >
         +2
       </PrimaryButton>
       <DangerButton
-        onMouseDown={stopPropagation}
-        onTouchStart={stopPropagation}
-        onMouseUp={stopPropagation}
-        onTouchEnd={stopPropagation}
-        onClick={changeToDNF}
+        onMouseDown={withStopPropagation(noop)}
+        onTouchStart={withStopPropagation(changeToDNF)}
+        onMouseUp={withStopPropagation(changeToDNF)}
+        onTouchEnd={withStopPropagation(noop)}
       >
         DNF
       </DangerButton>
       <SecondaryButton
-        onMouseDown={stopPropagation}
-        onTouchStart={stopPropagation}
-        onMouseUp={stopPropagation}
-        onTouchEnd={stopPropagation}
-        onClick={deleteRecord}
+        onMouseDown={withStopPropagation(noop)}
+        onTouchStart={withStopPropagation(deleteRecord)}
+        onMouseUp={withStopPropagation(deleteRecord)}
+        onTouchEnd={withStopPropagation(noop)}
       >
         delete
       </SecondaryButton>
