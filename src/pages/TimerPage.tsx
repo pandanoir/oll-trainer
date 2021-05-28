@@ -33,6 +33,7 @@ import { PrimaryButton } from '../components/PrimaryButton';
 import { useTitle } from '../utils/hooks/useTitle';
 import '../swiper.css';
 import './TimerPage.css';
+import { usePreventDefault } from '../utils/hooks/usePreventDefault';
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -260,10 +261,6 @@ export const TimerPage: VFC = () => {
   );
 
   const [isTouchingCover, setIsTouchingCover] = useState(false);
-  const canUseTouchEvent = useMemo(
-    () => 'ontouchstart' in document.documentElement,
-    []
-  );
 
   const onTouchStart = useCallback(
     (event) => {
@@ -281,6 +278,16 @@ export const TimerPage: VFC = () => {
       onPointerUp();
     },
     [onPointerUp]
+  );
+
+  const coverRef = usePreventDefault<HTMLDivElement>(
+    'touchstart',
+    !inputsTimeManually
+  );
+
+  const wrapperRef = usePreventDefault<HTMLDivElement>(
+    'touchstart',
+    !inputsTimeManually
   );
 
   return (
@@ -311,51 +318,42 @@ export const TimerPage: VFC = () => {
       </Swiper>
       <div
         tw="text-center flex-1 flex flex-col justify-center items-center select-none"
-        {...(canUseTouchEvent
-          ? {
-              onTouchStart: (event) => {
-                if (timerState !== IDOLING) return;
-                event.stopPropagation();
-                onPointerDown();
-              },
-            }
-          : {
-              onMouseDown: (event) => {
-                if (timerState !== IDOLING) return;
-                event.stopPropagation();
-                onPointerDown();
-              },
-            })}
+        onTouchStart={(event) => {
+          if (timerState !== IDOLING) return;
+          event.stopPropagation();
+          onPointerDown();
+        }}
+        onMouseDown={(event) => {
+          if (timerState !== IDOLING) return;
+          event.stopPropagation();
+          onPointerDown();
+        }}
+        ref={wrapperRef}
       >
         {(timerState !== IDOLING || isTouchingCover) && (
           <div
-            {...(canUseTouchEvent
-              ? {
-                  onTouchStart: (event) => {
-                    event.stopPropagation();
-                    onPointerDown();
-                    setIsTouchingCover(true);
-                  },
-                  onTouchMove,
-                  onTouchEnd: (event) => {
-                    event.stopPropagation();
-                    setIsTouchingCover(false);
-                    onPointerUp();
-                  },
-                }
-              : {
-                  onMouseDown: (event) => {
-                    event.stopPropagation();
-                    setIsTouchingCover(true);
-                    onPointerDown();
-                  },
-                  onMouseUp: (event) => {
-                    event.stopPropagation();
-                    setIsTouchingCover(false);
-                    onPointerUp();
-                  },
-                })}
-            css={[
+            onTouchStart={(event) => {
+              event.stopPropagation();
+              onPointerDown();
+              setIsTouchingCover(true);
+            }}
+            onTouchMove={onTouchMove}
+            onTouchEnd={(event) => {
+              event.stopPropagation();
+              setIsTouchingCover(false);
+              onPointerUp();
+            }}
+            onMouseDown={(event) => {
+              event.stopPropagation();
+              setIsTouchingCover(true);
+              onPointerDown();
+            }}
+            onMouseUp={(event) => {
+              event.stopPropagation();
+              setIsTouchingCover(false);
+              onPointerUp();
+            }}
+            ref={coverRef}
             className={
               timerState === IDOLING && isTouchingCover
                 ? 'cover-transparent'
@@ -371,19 +369,11 @@ export const TimerPage: VFC = () => {
         ) : (
           <Timer
             tw="z-20"
-            {...(canUseTouchEvent
-              ? {
-                  onTouchStart,
-                  onTouchMove,
-                  onTouchEnd,
-                }
-              : {
-                  onMouseDown: (event) => {
-                    event.stopPropagation();
-                    onPointerDown();
-                  },
-                  onMouseUp: onTouchEnd,
-                })}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+            onMouseDown={onTouchStart}
+            onMouseUp={onTouchEnd}
             timerState={timerState}
           >
             {timerState === INSPECTION ||

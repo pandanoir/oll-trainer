@@ -1,0 +1,6 @@
+.cover-transparent {
+  @apply absolute inset-0 z-10 bg-transparent dark:bg-transparent select-none;
+}
+.cover {
+  @apply absolute inset-0 bg-gray-50 dark:bg-gray-900 z-10 bg-opacity-50 dark:bg-opacity-50 select-none;
+}
