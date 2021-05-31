@@ -7,7 +7,7 @@ import {
   useMemo,
 } from 'react';
 import 'twin.macro';
-import { showTime } from './showTime';
+import { showRecord } from '../../utils/showRecord';
 import { TimeData } from './timeData';
 
 export const TypingTimer: VFC<{
@@ -29,11 +29,7 @@ export const TypingTimer: VFC<{
     if (!prevTime) {
       return 'タイムを入力';
     }
-    const { isDNF, penalty, time } = prevTime;
-    if (isDNF) {
-      return 'DNF';
-    }
-    return `${showTime(time)}${penalty ? ' + 2' : ''}`;
+    return showRecord(prevTime);
   }, [prevTime]);
 
   return (

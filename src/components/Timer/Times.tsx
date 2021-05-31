@@ -6,24 +6,7 @@ import { Toast, useToast } from '../Toast';
 import { RecordModal } from './RecordModal';
 import { showTime } from './showTime';
 import { TimeData, DNF } from './timeData';
-
-const SimpleRecord: VFC<{
-  index: number;
-  time: TimeData;
-  onClick?: () => void;
-}> = ({ index, time: { time, penalty, isDNF }, onClick }) => {
-  const record = isDNF
-    ? 'DNF'
-    : penalty
-    ? `${showTime(time)} + 2`
-    : showTime(time);
-
-  return (
-    <span onClick={onClick} tw="cursor-pointer">
-      {index + 1}. {record}
-    </span>
-  );
-};
+import { showRecord } from '../../utils/showRecord';
 
 export const Times: VFC<{
   times: TimeData[];
@@ -61,17 +44,23 @@ export const Times: VFC<{
           const ao5 = ao5List[index];
           const ao12 = ao12List[index];
           return (
-            <li key={time.date} tw="grid grid-cols-3">
-              <SimpleRecord
-                index={index}
-                time={time}
+            <li
+              key={time.date}
+              tw="grid grid-cols-3 border-b border-gray-200 dark:border-gray-700"
+            >
+              <span
                 onClick={() => {
                   setSelectedIndex(index);
                   openModal();
                 }}
-              />
-              <span>{ao5 ? (ao5 === DNF ? 'DNF' : showTime(ao5)) : '-'}</span>
-              <span>
+                tw="cursor-pointer py-1"
+              >
+                {index + 1}. {showRecord(time)}
+              </span>
+              <span tw="cursor-pointer py-1">
+                {ao5 ? (ao5 === DNF ? 'DNF' : showTime(ao5)) : '-'}
+              </span>
+              <span tw="cursor-pointer py-1">
                 {ao12 ? (ao12 === DNF ? 'DNF' : showTime(ao12)) : '-'}
               </span>
             </li>
