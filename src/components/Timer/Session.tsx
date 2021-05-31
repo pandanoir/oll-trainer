@@ -99,7 +99,7 @@ export const Session = ({
         <div tw="flex content-center">
           <IconButton
             css={[
-              tw`px-3 py-1 text-lg`,
+              tw`px-4 py-2 text-lg`,
               sessionIndex <= 0 ? tw`text-gray-400` : '',
             ]}
             disabled={sessionIndex <= 0}
@@ -114,10 +114,9 @@ export const Session = ({
             tw="w-36 bg-transparent"
             onChange={({ target: { value } }) => changeSessionName(value)}
           />
-
           <IconButton
             css={[
-              tw`px-3 py-1 text-lg`,
+              tw`px-4 py-2 text-lg`,
               sessionIndex + 1 >= sessions.length ? tw`text-gray-400` : '',
             ]}
             disabled={sessionIndex + 1 >= sessions.length}
@@ -128,7 +127,7 @@ export const Session = ({
             icon={faAngleRight}
           />
           <IconButton
-            tw="px-1.5 my-1.5 text-lg text-white bg-gray-700 rounded"
+            tw="px-2.5 my-1.5 text-lg text-white bg-gray-700 rounded"
             onClick={() => {
               addSession();
               if (sessionIndex === sessions.length - 1) {
@@ -139,22 +138,19 @@ export const Session = ({
           />
         </div>
         <div tw="flex content-center">
-          {showsGraph ? (
-            <IconButton
-              tw="px-2 py-1 text-lg"
-              onClick={() => setShowsGraph(false)}
-              icon={faServer}
-            />
-          ) : (
-            <IconButton
-              tw="px-2 py-1 text-lg"
-              onClick={() => setShowsGraph(true)}
-              icon={faChartBar}
-            />
-          )}
           <IconButton
             css={[
-              tw`px-2 py-1 text-lg`,
+              tw`px-4 py-2 text-lg transition-all duration-300`,
+              opensRecordList
+                ? tw`opacity-100`
+                : tw`opacity-0 pointer-events-none`,
+            ]}
+            onClick={() => setShowsGraph((v) => !v)}
+            icon={showsGraph ? faServer : faChartBar}
+          />
+          <IconButton
+            css={[
+              tw`px-4 py-2 text-lg`,
               tw`transform transition-all duration-300`,
               opensRecordList ? tw`-rotate-180` : tw`rotate-0`,
             ]}
