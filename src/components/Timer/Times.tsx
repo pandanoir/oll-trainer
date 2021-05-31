@@ -1,12 +1,14 @@
 import 'twin.macro';
 import { VFC, useMemo, useState } from 'react';
+
 import { calcAo } from '../../utils/calcAo';
-import { useModal } from '../Modal';
+import { Modal, useModal } from '../Modal';
 import { Toast, useToast } from '../Toast';
-import { RecordModal } from './RecordModal';
 import { showTime } from './showTime';
 import { TimeData, DNF } from './timeData';
 import { showRecord } from '../../utils/showRecord';
+import { BigRecord } from './BigRecord';
+import { RecordModifier } from './RecordModifier';
 
 export const Times: VFC<{
   times: TimeData[];
@@ -68,27 +70,39 @@ export const Times: VFC<{
         })}
       </ul>
       {showsModal && (
-        <RecordModal
-          record={times[selectedIndex]}
-          onClose={closeModal}
-          changeToDNF={() => changeToDNF(selectedIndex)}
-          undoDNF={() => undoDNF(selectedIndex)}
-          imposePenalty={() => imposePenalty(selectedIndex)}
-          undoPenalty={() => undoPenalty(selectedIndex)}
-          deleteRecord={() => {
-            const deletedRecord = deleteRecord(selectedIndex);
-            closeModal();
-            openToast({
-              title: '削除しました',
-              buttonLabel: '元に戻す',
-              callback: () => {
-                insertRecord(selectedIndex, deletedRecord);
-                closeToast();
-              },
-              timeout: 10 * 1000,
-            });
-          }}
-        />
+        <Modal onClose={closeModal}>
+          <div tw="flex flex-col gap-6 p-6">
+            <BigRecord record={times[selectedIndex]} onClick={closeModal} />
+            <RecordModifier
+              record={times[selectedIndex]}
+              changeToDNF={() => changeToDNF(selectedIndex)}
+              undoDNF={() => undoDNF(selectedIndex)}
+              imposePenalty={() => imposePenalty(selectedIndex)}
+              undoPenalty={() => undoPenalty(selectedIndex)}
+              deleteRecord={() => {
+                const deletedRecord = deleteRecord(selectedIndex);
+                closeModal();
+                openToast({
+                  title: '削除しました',
+                  buttonLabel: '元に戻す',
+                  callback: () => {
+                    insertRecord(selectedIndex, deletedRecord);
+                    closeToast();
+                  },
+                  timeout: 10 * 1000,
+                });
+              }}
+            />
+            <span tw="flex gap-2">
+              <span>scramble:</span>
+              <textarea
+                tw="inline-block resize-none flex-1 bg-transparent"
+                readOnly
+                value={times[selectedIndex].scramble}
+              />
+            </span>
+          </div>
+        </Modal>
       )}
       <Toast {...toastProps} />
     </>
