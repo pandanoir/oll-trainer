@@ -7,11 +7,11 @@ import {
 } from './pages';
 
 export const RouteList = [
+  { path: '/timer', component: <TimerPage />, name: 'Hi-Timer' },
   { path: '/', component: <OllPage />, name: 'oll' },
   { path: '/learn', component: <LearningPage />, name: 'learn' },
   { path: '/scramble', component: <ScramblePage />, name: 'scramble' },
   { path: '/cp', component: <CpPage />, name: 'cp check' },
-  { path: '/timer', component: <TimerPage />, name: 'Hi-Timer' },
 ] as const;
 
 type UnionToIntersection<U> = (
@@ -28,9 +28,9 @@ type Hoge = UnionToIntersection<
     : never
 >;
 export const RouteInfo: Hoge = {
-  oll: RouteList[0],
-  learn: RouteList[1],
-  scramble: RouteList[2],
-  'cp check': RouteList[3],
-  'Hi-Timer': RouteList[4],
+  'Hi-Timer': RouteList[0],
+  oll: RouteList[1],
+  learn: RouteList[2],
+  scramble: RouteList[3],
+  'cp check': RouteList[4],
 } as const;
