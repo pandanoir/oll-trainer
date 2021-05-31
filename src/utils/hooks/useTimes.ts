@@ -2,6 +2,7 @@ import { SessionData, TimeData } from '../../components/Timer/timeData';
 import { useStoragedImmerState, useStoragedState } from './useLocalStorage';
 import { storagePrefix } from '../../constants';
 import { useCallback, useEffect } from 'react';
+import { zerofill } from '../zerofill';
 
 export const useSessions = (
   initialSessions: SessionData[] = [
@@ -93,10 +94,14 @@ export const useSessions = (
     [sessionIndex, updateSessions]
   );
   const addSession = useCallback(() => {
+    const today = new Date();
     updateSessions((draft) => {
       draft.push({
         times: [],
-        name: `session${draft.length + 1}`,
+        name: `${zerofill(today.getMonth() + 1, 2)}-${zerofill(
+          today.getDate(),
+          2
+        )} session${draft.length + 1}`,
       });
     });
   }, [updateSessions]);
