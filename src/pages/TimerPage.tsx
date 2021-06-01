@@ -302,7 +302,7 @@ export const TimerPage: VFC = () => {
   );
 
   return (
-    <div tw="w-full flex flex-col flex-1 overflow-hidden dark:bg-gray-800 dark:text-white">
+    <div tw="relative w-full flex flex-col flex-1 overflow-hidden dark:bg-gray-800 dark:text-white">
       <div tw="flex gap-1 px-3 overflow-x-auto">
         <Switch checked={usesInspection} onChange={setUsesInspection}>
           インスペクションを使用
