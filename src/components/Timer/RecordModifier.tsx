@@ -27,17 +27,25 @@ export const RecordModifier = ({
       <div tw="flex justify-center flex-wrap">
         <DangerButton
           onMouseDown={withStopPropagation(noop)}
-          onTouchStart={withStopPropagation(undoDNF)}
+          onTouchStart={withStopPropagation(noop)}
           onMouseUp={withStopPropagation(undoDNF)}
-          onTouchEnd={withStopPropagation(noop)}
+          onTouchEnd={(event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            undoDNF();
+          }}
         >
           undo DNF
         </DangerButton>
         <SecondaryButton
           onMouseDown={withStopPropagation(noop)}
-          onTouchStart={withStopPropagation(deleteRecord)}
+          onTouchStart={withStopPropagation(noop)}
           onMouseUp={withStopPropagation(deleteRecord)}
-          onTouchEnd={withStopPropagation(noop)}
+          onTouchEnd={(event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            deleteRecord();
+          }}
         >
           delete
         </SecondaryButton>
@@ -49,25 +57,37 @@ export const RecordModifier = ({
       <div tw="flex justify-center gap-2 flex-wrap">
         <PrimaryButton
           onMouseDown={withStopPropagation(noop)}
-          onTouchStart={withStopPropagation(undoPenalty)}
+          onTouchStart={withStopPropagation(noop)}
           onMouseUp={withStopPropagation(undoPenalty)}
-          onTouchEnd={withStopPropagation(noop)}
+          onTouchEnd={(event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            undoPenalty();
+          }}
         >
           undo +2
         </PrimaryButton>
         <DangerButton
           onMouseDown={withStopPropagation(noop)}
-          onTouchStart={withStopPropagation(changeToDNF)}
+          onTouchStart={withStopPropagation(noop)}
           onMouseUp={withStopPropagation(changeToDNF)}
-          onTouchEnd={withStopPropagation(noop)}
+          onTouchEnd={(event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            changeToDNF();
+          }}
         >
           DNF
         </DangerButton>
         <SecondaryButton
           onMouseDown={withStopPropagation(noop)}
-          onTouchStart={withStopPropagation(deleteRecord)}
+          onTouchStart={withStopPropagation(noop)}
           onMouseUp={withStopPropagation(deleteRecord)}
-          onTouchEnd={withStopPropagation(noop)}
+          onTouchEnd={(event) => {
+            event.stopPropagation();
+            event.preventDefault();
+            deleteRecord();
+          }}
         >
           delete
         </SecondaryButton>
@@ -78,25 +98,37 @@ export const RecordModifier = ({
     <div tw="flex justify-center gap-2 flex-wrap">
       <PrimaryButton
         onMouseDown={withStopPropagation(noop)}
-        onTouchStart={withStopPropagation(imposePenalty)}
+        onTouchStart={withStopPropagation(noop)}
         onMouseUp={withStopPropagation(imposePenalty)}
-        onTouchEnd={withStopPropagation(noop)}
+        onTouchEnd={(event) => {
+          event.stopPropagation();
+          event.preventDefault();
+          imposePenalty();
+        }}
       >
         +2
       </PrimaryButton>
       <DangerButton
         onMouseDown={withStopPropagation(noop)}
-        onTouchStart={withStopPropagation(changeToDNF)}
+        onTouchStart={withStopPropagation(noop)}
         onMouseUp={withStopPropagation(changeToDNF)}
-        onTouchEnd={withStopPropagation(noop)}
+        onTouchEnd={(event) => {
+          event.stopPropagation();
+          event.preventDefault();
+          changeToDNF();
+        }}
       >
         DNF
       </DangerButton>
       <SecondaryButton
         onMouseDown={withStopPropagation(noop)}
-        onTouchStart={withStopPropagation(deleteRecord)}
+        onTouchStart={withStopPropagation(noop)}
         onMouseUp={withStopPropagation(deleteRecord)}
-        onTouchEnd={withStopPropagation(noop)}
+        onTouchEnd={(event) => {
+          event.stopPropagation();
+          event.preventDefault();
+          deleteRecord();
+        }}
       >
         delete
       </SecondaryButton>
