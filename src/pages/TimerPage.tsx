@@ -3,7 +3,7 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Scrambo from 'scrambo';
-import 'twin.macro';
+import tw from 'twin.macro';
 
 import {
   IDOLING,
@@ -328,7 +328,10 @@ export const TimerPage: VFC = () => {
         ))}
       </Swiper>
       <div
-        tw="text-center flex-1 flex flex-col justify-center items-center select-none"
+        css={[
+          tw`text-center flex-1 flex flex-col justify-center items-center select-none`,
+          timerState === IDOLING ? '' : tw`z-50`,
+        ]}
         onTouchStart={(event) => {
           if (timerState !== IDOLING) return;
           event.stopPropagation();
