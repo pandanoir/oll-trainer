@@ -34,8 +34,8 @@ export const Times: VFC<{
   deleteRecord,
   insertRecord,
 }) => {
-  const ao5List = useMemo(() => calcAo(5, times), [times]);
-  const ao12List = useMemo(() => calcAo(12, times), [times]);
+  const ao5 = useMemo(() => calcAo(5, times), [times]);
+  const ao12 = useMemo(() => calcAo(12, times), [times]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const { showsModal, openModal: openModalRaw, closeModal } = useModal();
@@ -67,32 +67,28 @@ export const Times: VFC<{
           <span>ao5</span>
           <span>ao12</span>
         </li>
-        {times.map((time, index) => {
-          const ao5 = ao5List[index];
-          const ao12 = ao12List[index];
-          return (
-            <li
-              key={time.date}
-              tw="grid grid-cols-3 border-b border-gray-200 dark:border-gray-700"
+        {times.map((time, index) => (
+          <li
+            key={time.date}
+            tw="grid grid-cols-3 border-b border-gray-200 dark:border-gray-700"
+          >
+            <span onClick={() => openModal(index)} tw="cursor-pointer py-1">
+              {index + 1}.{showRecord(time)}
+            </span>
+            <span
+              onClick={ao5[index] ? () => openAo5Modal(index) : noop}
+              css={[ao5[index] ? tw`cursor-pointer` : '', tw`py-1`]}
             >
-              <span onClick={() => openModal(index)} tw="cursor-pointer py-1">
-                {index + 1}. {showRecord(time)}
-              </span>
-              <span
-                onClick={ao5 ? () => openAo5Modal(index) : noop}
-                css={[ao5 ? tw`cursor-pointer` : '', tw`py-1`]}
-              >
-                {showAverage(ao5) || '-'}
-              </span>
-              <span
-                onClick={ao12 ? () => openAo12Modal(index) : noop}
-                css={[ao12 ? tw`cursor-pointer` : '', tw`py-1`]}
-              >
-                {showAverage(ao12) || '-'}
-              </span>
-            </li>
-          );
-        })}
+              {showAverage(ao5[index]) || '-'}
+            </span>
+            <span
+              onClick={ao12[index] ? () => openAo12Modal(index) : noop}
+              css={[ao12[index] ? tw`cursor-pointer` : '', tw`py-1`]}
+            >
+              {showAverage(ao12[index]) || '-'}
+            </span>
+          </li>
+        ))}
       </ul>
       {showsModal &&
         (() => {
@@ -150,7 +146,7 @@ export const Times: VFC<{
           }
           if (modalType === 'ao5' || modalType === 'ao12') {
             const averageSize = modalType === 'ao5' ? 5 : 12;
-            const avg = (averageSize === 5 ? ao5List : ao12List)[selectedIndex];
+            const avg = (averageSize === 5 ? ao5 : ao12)[selectedIndex];
 
             const startIndex = selectedIndex - averageSize + 1;
             const selectedTimes = times.slice(startIndex, selectedIndex + 1);
