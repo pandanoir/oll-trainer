@@ -1,6 +1,7 @@
 /**
  * +2 の状態で DNF を押して undo した際に情報が失われないようにpenalty と isDNF は分けて管理する
  */
+export const DNF = '__dnf__';
 export type TimeData = {
   time: number;
   penalty?: boolean;
@@ -8,11 +9,11 @@ export type TimeData = {
   scramble: string;
   date: number; // millisec
 };
+export type Average = number | typeof DNF | null;
 export type SessionData = {
   times: TimeData[];
   name: string;
 };
-export const DNF = 'dnf';
 const excludeSessionData = (json: unknown) => {
   const PROPERTIES = 'properties',
     SESSION_DATA = 'sessionData';

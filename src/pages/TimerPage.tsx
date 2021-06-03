@@ -78,7 +78,7 @@ export const TimerPage: VFC = () => {
     [sessions, sessionIndex]
   );
 
-  const [penalty, setPenalty] = useState<null | '+2' | 'DNF'>(null);
+  const [penalty, setPenalty] = useState<null | '+2' | typeof DNF>(null);
   const {
     time,
     inspectionTime,
@@ -101,7 +101,7 @@ export const TimerPage: VFC = () => {
             date: Date.now(),
             penalty: true,
           });
-        } else if (penalty === 'DNF') {
+        } else if (penalty === DNF) {
           addTime({
             time,
             scramble: scrambles[index],
@@ -196,7 +196,7 @@ export const TimerPage: VFC = () => {
               setPenalty('+2');
             } else {
               // DNF
-              setPenalty('DNF');
+              setPenalty(DNF);
             }
           }
           startTimer();

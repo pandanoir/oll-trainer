@@ -1,4 +1,4 @@
-import { DNF, TimeData } from '../components/Timer/timeData';
+import { Average, DNF, TimeData } from '../components/Timer/timeData';
 import { Heap } from './heap';
 import { calcRecord } from './calcRecord';
 
@@ -7,7 +7,7 @@ export const calcAo = (n: number, times: TimeData[]) => {
     minHeap = new Heap((x: number, y: number) => x > y);
   let sum = 0,
     dnfCount = 0;
-  const ao: (number | typeof DNF | null)[] = [];
+  const ao: Average[] = [];
   for (let i = 0, len = times.length; i < len; i++) {
     const record = calcRecord(times[i]);
     if (record === DNF) {

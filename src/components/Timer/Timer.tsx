@@ -1,4 +1,4 @@
-import { VFC, PropsWithChildren, HTMLAttributes, forwardRef } from 'react';
+import { PropsWithChildren, HTMLAttributes, forwardRef } from 'react';
 import { exhaustiveCheck } from '../../utils/exhaustiveCheck';
 import {
   TimerState,
