@@ -1,14 +1,21 @@
-import 'twin.macro';
+import tw from 'twin.macro';
 import { VFC, useMemo, useState } from 'react';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-import { calcAo } from '../../utils/calcAo';
 import { Modal, useModal } from '../Modal';
 import { Toast, useToast } from '../Toast';
-import { showTime } from './showTime';
-import { TimeData, DNF } from './timeData';
-import { showRecord } from '../../utils/showRecord';
+import { TweetButton } from '../TweetButton';
 import { BigRecord } from './BigRecord';
 import { RecordModifier } from './RecordModifier';
+import { IconButton } from '../IconButton';
+import { Switch } from '../Switch';
+
+import { TimeData } from './timeData';
+import { calcAo } from '../../utils/calcAo';
+import { exhaustiveCheck } from '../../utils/exhaustiveCheck';
+import { showAverage } from '../../utils/showAverage';
+import { showRecord } from '../../utils/showRecord';
+import { noop } from '../../utils/noop';
 
 export const Times: VFC<{
   times: TimeData[];
@@ -31,8 +38,26 @@ export const Times: VFC<{
   const ao12List = useMemo(() => calcAo(12, times), [times]);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const { showsModal, openModal, closeModal } = useModal();
+  const { showsModal, openModal: openModalRaw, closeModal } = useModal();
   const { openToast, closeToast, ...toastProps } = useToast();
+  const [modalType, setModalType] = useState<'time' | 'ao5' | 'ao12'>('time');
+
+  const openModal = (index: number) => {
+    setSelectedIndex(index);
+    setModalType('time');
+    openModalRaw();
+  };
+  const openAo5Modal = (index: number) => {
+    setSelectedIndex(index);
+    setModalType('ao5');
+    openModalRaw();
+  };
+  const openAo12Modal = (index: number) => {
+    setSelectedIndex(index);
+    setModalType('ao12');
+    openModalRaw();
+  };
+  const [sharesScramble, onChange] = useState(false);
 
   return (
     <>
@@ -50,60 +75,162 @@ export const Times: VFC<{
               key={time.date}
               tw="grid grid-cols-3 border-b border-gray-200 dark:border-gray-700"
             >
-              <span
-                onClick={() => {
-                  setSelectedIndex(index);
-                  openModal();
-                }}
-                tw="cursor-pointer py-1"
-              >
+              <span onClick={() => openModal(index)} tw="cursor-pointer py-1">
                 {index + 1}. {showRecord(time)}
               </span>
-              <span tw="cursor-pointer py-1">
-                {ao5 ? (ao5 === DNF ? 'DNF' : showTime(ao5)) : '-'}
+              <span
+                onClick={ao5 ? () => openAo5Modal(index) : noop}
+                css={[ao5 ? tw`cursor-pointer` : '', tw`py-1`]}
+              >
+                {showAverage(ao5) || '-'}
               </span>
-              <span tw="cursor-pointer py-1">
-                {ao12 ? (ao12 === DNF ? 'DNF' : showTime(ao12)) : '-'}
+              <span
+                onClick={ao12 ? () => openAo12Modal(index) : noop}
+                css={[ao12 ? tw`cursor-pointer` : '', tw`py-1`]}
+              >
+                {showAverage(ao12) || '-'}
               </span>
             </li>
           );
         })}
       </ul>
-      {showsModal && (
-        <Modal onClose={closeModal}>
-          <div tw="flex flex-col gap-6 p-6">
-            <BigRecord record={times[selectedIndex]} onClick={closeModal} />
-            <RecordModifier
-              record={times[selectedIndex]}
-              changeToDNF={() => changeToDNF(selectedIndex)}
-              undoDNF={() => undoDNF(selectedIndex)}
-              imposePenalty={() => imposePenalty(selectedIndex)}
-              undoPenalty={() => undoPenalty(selectedIndex)}
-              deleteRecord={() => {
-                const deletedRecord = deleteRecord(selectedIndex);
-                closeModal();
-                openToast({
-                  title: '削除しました',
-                  buttonLabel: '元に戻す',
-                  callback: () => {
-                    insertRecord(selectedIndex, deletedRecord);
-                    closeToast();
-                  },
-                  timeout: 10 * 1000,
-                });
-              }}
-            />
-            <span tw="flex gap-2">
-              <span>scramble:</span>
-              <textarea
-                tw="inline-block resize-none flex-1 bg-transparent"
-                readOnly
-                value={times[selectedIndex].scramble}
-              />
-            </span>
-          </div>
-        </Modal>
-      )}
+      {showsModal &&
+        (() => {
+          if (modalType === 'time') {
+            return (
+              <Modal onClose={closeModal}>
+                <div tw=" relative flex flex-col gap-6 p-6 h-full overflow-hidden">
+                  <IconButton
+                    icon={faTimes}
+                    tw="absolute top-0 right-0 -m-2 inline-grid w-6 h-6 place-items-center rounded-full bg-white dark:bg-gray-700"
+                    onClick={closeModal}
+                  />
+                  <BigRecord
+                    record={times[selectedIndex]}
+                    onClick={closeModal}
+                  />
+                  <RecordModifier
+                    record={times[selectedIndex]}
+                    changeToDNF={() => changeToDNF(selectedIndex)}
+                    undoDNF={() => undoDNF(selectedIndex)}
+                    imposePenalty={() => imposePenalty(selectedIndex)}
+                    undoPenalty={() => undoPenalty(selectedIndex)}
+                    deleteRecord={() => {
+                      const deletedRecord = deleteRecord(selectedIndex);
+                      closeModal();
+                      openToast({
+                        title: '削除しました',
+                        buttonLabel: '元に戻す',
+                        callback: () => {
+                          insertRecord(selectedIndex, deletedRecord);
+                          closeToast();
+                        },
+                        timeout: 10 * 1000,
+                      });
+                    }}
+                  />
+                  <span tw="flex gap-2">
+                    <span>scramble:</span>
+                    <textarea
+                      tw="inline-block resize-none flex-1 bg-transparent"
+                      readOnly
+                      value={times[selectedIndex].scramble}
+                    />
+                  </span>
+                  <span>
+                    <TweetButton
+                      text={`${showRecord(times[selectedIndex])} scramble: ${
+                        times[selectedIndex].scramble
+                      }`}
+                    />
+                  </span>
+                </div>
+              </Modal>
+            );
+          }
+          if (modalType === 'ao5' || modalType === 'ao12') {
+            const averageSize = modalType === 'ao5' ? 5 : 12;
+            const avg = (averageSize === 5 ? ao5List : ao12List)[selectedIndex];
+
+            const startIndex = selectedIndex - averageSize + 1;
+            const selectedTimes = times.slice(startIndex, selectedIndex + 1);
+            const selectedRecords = selectedTimes.map(
+              ({ isDNF, penalty, time }) =>
+                isDNF ? Infinity : time + (penalty ? 2000 : 0)
+            );
+            const maxIndex = selectedRecords.reduce(
+              (index, item, currentIndex) =>
+                item > selectedRecords[index] ? currentIndex : index,
+              0
+            );
+            const minIndex = selectedRecords.reduce(
+              (index, item, currentIndex) =>
+                item < selectedRecords[index] ? currentIndex : index,
+              0
+            );
+            const tweetText = `avg of ${averageSize}: ${showAverage(avg)}
+${selectedTimes.reduce((acc, time, index) => {
+  const record = showRecord(time).replace(/\s/g, '');
+  return `${acc}${
+    index === maxIndex || index === minIndex
+      ? `${index + 1}. (${record})`
+      : `${index + 1}. ${record}`
+  }${sharesScramble ? ` ${times[startIndex + index].scramble}` : ''}
+`;
+}, '')}`.trimEnd();
+            return (
+              <Modal onClose={closeModal}>
+                <div tw=" relative flex flex-col gap-6 p-6 h-full">
+                  <span tw="bg-blue-200 dark:bg-blue-800 w-max px-3 rounded text-lg font-bold dark:font-normal">
+                    ao{averageSize}
+                  </span>
+                  <IconButton
+                    icon={faTimes}
+                    tw="absolute top-0 right-0 -m-2 inline-grid w-6 h-6 place-items-center rounded-full bg-white dark:bg-gray-700"
+                    onClick={closeModal}
+                  />
+                  <div
+                    css={[
+                      tw`text-center text-4xl md:text-8xl font-bold cursor-pointer`,
+                    ]}
+                    onClick={closeModal}
+                  >
+                    {showAverage(avg)}
+                  </div>
+                  <div className="flex-shrink overflow-x-hidden overflow-y-auto">
+                    <ul
+                      tw="inline-grid gap-x-2 gap-y-1"
+                      style={{ gridTemplateColumns: 'max-content 1fr' }}
+                    >
+                      {selectedTimes.map((time, index) => (
+                        <li tw="contents" key={startIndex + index}>
+                          <span>
+                            {index === maxIndex || index === minIndex
+                              ? `${startIndex + index + 1}. (${showRecord(
+                                  time
+                                )})`
+                              : `${startIndex + index + 1}. ${showRecord(
+                                  time
+                                )}`}
+                          </span>
+                          <span>{times[startIndex + index].scramble}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <span tw="h-6 flex gap-3 items-center" key={tweetText}>
+                    <TweetButton text={tweetText} />
+                    <Switch checked={sharesScramble} onChange={onChange}>
+                      スクランブルをシェアする
+                    </Switch>
+                  </span>
+                </div>
+              </Modal>
+            );
+          }
+
+          exhaustiveCheck(modalType);
+        })()}
       <Toast {...toastProps} />
     </>
   );
