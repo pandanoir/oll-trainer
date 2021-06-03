@@ -10,12 +10,14 @@ import { RecordModifier } from './RecordModifier';
 import { IconButton } from '../IconButton';
 import { Switch } from '../Switch';
 
-import { TimeData } from './timeData';
+import { DNF, TimeData } from './timeData';
 import { calcAo } from '../../utils/calcAo';
 import { exhaustiveCheck } from '../../utils/exhaustiveCheck';
 import { showAverage } from '../../utils/showAverage';
 import { showRecord } from '../../utils/showRecord';
 import { noop } from '../../utils/noop';
+import { findIndexOfMax } from '../../utils/findIndexOfMax';
+import { findIndexOfMin } from '../../utils/findIndexOfMin';
 
 export const Times: VFC<{
   times: TimeData[];
@@ -42,6 +44,28 @@ export const Times: VFC<{
   const { openToast, closeToast, ...toastProps } = useToast();
   const [modalType, setModalType] = useState<'time' | 'ao5' | 'ao12'>('time');
 
+  const bestRecordIndex = useMemo(
+    () =>
+      findIndexOfMin(
+        times.map(({ isDNF, penalty, time }) =>
+          isDNF ? Infinity : time + (penalty ? 2000 : 0)
+        )
+      ),
+    [times]
+  );
+  // 最もao5がよくなった瞬間のindex = このインデックスより前の5個が対象
+  const bestAo5Index = useMemo(
+    () =>
+      findIndexOfMin(ao5.map((v) => (v === DNF || v === null ? Infinity : v))),
+    [ao5]
+  );
+  // 最もao12がよくなった瞬間のindex = このインデックスより前の12個が対象
+  const bestAo12Index = useMemo(
+    () =>
+      findIndexOfMin(ao12.map((v) => (v === DNF || v === null ? Infinity : v))),
+    [ao12]
+  );
+
   const openModal = (index: number) => {
     setSelectedIndex(index);
     setModalType('time');
@@ -61,35 +85,102 @@ export const Times: VFC<{
 
   return (
     <>
-      <ul tw="flex flex-col-reverse px-3">
-        <li tw="grid grid-cols-3 border-b border-gray-300 order-1">
-          <span>record</span>
-          <span>ao5</span>
-          <span>ao12</span>
-        </li>
-        {times.map((time, index) => (
-          <li
-            key={time.date}
-            tw="grid grid-cols-3 border-b border-gray-200 dark:border-gray-700"
-          >
-            <span onClick={() => openModal(index)} tw="cursor-pointer py-1">
-              {index + 1}.{showRecord(time)}
+      <div tw="flex flex-col gap-5">
+        <ul tw="flex flex-col-reverse px-3">
+          <li tw="grid grid-cols-3 border-b border-gray-300 order-1">
+            <span>best time</span>
+            <span>best ao5</span>
+            <span>best ao12</span>
+          </li>
+          <li tw="grid grid-cols-3">
+            <span
+              onClick={() => openModal(bestRecordIndex)}
+              tw="cursor-pointer py-1"
+            >
+              {bestRecordIndex === -1
+                ? '-'
+                : showRecord(times[bestRecordIndex])}
             </span>
             <span
-              onClick={ao5[index] ? () => openAo5Modal(index) : noop}
-              css={[ao5[index] ? tw`cursor-pointer` : '', tw`py-1`]}
+              onClick={
+                bestAo5Index !== -1 && ao5[bestAo5Index]
+                  ? () => openAo5Modal(bestAo5Index)
+                  : noop
+              }
+              css={[
+                bestAo5Index !== -1 && ao5[bestAo5Index]
+                  ? tw`cursor-pointer`
+                  : '',
+                tw`py-1`,
+              ]}
             >
-              {showAverage(ao5[index]) || '-'}
+              {(bestAo5Index !== -1 && showAverage(ao5[bestAo5Index])) || '-'}
             </span>
             <span
-              onClick={ao12[index] ? () => openAo12Modal(index) : noop}
-              css={[ao12[index] ? tw`cursor-pointer` : '', tw`py-1`]}
+              onClick={
+                bestAo12Index !== -1 && ao12[bestAo12Index]
+                  ? () => openAo12Modal(bestAo12Index)
+                  : noop
+              }
+              css={[
+                bestAo12Index !== -1 && ao12[bestAo12Index]
+                  ? tw`cursor-pointer`
+                  : '',
+                tw`py-1`,
+              ]}
             >
-              {showAverage(ao12[index]) || '-'}
+              {(bestAo12Index !== -1 && showAverage(ao12[bestAo12Index])) ||
+                '-'}
             </span>
           </li>
-        ))}
-      </ul>
+        </ul>
+        <ul
+          tw="grid px-3 gap-y-1"
+          style={{
+            gridTemplateColumns: 'max-content repeat(3, minmax(0, 1fr))',
+          }}
+        >
+          <li tw="contents order-1">
+            <span tw="pr-2 border-b border-gray-300">No.</span>
+            <span tw="border-b border-gray-300">record</span>
+            <span tw="border-b border-gray-300">ao5</span>
+            <span tw="border-b border-gray-300">ao12</span>
+          </li>
+          {times
+            .map((time, index) => (
+              <li key={time.date} tw="contents">
+                <span tw="border-b border-gray-200 dark:border-gray-700 pr-2">
+                  {index + 1}
+                </span>
+                <span
+                  onClick={() => openModal(index)}
+                  tw="cursor-pointer border-b border-gray-200 dark:border-gray-700"
+                >
+                  {showRecord(time)}
+                </span>
+                <span
+                  onClick={ao5[index] ? () => openAo5Modal(index) : noop}
+                  css={[
+                    ao5[index] ? tw`cursor-pointer` : '',
+                    tw`border-b border-gray-200 dark:border-gray-700`,
+                  ]}
+                >
+                  {showAverage(ao5[index]) || '-'}
+                </span>
+                <span
+                  onClick={ao12[index] ? () => openAo12Modal(index) : noop}
+                  css={[
+                    ao12[index] ? tw`cursor-pointer` : '',
+                    tw`border-b border-gray-200 dark:border-gray-700`,
+                  ]}
+                >
+                  {showAverage(ao12[index]) || '-'}
+                </span>
+              </li>
+            ))
+            .reverse()}
+        </ul>
+      </div>
       {showsModal &&
         (() => {
           if (modalType === 'time') {
@@ -154,16 +245,8 @@ export const Times: VFC<{
               ({ isDNF, penalty, time }) =>
                 isDNF ? Infinity : time + (penalty ? 2000 : 0)
             );
-            const maxIndex = selectedRecords.reduce(
-              (index, item, currentIndex) =>
-                item > selectedRecords[index] ? currentIndex : index,
-              0
-            );
-            const minIndex = selectedRecords.reduce(
-              (index, item, currentIndex) =>
-                item < selectedRecords[index] ? currentIndex : index,
-              0
-            );
+            const maxIndex = findIndexOfMax(selectedRecords);
+            const minIndex = findIndexOfMin(selectedRecords);
             const tweetText = `avg of ${averageSize}: ${showAverage(avg)}
 ${selectedTimes.reduce((acc, time, index) => {
   const record = showRecord(time).replace(/\s/g, '');
