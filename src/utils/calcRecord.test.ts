@@ -2,7 +2,7 @@ import { DNF } from '../components/Timer/timeData';
 import { calcRecord } from './calcRecord';
 
 describe('calcRecord', () => {
-  it('', () => {
+  it('calculates actual time by record', () => {
     expect(calcRecord({ time: 10 })).toBe(10);
     expect(calcRecord({ time: 10, isDNF: true })).toBe(DNF);
     expect(calcRecord({ time: 10, penalty: true })).toBe(2010);

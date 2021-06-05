@@ -10,7 +10,9 @@ import { storagePrefix } from '../../constants';
 const STORAGE_KEY = `${storagePrefix}-theme`;
 export const useDarkMode = () => {
   const [darkMode, setDarkMode] = useState(false);
+
   useEffect(() => {
+    // localStorage に設定があればそれを使用、なければ環境設定を使用
     setDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches);
     try {
       const json = localStorage.getItem(STORAGE_KEY);

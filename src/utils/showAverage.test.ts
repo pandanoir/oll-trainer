@@ -2,7 +2,7 @@ import { DNF } from '../components/Timer/timeData';
 import { showAverage } from './showAverage';
 
 describe('showAverage', () => {
-  it('', () => {
+  it('prints Average', () => {
     expect(showAverage(null)).toBe('');
     expect(showAverage(DNF)).toBe('DNF');
     expect(showAverage(60000)).toBe('1:00.000');
