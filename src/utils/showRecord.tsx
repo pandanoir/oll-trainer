@@ -1,4 +1,4 @@
-import { showTime } from '../components/Timer/showTime';
+import { showTime } from './showTime';
 import { TimeData } from '../components/Timer/timeData';
 
 export const showRecord = ({ isDNF, penalty, time }: TimeData) => {

@@ -8,7 +8,7 @@ import {
 import { createPortal } from 'react-dom';
 import { useHotkeys } from 'react-hotkeys-hook';
 import 'twin.macro';
-import { clickAway } from '../utils/clickAway';
+import { clickAway } from '../../utils/clickAway';
 
 export const Modal = ({
   onClose,

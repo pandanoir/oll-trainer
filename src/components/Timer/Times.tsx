@@ -2,13 +2,13 @@ import tw from 'twin.macro';
 import { VFC, useMemo, useState } from 'react';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
-import { Modal, useModal } from '../Modal';
-import { Toast, useToast } from '../Toast';
+import { Modal, useModal } from '../common/Modal';
+import { Toast, useToast } from '../common/Toast';
 import { TweetButton } from '../TweetButton';
 import { BigRecord } from './BigRecord';
 import { RecordModifier } from './RecordModifier';
-import { IconButton } from '../IconButton';
-import { Switch } from '../Switch';
+import { IconButton } from '../common/IconButton';
+import { ToggleButton } from '../common/ToggleButton';
 
 import { DNF, TimeData } from './timeData';
 import { calcAo } from '../../utils/calcAo';
@@ -299,9 +299,9 @@ ${selectedTimes.reduce((acc, time, index) => {
                   </div>
                   <span tw="h-6 flex gap-3 items-center" key={tweetText}>
                     <TweetButton text={tweetText} />
-                    <Switch checked={sharesScramble} onChange={onChange}>
+                    <ToggleButton checked={sharesScramble} onChange={onChange}>
                       スクランブルをシェアする
-                    </Switch>
+                    </ToggleButton>
                   </span>
                 </div>
               </Modal>

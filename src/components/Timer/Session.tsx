@@ -12,7 +12,7 @@ import { calcAo } from '../../utils/calcAo';
 import { TimeData, SessionData } from './timeData';
 import { Times } from './Times';
 import { TimeGraph } from './TimeGraph';
-import { IconButton } from '../IconButton';
+import { IconButton } from '../common/IconButton';
 
 export const Session = ({
   times,

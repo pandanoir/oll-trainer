@@ -4,7 +4,7 @@ import tw from 'twin.macro';
 import { faces, rotate, CubeFace as CubeFaceType } from '../utils';
 import { useFace } from '../utils/hooks/useFace';
 import { Solve } from '../components/Solve';
-import { Button } from '../components/Button';
+import { Button } from '../components/common/Button';
 import '../index.css';
 import { useTitle } from '../utils/hooks/useTitle';
 

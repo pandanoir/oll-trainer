@@ -1,4 +1,4 @@
-import { zerofill } from '../../utils/zerofill';
+import { zerofill } from './zerofill';
 
 export const showTime = (timeMillisec: number) => {
   const min = Math.floor(timeMillisec / 1000 / 60);

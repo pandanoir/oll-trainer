@@ -16,20 +16,20 @@ import {
 } from '../components/Timer/timerState';
 import { exhaustiveCheck } from '../utils/exhaustiveCheck';
 import { Timer } from '../components/Timer/Timer';
-import { showTime } from '../components/Timer/showTime';
-import { Switch } from '../components/Switch';
+import { showTime } from '../utils/showTime';
+import { ToggleButton } from '../components/common/ToggleButton';
 import { useTimer } from '../utils/hooks/useTimer';
 import { useSessions } from '../utils/hooks/useTimes';
 import { RecordModifier } from '../components/Timer/RecordModifier';
 import { RecordItem } from '../components/Timer/RecordItem';
-import { Toast, useToast } from '../components/Toast';
+import { Toast, useToast } from '../components/common/Toast';
 import { TypingTimer } from '../components/Timer/TypingTimer';
 import { ExportButton } from '../components/Timer/ExportButton';
 import { FileInput } from '../components/Timer/FileInput';
 import { DNF, toCsTimer } from '../components/Timer/timeData';
 import { calcAo } from '../utils/calcAo';
 import { Session } from '../components/Timer/Session';
-import { PrimaryButton } from '../components/PrimaryButton';
+import { PrimaryButton } from '../components/common/PrimaryButton';
 import { useTitle } from '../utils/hooks/useTitle';
 import { useStoragedState } from '../utils/hooks/useLocalStorage';
 import { storagePrefix } from '../constants';
@@ -304,12 +304,15 @@ export const TimerPage: VFC = () => {
   return (
     <div tw="relative w-full flex flex-col flex-1 dark:bg-gray-800 dark:text-white">
       <div tw="flex gap-1 px-3 overflow-x-auto">
-        <Switch checked={usesInspection} onChange={setUsesInspection}>
+        <ToggleButton checked={usesInspection} onChange={setUsesInspection}>
           インスペクションを使用
-        </Switch>
-        <Switch checked={inputsTimeManually} onChange={setInputsTimeManually}>
+        </ToggleButton>
+        <ToggleButton
+          checked={inputsTimeManually}
+          onChange={setInputsTimeManually}
+        >
           手動でタイムを入力
-        </Switch>
+        </ToggleButton>
         <FileInput onChange={importFromCsTimer} />
         <ExportButton getContent={() => JSON.stringify(toCsTimer(sessions))}>
           ファイルをエクスポート

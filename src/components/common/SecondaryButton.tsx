@@ -1,6 +1,5 @@
 import tw from 'twin.macro';
 import { Button } from './Button';
-import '../index.css';
 
 export const SecondaryButton = tw(
   Button

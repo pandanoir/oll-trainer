@@ -1,9 +1,9 @@
 import 'twin.macro';
 
-import { PrimaryButton } from '../PrimaryButton';
-import { DangerButton } from '../DangerButton';
+import { PrimaryButton } from '../common/PrimaryButton';
+import { DangerButton } from '../common/DangerButton';
 import { TimeData } from './timeData';
-import { SecondaryButton } from '../SecondaryButton';
+import { SecondaryButton } from '../common/SecondaryButton';
 import { noop } from '../../utils/noop';
 import { withStopPropagation } from '../../utils/withStopPropagation';
 

@@ -11,7 +11,7 @@ import { CheckContext, useCheck } from './utils/hooks/useCheck';
 import './index.css';
 import { RouteList } from './route';
 import { useDarkMode, DarkModeContext } from './utils/hooks/useDarkMode';
-import { SwitchButton } from './components/SwitchButton';
+import { SwitchButton } from './components/common/SwitchButton';
 
 console.log(process.env.SOURCE_COMMIT);
 

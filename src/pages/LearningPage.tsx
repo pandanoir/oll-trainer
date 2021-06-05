@@ -1,9 +1,9 @@
 import { VFC, useContext, useEffect, useState } from 'react';
 import 'twin.macro';
 
-import { Button } from '../components/Button';
-import { DangerButton } from '../components/DangerButton';
-import { PrimaryButton } from '../components/PrimaryButton';
+import { Button } from '../components/common/Button';
+import { DangerButton } from '../components/common/DangerButton';
+import { PrimaryButton } from '../components/common/PrimaryButton';
 import { Solve } from '../components/Solve';
 import { CheckContext } from '../utils/hooks/useCheck';
 import { nextIndex, prevIndex } from '../utils';
