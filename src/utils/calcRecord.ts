@@ -4,5 +4,5 @@ export const calcRecord = ({
   time,
   penalty,
   isDNF,
-}: TimeData): number | typeof DNF =>
-  penalty ? time + 2000 : isDNF ? DNF : time;
+}: Pick<TimeData, 'time' | 'penalty' | 'isDNF'>): number | typeof DNF =>
+  isDNF ? DNF : penalty ? time + 2000 : time;

@@ -1,10 +1,22 @@
 import { Average, DNF, TimeData } from '../components/Timer/timeData';
-import { Heap } from './heap';
 import { calcRecord } from './calcRecord';
+import { PrioritySumStructure } from './prioritySumStructure';
 
-export const calcAo = (n: number, times: TimeData[]) => {
-  const maxHeap = new Heap(),
-    minHeap = new Heap((x: number, y: number) => x > y);
+/**
+ * 上位5%と下位5%を除いた平均を求める(除く数は小数点以下切り上げた個数)
+ */
+export const calcAo = (
+  n: number,
+  times: Pick<TimeData, 'time' | 'isDNF' | 'penalty'>[]
+) => {
+  const fivePercent = Math.ceil(n * 0.05);
+  const sumOfWorsts = new PrioritySumStructure(
+      fivePercent,
+      (a, b) => a > b,
+      (a, b) => a < b
+    ),
+    sumOfBests = new PrioritySumStructure(fivePercent);
+
   let sum = 0,
     dnfCount = 0;
   const ao: Average[] = [];
@@ -13,8 +25,8 @@ export const calcAo = (n: number, times: TimeData[]) => {
     if (record === DNF) {
       dnfCount++;
     } else {
-      maxHeap.push(record);
-      minHeap.push(record);
+      sumOfWorsts.insert(record);
+      sumOfBests.insert(record);
       sum += record;
     }
     if (i + 1 < n) {
@@ -26,17 +38,19 @@ export const calcAo = (n: number, times: TimeData[]) => {
       if (record === DNF) {
         dnfCount--;
       } else {
-        maxHeap.remove(record);
-        minHeap.remove(record);
+        sumOfWorsts.erase(record);
+        sumOfBests.erase(record);
         sum -= record;
       }
     }
     if (dnfCount >= 2) {
       ao.push(DNF);
     } else if (dnfCount === 1) {
-      ao.push((sum - minHeap.top()) / (n - 2));
+      ao.push((sum - sumOfBests.query()) / (n - fivePercent * 2));
     } else {
-      ao.push((sum - maxHeap.top() - minHeap.top()) / (n - 2));
+      ao.push(
+        (sum - sumOfWorsts.query() - sumOfBests.query()) / (n - fivePercent * 2)
+      );
     }
   }
   return ao;
