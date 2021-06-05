@@ -186,7 +186,7 @@ export const Times: VFC<{
           if (modalType === 'time') {
             return (
               <Modal onClose={closeModal}>
-                <div tw=" relative flex flex-col gap-6 p-6 h-full overflow-hidden">
+                <div tw=" relative flex flex-col gap-6 p-6 h-full">
                   <IconButton
                     icon={faTimes}
                     tw="absolute top-0 right-0 -m-2 inline-grid w-6 h-6 place-items-center rounded-full bg-white dark:bg-gray-700"
