@@ -1,7 +1,7 @@
 import { SessionData, TimeData } from '../../components/Timer/timeData';
 import { useStoragedImmerState, useStoragedState } from './useLocalStorage';
 import { storagePrefix } from '../../constants';
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { zerofill } from '../zerofill';
 
 const today = new Date();
@@ -20,21 +20,6 @@ export const useSessions = (
     `${storagePrefix}-sessions`,
     initialSessions
   );
-  useEffect(() => {
-    // 最低1セッション以上を確保する
-    // これ、あとで整合性とるの大変そうだな…
-    if (sessions.length === 0) {
-      updateSessions([
-        {
-          times: [],
-          name: `${zerofill(today.getMonth() + 1, 2)}-${zerofill(
-            today.getDate(),
-            2
-          )} session1`,
-        },
-      ]);
-    }
-  }, [sessions, updateSessions]);
   const [sessionIndex, setSessionIndex] = useStoragedState(
     `${storagePrefix}-sessionIndex`,
     0
