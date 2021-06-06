@@ -4,11 +4,15 @@ import { storagePrefix } from '../../constants';
 import { useCallback, useEffect } from 'react';
 import { zerofill } from '../zerofill';
 
+const today = new Date();
 export const useSessions = (
   initialSessions: SessionData[] = [
     {
       times: [],
-      name: 'session1',
+      name: `${zerofill(today.getMonth() + 1, 2)}-${zerofill(
+        today.getDate(),
+        2
+      )} session1`,
     },
   ]
 ) => {
@@ -23,7 +27,10 @@ export const useSessions = (
       updateSessions([
         {
           times: [],
-          name: 'session1',
+          name: `${zerofill(today.getMonth() + 1, 2)}-${zerofill(
+            today.getDate(),
+            2
+          )} session1`,
         },
       ]);
     }
@@ -105,6 +112,19 @@ export const useSessions = (
       });
     });
   }, [updateSessions]);
+  const deleteSession = useCallback(
+    (index: number) => {
+      updateSessions((draft) => {
+        draft.splice(index, 1);
+      });
+      if (sessions.length === 1) {
+        addSession();
+      } else if (sessionIndex === sessions.length - 1) {
+        setSessionIndex(sessionIndex - 1);
+      }
+    },
+    [addSession, sessionIndex, sessions.length, setSessionIndex, updateSessions]
+  );
   const importFromCsTimer = (data: SessionData[]) => {
     updateSessions(data);
   };
@@ -122,5 +142,6 @@ export const useSessions = (
     insertRecord,
     addTime,
     addSession,
+    deleteSession,
   } as const;
 };

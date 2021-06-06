@@ -67,6 +67,7 @@ export const TimerPage: VFC = () => {
     insertRecord,
     addTime,
     addSession,
+    deleteSession,
   } = useSessions();
   const { times } = sessions[sessionIndex];
   const ao5 = useMemo(
@@ -465,6 +466,7 @@ export const TimerPage: VFC = () => {
         changeSessionName={changeSessionName}
         sessions={sessions}
         addSession={addSession}
+        deleteSession={deleteSession}
       />
       <Toast {...toastProps} />
     </div>

@@ -12,8 +12,9 @@ import { clickAway } from '../../utils/clickAway';
 
 export const Modal = ({
   onClose,
+  className,
   children,
-}: PropsWithChildren<{ onClose: () => void }>) => {
+}: PropsWithChildren<{ onClose: () => void; className?: string }>) => {
   const $el = useRef(document.createElement('div'));
   const $modal = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -33,9 +34,10 @@ export const Modal = ({
   });
 
   return createPortal(
-    <div tw="fixed inset-0 w-full h-full bg-gray-400 bg-opacity-60 dark:bg-gray-900 dark:bg-opacity-60">
+    <div tw="flex fixed inset-0 w-full h-full bg-gray-400 bg-opacity-60 dark:bg-gray-900 dark:bg-opacity-60 place-items-center">
       <div
         tw="bg-white dark:bg-gray-800 dark:text-white shadow-lg fixed inset-8 opacity-100 rounded-md"
+        className={className}
         ref={$modal}
       >
         {children}
