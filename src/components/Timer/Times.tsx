@@ -297,7 +297,7 @@ ${selectedTimes.reduce((acc, time, index) => {
                       ))}
                     </ul>
                   </div>
-                  <span tw="h-6 flex gap-3 items-center" key={tweetText}>
+                  <span tw="flex gap-3 items-center flex-wrap" key={tweetText}>
                     <TweetButton text={tweetText} />
                     <ToggleButton checked={sharesScramble} onChange={onChange}>
                       スクランブルをシェアする
