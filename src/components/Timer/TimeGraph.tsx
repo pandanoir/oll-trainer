@@ -39,7 +39,7 @@ export const TimeGraph = ({
         <XAxis dataKey="name" stroke={darkMode ? '#fff' : '#000'} />
         <YAxis dataKey="time" stroke={darkMode ? '#fff' : '#000'} />
         <Legend />
-        <Tooltip />
+        <Tooltip contentStyle={{ background: darkMode ? '#1f2937' : '#fff' }} />
         <Line
           name="time"
           type="linear"
