@@ -1,5 +1,6 @@
 .default {
-  @apply font-bold text-6xl select-none;
+  @apply tabular-nums text-6xl select-none;
+  text-shadow: 0 1px 0 currentColor;
 }
 .steady {
   @apply text-green-400;
