@@ -11,11 +11,15 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import tw from 'twin.macro';
 import { calcAo } from '../../utils/calcAo';
-import { TimeData, SessionData } from './timeData';
+import { TimeData, SessionData, DNF } from './timeData';
 import { Times } from './Times';
 import { TimeGraph } from './TimeGraph';
 import { IconButton } from '../common/IconButton';
 import { Modal, useModal } from '../common/Modal';
+import { findIndexOfMin } from '../../utils/findIndexOfMin';
+import { calcRecord } from '../../utils/calcRecord';
+import { showTime } from '../../utils/showTime';
+import { calcAverage } from '../../utils/calcAverage';
 
 export const Session = ({
   times,
@@ -192,7 +196,7 @@ export const Session = ({
       </div>
       {showsModal && (
         <Modal tw="lg:inset-x-1/4 lg:w-1/2" onClose={closeModal}>
-          <div tw="flex flex-col p-6 gap-2 h-full">
+          <div tw="flex flex-col px-3.5 py-5 gap-2 h-full">
             <div tw="flex gap-2">
               <span tw="text-3xl">Sessions</span>
               <IconButton
@@ -208,19 +212,48 @@ export const Session = ({
             </div>
             <ul tw="flex-1 overflow-y-auto">
               {sessions.map((session, index) => {
+                const timesWithoutDNF = session.times
+                  .map(calcRecord)
+                  .filter((x): x is Exclude<typeof x, typeof DNF> => x !== DNF);
+
+                const bestTime =
+                  timesWithoutDNF.length > 0
+                    ? showTime(timesWithoutDNF[findIndexOfMin(timesWithoutDNF)])
+                    : '-';
+                const averageTime =
+                  timesWithoutDNF.length > 0
+                    ? showTime(calcAverage(timesWithoutDNF))
+                    : '-';
                 return (
                   <li
-                    tw="px-3 pb-1 pt-3 mr-6 text-lg flex justify-between border-b"
+                    tw="px-3 pb-1 pt-3 lg:mr-6 text-lg flex justify-between items-center border-b gap-3"
                     key={`${index}--${session.name}`}
                   >
                     <span
-                      tw="flex-1"
+                      tw="flex-1 overflow-hidden whitespace-nowrap"
                       onClick={() => {
                         setSessionIndex(index);
                         closeModal();
                       }}
                     >
                       {session.name}
+                    </span>
+                    <span tw="grid grid-rows-3 md:flex md:gap-2 text-sm md:text-base">
+                      <span>
+                        {session.times.length} <span tw="text-sm">SOLVES</span>
+                      </span>
+                      <span>
+                        <span tw="text-sm">BEST</span>:{' '}
+                        <span tw="text-blue-600 dark:text-blue-400">
+                          {bestTime}
+                        </span>
+                      </span>
+                      <span>
+                        <span tw="text-sm">AVG</span>:{' '}
+                        <span tw="text-red-700 dark:text-red-500">
+                          {averageTime}
+                        </span>
+                      </span>
                     </span>
                     <span>
                       <IconButton
