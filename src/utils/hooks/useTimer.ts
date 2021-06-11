@@ -13,8 +13,10 @@ import { exhaustiveCheck } from '../exhaustiveCheck';
 
 export const useTimer = ({
   onFinishTimer,
+  now = () => performance.now(),
 }: {
   onFinishTimer: (time: number) => void;
+  now?: () => number;
 }) => {
   const [time, setTime] = useState(0); // millisec
   const timerStartAt = useRef(0);
@@ -28,18 +30,20 @@ export const useTimer = ({
   };
   const startTimer = useCallback(() => {
       setTimerState(WORKING);
-      timerStartAt.current = performance.now();
-    }, []),
+      setInspectionTime(0);
+      timerStartAt.current = now();
+    }, [now]),
     finishTimer = useCallback(() => {
       setTimerState(IDOLING);
-      const time = performance.now() - timerStartAt.current;
+      const time = now() - timerStartAt.current;
       onFinishTimer(time);
-    }, [onFinishTimer]),
+    }, [now, onFinishTimer]),
     tapTimer = useCallback(() => {
       setTimerState(READY);
     }, []),
     cancelTimer = useCallback(() => {
       setTimerState(IDOLING);
+      setInspectionTime(0);
       // TODO: ここの扱い、かなりしっかり考えないとまずそう
     }, []),
     tapTimerInInspection = useCallback(() => {
@@ -51,8 +55,8 @@ export const useTimer = ({
   const startInspection = useCallback(() => {
     setTimerState(INSPECTION);
     setInspectionTime(15000);
-    inspectionStartAt.current = performance.now();
-  }, []);
+    inspectionStartAt.current = now();
+  }, [now]);
 
   /** タイマーの時刻を更新する */
   useEffect(() => {
@@ -64,7 +68,7 @@ export const useTimer = ({
     }
     if (timerState === WORKING) {
       const id = setInterval(() => {
-        setTime(performance.now() - timerStartAt.current);
+        setTime(now() - timerStartAt.current);
       }, 1000 / 60);
       return () => clearInterval(id);
     }
@@ -74,9 +78,7 @@ export const useTimer = ({
       timerState === INSPECTION_STEADY
     ) {
       const id = setInterval(() => {
-        setInspectionTime(
-          15000 - (performance.now() - inspectionStartAt.current)
-        );
+        setInspectionTime(15000 - (now() - inspectionStartAt.current));
       }, 1000 / 60);
       return () => clearInterval(id);
     }
@@ -85,7 +87,7 @@ export const useTimer = ({
       return;
     }
     exhaustiveCheck(timerState); // timerState のパターンすべてを網羅できているかチェック
-  }, [timerState]);
+  }, [now, timerState]);
 
   /** ready -> steady の管理 */
   useEffect(() => {
