@@ -72,7 +72,7 @@ describe('useTimer', () => {
     expect(result.current.timerState).toBe(WORKING);
 
     act(() => result.current.finishTimer());
-    expect(onFinishTimer).toHaveBeenCalled();
+    expect(onFinishTimer).toBeCalled();
     expect(result.current.time).toBe(0);
     expect(result.current.inspectionTime).toBe(0);
     expect(result.current.timerState).toBe(IDOLING);
@@ -138,7 +138,7 @@ describe('useTimer', () => {
     expect(result.current.timerState).toBe(WORKING);
 
     act(() => result.current.finishTimer());
-    expect(onFinishTimer).toHaveBeenCalled();
+    expect(onFinishTimer).toBeCalled();
     expect(result.current.time).toBe(0);
     expect(result.current.inspectionTime).toBe(0);
     expect(result.current.timerState).toBe(IDOLING);
