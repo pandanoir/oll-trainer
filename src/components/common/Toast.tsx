@@ -31,7 +31,7 @@ export const Toast = ({ title, onClose, label, onClick, shows }: Props) => {
         onClick={onClose}
         css={[
           tw`flex fixed justify-between w-72 right-0 bottom-3`,
-          tw`bg-gray-900 text-white bg-opacity-90 shadow-md rounded-md`,
+          tw`bg-gray-900 dark:bg-gray-500 text-white bg-opacity-90 shadow-md rounded-md`,
           shows
             ? tw`opacity-100`
             : tw`opacity-0 duration-200 ease-out transition-opacity`,
@@ -49,7 +49,7 @@ export const Toast = ({ title, onClose, label, onClick, shows }: Props) => {
           >
             <button
               onClick={onClick}
-              tw="border-l border-white my-3 px-4 bg-transparent text-blue-500 font-bold focus:outline-none"
+              tw="border-l border-white my-3 px-4 bg-transparent text-blue-500 dark:text-blue-300 font-bold focus:outline-none"
             >
               {label}
             </button>
