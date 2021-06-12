@@ -1,5 +1,5 @@
 .default {
-  @apply tabular-nums text-6xl select-none;
+  @apply font-mono text-6xl select-none;
   text-shadow: currentColor 1px 0px 0px, currentColor 0.540302px 0.841471px 0px,
     currentColor -0.416147px 0.909297px 0px,
     currentColor -0.989992px 0.14112px 0px,
