@@ -9,6 +9,9 @@ module.exports = {
       transitionProperty: {
         position: 'top, left, bottom, right',
       },
+      transitionDuration: {
+        '2000': '2000ms',
+      },
     },
   },
   variants: {
