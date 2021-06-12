@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint src/**/*.ts{,x}",
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc -p tsconfig.build.json && vite build",
     "serve": "vite preview",
     "test": "jest --coverage -c jest.config.js"
   },
