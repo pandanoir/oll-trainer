@@ -43,6 +43,8 @@ export const TimerPage: VFC = () => {
   useTitle('Hi-Timer');
   const [scrambles, setScrambles] = useState<string[]>([]);
   const [index, setIndex] = useState(0);
+  const [swiper, setControlledSwiper] = useState<SwiperCore>();
+  // options
   const [usesInspection, setUsesInspection] = useStoragedState(
     withPrefix('uses-inspection'),
     true
@@ -51,8 +53,6 @@ export const TimerPage: VFC = () => {
     withPrefix('inputs-time-manually'),
     false
   );
-
-  const [swiper, setControlledSwiper] = useState<SwiperCore>();
 
   const {
     sessions,
@@ -71,14 +71,9 @@ export const TimerPage: VFC = () => {
     deleteSession,
   } = useSessions();
   const { times } = sessions[sessionIndex];
-  const ao5 = useMemo(
-    () => calcAo(5, sessions[sessionIndex].times.slice(-5)).pop(),
-    [sessions, sessionIndex]
-  );
-  const ao12 = useMemo(
-    () => calcAo(12, sessions[sessionIndex].times.slice(-12)).pop(),
-    [sessions, sessionIndex]
-  );
+
+  const ao5 = useMemo(() => calcAo(5, times.slice(-5)).pop(), [times]);
+  const ao12 = useMemo(() => calcAo(12, times.slice(-12)).pop(), [times]);
 
   useEffect(() => {
     if (index + 3 >= scrambles.length) {
@@ -126,24 +121,14 @@ export const TimerPage: VFC = () => {
   );
 
   const [isTouchingCover, setIsTouchingCover] = useState(false);
+  const noopWithStopPropagation = useMemo(() => withStopPropagation(noop), []);
 
-  const onTouchStart = useCallback(
-    (event) => {
-      event.stopPropagation();
-      onPointerDown();
-    },
-    [onPointerDown]
-  );
-  const onTouchMove = useCallback((event) => {
-    event.stopPropagation();
-  }, []);
-  const onTouchEnd = useCallback(
-    (event) => {
-      event.stopPropagation();
-      onPointerUp();
-    },
-    [onPointerUp]
-  );
+  const onTouchStart = useMemo(() => withStopPropagation(onPointerDown), [
+    onPointerDown,
+  ]);
+  const onTouchEnd = useMemo(() => withStopPropagation(onPointerUp), [
+    onPointerUp,
+  ]);
 
   const coverRef = usePreventDefault<HTMLDivElement>(
     'touchstart',
@@ -209,7 +194,7 @@ export const TimerPage: VFC = () => {
               onPointerDown();
               setIsTouchingCover(true);
             }}
-            onTouchMove={onTouchMove}
+            onTouchMove={noopWithStopPropagation}
             onTouchEnd={(event) => {
               event.stopPropagation();
               setIsTouchingCover(false);
@@ -242,7 +227,7 @@ export const TimerPage: VFC = () => {
           <Timer
             tw="z-20"
             onTouchStart={onTouchStart}
-            onTouchMove={onTouchMove}
+            onTouchMove={noopWithStopPropagation}
             onTouchEnd={onTouchEnd}
             onMouseDown={onTouchStart}
             onMouseUp={onTouchEnd}
@@ -276,8 +261,8 @@ export const TimerPage: VFC = () => {
         timerState === INSPECTION_STEADY ? (
           <PrimaryButton
             tw="z-20 select-none"
-            onMouseDown={withStopPropagation(noop)}
-            onTouchStart={withStopPropagation(noop)}
+            onMouseDown={noopWithStopPropagation}
+            onTouchStart={noopWithStopPropagation}
             onMouseUp={withStopPropagation(cancelTimer)}
             onTouchEnd={withStopPropagation(cancelTimer)}
           >
