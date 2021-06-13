@@ -119,9 +119,12 @@ export const Session = ({
                   ao12 = ao12List[index];
                 return {
                   name: index + 1,
-                  time: isDNF ? null : time / 1000 + (penalty ? 2 : 0),
-                  ao5: typeof ao5 === 'number' ? ao5 / 1000 : null,
-                  ao12: typeof ao12 === 'number' ? ao12 / 1000 : null,
+                  time: isDNF
+                    ? null
+                    : Math.floor(time) / 1000 + (penalty ? 2 : 0),
+                  ao5: typeof ao5 === 'number' ? Math.floor(ao5) / 1000 : null,
+                  ao12:
+                    typeof ao12 === 'number' ? Math.floor(ao12) / 1000 : null,
                 };
               })}
             />
