@@ -20,6 +20,8 @@ import { findIndexOfMin } from '../../utils/findIndexOfMin';
 import { calcRecord } from '../../utils/calcRecord';
 import { showTime } from '../../utils/showTime';
 import { calcAverage } from '../../utils/calcAverage';
+import { useStoragedState } from '../../utils/hooks/useLocalStorage';
+import { storagePrefix } from '../../constants';
 
 export const Session = ({
   times,
@@ -58,7 +60,10 @@ export const Session = ({
   const ao12List = useMemo(() => calcAo(12, times), [times]);
 
   const { showsModal, openModal, closeModal } = useModal();
-  const [showsGraph, setShowsGraph] = useState(false);
+  const [showsGraph, setShowsGraph] = useStoragedState(
+    `${storagePrefix}-shows-graph`,
+    false
+  );
 
   const resetScroll = () => {
     if (recordListRef.current) {
