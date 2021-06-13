@@ -45,7 +45,10 @@ export const TimerPage: VFC = () => {
   useTitle('Hi-Timer');
   const [scrambles, setScrambles] = useState<string[]>([]);
   const [index, setIndex] = useState(0);
-  const [usesInspection, setUsesInspection] = useState(true);
+  const [usesInspection, setUsesInspection] = useStoragedState(
+    `${storagePrefix}-uses-inspection`,
+    true
+  );
   const [inputsTimeManually, setInputsTimeManually] = useStoragedState(
     `${storagePrefix}-inputs-time-manually`,
     false
