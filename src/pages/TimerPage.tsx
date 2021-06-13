@@ -36,6 +36,7 @@ import './TimerPage.css';
 import { withPrefix } from '../utils/withPrefix';
 import { useCubeTimer } from '../utils/hooks/useCubeTimer';
 import { toCsTimer } from '../utils/toCsTimer';
+import { TimerCover } from '../components/Timer/TimerCover';
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -130,11 +131,6 @@ export const TimerPage: VFC = () => {
     onPointerUp,
   ]);
 
-  const coverRef = usePreventDefault<HTMLDivElement>(
-    'touchstart',
-    !inputsTimeManually
-  );
-
   const wrapperRef = usePreventDefault<HTMLDivElement>(
     'touchstart',
     !inputsTimeManually
@@ -188,34 +184,13 @@ export const TimerPage: VFC = () => {
         ref={wrapperRef}
       >
         {(timerState !== IDOLING || isTouchingCover) && (
-          <div
-            onTouchStart={(event) => {
-              event.stopPropagation();
-              onPointerDown();
-              setIsTouchingCover(true);
-            }}
-            onTouchMove={noopWithStopPropagation}
-            onTouchEnd={(event) => {
-              event.stopPropagation();
-              setIsTouchingCover(false);
-              onPointerUp();
-            }}
-            onMouseDown={(event) => {
-              event.stopPropagation();
-              setIsTouchingCover(true);
-              onPointerDown();
-            }}
-            onMouseUp={(event) => {
-              event.stopPropagation();
-              setIsTouchingCover(false);
-              onPointerUp();
-            }}
-            ref={coverRef}
-            className={
-              timerState === IDOLING && isTouchingCover
-                ? 'cover-transparent'
-                : 'cover'
-            }
+          <TimerCover
+            onPointerDown={onPointerDown}
+            onPointerUp={onPointerUp}
+            onTouch={() => setIsTouchingCover(true)}
+            onLeave={() => setIsTouchingCover(false)}
+            disabled={inputsTimeManually}
+            transparent={timerState === IDOLING && isTouchingCover}
           />
         )}
         {inputsTimeManually ? (
