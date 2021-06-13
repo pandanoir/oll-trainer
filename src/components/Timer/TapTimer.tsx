@@ -1,4 +1,4 @@
-import { PropsWithChildren, HTMLAttributes, forwardRef } from 'react';
+import { PropsWithChildren, HTMLAttributes, forwardRef, memo } from 'react';
 import { exhaustiveCheck } from '../../utils/exhaustiveCheck';
 import {
   TimerState,
@@ -11,32 +11,51 @@ import {
   INSPECTION,
 } from './timerState';
 import './Timer.css';
+import { withStopPropagation } from '../../utils/withStopPropagation';
+import { noop } from '../../utils/noop';
 
-export const TapTimer = forwardRef<
-  HTMLDivElement,
-  PropsWithChildren<
+type Props = {
+  timerState: TimerState;
+  onPointerUp: () => void;
+  onPointerDown: () => void;
+} & Omit<HTMLAttributes<HTMLDivElement>, 'onPointerUp' | 'onPointerDown'>;
+
+const TapTimerRaw = forwardRef<HTMLDivElement, PropsWithChildren<Props>>(
+  function Timer(
     {
-      timerState: TimerState;
-    } & HTMLAttributes<HTMLDivElement>
-  >
->(function Timer({ timerState, children, className = '', ...props }, ref) {
-  return (
-    <div
-      className={`${
-        timerState === STEADY || timerState === INSPECTION_STEADY
-          ? 'steady'
-          : timerState === READY || timerState === INSPECTION_READY
-          ? 'ready'
-          : timerState === WORKING ||
-            timerState === IDOLING ||
-            timerState === INSPECTION
-          ? 'timer'
-          : exhaustiveCheck(timerState)
-      } ${className}`}
-      {...props}
-      ref={ref}
-    >
-      {children}
-    </div>
-  );
-});
+      timerState,
+      className = '',
+      onPointerDown,
+      onPointerUp,
+      children,
+      ...props
+    },
+    ref
+  ) {
+    return (
+      <div
+        className={`${
+          timerState === STEADY || timerState === INSPECTION_STEADY
+            ? 'steady'
+            : timerState === READY || timerState === INSPECTION_READY
+            ? 'ready'
+            : timerState === WORKING ||
+              timerState === IDOLING ||
+              timerState === INSPECTION
+            ? 'timer'
+            : exhaustiveCheck(timerState)
+        } ${className}`}
+        onTouchStart={withStopPropagation(onPointerDown)}
+        onTouchMove={withStopPropagation(noop)}
+        onTouchEnd={withStopPropagation(onPointerUp)}
+        onMouseDown={withStopPropagation(onPointerDown)}
+        onMouseUp={withStopPropagation(onPointerUp)}
+        {...props}
+        ref={ref}
+      >
+        {children}
+      </div>
+    );
+  }
+);
+export const TapTimer = memo(TapTimerRaw);

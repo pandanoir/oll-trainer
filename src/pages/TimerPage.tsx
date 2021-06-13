@@ -122,14 +122,25 @@ export const TimerPage: VFC = () => {
   );
 
   const [isTouchingCover, setIsTouchingCover] = useState(false);
-  const noopWithStopPropagation = useMemo(() => withStopPropagation(noop), []);
 
-  const onTouchStart = useMemo(() => withStopPropagation(onPointerDown), [
-    onPointerDown,
-  ]);
-  const onTouchEnd = useMemo(() => withStopPropagation(onPointerUp), [
-    onPointerUp,
-  ]);
+  const inspectionTimeInteger = Math.ceil(inspectionTime / 1000);
+  const timerStr = useMemo(() => {
+    if (
+      timerState === INSPECTION ||
+      timerState === INSPECTION_READY ||
+      timerState === INSPECTION_STEADY
+    )
+      return inspectionTimeInteger > 0
+        ? inspectionTimeInteger
+        : inspectionTimeInteger > -2
+        ? '+ 2'
+        : 'DNF';
+    if (timerState === IDOLING && times.length > 0)
+      return <RecordItem record={times[times.length - 1]} />;
+    if (timerState === READY) return 'READY';
+    if (timerState === STEADY) return 'STEADY';
+    return showTime(time);
+  }, [inspectionTimeInteger, time, timerState, times]);
 
   return (
     <div tw="relative w-full flex flex-col flex-1 dark:bg-gray-800 dark:text-white">
@@ -184,32 +195,11 @@ export const TimerPage: VFC = () => {
         ) : (
           <TapTimer
             tw="z-20"
-            onTouchStart={onTouchStart}
-            onTouchMove={noopWithStopPropagation}
-            onTouchEnd={onTouchEnd}
-            onMouseDown={onTouchStart}
-            onMouseUp={onTouchEnd}
+            onPointerDown={onPointerDown}
+            onPointerUp={onPointerUp}
             timerState={timerState}
           >
-            {timerState === INSPECTION ||
-            timerState === INSPECTION_READY ||
-            timerState === INSPECTION_STEADY ? (
-              Math.ceil(inspectionTime / 1000) > 0 ? (
-                Math.ceil(inspectionTime / 1000)
-              ) : Math.ceil(inspectionTime / 1000) > -2 ? (
-                '+ 2'
-              ) : (
-                'DNF'
-              )
-            ) : timerState === IDOLING && times.length > 0 ? (
-              <RecordItem record={times[times.length - 1]} />
-            ) : timerState === READY ? (
-              'READY'
-            ) : timerState === STEADY ? (
-              'STEADY'
-            ) : (
-              showTime(time)
-            )}
+            {timerStr}
           </TapTimer>
         )}
         <div>ao5: {ao5 ? (ao5 === DNF ? 'DNF' : showTime(ao5)) : '-'}</div>
@@ -219,8 +209,8 @@ export const TimerPage: VFC = () => {
         timerState === INSPECTION_STEADY ? (
           <PrimaryButton
             tw="z-20 select-none"
-            onMouseDown={noopWithStopPropagation}
-            onTouchStart={noopWithStopPropagation}
+            onMouseDown={withStopPropagation(noop)}
+            onTouchStart={withStopPropagation(noop)}
             onMouseUp={withStopPropagation(cancelTimer)}
             onTouchEnd={withStopPropagation(cancelTimer)}
           >
