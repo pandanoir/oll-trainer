@@ -1,8 +1,9 @@
 import { useRef } from 'react';
 import tw from 'twin.macro';
+import { fromCsTimer } from '../../utils/fromCsTimer';
 import { readAsText } from '../../utils/readAsText';
 import { PrimaryButton } from '../common/PrimaryButton';
-import { SessionData, fromCsTimer } from './timeData';
+import { SessionData } from './timeData';
 
 const FileButton = tw(
   PrimaryButton

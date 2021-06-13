@@ -73,7 +73,7 @@ export const Toast = ({ title, onClose, label, onClick, shows }: Props) => {
             setCursorX(e.touches[i].pageX);
           }
         }}
-        onTouchEnd={(e) => {
+        onTouchEnd={() => {
           if (
             typeof cursorX === 'number' &&
             typeof initialCursorX === 'number' &&
@@ -94,7 +94,7 @@ export const Toast = ({ title, onClose, label, onClick, shows }: Props) => {
             setCursorX(e.pageX);
           }
         }}
-        onMouseUp={(e) => {
+        onMouseUp={() => {
           // mouseup -> click の順でイベントが発火するが、ステートのリセットを click のあとに行いたいのでsetTimeoutをはさんでいる
           setTimeout(() => {
             if (

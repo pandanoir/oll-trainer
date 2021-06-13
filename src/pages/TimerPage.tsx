@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, VFC } from 'react';
-import { useHotkeys } from 'react-hotkeys-hook';
+import { useCallback, useEffect, useMemo, useState, VFC } from 'react';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Scrambo from 'scrambo';
@@ -7,18 +6,15 @@ import tw from 'twin.macro';
 
 import {
   IDOLING,
-  WORKING,
   STEADY,
   READY,
   INSPECTION,
   INSPECTION_READY,
   INSPECTION_STEADY,
 } from '../components/Timer/timerState';
-import { exhaustiveCheck } from '../utils/exhaustiveCheck';
 import { Timer } from '../components/Timer/Timer';
 import { showTime } from '../utils/showTime';
 import { ToggleButton } from '../components/common/ToggleButton';
-import { useTimer } from '../utils/hooks/useTimer';
 import { useSessions } from '../utils/hooks/useTimes';
 import { RecordModifier } from '../components/Timer/RecordModifier';
 import { RecordItem } from '../components/Timer/RecordItem';
@@ -26,7 +22,7 @@ import { Toast, useToast } from '../components/common/Toast';
 import { TypingTimer } from '../components/Timer/TypingTimer';
 import { ExportButton } from '../components/Timer/ExportButton';
 import { FileInput } from '../components/Timer/FileInput';
-import { DNF, toCsTimer } from '../components/Timer/timeData';
+import { DNF } from '../components/Timer/timeData';
 import { calcAo } from '../utils/calcAo';
 import { Session } from '../components/Timer/Session';
 import { PrimaryButton } from '../components/common/PrimaryButton';
@@ -39,6 +35,7 @@ import '../swiper.css';
 import './TimerPage.css';
 import { withPrefix } from '../utils/withPrefix';
 import { useCubeTimer } from '../utils/hooks/useCubeTimer';
+import { toCsTimer } from '../utils/toCsTimer';
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -102,14 +99,17 @@ export const TimerPage: VFC = () => {
   } = useCubeTimer({
     usesInspection,
     inputsTimeManually,
-    onFinish: useCallback((data) => {
-      addTime({
-        ...data,
-        scramble: scrambles[index],
-        date: Date.now(),
-      });
-      swiper?.slideNext();
-    }, []),
+    onFinish: useCallback(
+      (data) => {
+        addTime({
+          ...data,
+          scramble: scrambles[index],
+          date: Date.now(),
+        });
+        swiper?.slideNext();
+      },
+      [addTime, index, scrambles, swiper]
+    ),
   });
 
   const { openToast, closeToast, ...toastProps } = useToast();
