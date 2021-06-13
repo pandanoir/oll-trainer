@@ -4,9 +4,9 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { useDarkMode } from './useDarkMode';
 import { act } from 'react-test-renderer';
-import { storagePrefix } from '../../constants';
+import { withPrefix } from '../withPrefix';
 
-const STORAGE_KEY = `${storagePrefix}-theme`;
+const STORAGE_KEY = withPrefix('theme');
 describe('useDarkMode', () => {
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {

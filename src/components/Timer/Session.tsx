@@ -21,7 +21,7 @@ import { calcRecord } from '../../utils/calcRecord';
 import { showTime } from '../../utils/showTime';
 import { calcAverage } from '../../utils/calcAverage';
 import { useStoragedState } from '../../utils/hooks/useLocalStorage';
-import { storagePrefix } from '../../constants';
+import { withPrefix } from '../../utils/withPrefix';
 
 export const Session = ({
   times,
@@ -61,7 +61,7 @@ export const Session = ({
 
   const { showsModal, openModal, closeModal } = useModal();
   const [showsGraph, setShowsGraph] = useStoragedState(
-    `${storagePrefix}-shows-graph`,
+    withPrefix('shows-graph'),
     false
   );
 

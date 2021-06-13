@@ -1,8 +1,8 @@
 import { SessionData, TimeData } from '../../components/Timer/timeData';
 import { useStoragedImmerState, useStoragedState } from './useLocalStorage';
-import { storagePrefix } from '../../constants';
 import { useCallback } from 'react';
 import { zerofill } from '../zerofill';
+import { withPrefix } from '../withPrefix';
 
 const today = new Date();
 export const useSessions = (
@@ -17,11 +17,11 @@ export const useSessions = (
   ]
 ) => {
   const [sessions, updateSessions] = useStoragedImmerState(
-    `${storagePrefix}-sessions`,
+    withPrefix('sessions'),
     initialSessions
   );
   const [sessionIndex, setSessionIndex] = useStoragedState(
-    `${storagePrefix}-sessionIndex`,
+    withPrefix('sessionIndex'),
     0
   );
 

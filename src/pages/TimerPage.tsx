@@ -32,12 +32,12 @@ import { Session } from '../components/Timer/Session';
 import { PrimaryButton } from '../components/common/PrimaryButton';
 import { useTitle } from '../utils/hooks/useTitle';
 import { useStoragedState } from '../utils/hooks/useLocalStorage';
-import { storagePrefix } from '../constants';
 import { usePreventDefault } from '../utils/hooks/usePreventDefault';
 import { withStopPropagation } from '../utils/withStopPropagation';
 import { noop } from '../utils/noop';
 import '../swiper.css';
 import './TimerPage.css';
+import { withPrefix } from '../utils/withPrefix';
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -46,11 +46,11 @@ export const TimerPage: VFC = () => {
   const [scrambles, setScrambles] = useState<string[]>([]);
   const [index, setIndex] = useState(0);
   const [usesInspection, setUsesInspection] = useStoragedState(
-    `${storagePrefix}-uses-inspection`,
+    withPrefix('uses-inspection'),
     true
   );
   const [inputsTimeManually, setInputsTimeManually] = useStoragedState(
-    `${storagePrefix}-inputs-time-manually`,
+    withPrefix('inputs-time-manually'),
     false
   );
 

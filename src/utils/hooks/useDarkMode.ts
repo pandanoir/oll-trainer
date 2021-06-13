@@ -5,9 +5,9 @@ import {
   useContext,
   createContext,
 } from 'react';
-import { storagePrefix } from '../../constants';
+import { withPrefix } from '../withPrefix';
 
-const STORAGE_KEY = `${storagePrefix}-theme`;
+const STORAGE_KEY = withPrefix('theme');
 export const useDarkMode = () => {
   const [darkMode, setDarkMode] = useState(false);
 
