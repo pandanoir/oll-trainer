@@ -204,8 +204,8 @@ export const Session = ({
       </div>
       {showsModal && (
         <Modal tw="lg:inset-x-1/4 lg:w-1/2" onClose={closeModal}>
-          <div tw="flex flex-col px-3.5 py-5 gap-2 h-full">
-            <div tw="flex gap-2">
+          <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
+            <div tw="flex space-x-2">
               <span tw="text-3xl">Sessions</span>
               <IconButton
                 tw="px-2.5 my-1.5 text-lg text-white bg-gray-700 rounded"
@@ -234,7 +234,7 @@ export const Session = ({
                     : '-';
                 return (
                   <li
-                    tw="px-3 pb-1 pt-3 lg:mr-6 text-lg flex justify-between items-center border-b gap-3"
+                    tw="px-3 pb-1 pt-3 lg:mr-6 text-lg flex justify-between items-center border-b space-x-3"
                     key={`${index}--${session.name}`}
                   >
                     <span
@@ -246,7 +246,7 @@ export const Session = ({
                     >
                       {session.name}
                     </span>
-                    <span tw="grid grid-rows-3 md:flex md:gap-2 text-sm md:text-base">
+                    <span tw="grid grid-rows-3 md:flex md:space-x-2 text-sm md:text-base">
                       <span>
                         {session.times.length} <span tw="text-sm">SOLVES</span>
                       </span>

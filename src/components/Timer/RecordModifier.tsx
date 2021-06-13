@@ -1,4 +1,4 @@
-import 'twin.macro';
+import tw from 'twin.macro';
 
 import { PrimaryButton } from '../common/PrimaryButton';
 import { DangerButton } from '../common/DangerButton';
@@ -7,6 +7,7 @@ import { SecondaryButton } from '../common/SecondaryButton';
 import { noop } from '../../utils/noop';
 import { withStopPropagation } from '../../utils/withStopPropagation';
 
+const ButtonWrapper = tw.div`flex justify-center space-x-2 flex-wrap`;
 export const RecordModifier = ({
   record,
   changeToDNF,
@@ -24,7 +25,7 @@ export const RecordModifier = ({
 }) => {
   if (record.isDNF) {
     return (
-      <div tw="flex justify-center flex-wrap">
+      <ButtonWrapper>
         <DangerButton
           onMouseDown={withStopPropagation(noop)}
           onTouchStart={withStopPropagation(noop)}
@@ -49,12 +50,12 @@ export const RecordModifier = ({
         >
           delete
         </SecondaryButton>
-      </div>
+      </ButtonWrapper>
     );
   }
   if (record.penalty) {
     return (
-      <div tw="flex justify-center gap-2 flex-wrap">
+      <ButtonWrapper>
         <PrimaryButton
           onMouseDown={withStopPropagation(noop)}
           onTouchStart={withStopPropagation(noop)}
@@ -91,11 +92,11 @@ export const RecordModifier = ({
         >
           delete
         </SecondaryButton>
-      </div>
+      </ButtonWrapper>
     );
   }
   return (
-    <div tw="flex justify-center gap-2 flex-wrap">
+    <ButtonWrapper>
       <PrimaryButton
         onMouseDown={withStopPropagation(noop)}
         onTouchStart={withStopPropagation(noop)}
@@ -132,6 +133,6 @@ export const RecordModifier = ({
       >
         delete
       </SecondaryButton>
-    </div>
+    </ButtonWrapper>
   );
 };

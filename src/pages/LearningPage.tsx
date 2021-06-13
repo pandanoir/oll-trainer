@@ -45,7 +45,7 @@ export const LearningPage: VFC = () => {
     <div tw="flex flex-col items-center">
       のこり {size} 個
       <Solve index={target[0]} />
-      <div tw="flex gap-2">
+      <div tw="flex space-x-2">
         <Button onClick={prev}>prev</Button>
         <Button onClick={next}>next</Button>
         <PrimaryButton onClick={() => check(target[1])}>check</PrimaryButton>

@@ -37,7 +37,7 @@ export const OllPage: VFC = () => {
     <div>
       <CubeFace cubeStatus={cubeStatus} toggleCube={toggleCube} />
       <Button onClick={clearCube}>clear face</Button>
-      <div tw="flex overflow-x-scroll gap-3">
+      <div tw="flex overflow-x-scroll space-x-3">
         {faces.map((_face, index) => {
           for (let face = _face, j = 0; j < 4; ++j, face = rotate(face)) {
             if ([...Array(9).keys()].every((i) => cubeStatus[i] === face[i])) {

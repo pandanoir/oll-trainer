@@ -85,7 +85,7 @@ export const Times: VFC<{
 
   return (
     <>
-      <div tw="flex flex-col gap-5">
+      <div tw="flex flex-col space-y-5">
         <ul tw="flex flex-col-reverse px-3">
           <li tw="grid grid-cols-3 border-b border-gray-300 order-1">
             <span>best time</span>
@@ -186,12 +186,12 @@ export const Times: VFC<{
           if (modalType === 'time') {
             return (
               <Modal onClose={closeModal}>
-                <div tw="relative flex flex-col gap-6 p-6 h-full">
-                  <IconButton
-                    icon={faTimes}
-                    tw="absolute top-0 right-0 -m-2 inline-grid w-6 h-6 place-items-center rounded-full bg-white dark:bg-gray-700"
-                    onClick={closeModal}
-                  />
+                <IconButton
+                  icon={faTimes}
+                  tw="absolute top-0 right-0 -m-2 inline-grid w-6 h-6 place-items-center rounded-full bg-white dark:bg-gray-700"
+                  onClick={closeModal}
+                />
+                <div tw="relative flex flex-col space-y-6 p-6 h-full">
                   <BigRecord
                     record={times[selectedIndex]}
                     onClick={closeModal}
@@ -216,7 +216,7 @@ export const Times: VFC<{
                       });
                     }}
                   />
-                  <span tw="flex gap-2">
+                  <span tw="flex space-x-2">
                     <span>scramble:</span>
                     <textarea
                       tw="inline-block resize-none flex-1 bg-transparent"
@@ -259,15 +259,15 @@ ${selectedTimes.reduce((acc, time, index) => {
 }, '')}`.trimEnd();
             return (
               <Modal onClose={closeModal}>
-                <div tw="relative flex flex-col gap-6 p-6 h-full">
+                <IconButton
+                  icon={faTimes}
+                  tw="absolute top-0 right-0 -m-2 inline-grid w-6 h-6 place-items-center rounded-full bg-white dark:bg-gray-700"
+                  onClick={closeModal}
+                />
+                <div tw="relative flex flex-col space-y-6 p-6 h-full">
                   <span tw="bg-blue-200 dark:bg-blue-800 w-max px-3 rounded text-lg font-bold dark:font-normal">
                     ao{averageSize}
                   </span>
-                  <IconButton
-                    icon={faTimes}
-                    tw="absolute top-0 right-0 -m-2 inline-grid w-6 h-6 place-items-center rounded-full bg-white dark:bg-gray-700"
-                    onClick={closeModal}
-                  />
                   <div
                     css={[
                       tw`text-center text-4xl md:text-8xl font-bold cursor-pointer`,
@@ -297,7 +297,10 @@ ${selectedTimes.reduce((acc, time, index) => {
                       ))}
                     </ul>
                   </div>
-                  <span tw="flex gap-3 items-center flex-wrap" key={tweetText}>
+                  <span
+                    tw="flex space-x-3 items-center flex-wrap"
+                    key={tweetText}
+                  >
                     <TweetButton text={tweetText} />
                     <ToggleButton checked={sharesScramble} onChange={onChange}>
                       スクランブルをシェアする
