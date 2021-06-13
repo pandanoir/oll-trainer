@@ -28,7 +28,6 @@ import { Session } from '../components/Timer/Session';
 import { PrimaryButton } from '../components/common/PrimaryButton';
 import { useTitle } from '../utils/hooks/useTitle';
 import { useStoragedState } from '../utils/hooks/useLocalStorage';
-import { usePreventDefault } from '../utils/hooks/usePreventDefault';
 import { withStopPropagation } from '../utils/withStopPropagation';
 import { noop } from '../utils/noop';
 import '../swiper.css';
@@ -37,6 +36,7 @@ import { withPrefix } from '../utils/withPrefix';
 import { useCubeTimer } from '../utils/hooks/useCubeTimer';
 import { toCsTimer } from '../utils/toCsTimer';
 import { TimerCover } from '../components/Timer/TimerCover';
+import { TimerArea } from '../components/Timer/TimerArea';
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -131,11 +131,6 @@ export const TimerPage: VFC = () => {
     onPointerUp,
   ]);
 
-  const wrapperRef = usePreventDefault<HTMLDivElement>(
-    'touchstart',
-    !inputsTimeManually
-  );
-
   return (
     <div tw="relative w-full flex flex-col flex-1 dark:bg-gray-800 dark:text-white">
       <div tw="flex gap-1 px-3 overflow-x-auto">
@@ -165,23 +160,11 @@ export const TimerPage: VFC = () => {
           <SwiperSlide key={index}>{scramble}</SwiperSlide>
         ))}
       </Swiper>
-      <div
-        css={[
-          tw`text-center flex-1 flex flex-col justify-center items-center select-none`,
-          timerState === IDOLING ? '' : tw`z-50`,
-        ]}
-        onTouchStart={(event) => {
-          if (timerState !== IDOLING) return;
-          event.stopPropagation();
-          onPointerDown();
-        }}
-        onTouchEnd={onTouchEnd}
-        onMouseDown={(event) => {
-          if (timerState !== IDOLING) return;
-          event.stopPropagation();
-          onPointerDown();
-        }}
-        ref={wrapperRef}
+      <TimerArea
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
+        disabled={inputsTimeManually}
+        overlappingScreen={timerState !== IDOLING}
       >
         {(timerState !== IDOLING || isTouchingCover) && (
           <TimerCover
@@ -266,7 +249,7 @@ export const TimerPage: VFC = () => {
             />
           )
         )}
-      </div>
+      </TimerArea>
       <Session
         times={times}
         changeToDNF={changeToDNF}
