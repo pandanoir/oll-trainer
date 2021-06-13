@@ -276,7 +276,7 @@ ${selectedTimes.reduce((acc, time, index) => {
                   >
                     {showAverage(avg)}
                   </div>
-                  <div className="flex-shrink overflow-x-hidden overflow-y-auto">
+                  <div tw="flex-shrink overflow-x-hidden overflow-y-auto">
                     <ul
                       tw="inline-grid gap-x-2 gap-y-1"
                       style={{ gridTemplateColumns: 'max-content 1fr' }}

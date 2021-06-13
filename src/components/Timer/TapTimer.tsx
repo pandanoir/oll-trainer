@@ -1,4 +1,6 @@
 import { PropsWithChildren, HTMLAttributes, forwardRef, memo } from 'react';
+import clsx from 'clsx';
+
 import { exhaustiveCheck } from '../../utils/exhaustiveCheck';
 import {
   TimerState,
@@ -34,7 +36,7 @@ const TapTimerRaw = forwardRef<HTMLDivElement, PropsWithChildren<Props>>(
   ) {
     return (
       <div
-        className={`${
+        className={clsx(
           timerState === STEADY || timerState === INSPECTION_STEADY
             ? 'steady'
             : timerState === READY || timerState === INSPECTION_READY
@@ -43,8 +45,9 @@ const TapTimerRaw = forwardRef<HTMLDivElement, PropsWithChildren<Props>>(
               timerState === IDOLING ||
               timerState === INSPECTION
             ? 'timer'
-            : exhaustiveCheck(timerState)
-        } ${className}`}
+            : exhaustiveCheck(timerState),
+          className
+        )}
         onTouchStart={withStopPropagation(onPointerDown)}
         onTouchMove={withStopPropagation(noop)}
         onTouchEnd={withStopPropagation(onPointerUp)}
