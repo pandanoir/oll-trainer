@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState, VFC } from 'react';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Scrambo from 'scrambo';
-import tw from 'twin.macro';
+import 'twin.macro';
 
 import {
   IDOLING,
@@ -12,7 +12,7 @@ import {
   INSPECTION_READY,
   INSPECTION_STEADY,
 } from '../components/Timer/timerState';
-import { Timer } from '../components/Timer/Timer';
+import { TapTimer } from '../components/Timer/TapTimer';
 import { showTime } from '../utils/showTime';
 import { ToggleButton } from '../components/common/ToggleButton';
 import { useSessions } from '../utils/hooks/useTimes';
@@ -182,7 +182,7 @@ export const TimerPage: VFC = () => {
             onInput={onTypingTimerInput}
           />
         ) : (
-          <Timer
+          <TapTimer
             tw="z-20"
             onTouchStart={onTouchStart}
             onTouchMove={noopWithStopPropagation}
@@ -210,7 +210,7 @@ export const TimerPage: VFC = () => {
             ) : (
               showTime(time)
             )}
-          </Timer>
+          </TapTimer>
         )}
         <div>ao5: {ao5 ? (ao5 === DNF ? 'DNF' : showTime(ao5)) : '-'}</div>
         <div>ao12: {ao12 ? (ao12 === DNF ? 'DNF' : showTime(ao12)) : '-'}</div>

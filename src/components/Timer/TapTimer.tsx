@@ -12,7 +12,7 @@ import {
 } from './timerState';
 import './Timer.css';
 
-export const Timer = forwardRef<
+export const TapTimer = forwardRef<
   HTMLDivElement,
   PropsWithChildren<
     {
