@@ -341,6 +341,7 @@ export const TimerPage: VFC = () => {
           event.stopPropagation();
           onPointerDown();
         }}
+        onTouchEnd={onTouchEnd}
         onMouseDown={(event) => {
           if (timerState !== IDOLING) return;
           event.stopPropagation();
