@@ -17,6 +17,7 @@ export const useCubeTimer = ({
   inputsTimeManually,
   usesInspection,
   onFinish,
+  now = () => performance.now(),
 }: {
   inputsTimeManually: boolean;
   usesInspection: boolean;
@@ -25,6 +26,7 @@ export const useCubeTimer = ({
     penalty?: boolean;
     isDNF?: boolean;
   }) => void;
+  now?: () => number;
 }) => {
   const [penalty, setPenalty] = useState<null | '+2' | typeof DNF>(null);
   const {
@@ -40,6 +42,7 @@ export const useCubeTimer = ({
     tapTimerInInspection,
     returnToInspection,
   } = useTimer({
+    now,
     onFinishTimer: useCallback(
       (time) => {
         if (penalty === '+2') {
