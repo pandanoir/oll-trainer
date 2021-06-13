@@ -43,7 +43,7 @@ export const fromCsTimer = (json: unknown): SessionData[] => {
           time: item[0][1],
         };
       }),
-      name: sessionData[key.replace(/^session/, '')].name,
+      name: `${sessionData[key.replace(/^session/, '')].name}`,
     };
     return copied;
   }, []);
