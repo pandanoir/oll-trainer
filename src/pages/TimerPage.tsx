@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState, VFC } from 'react';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Scrambo from 'scrambo';
-import 'twin.macro';
+import tw from 'twin.macro';
 
 import {
   IDOLING,
@@ -11,6 +11,7 @@ import {
   INSPECTION,
   INSPECTION_READY,
   INSPECTION_STEADY,
+  WORKING,
 } from '../components/Timer/timerState';
 import { TapTimer } from '../components/Timer/TapTimer';
 import { showTime } from '../utils/showTime';
@@ -203,7 +204,12 @@ export const TimerPage: VFC = () => {
         )}
         <div>ao5: {ao5 ? (ao5 === DNF ? 'DNF' : showTime(ao5)) : '-'}</div>
         <div>ao12: {ao12 ? (ao12 === DNF ? 'DNF' : showTime(ao12)) : '-'}</div>
-        <div tw="z-20 pointer-events-none select-none">
+        <div
+          css={[
+            tw`pointer-events-none select-none`,
+            timerState === WORKING ? tw`z-auto` : tw`z-20`,
+          ]}
+        >
           {timerState === INSPECTION ||
           timerState === INSPECTION_READY ||
           timerState === INSPECTION_STEADY ? (
