@@ -6,40 +6,20 @@ import { withStopPropagation } from '../../utils/withStopPropagation';
 const TimerCoverRaw: VFC<{
   onPointerDown: () => void;
   onPointerUp: () => void;
-  onTouch: () => void;
-  onLeave: () => void;
   disabled?: boolean;
   transparent?: boolean;
 }> = ({
   onPointerDown,
   onPointerUp,
-  onTouch,
-  onLeave,
   disabled = false,
   transparent = false,
 }) => (
   <div
-    onTouchStart={(event) => {
-      event.stopPropagation();
-      onPointerDown();
-      onTouch();
-    }}
+    onTouchStart={withStopPropagation(onPointerDown)}
     onTouchMove={withStopPropagation(noop)}
-    onTouchEnd={(event) => {
-      event.stopPropagation();
-      onLeave();
-      onPointerUp();
-    }}
-    onMouseDown={(event) => {
-      event.stopPropagation();
-      onTouch();
-      onPointerDown();
-    }}
-    onMouseUp={(event) => {
-      event.stopPropagation();
-      onLeave();
-      onPointerUp();
-    }}
+    onTouchEnd={withStopPropagation(onPointerUp)}
+    onMouseDown={withStopPropagation(onPointerDown)}
+    onMouseUp={withStopPropagation(onPointerUp)}
     ref={usePreventDefault('touchstart', !disabled)}
     className={transparent ? 'cover-transparent' : 'cover'}
   />

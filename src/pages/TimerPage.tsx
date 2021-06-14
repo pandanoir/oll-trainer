@@ -122,8 +122,6 @@ export const TimerPage: VFC = () => {
     [addTime, scrambles, index, swiper]
   );
 
-  const [isTouchingCover, setIsTouchingCover] = useState(false);
-
   const inspectionTimeInteger = Math.ceil(inspectionTime / 1000);
   const timerStr = useMemo(() => {
     if (
@@ -182,8 +180,6 @@ export const TimerPage: VFC = () => {
         <TimerCover
           onPointerDown={onPointerDown}
           onPointerUp={onPointerUp}
-          onTouch={() => setIsTouchingCover(true)}
-          onLeave={() => setIsTouchingCover(false)}
           disabled={inputsTimeManually}
           transparent={timerState === IDOLING}
         />
