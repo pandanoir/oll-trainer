@@ -7,7 +7,7 @@ import { SecondaryButton } from '../common/SecondaryButton';
 import { noop } from '../../utils/noop';
 import { withStopPropagation } from '../../utils/withStopPropagation';
 
-const ButtonWrapper = tw.div`flex justify-center space-x-2 flex-wrap`;
+const ButtonWrapper = tw.div`flex justify-center space-x-2 flex-wrap pointer-events-none`;
 export const RecordModifier = ({
   record,
   changeToDNF,

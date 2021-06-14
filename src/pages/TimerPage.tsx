@@ -144,7 +144,7 @@ export const TimerPage: VFC = () => {
 
   return (
     <div tw="relative w-full flex flex-col flex-1 dark:bg-gray-800 dark:text-white">
-      <div tw="flex space-x-1 px-3 overflow-x-auto">
+      <div tw="flex space-x-1 px-3 overflow-x-auto z-10">
         <ToggleButton checked={usesInspection} onChange={setUsesInspection}>
           インスペクションを使用
         </ToggleButton>
@@ -166,6 +166,7 @@ export const TimerPage: VFC = () => {
         spaceBetween={50}
         navigation
         onSwiper={setControlledSwiper}
+        style={{ zIndex: 10 }}
       >
         {scrambles.map((scramble, index) => (
           <SwiperSlide key={index}>{scramble}</SwiperSlide>
@@ -177,16 +178,14 @@ export const TimerPage: VFC = () => {
         disabled={inputsTimeManually}
         overlappingScreen={timerState !== IDOLING}
       >
-        {(timerState !== IDOLING || isTouchingCover) && (
-          <TimerCover
-            onPointerDown={onPointerDown}
-            onPointerUp={onPointerUp}
-            onTouch={() => setIsTouchingCover(true)}
-            onLeave={() => setIsTouchingCover(false)}
-            disabled={inputsTimeManually}
-            transparent={timerState === IDOLING && isTouchingCover}
-          />
-        )}
+        <TimerCover
+          onPointerDown={onPointerDown}
+          onPointerUp={onPointerUp}
+          onTouch={() => setIsTouchingCover(true)}
+          onLeave={() => setIsTouchingCover(false)}
+          disabled={inputsTimeManually}
+          transparent={timerState === IDOLING}
+        />
         {inputsTimeManually ? (
           <TypingTimer
             prevTime={times.length > 0 ? times[times.length - 1] : undefined}
@@ -204,41 +203,42 @@ export const TimerPage: VFC = () => {
         )}
         <div>ao5: {ao5 ? (ao5 === DNF ? 'DNF' : showTime(ao5)) : '-'}</div>
         <div>ao12: {ao12 ? (ao12 === DNF ? 'DNF' : showTime(ao12)) : '-'}</div>
-        {timerState === INSPECTION ||
-        timerState === INSPECTION_READY ||
-        timerState === INSPECTION_STEADY ? (
-          <PrimaryButton
-            tw="z-20 select-none"
-            onMouseDown={withStopPropagation(noop)}
-            onTouchStart={withStopPropagation(noop)}
-            onMouseUp={withStopPropagation(cancelTimer)}
-            onTouchEnd={withStopPropagation(cancelTimer)}
-          >
-            cancel
-          </PrimaryButton>
-        ) : (
-          times.length > 0 && (
-            <RecordModifier
-              record={times[times.length - 1]}
-              changeToDNF={() => changeToDNF(times.length - 1)}
-              imposePenalty={() => imposePenalty(times.length - 1)}
-              undoDNF={() => undoDNF(times.length - 1)}
-              undoPenalty={() => undoPenalty(times.length - 1)}
-              deleteRecord={() => {
-                const deletedRecord = deleteRecord(times.length - 1);
-                openToast({
-                  title: '削除しました',
-                  buttonLabel: '元に戻す',
-                  callback: () => {
-                    insertRecord(times.length - 1, deletedRecord);
-                    closeToast();
-                  },
-                  timeout: 10 * 1000,
-                });
-              }}
-            />
-          )
-        )}
+        <div tw="z-20 pointer-events-none select-none">
+          {timerState === INSPECTION ||
+          timerState === INSPECTION_READY ||
+          timerState === INSPECTION_STEADY ? (
+            <PrimaryButton
+              onMouseDown={withStopPropagation(noop)}
+              onTouchStart={withStopPropagation(noop)}
+              onMouseUp={withStopPropagation(cancelTimer)}
+              onTouchEnd={withStopPropagation(cancelTimer)}
+            >
+              cancel
+            </PrimaryButton>
+          ) : (
+            times.length > 0 && (
+              <RecordModifier
+                record={times[times.length - 1]}
+                changeToDNF={() => changeToDNF(times.length - 1)}
+                imposePenalty={() => imposePenalty(times.length - 1)}
+                undoDNF={() => undoDNF(times.length - 1)}
+                undoPenalty={() => undoPenalty(times.length - 1)}
+                deleteRecord={() => {
+                  const deletedRecord = deleteRecord(times.length - 1);
+                  openToast({
+                    title: '削除しました',
+                    buttonLabel: '元に戻す',
+                    callback: () => {
+                      insertRecord(times.length - 1, deletedRecord);
+                      closeToast();
+                    },
+                    timeout: 10 * 1000,
+                  });
+                }}
+              />
+            )
+          )}
+        </div>
       </TimerArea>
       <Session
         times={times}

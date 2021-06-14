@@ -1,4 +1,4 @@
-import { PropsWithChildren, HTMLAttributes, forwardRef, memo } from 'react';
+import { PropsWithChildren, HTMLAttributes, memo, VFC } from 'react';
 import clsx from 'clsx';
 
 import { exhaustiveCheck } from '../../utils/exhaustiveCheck';
@@ -13,52 +13,33 @@ import {
   INSPECTION,
 } from './timerState';
 import './Timer.css';
-import { withStopPropagation } from '../../utils/withStopPropagation';
-import { noop } from '../../utils/noop';
 
 type Props = {
   timerState: TimerState;
-  onPointerUp: () => void;
-  onPointerDown: () => void;
-} & Omit<HTMLAttributes<HTMLDivElement>, 'onPointerUp' | 'onPointerDown'>;
+} & HTMLAttributes<HTMLDivElement>;
 
-const TapTimerRaw = forwardRef<HTMLDivElement, PropsWithChildren<Props>>(
-  function Timer(
-    {
-      timerState,
-      className = '',
-      onPointerDown,
-      onPointerUp,
-      children,
-      ...props
-    },
-    ref
-  ) {
-    return (
-      <div
-        className={clsx(
-          timerState === STEADY || timerState === INSPECTION_STEADY
-            ? 'steady'
-            : timerState === READY || timerState === INSPECTION_READY
-            ? 'ready'
-            : timerState === WORKING ||
-              timerState === IDOLING ||
-              timerState === INSPECTION
-            ? 'timer'
-            : exhaustiveCheck(timerState),
-          className
-        )}
-        onTouchStart={withStopPropagation(onPointerDown)}
-        onTouchMove={withStopPropagation(noop)}
-        onTouchEnd={withStopPropagation(onPointerUp)}
-        onMouseDown={withStopPropagation(onPointerDown)}
-        onMouseUp={withStopPropagation(onPointerUp)}
-        {...props}
-        ref={ref}
-      >
-        {children}
-      </div>
-    );
-  }
+const TapTimerRaw: VFC<PropsWithChildren<Props>> = ({
+  timerState,
+  className = '',
+  children,
+  ...props
+}) => (
+  <div
+    className={clsx(
+      timerState === STEADY || timerState === INSPECTION_STEADY
+        ? 'steady'
+        : timerState === READY || timerState === INSPECTION_READY
+        ? 'ready'
+        : timerState === WORKING ||
+          timerState === IDOLING ||
+          timerState === INSPECTION
+        ? 'timer'
+        : exhaustiveCheck(timerState),
+      className
+    )}
+    {...props}
+  >
+    {children}
+  </div>
 );
 export const TapTimer = memo(TapTimerRaw);

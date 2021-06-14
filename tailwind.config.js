@@ -10,7 +10,10 @@ module.exports = {
         position: 'top, left, bottom, right',
       },
       transitionDuration: {
-        '2000': '2000ms',
+        2000: '2000ms',
+      },
+      zIndex: {
+        '-10': '-10',
       },
     },
   },
