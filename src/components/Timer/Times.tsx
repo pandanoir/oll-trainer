@@ -114,7 +114,7 @@ export const Times: VFC<{
                 tw`py-1`,
               ]}
             >
-              {(bestAo5Index !== -1 && showAverage(ao5[bestAo5Index])) || '-'}
+              {bestAo5Index !== -1 && showAverage(ao5[bestAo5Index], '-')}
             </span>
             <span
               onClick={
@@ -129,8 +129,7 @@ export const Times: VFC<{
                 tw`py-1`,
               ]}
             >
-              {(bestAo12Index !== -1 && showAverage(ao12[bestAo12Index])) ||
-                '-'}
+              {bestAo12Index !== -1 && showAverage(ao12[bestAo12Index], '-')}
             </span>
           </li>
         </ul>
@@ -165,7 +164,7 @@ export const Times: VFC<{
                     tw`border-b border-gray-200 dark:border-gray-700`,
                   ]}
                 >
-                  {showAverage(ao5[index]) || '-'}
+                  {showAverage(ao5[index], '-')}
                 </span>
                 <span
                   onClick={ao12[index] ? () => openAo12Modal(index) : noop}
@@ -174,7 +173,7 @@ export const Times: VFC<{
                     tw`border-b border-gray-200 dark:border-gray-700`,
                   ]}
                 >
-                  {showAverage(ao12[index]) || '-'}
+                  {showAverage(ao12[index], '-')}
                 </span>
               </li>
             ))

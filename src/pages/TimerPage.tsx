@@ -38,6 +38,7 @@ import { useCubeTimer } from '../utils/hooks/useCubeTimer';
 import { toCsTimer } from '../utils/toCsTimer';
 import { TimerCover } from '../components/Timer/TimerCover';
 import { TimerArea } from '../components/Timer/TimerArea';
+import { showAverage } from '../utils/showAverage';
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -74,8 +75,10 @@ export const TimerPage: VFC = () => {
   } = useSessions();
   const { times } = sessions[sessionIndex];
 
-  const ao5 = useMemo(() => calcAo(5, times.slice(-5)).pop(), [times]);
-  const ao12 = useMemo(() => calcAo(12, times.slice(-12)).pop(), [times]);
+  const ao5 = useMemo(() => calcAo(5, times.slice(-5)).pop() || null, [times]);
+  const ao12 = useMemo(() => calcAo(12, times.slice(-12)).pop() || null, [
+    times,
+  ]);
 
   useEffect(() => {
     if (index + 3 >= scrambles.length) {
@@ -198,8 +201,8 @@ export const TimerPage: VFC = () => {
             {timerStr}
           </TapTimer>
         )}
-        <div>ao5: {ao5 ? (ao5 === DNF ? 'DNF' : showTime(ao5)) : '-'}</div>
-        <div>ao12: {ao12 ? (ao12 === DNF ? 'DNF' : showTime(ao12)) : '-'}</div>
+        <div>ao5: {showAverage(ao5, '-')}</div>
+        <div>ao12: {showAverage(ao12, '-')}</div>
         <div
           css={[
             tw`pointer-events-none select-none`,
