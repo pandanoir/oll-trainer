@@ -206,7 +206,11 @@ export const TimerPage: VFC = () => {
         <div
           css={[
             tw`pointer-events-none select-none`,
-            timerState === WORKING ? tw`z-auto` : tw`z-20`,
+            timerState === READY ||
+            timerState === STEADY ||
+            timerState === WORKING
+              ? tw`z-auto`
+              : tw`z-20`,
           ]}
         >
           {timerState === INSPECTION ||
