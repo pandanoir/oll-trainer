@@ -14,7 +14,7 @@ const TimerAreaRaw: VFC<
   <div
     css={[
       tw`text-center flex-1 flex flex-col justify-center items-center select-none`,
-      !overlappingScreen ? tw`overflow-hidden z-0` : tw`z-50`,
+      !overlappingScreen ? tw`relative overflow-hidden z-0` : tw`z-50`,
     ]}
     ref={usePreventDefault('touchstart', !disabled)}
   >

@@ -143,7 +143,7 @@ export const TimerPage: VFC = () => {
 
   return (
     <div tw="relative w-full flex flex-col flex-1 dark:bg-gray-800 dark:text-white">
-      <div tw="flex space-x-1 px-3 overflow-x-auto z-10">
+      <div tw="flex space-x-1 px-3 overflow-x-auto">
         <ToggleButton checked={usesInspection} onChange={setUsesInspection}>
           インスペクションを使用
         </ToggleButton>

@@ -1,5 +1,5 @@
 .cover-transparent {
-  @apply absolute bottom-0 w-screen h-screen z-10 bg-transparent dark:bg-transparent select-none;
+  @apply absolute bottom-0 w-screen h-screen bg-transparent dark:bg-transparent select-none;
 }
 .cover {
   @apply absolute bottom-0 w-screen h-screen bg-gray-50 dark:bg-gray-900 z-10 bg-opacity-50 dark:bg-opacity-50 select-none;

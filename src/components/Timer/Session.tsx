@@ -75,14 +75,14 @@ export const Session = ({
       {opensRecordList && (
         <div
           css={[
-            tw`absolute w-full h-full z-30 bottom-0 flex flex-col bg-gray-300 bg-opacity-30 dark:bg-black dark:bg-opacity-50`,
+            tw`absolute w-full h-full bottom-0 flex flex-col bg-gray-300 bg-opacity-30 dark:bg-black dark:bg-opacity-50`,
           ]}
           ref={recordListRef}
           onClick={() => setOpensRecordList(false)}
         />
       )}
       <div
-        css={[tw`w-full relative z-30 bottom-0 flex flex-col`]}
+        css={[tw`w-full relative bottom-0 flex flex-col`]}
         ref={recordListRef}
       >
         <div
