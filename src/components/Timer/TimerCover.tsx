@@ -1,11 +1,15 @@
-import { memo, VFC } from 'react';
+import { memo, MouseEvent, TouchEvent, VFC } from 'react';
 import { usePreventDefault } from '../../utils/hooks/usePreventDefault';
 import { noop } from '../../utils/noop';
 import { withStopPropagation } from '../../utils/withStopPropagation';
 
 const TimerCoverRaw: VFC<{
-  onPointerDown: () => void;
-  onPointerUp: () => void;
+  onPointerDown: (
+    event: TouchEvent<HTMLDivElement> | MouseEvent<HTMLDivElement>
+  ) => void;
+  onPointerUp: (
+    event: TouchEvent<HTMLDivElement> | MouseEvent<HTMLDivElement>
+  ) => void;
   disabled?: boolean;
   transparent?: boolean;
 }> = ({

@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  TouchEvent,
+  MouseEvent as ReactMouseEvent,
+} from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { DNF } from '../../components/Timer/timeData';
 import {
@@ -74,41 +81,54 @@ export const useCubeTimer = ({
     inspectionTimeRef.current = inspectionTime;
   }, [inspectionTime]);
 
-  const onPointerDown = useCallback(() => {
-    if (inputsTimeManually) {
-      return;
-    }
-    switch (timerState) {
-      case READY:
-      case STEADY:
-      case INSPECTION_READY:
-      case INSPECTION_STEADY:
-        break;
-      case IDOLING:
-        if (usesInspection) {
-          startInspection();
-        } else {
-          tapTimer();
-        }
-        break;
-      case INSPECTION:
-        tapTimerInInspection();
-        break;
-      case WORKING:
-        finishTimer();
-        break;
-      default:
-        exhaustiveCheck(timerState);
-    }
-  }, [
-    finishTimer,
-    inputsTimeManually,
-    startInspection,
-    tapTimer,
-    tapTimerInInspection,
-    timerState,
-    usesInspection,
-  ]);
+  const onPointerDown = useCallback(
+    (
+      event?: TouchEvent<HTMLElement> | ReactMouseEvent<HTMLElement, MouseEvent>
+    ) => {
+      if (inputsTimeManually) {
+        return;
+      }
+      if (
+        event &&
+        'button' in event.nativeEvent &&
+        event.nativeEvent.button !== 0
+      ) {
+        // 左クリック以外のクリックのケース
+        return;
+      }
+      switch (timerState) {
+        case READY:
+        case STEADY:
+        case INSPECTION_READY:
+        case INSPECTION_STEADY:
+          break;
+        case IDOLING:
+          if (usesInspection) {
+            startInspection();
+          } else {
+            tapTimer();
+          }
+          break;
+        case INSPECTION:
+          tapTimerInInspection();
+          break;
+        case WORKING:
+          finishTimer();
+          break;
+        default:
+          exhaustiveCheck(timerState);
+      }
+    },
+    [
+      finishTimer,
+      inputsTimeManually,
+      startInspection,
+      tapTimer,
+      tapTimerInInspection,
+      timerState,
+      usesInspection,
+    ]
+  );
   const onPointerUp = useCallback(() => {
     if (inputsTimeManually) {
       return;

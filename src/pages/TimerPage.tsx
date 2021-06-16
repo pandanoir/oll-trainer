@@ -23,7 +23,6 @@ import { Toast, useToast } from '../components/common/Toast';
 import { TypingTimer } from '../components/Timer/TypingTimer';
 import { ExportButton } from '../components/Timer/ExportButton';
 import { FileInput } from '../components/Timer/FileInput';
-import { DNF } from '../components/Timer/timeData';
 import { calcAo } from '../utils/calcAo';
 import { Session } from '../components/Timer/Session';
 import { PrimaryButton } from '../components/common/PrimaryButton';
