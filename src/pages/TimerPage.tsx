@@ -175,8 +175,6 @@ export const TimerPage: VFC = () => {
         ))}
       </Swiper>
       <TimerArea
-        onPointerDown={onPointerDown}
-        onPointerUp={onPointerUp}
         disabled={inputsTimeManually}
         overlappingScreen={timerState !== IDOLING}
       >
@@ -192,12 +190,7 @@ export const TimerPage: VFC = () => {
             onInput={onTypingTimerInput}
           />
         ) : (
-          <TapTimer
-            tw="z-20"
-            onPointerDown={onPointerDown}
-            onPointerUp={onPointerUp}
-            timerState={timerState}
-          >
+          <TapTimer tw="z-20" timerState={timerState}>
             {timerStr}
           </TapTimer>
         )}
