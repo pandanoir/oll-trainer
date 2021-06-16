@@ -5,8 +5,6 @@ import { usePreventDefault } from '../../utils/hooks/usePreventDefault';
 
 const TimerAreaRaw: VFC<
   PropsWithChildren<{
-    onPointerDown: () => void;
-    onPointerUp: () => void;
     disabled?: boolean;
     overlappingScreen: boolean;
   }>

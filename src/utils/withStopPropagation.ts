@@ -1,8 +1,8 @@
-import { SyntheticEvent } from 'react';
+import { EventHandler, SyntheticEvent } from 'react';
 
-export const withStopPropagation = (f: () => void) => (
-  event: SyntheticEvent
-) => {
+export const withStopPropagation = <T extends SyntheticEvent>(
+  f: EventHandler<T>
+) => (event: T) => {
   event.stopPropagation();
-  f();
+  f(event);
 };

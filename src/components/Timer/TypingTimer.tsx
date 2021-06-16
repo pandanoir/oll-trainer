@@ -7,7 +7,9 @@ import {
   useMemo,
 } from 'react';
 import 'twin.macro';
+import { noop } from '../../utils/noop';
 import { showRecord } from '../../utils/showRecord';
+import { withStopPropagation } from '../../utils/withStopPropagation';
 import { TimeData } from './timeData';
 
 export const TypingTimer: VFC<{
@@ -37,8 +39,8 @@ export const TypingTimer: VFC<{
       tw="w-full font-bold text-6xl text-center bg-transparent"
       placeholder={placeholder}
       value={value}
-      onTouchStart={(event) => event.stopPropagation()}
-      onMouseDown={(event) => event.stopPropagation()}
+      onTouchStart={withStopPropagation(noop)}
+      onMouseDown={withStopPropagation(noop)}
       onChange={onChange}
       onKeyDown={(event) => {
         if (event.key !== 'Enter') {
