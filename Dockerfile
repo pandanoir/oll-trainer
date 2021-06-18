@@ -2,11 +2,9 @@
 FROM node:lts-alpine as build-stage
 WORKDIR /app
 COPY package*.json ./
+COPY patches ./
 RUN npm ci --only=production
 COPY . .
-COPY __patch__/Radar.d.ts  ./node_modules/recharts/types/polar/
-ARG SOURCE_COMMIT
-ENV SOURCE_COMMIT $SOURCE_COMMIT
 RUN npm run build
 
 # 本番環境
