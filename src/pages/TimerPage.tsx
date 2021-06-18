@@ -38,6 +38,7 @@ import { toCsTimer } from '../utils/toCsTimer';
 import { TimerCover } from '../components/Timer/TimerCover';
 import { TimerArea } from '../components/Timer/TimerArea';
 import { showAverage } from '../utils/showAverage';
+import { elementFromTouch } from '../utils/elementFromTouch';
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -185,6 +186,7 @@ export const TimerPage: VFC = () => {
         />
         {inputsTimeManually ? (
           <TypingTimer
+            tw="z-20"
             prevTime={times.length > 0 ? times[times.length - 1] : undefined}
             onInput={onTypingTimerInput}
           />

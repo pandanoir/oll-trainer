@@ -14,8 +14,9 @@ import { TimeData } from './timeData';
 
 export const TypingTimer: VFC<{
   prevTime?: TimeData;
+  className?: string;
   onInput: (time: number) => void;
-}> = ({ prevTime, onInput }) => {
+}> = ({ prevTime, className = '', onInput }) => {
   const [value, setValue] = useState('');
   useEffect(() => {
     setValue('');
@@ -37,6 +38,7 @@ export const TypingTimer: VFC<{
   return (
     <input
       tw="w-full font-bold text-6xl text-center bg-transparent"
+      className={className}
       placeholder={placeholder}
       value={value}
       onTouchStart={withStopPropagation(noop)}
