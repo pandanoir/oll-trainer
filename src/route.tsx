@@ -1,10 +1,8 @@
-import {
-  OllPage,
-  LearningPage,
-  CpPage,
-  ScramblePage,
-  TimerPage,
-} from './pages';
+import { LearningPage } from './pages/LearningPage';
+import { OllPage } from './pages/OllPage';
+import { CpPage } from './pages/CpPage';
+import { ScramblePage } from './pages/ScramblePage';
+import { TimerPage } from './pages/TimerPage';
 
 export const RouteList = [
   { path: '/timer', component: <TimerPage />, name: 'Hi-Timer' },

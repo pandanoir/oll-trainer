@@ -1,4 +1,4 @@
-import { VFC } from 'react';
+import { useMemo, VFC } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'twin.macro';
 
 import { Header } from './Header';
-import { OllPage } from './pages';
 import { CheckContext, useCheck } from './utils/hooks/useCheck';
 import './index.css';
 import { RouteList } from './route';
@@ -18,7 +17,10 @@ console.log(process.env.SOURCE_COMMIT);
 const App: VFC = () => {
   const { checkList, check, reset } = useCheck();
   const { darkMode, setLightMode, setDarkMode } = useDarkMode();
-
+  const OllPage = useMemo(
+    () => RouteList.find(({ name }) => name === 'oll')?.component,
+    []
+  );
   return (
     <DarkModeContext.Provider value={darkMode}>
       <CheckContext.Provider value={{ checkList, check, reset }}>
@@ -42,7 +44,7 @@ const App: VFC = () => {
           />
           <Switch>
             <Route path={['/oll']} exact>
-              <OllPage />
+              {OllPage}
             </Route>
             {RouteList.map(({ path, component }) => (
               <Route path={path} exact key={path}>
