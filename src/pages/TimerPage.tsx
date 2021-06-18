@@ -189,7 +189,7 @@ export const TimerPage: VFC = () => {
             onInput={onTypingTimerInput}
           />
         ) : (
-          <TapTimer tw="z-20" timerState={timerState}>
+          <TapTimer tw="z-20 pointer-events-none" timerState={timerState}>
             {timerStr}
           </TapTimer>
         )}
@@ -209,10 +209,18 @@ export const TimerPage: VFC = () => {
           timerState === INSPECTION_READY ||
           timerState === INSPECTION_STEADY ? (
             <PrimaryButton
-              onMouseDown={withStopPropagation(noop)}
-              onTouchStart={withStopPropagation(noop)}
-              onMouseUp={withStopPropagation(cancelTimer)}
-              onTouchEnd={withStopPropagation(cancelTimer)}
+              onTouchEnd={(event) => {
+                if (
+                  event.target !== elementFromTouch(event.changedTouches[0])
+                ) {
+                  return;
+                }
+
+                event.stopPropagation();
+                event.preventDefault();
+                cancelTimer();
+              }}
+              onClick={withStopPropagation(cancelTimer)}
             >
               cancel
             </PrimaryButton>

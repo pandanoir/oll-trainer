@@ -1,13 +1,22 @@
+import { TouchEvent } from 'react';
 import tw from 'twin.macro';
 
 import { PrimaryButton } from '../common/PrimaryButton';
 import { DangerButton } from '../common/DangerButton';
 import { TimeData } from './timeData';
 import { SecondaryButton } from '../common/SecondaryButton';
-import { noop } from '../../utils/noop';
 import { withStopPropagation } from '../../utils/withStopPropagation';
+import { elementFromTouch } from '../../utils/elementFromTouch';
 
 const ButtonWrapper = tw.div`flex justify-center space-x-2 flex-wrap pointer-events-none`;
+const touchEnd = (cb: () => void) => (event: TouchEvent<HTMLButtonElement>) => {
+  if (event.target !== elementFromTouch(event.changedTouches[0])) {
+    return;
+  }
+  event.stopPropagation();
+  event.preventDefault();
+  cb();
+};
 export const RecordModifier = ({
   record,
   changeToDNF,
@@ -27,26 +36,14 @@ export const RecordModifier = ({
     return (
       <ButtonWrapper>
         <DangerButton
-          onMouseDown={withStopPropagation(noop)}
-          onTouchStart={withStopPropagation(noop)}
-          onMouseUp={withStopPropagation(undoDNF)}
-          onTouchEnd={(event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            undoDNF();
-          }}
+          onClick={withStopPropagation(undoDNF)}
+          onTouchEnd={touchEnd(undoDNF)}
         >
           undo DNF
         </DangerButton>
         <SecondaryButton
-          onMouseDown={withStopPropagation(noop)}
-          onTouchStart={withStopPropagation(noop)}
-          onMouseUp={withStopPropagation(deleteRecord)}
-          onTouchEnd={(event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            deleteRecord();
-          }}
+          onClick={withStopPropagation(deleteRecord)}
+          onTouchEnd={touchEnd(deleteRecord)}
         >
           delete
         </SecondaryButton>
@@ -57,38 +54,20 @@ export const RecordModifier = ({
     return (
       <ButtonWrapper>
         <PrimaryButton
-          onMouseDown={withStopPropagation(noop)}
-          onTouchStart={withStopPropagation(noop)}
-          onMouseUp={withStopPropagation(undoPenalty)}
-          onTouchEnd={(event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            undoPenalty();
-          }}
+          onClick={withStopPropagation(undoPenalty)}
+          onTouchEnd={touchEnd(undoPenalty)}
         >
           undo +2
         </PrimaryButton>
         <DangerButton
-          onMouseDown={withStopPropagation(noop)}
-          onTouchStart={withStopPropagation(noop)}
-          onMouseUp={withStopPropagation(changeToDNF)}
-          onTouchEnd={(event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            changeToDNF();
-          }}
+          onClick={withStopPropagation(changeToDNF)}
+          onTouchEnd={touchEnd(changeToDNF)}
         >
           DNF
         </DangerButton>
         <SecondaryButton
-          onMouseDown={withStopPropagation(noop)}
-          onTouchStart={withStopPropagation(noop)}
-          onMouseUp={withStopPropagation(deleteRecord)}
-          onTouchEnd={(event) => {
-            event.stopPropagation();
-            event.preventDefault();
-            deleteRecord();
-          }}
+          onClick={withStopPropagation(deleteRecord)}
+          onTouchEnd={touchEnd(deleteRecord)}
         >
           delete
         </SecondaryButton>
@@ -98,38 +77,20 @@ export const RecordModifier = ({
   return (
     <ButtonWrapper>
       <PrimaryButton
-        onMouseDown={withStopPropagation(noop)}
-        onTouchStart={withStopPropagation(noop)}
-        onMouseUp={withStopPropagation(imposePenalty)}
-        onTouchEnd={(event) => {
-          event.stopPropagation();
-          event.preventDefault();
-          imposePenalty();
-        }}
+        onClick={withStopPropagation(imposePenalty)}
+        onTouchEnd={touchEnd(imposePenalty)}
       >
         +2
       </PrimaryButton>
       <DangerButton
-        onMouseDown={withStopPropagation(noop)}
-        onTouchStart={withStopPropagation(noop)}
-        onMouseUp={withStopPropagation(changeToDNF)}
-        onTouchEnd={(event) => {
-          event.stopPropagation();
-          event.preventDefault();
-          changeToDNF();
-        }}
+        onClick={withStopPropagation(changeToDNF)}
+        onTouchEnd={touchEnd(changeToDNF)}
       >
         DNF
       </DangerButton>
       <SecondaryButton
-        onMouseDown={withStopPropagation(noop)}
-        onTouchStart={withStopPropagation(noop)}
-        onMouseUp={withStopPropagation(deleteRecord)}
-        onTouchEnd={(event) => {
-          event.stopPropagation();
-          event.preventDefault();
-          deleteRecord();
-        }}
+        onClick={withStopPropagation(deleteRecord)}
+        onTouchEnd={touchEnd(deleteRecord)}
       >
         delete
       </SecondaryButton>
