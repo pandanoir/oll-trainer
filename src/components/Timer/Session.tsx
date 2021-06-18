@@ -1,4 +1,13 @@
-import { Dispatch, SetStateAction, useMemo, useRef, useState } from 'react';
+import {
+  Dispatch,
+  lazy,
+  SetStateAction,
+  Suspense,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faAngleLeft,
   faAngleRight,
@@ -8,12 +17,16 @@ import {
   faServer,
   faList,
   faTimes,
+  faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import tw from 'twin.macro';
+
 import { calcAo } from '../../utils/calcAo';
 import { TimeData, SessionData, DNF } from './timeData';
 import { Times } from './Times';
-import { TimeGraph } from './TimeGraph';
+const TimeGraph = lazy(() =>
+  import('./TimeGraph').then(({ TimeGraph }) => ({ default: TimeGraph }))
+);
 import { IconButton } from '../common/IconButton';
 import { Modal, useModal } from '../common/Modal';
 import { findIndexOfMin } from '../../utils/findIndexOfMin';
@@ -117,22 +130,35 @@ export const Session = ({
             onClick={() => setShowsGraph((v) => !v)}
             icon={showsGraph ? faServer : faChartBar}
           />
+
           {showsGraph ? (
-            <TimeGraph
-              times={times.map(({ time, isDNF, penalty }, index) => {
-                const ao5 = ao5List[index],
-                  ao12 = ao12List[index];
-                return {
-                  name: index + 1,
-                  time: isDNF
-                    ? null
-                    : Math.floor(time) / 1000 + (penalty ? 2 : 0),
-                  ao5: typeof ao5 === 'number' ? Math.floor(ao5) / 1000 : null,
-                  ao12:
-                    typeof ao12 === 'number' ? Math.floor(ao12) / 1000 : null,
-                };
-              })}
-            />
+            <Suspense
+              fallback={
+                <div tw="w-full h-full text-4xl grid place-items-center">
+                  <FontAwesomeIcon
+                    tw="animate-spin duration-700"
+                    icon={faSpinner}
+                  />
+                </div>
+              }
+            >
+              <TimeGraph
+                times={times.map(({ time, isDNF, penalty }, index) => {
+                  const ao5 = ao5List[index],
+                    ao12 = ao12List[index];
+                  return {
+                    name: index + 1,
+                    time: isDNF
+                      ? null
+                      : Math.floor(time) / 1000 + (penalty ? 2 : 0),
+                    ao5:
+                      typeof ao5 === 'number' ? Math.floor(ao5) / 1000 : null,
+                    ao12:
+                      typeof ao12 === 'number' ? Math.floor(ao12) / 1000 : null,
+                  };
+                })}
+              />
+            </Suspense>
           ) : (
             <div tw="pt-12">
               <Times
