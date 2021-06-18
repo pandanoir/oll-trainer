@@ -7,7 +7,6 @@ import {
   useRef,
   useState,
 } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faAngleLeft,
   faAngleRight,
@@ -17,7 +16,6 @@ import {
   faServer,
   faList,
   faTimes,
-  faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import tw from 'twin.macro';
 
@@ -29,6 +27,8 @@ const TimeGraph = lazy(() =>
 );
 import { IconButton } from '../common/IconButton';
 import { Modal, useModal } from '../common/Modal';
+import { LoadingIndicator } from '../common/LoadingIndicator';
+
 import { findIndexOfMin } from '../../utils/findIndexOfMin';
 import { calcRecord } from '../../utils/calcRecord';
 import { showTime } from '../../utils/showTime';
@@ -130,10 +130,7 @@ export const Session = ({
             <Suspense
               fallback={
                 <div tw="w-full h-full text-4xl grid place-items-center">
-                  <FontAwesomeIcon
-                    tw="animate-spin duration-700"
-                    icon={faSpinner}
-                  />
+                  <LoadingIndicator />
                 </div>
               }
             >
