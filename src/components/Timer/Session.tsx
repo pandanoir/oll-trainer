@@ -87,17 +87,12 @@ export const Session = ({
     <>
       {opensRecordList && (
         <div
-          css={[
-            tw`absolute w-full h-full bottom-0 flex flex-col bg-gray-300 bg-opacity-30 dark:bg-black dark:bg-opacity-50`,
-          ]}
+          tw="absolute z-10 w-full h-full bottom-0 flex flex-col bg-gray-300 bg-opacity-30 dark:bg-black dark:bg-opacity-50"
           ref={recordListRef}
           onClick={() => setOpensRecordList(false)}
         />
       )}
-      <div
-        css={[tw`w-full relative bottom-0 flex flex-col`]}
-        ref={recordListRef}
-      >
+      <div tw="w-full relative bottom-0 flex flex-col z-10" ref={recordListRef}>
         <div
           css={[
             tw`absolute bg-white dark:bg-gray-800 w-full max-h-1/2-screen h-96 mb-12`,
