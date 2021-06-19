@@ -15,12 +15,11 @@ import {
   faAngleUp,
   faServer,
   faList,
-  faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import tw from 'twin.macro';
 
 import { calcAo } from '../../utils/calcAo';
-import { TimeData, SessionData, DNF } from './timeData';
+import { TimeData, SessionData } from './timeData';
 import { Times } from './Times';
 const pick = <T extends unknown>(name: keyof T) => (items: T) => ({
   default: items[name],
@@ -31,12 +30,9 @@ import { IconButton } from '../common/IconButton';
 import { Modal, useModal } from '../common/Modal';
 import { LoadingIndicator } from '../common/LoadingIndicator';
 
-import { findIndexOfMin } from '../../utils/findIndexOfMin';
-import { calcRecord } from '../../utils/calcRecord';
-import { showTime } from '../../utils/showTime';
-import { calcAverage } from '../../utils/calcAverage';
 import { useStoragedState } from '../../utils/hooks/useLocalStorage';
 import { withPrefix } from '../../utils/withPrefix';
+import { SessionListItem } from './SessionListItem';
 
 export const Session = ({
   times,
@@ -239,63 +235,21 @@ export const Session = ({
               />
             </div>
             <ul tw="flex-1 overflow-y-auto">
-              {sessions.map((session, index) => {
-                const timesWithoutDNF = session.times
-                  .map(calcRecord)
-                  .filter((x): x is Exclude<typeof x, typeof DNF> => x !== DNF);
-
-                const bestTime =
-                  timesWithoutDNF.length > 0
-                    ? showTime(timesWithoutDNF[findIndexOfMin(timesWithoutDNF)])
-                    : '-';
-                const averageTime =
-                  timesWithoutDNF.length > 0
-                    ? showTime(calcAverage(timesWithoutDNF))
-                    : '-';
-                return (
-                  <li
-                    tw="px-3 pb-1 pt-3 lg:mr-6 text-lg flex justify-between items-center border-b space-x-3"
-                    key={`${index}--${session.name}`}
-                  >
-                    <span
-                      tw="flex-1 overflow-hidden whitespace-nowrap"
-                      onClick={() => {
-                        setSessionIndex(index);
-                        closeModal();
-                      }}
-                    >
-                      {session.name}
-                    </span>
-                    <span tw="grid grid-rows-3 md:flex md:space-x-2 text-sm md:text-base">
-                      <span>
-                        {session.times.length} <span tw="text-sm">SOLVES</span>
-                      </span>
-                      <span>
-                        <span tw="text-sm">BEST</span>:{' '}
-                        <span tw="text-blue-600 dark:text-blue-400">
-                          {bestTime}
-                        </span>
-                      </span>
-                      <span>
-                        <span tw="text-sm">AVG</span>:{' '}
-                        <span tw="text-red-700 dark:text-red-500">
-                          {averageTime}
-                        </span>
-                      </span>
-                    </span>
-                    <span>
-                      <IconButton
-                        icon={faTimes}
-                        onClick={() =>
-                          confirm(
-                            `セッション ${session.name} を削除しますか?この操作は取り消せません`
-                          ) && deleteSession(index)
-                        }
-                      />
-                    </span>
-                  </li>
-                );
-              })}
+              {sessions.map((session, index) => (
+                <SessionListItem
+                  key={`${index}--${session.name}`}
+                  session={session}
+                  onClick={() => {
+                    setSessionIndex(index);
+                    closeModal();
+                  }}
+                  onDeleteButtonClick={() =>
+                    confirm(
+                      `セッション ${session.name} を削除しますか?この操作は取り消せません`
+                    ) && deleteSession(index)
+                  }
+                />
+              ))}
             </ul>
           </div>
         </Modal>
