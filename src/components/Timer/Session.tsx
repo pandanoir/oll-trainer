@@ -34,6 +34,11 @@ import { useStoragedState } from '../../utils/hooks/useLocalStorage';
 import { withPrefix } from '../../utils/withPrefix';
 import { SessionListItem } from './SessionListItem';
 
+const Backdrop = tw.div`absolute z-10 w-full h-full bottom-0 flex flex-col bg-gray-300 bg-opacity-30 dark:bg-black dark:bg-opacity-50`;
+const SessionToolbar = tw.div`w-full h-12 bg-white dark:bg-gray-800 flex justify-between z-10`;
+const RecordListWrapper = tw.div`w-full relative bottom-0 flex flex-col z-10`;
+const RecordList = tw.div`absolute bg-white dark:bg-gray-800 w-full max-h-1/2-screen h-96 mb-12`;
+
 export const Session = ({
   times,
   changeToDNF,
@@ -81,19 +86,23 @@ export const Session = ({
       recordListRef.current.scrollTo(0, 0);
     }
   };
+  const next = () => {
+    setSessionIndex((index) => index - 1);
+    resetScroll();
+  };
+  const prev = () => {
+    setSessionIndex((index) => index + 1);
+    resetScroll();
+  };
   return (
     <>
       {opensRecordList && (
-        <div
-          tw="absolute z-10 w-full h-full bottom-0 flex flex-col bg-gray-300 bg-opacity-30 dark:bg-black dark:bg-opacity-50"
-          ref={recordListRef}
-          onClick={() => setOpensRecordList(false)}
-        />
+        <Backdrop onClick={() => setOpensRecordList(false)} />
       )}
-      <div tw="w-full relative bottom-0 flex flex-col z-10" ref={recordListRef}>
-        <div
+
+      <RecordListWrapper ref={recordListRef}>
+        <RecordList
           css={[
-            tw`absolute bg-white dark:bg-gray-800 w-full max-h-1/2-screen h-96 mb-12`,
             opensRecordList
               ? [tw`bottom-0 border-t-2 border-gray-200`]
               : tw`-bottom-96`,
@@ -103,6 +112,7 @@ export const Session = ({
         >
           {!showsGraph && (
             <IconButton
+              icon={faList}
               css={[
                 tw`fixed left-0 px-4 py-2 text-lg transition-all duration-300 z-10 bg-white dark:bg-gray-800`,
                 opensRecordList
@@ -110,10 +120,10 @@ export const Session = ({
                   : tw`opacity-0 pointer-events-none`,
               ]}
               onClick={openModal}
-              icon={faList}
             />
           )}
           <IconButton
+            icon={showsGraph ? faServer : faChartBar}
             css={[
               tw`fixed right-0 px-4 py-2 text-lg transition-all duration-300 z-10 bg-white dark:bg-gray-800`,
               opensRecordList
@@ -121,7 +131,6 @@ export const Session = ({
                 : tw`opacity-0 pointer-events-none`,
             ]}
             onClick={() => setShowsGraph((v) => !v)}
-            icon={showsGraph ? faServer : faChartBar}
           />
 
           {showsGraph ? (
@@ -162,8 +171,9 @@ export const Session = ({
               />
             </div>
           )}
-        </div>
-        <div tw="w-full h-12 bg-white dark:bg-gray-800 flex justify-between z-10">
+        </RecordList>
+
+        <SessionToolbar>
           <div tw="flex content-center">
             <IconButton
               css={[
@@ -171,10 +181,7 @@ export const Session = ({
                 sessionIndex <= 0 ? tw`text-gray-400` : '',
               ]}
               disabled={sessionIndex <= 0}
-              onClick={() => {
-                setSessionIndex((index) => index - 1);
-                resetScroll();
-              }}
+              onClick={next}
               icon={faAngleLeft}
             />
             <input
@@ -183,18 +190,16 @@ export const Session = ({
               onChange={({ target: { value } }) => changeSessionName(value)}
             />
             <IconButton
+              icon={faAngleRight}
               css={[
                 tw`px-4 py-2 text-lg`,
                 sessionIndex + 1 >= sessions.length ? tw`text-gray-400` : '',
               ]}
               disabled={sessionIndex + 1 >= sessions.length}
-              onClick={() => {
-                setSessionIndex((index) => index + 1);
-                resetScroll();
-              }}
-              icon={faAngleRight}
+              onClick={prev}
             />
             <IconButton
+              icon={faPlus}
               tw="px-2.5 my-1.5 text-lg text-white bg-gray-700 rounded"
               onClick={() => {
                 addSession();
@@ -202,28 +207,29 @@ export const Session = ({
                   setSessionIndex(sessions.length);
                 }
               }}
-              icon={faPlus}
             />
           </div>
           <div tw="flex content-center">
             <IconButton
+              icon={faAngleUp}
               css={[
                 tw`px-4 py-2 text-lg`,
                 tw`transform transition-all duration-300`,
                 opensRecordList ? tw`-rotate-180` : tw`rotate-0`,
               ]}
               onClick={() => setOpensRecordList((open) => !open)}
-              icon={faAngleUp}
             />
           </div>
-        </div>
-      </div>
+        </SessionToolbar>
+      </RecordListWrapper>
+
       {showsModal && (
         <Modal tw="lg:inset-x-1/4 lg:w-1/2" onClose={closeModal}>
           <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
             <div tw="flex space-x-2">
               <span tw="text-3xl">Sessions</span>
               <IconButton
+                icon={faPlus}
                 tw="px-2.5 my-1.5 text-lg text-white bg-gray-700 rounded"
                 onClick={() => {
                   addSession();
@@ -231,7 +237,6 @@ export const Session = ({
                     setSessionIndex(sessions.length);
                   }
                 }}
-                icon={faPlus}
               />
             </div>
             <ul tw="flex-1 overflow-y-auto">
