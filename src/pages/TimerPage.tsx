@@ -16,7 +16,7 @@ import {
 import { TapTimer } from '../components/Timer/TapTimer';
 import { showTime } from '../utils/showTime';
 import { ToggleButton } from '../components/common/ToggleButton';
-import { useSessions } from '../utils/hooks/useTimes';
+import { useSessions } from '../utils/hooks/useSessions';
 import { RecordModifier } from '../components/Timer/RecordModifier';
 import { RecordItem } from '../components/Timer/RecordItem';
 import { Toast, useToast } from '../components/common/Toast';
