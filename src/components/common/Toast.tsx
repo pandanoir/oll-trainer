@@ -10,7 +10,7 @@ type Props = {
   onClick?: () => void;
   shows: boolean;
 };
-// クリックか横スワイプで削除できるトースト
+// 横スワイプで削除できるトースト
 // 消えるときは右へスライドしながら消える
 export const Toast = ({ title, onClose, label, onClick, shows }: Props) => {
   const $el = useRef(document.createElement('div'));
@@ -108,26 +108,15 @@ export const Toast = ({ title, onClose, label, onClick, shows }: Props) => {
             setCursorX(null);
           }, 0);
         }}
-        onClick={() => {
-          if (cursorX === null) {
-            onClose();
-          }
-        }}
       >
         <span tw="pl-6 py-3">{title}</span>
         {label && (
-          <span
-            onClick={(event) => {
-              event.stopPropagation();
-            }}
+          <button
+            onClick={onClick}
+            tw="border-l border-white my-3 px-4 bg-transparent text-blue-500 dark:text-blue-300 font-bold focus:outline-none"
           >
-            <button
-              onClick={onClick}
-              tw="border-l border-white my-3 px-4 bg-transparent text-blue-500 dark:text-blue-300 font-bold focus:outline-none"
-            >
-              {label}
-            </button>
-          </span>
+            {label}
+          </button>
         )}
       </div>
     ),
