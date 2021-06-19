@@ -1,5 +1,5 @@
 import { VFC } from 'react';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCaretRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 import 'twin.macro';
 
 import { calcAverage } from '../../utils/calcAverage';
@@ -8,12 +8,14 @@ import { findIndexOfMin } from '../../utils/findIndexOfMin';
 import { showTime } from '../../utils/showTime';
 import { IconButton } from '../common/IconButton';
 import { SessionData, DNF } from './timeData';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const SessionListItem: VFC<{
   session: SessionData;
   onDeleteButtonClick: () => void;
   onClick: () => void;
-}> = ({ session: { times, name }, onDeleteButtonClick, onClick }) => {
+  selected: boolean;
+}> = ({ session: { times, name }, onDeleteButtonClick, onClick, selected }) => {
   const timesWithoutDNF = times
     .map(calcRecord)
     .filter((x): x is Exclude<typeof x, typeof DNF> => x !== DNF);
@@ -26,7 +28,13 @@ export const SessionListItem: VFC<{
     timesWithoutDNF.length > 0 ? showTime(calcAverage(timesWithoutDNF)) : '-';
   return (
     <li tw="px-3 pb-1 pt-3 lg:mr-6 text-lg flex justify-between items-center border-b space-x-3">
-      <span tw="flex-1 overflow-hidden whitespace-nowrap" onClick={onClick}>
+      <span
+        tw="flex-1 overflow-hidden whitespace-nowrap cursor-pointer"
+        onClick={onClick}
+      >
+        <span tw="w-3 inline-block">
+          {selected && <FontAwesomeIcon icon={faCaretRight} />}
+        </span>
         {name}
       </span>
       <span tw="grid grid-rows-3 md:flex md:space-x-2 text-sm md:text-base">

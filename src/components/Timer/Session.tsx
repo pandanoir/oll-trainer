@@ -244,6 +244,7 @@ export const Session = ({
                 <SessionListItem
                   key={`${index}--${session.name}`}
                   session={session}
+                  selected={sessionIndex === index}
                   onClick={() => {
                     setSessionIndex(index);
                     closeModal();
