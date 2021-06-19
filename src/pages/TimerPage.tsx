@@ -29,7 +29,6 @@ import { PrimaryButton } from '../components/common/PrimaryButton';
 import { useTitle } from '../utils/hooks/useTitle';
 import { useStoragedState } from '../utils/hooks/useLocalStorage';
 import { withStopPropagation } from '../utils/withStopPropagation';
-import { noop } from '../utils/noop';
 import '../swiper.css';
 import './TimerPage.css';
 import { withPrefix } from '../utils/withPrefix';
@@ -38,7 +37,7 @@ import { toCsTimer } from '../utils/toCsTimer';
 import { TimerCover } from '../components/Timer/TimerCover';
 import { TimerArea } from '../components/Timer/TimerArea';
 import { showAverage } from '../utils/showAverage';
-import { elementFromTouch } from '../utils/elementFromTouch';
+import { isAwayFromBeginningElement } from '../utils/isAwayFromBeginningElement';
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -87,7 +86,7 @@ export const TimerPage: VFC = () => {
       }, 1000 / 60);
       return () => clearTimeout(id);
     }
-  });
+  }, [index, scrambles]);
 
   const {
     onPointerDown,
@@ -212,12 +211,9 @@ export const TimerPage: VFC = () => {
           timerState === INSPECTION_STEADY ? (
             <PrimaryButton
               onTouchEnd={(event) => {
-                if (
-                  event.target !== elementFromTouch(event.changedTouches[0])
-                ) {
+                if (isAwayFromBeginningElement(event)) {
                   return;
                 }
-
                 event.stopPropagation();
                 event.preventDefault();
                 cancelTimer();

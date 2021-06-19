@@ -6,11 +6,11 @@ import { DangerButton } from '../common/DangerButton';
 import { TimeData } from './timeData';
 import { SecondaryButton } from '../common/SecondaryButton';
 import { withStopPropagation } from '../../utils/withStopPropagation';
-import { elementFromTouch } from '../../utils/elementFromTouch';
+import { isAwayFromBeginningElement } from '../../utils/isAwayFromBeginningElement';
 
 const ButtonWrapper = tw.div`flex justify-center space-x-2 flex-wrap pointer-events-none`;
 const touchEnd = (cb: () => void) => (event: TouchEvent<HTMLButtonElement>) => {
-  if (event.target !== elementFromTouch(event.changedTouches[0])) {
+  if (isAwayFromBeginningElement(event)) {
     return;
   }
   event.stopPropagation();
