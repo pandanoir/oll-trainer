@@ -1,5 +1,7 @@
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { VFC } from 'react';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import 'twin.macro';
+
 import { calcAverage } from '../../utils/calcAverage';
 import { calcRecord } from '../../utils/calcRecord';
 import { findIndexOfMin } from '../../utils/findIndexOfMin';
