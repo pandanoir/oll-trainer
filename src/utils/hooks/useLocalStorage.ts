@@ -53,3 +53,36 @@ export const useStoragedImmerState = <T>(
   );
   return [state, setState] as const;
 };
+
+// マイグレーションありのuseStoragedImmerState
+export const useVersionedImmerState = <T>(
+  storageKey: string,
+  initialValue: T | (() => T),
+  latestVersion: number,
+  migrate: (old: unknown) => { data: T; version: number }
+) => {
+  const [state, updateStateRaw] = useImmer<T>(() => {
+    try {
+      const item = localStorage.getItem(storageKey);
+      if (item !== null) {
+        return migrate(JSON.parse(item)).data;
+      }
+    } catch {}
+    return initialValue instanceof Function ? initialValue() : initialValue;
+  });
+  const stateRef = useRef(state);
+  const setState: typeof updateStateRaw = useCallback(
+    (action) => {
+      const newValue =
+        action instanceof Function ? produce(stateRef.current, action) : action;
+      stateRef.current = newValue;
+      updateStateRaw(newValue);
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify({ data: newValue, version: latestVersion })
+      );
+    },
+    [updateStateRaw, storageKey, latestVersion]
+  );
+  return [state, setState] as const;
+};
