@@ -1,12 +1,9 @@
 import { useCallback, useRef, useState } from 'react';
 import { useImmer } from 'use-immer';
 import { produce } from 'immer';
-
-export const useStoragedState = <T>(
-  storageKey: string,
-  initialValue: T | (() => T)
-) => {
-  const [state, setStateRaw] = useState<T>(() => {
+const stateInitializer =
+  <T>(storageKey: string, initialValue: T | (() => T)) =>
+  () => {
     try {
       const item = localStorage.getItem(storageKey);
       if (item !== null) {
@@ -14,7 +11,14 @@ export const useStoragedState = <T>(
       }
     } catch {}
     return initialValue instanceof Function ? initialValue() : initialValue;
-  });
+  };
+export const useStoragedState = <T>(
+  storageKey: string,
+  initialValue: T | (() => T)
+) => {
+  const [state, setStateRaw] = useState<T>(
+    stateInitializer(storageKey, initialValue)
+  );
   const stateRef = useRef(state);
   const setState: typeof setStateRaw = useCallback(
     (action) => {
@@ -33,15 +37,9 @@ export const useStoragedImmerState = <T>(
   storageKey: string,
   initialValue: T | (() => T)
 ) => {
-  const [state, updateStateRaw] = useImmer<T>(() => {
-    try {
-      const item = localStorage.getItem(storageKey);
-      if (item !== null) {
-        return JSON.parse(item);
-      }
-    } catch {}
-    return initialValue instanceof Function ? initialValue() : initialValue;
-  });
+  const [state, updateStateRaw] = useImmer<T>(
+    stateInitializer(storageKey, initialValue)
+  );
   const stateRef = useRef(state);
   const setState: typeof updateStateRaw = useCallback(
     (action) => {
