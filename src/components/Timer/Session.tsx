@@ -21,7 +21,9 @@ import tw from 'twin.macro';
 import { calcAo } from '../../utils/calcAo';
 import { TimeData, SessionData } from './timeData';
 import { Times } from './Times';
-const pick = <T extends unknown>(name: keyof T) => (items: T) => ({
+const pick =
+  <T extends unknown>(name: keyof T) =>
+  (items: T) => ({
   default: items[name],
 });
 const TimeGraph = lazy(() => import('./TimeGraph').then(pick('TimeGraph')));

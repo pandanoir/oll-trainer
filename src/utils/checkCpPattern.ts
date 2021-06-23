@@ -13,9 +13,10 @@ export const cpSwapPatterns = [
 export const getCompanionSwap = (cpIndex: number) =>
   cpIndex % 2 === 0 ? cpIndex + 1 : cpIndex - 1;
 
-const notFilter = <T extends unknown[]>(f: (...args: T) => boolean) => (
-  ...args: T
-) => !f(...args);
+const notFilter =
+  <T extends unknown[]>(f: (...args: T) => boolean) =>
+  (...args: T) =>
+    !f(...args);
 const isAUF = (rot: string) => /\(U(?:'2|2'|['2]?)\)/.test(rot);
 
 export const checkCpPattern = (solve: string) => {
