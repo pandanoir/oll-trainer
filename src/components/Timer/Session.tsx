@@ -115,23 +115,13 @@ export const Session = ({
           {!showsGraph && (
             <IconButton
               icon={faList}
-              css={[
-                tw`fixed left-0 px-4 py-2 text-lg transition-all duration-300 z-10 bg-white dark:bg-gray-800`,
-                opensRecordList
-                  ? tw`opacity-100`
-                  : tw`opacity-0 pointer-events-none`,
-              ]}
+              tw="px-4 py-2 text-lg"
               onClick={openModal}
             />
           )}
           <IconButton
             icon={showsGraph ? faServer : faChartBar}
-            css={[
-              tw`fixed right-0 px-4 py-2 text-lg transition-all duration-300 z-10 bg-white dark:bg-gray-800`,
-              opensRecordList
-                ? tw`opacity-100`
-                : tw`opacity-0 pointer-events-none`,
-            ]}
+            tw="fixed right-0 px-4 py-2 text-lg z-10 bg-white dark:bg-gray-800"
             onClick={() => setShowsGraph((v) => !v)}
           />
 
