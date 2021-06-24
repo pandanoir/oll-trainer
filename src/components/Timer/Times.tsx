@@ -1,13 +1,11 @@
 import tw from 'twin.macro';
 import { VFC, useMemo, useState } from 'react';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { Modal, useModal } from '../common/Modal';
 import { Toast, useToast } from '../common/Toast';
 import { TweetButton } from '../TweetButton';
 import { BigRecord } from './BigRecord';
 import { RecordModifier } from './RecordModifier';
-import { IconButton } from '../common/IconButton';
 import { ToggleButton } from '../common/ToggleButton';
 
 import { DNF, TimeData } from './timeData';
@@ -18,6 +16,7 @@ import { showRecord } from '../../utils/showRecord';
 import { noop } from '../../utils/noop';
 import { findIndexOfMax } from '../../utils/findIndexOfMax';
 import { findIndexOfMin } from '../../utils/findIndexOfMin';
+import { ModalCloseButton } from '../common/ModalCloseButton';
 
 export const Times: VFC<{
   times: TimeData[];
@@ -185,11 +184,7 @@ export const Times: VFC<{
           if (modalType === 'time') {
             return (
               <Modal onClose={closeModal}>
-                <IconButton
-                  icon={faTimes}
-                  tw="absolute top-0 right-0 -m-2 inline-grid w-6 h-6 place-items-center rounded-full bg-white dark:bg-gray-700"
-                  onClick={closeModal}
-                />
+                <ModalCloseButton onClick={closeModal} />
                 <div tw="relative flex flex-col space-y-6 p-6 h-full">
                   <BigRecord
                     record={times[selectedIndex]}
@@ -258,11 +253,7 @@ ${selectedTimes.reduce((acc, time, index) => {
 }, '')}`.trimEnd();
             return (
               <Modal onClose={closeModal}>
-                <IconButton
-                  icon={faTimes}
-                  tw="absolute top-0 right-0 -m-2 inline-grid w-6 h-6 place-items-center rounded-full bg-white dark:bg-gray-700"
-                  onClick={closeModal}
-                />
+                <ModalCloseButton onClick={closeModal} />
                 <div tw="relative flex flex-col space-y-6 p-6 h-full">
                   <span tw="bg-blue-200 dark:bg-blue-800 w-max px-3 rounded text-lg font-bold dark:font-normal">
                     ao{averageSize}

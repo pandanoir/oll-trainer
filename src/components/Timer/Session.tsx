@@ -15,7 +15,6 @@ import {
   faAngleUp,
   faServer,
   faList,
-  faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import tw from 'twin.macro';
 
@@ -259,11 +258,7 @@ export const Session = ({
 
       {modalType === SESSION_LIST_MODAL ? (
         <Modal tw="lg:inset-x-1/4 lg:w-1/2" onClose={closeModal}>
-          <IconButton
-            icon={faTimes}
-            tw="absolute top-0 right-0 -m-2 inline-grid w-6 h-6 place-items-center rounded-full bg-white dark:bg-gray-700"
-            onClick={closeModal}
-          />
+          <ModalCloseButton onClick={closeModal} />
           <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
             <div tw="flex space-x-2">
               <span tw="text-3xl">Sessions</span>
