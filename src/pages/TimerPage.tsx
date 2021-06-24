@@ -39,6 +39,13 @@ import { TimerArea } from '../components/Timer/TimerArea';
 import { showAverage } from '../utils/showAverage';
 import { isAwayFromBeginningElement } from '../utils/isAwayFromBeginningElement';
 
+import { playAudio } from '../utils/playAudio';
+import steadySoundUrl from '../sound/steady.mp3';
+
+const steadySound = fetch(steadySoundUrl).then((response) =>
+  response.arrayBuffer()
+);
+
 SwiperCore.use([Navigation, Keyboard]);
 
 export const TimerPage: VFC = () => {
@@ -110,6 +117,13 @@ export const TimerPage: VFC = () => {
       [addTime, index, scrambles, swiper]
     ),
   });
+  useEffect(() => {
+    (async () => {
+      if (timerState === STEADY || timerState === INSPECTION_STEADY) {
+        playAudio(await steadySound);
+      }
+    })();
+  }, [timerState]);
 
   const { openToast, closeToast, ...toastProps } = useToast();
   const onTypingTimerInput = useCallback(
