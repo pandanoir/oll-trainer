@@ -69,6 +69,7 @@ export const TimerPage: VFC = () => {
     sessionIndex,
     variation,
     setSessionIndex,
+    setVariation,
     importFromCsTimer,
     changeSessionName,
     changeToDNF,
@@ -80,6 +81,7 @@ export const TimerPage: VFC = () => {
     addTime,
     addSession,
     deleteSession,
+    addSessionGroup,
   } = useSessions();
   const { times } = currentSessionCollection.sessions[sessionIndex];
 
@@ -275,10 +277,12 @@ export const TimerPage: VFC = () => {
         sessionIndex={sessionIndex}
         setSessionIndex={setSessionIndex}
         currentVariation={variation}
+        setVariation={setVariation}
         changeSessionName={changeSessionName}
         sessions={sessions}
         addSession={addSession}
         deleteSession={deleteSession}
+        addSessionGroup={addSessionGroup}
       />
       <Toast {...toastProps} />
     </div>

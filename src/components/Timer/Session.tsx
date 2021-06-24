@@ -15,6 +15,7 @@ import {
   faAngleUp,
   faServer,
   faList,
+  faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import tw from 'twin.macro';
 
@@ -24,8 +25,8 @@ import { Times } from './Times';
 const pick =
   <T extends unknown>(name: keyof T) =>
   (items: T) => ({
-  default: items[name],
-});
+    default: items[name],
+  });
 const TimeGraph = lazy(() => import('./TimeGraph').then(pick('TimeGraph')));
 
 import { IconButton } from '../common/IconButton';
@@ -35,8 +36,13 @@ import { LoadingIndicator } from '../common/LoadingIndicator';
 import { useStoragedState } from '../../utils/hooks/useLocalStorage';
 import { withPrefix } from '../../utils/withPrefix';
 import { SessionListItem } from './SessionListItem';
-import { Variation } from '../../data/variations';
+import { PrimaryButton } from '../common/PrimaryButton';
+import { defaultVariations, Variation } from '../../data/variations';
+import { ModalCloseButton } from '../common/ModalCloseButton';
 
+const SESSION_LIST_MODAL = 'SESSION_LIST_MODAL';
+const VARIATION_LIST_MODAL = 'VARIATION_LIST_MODAL';
+type ModalType = typeof SESSION_LIST_MODAL | typeof VARIATION_LIST_MODAL;
 const Backdrop = tw.div`absolute z-10 w-full h-full bottom-0 flex flex-col bg-gray-300 bg-opacity-30 dark:bg-black dark:bg-opacity-50`;
 const SessionToolbar = tw.div`w-full h-12 bg-white dark:bg-gray-800 flex justify-between z-10`;
 const RecordListWrapper = tw.div`w-full relative bottom-0 flex flex-col z-10`;
@@ -56,8 +62,10 @@ export const Session = ({
   changeSessionName,
   sessions,
   currentVariation,
+  setVariation,
   addSession,
   deleteSession,
+  addSessionGroup,
 }: {
   times: TimeData[];
   changeToDNF: (index: number) => void;
@@ -72,8 +80,10 @@ export const Session = ({
   changeSessionName: (name: string) => void;
   sessions: SessionCollection;
   currentVariation: string;
+  setVariation: Dispatch<SetStateAction<string>>;
   addSession: () => void;
   deleteSession: (index: number) => void;
+  addSessionGroup: (variation: Variation) => void;
 }) => {
   const recordListRef = useRef<HTMLDivElement>(null);
   const [opensRecordList, setOpensRecordList] = useState(false);
@@ -89,7 +99,12 @@ export const Session = ({
     return currentSessions.sessions;
   }, [currentVariation, sessions]);
 
-  const { showsModal, openModal, closeModal } = useModal();
+  const { openModal, closeModal: closeModalRaw } = useModal();
+  const [modalType, setModalType] = useState<ModalType | null>(null);
+  const closeModal = () => {
+    setModalType(null);
+    closeModalRaw();
+  };
   const [showsGraph, setShowsGraph] = useStoragedState(
     withPrefix('shows-graph'),
     false
@@ -108,6 +123,14 @@ export const Session = ({
     setSessionIndex((index) => index + 1);
     resetScroll();
   };
+  const openSessionListModal = () => {
+    setModalType(SESSION_LIST_MODAL);
+    openModal();
+  };
+  const openVariationListModal = () => {
+    setModalType(VARIATION_LIST_MODAL);
+    openModal();
+  };
   return (
     <>
       {opensRecordList && (
@@ -125,11 +148,16 @@ export const Session = ({
           ]}
         >
           {!showsGraph && (
-            <IconButton
-              icon={faList}
-              tw="px-4 py-2 text-lg"
-              onClick={openModal}
-            />
+            <div tw="fixed left-0 z-10 w-max bg-white dark:bg-gray-800">
+              <IconButton
+                icon={faList}
+                tw="px-4 py-2 text-lg"
+                onClick={openSessionListModal}
+              />
+              <PrimaryButton tw="px-5 py-0" onClick={openVariationListModal}>
+                {currentVariation}
+              </PrimaryButton>
+            </div>
           )}
           <IconButton
             icon={showsGraph ? faServer : faChartBar}
@@ -229,8 +257,13 @@ export const Session = ({
         </SessionToolbar>
       </RecordListWrapper>
 
-      {showsModal && (
+      {modalType === SESSION_LIST_MODAL ? (
         <Modal tw="lg:inset-x-1/4 lg:w-1/2" onClose={closeModal}>
+          <IconButton
+            icon={faTimes}
+            tw="absolute top-0 right-0 -m-2 inline-grid w-6 h-6 place-items-center rounded-full bg-white dark:bg-gray-700"
+            onClick={closeModal}
+          />
           <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
             <div tw="flex space-x-2">
               <span tw="text-3xl">Sessions</span>
@@ -265,7 +298,37 @@ export const Session = ({
             </ul>
           </div>
         </Modal>
-      )}
+      ) : modalType === VARIATION_LIST_MODAL ? (
+        <Modal tw="lg:inset-x-1/4 lg:w-1/2" onClose={closeModal}>
+          <ModalCloseButton onClick={closeModal} />
+          <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
+            <div tw="flex space-x-2">
+              <span tw="text-3xl">Variation</span>
+            </div>
+            <ul tw="flex-1 overflow-y-auto">
+              {defaultVariations.map((variation) => (
+                <li
+                  tw="px-3 pb-1 pt-3 lg:mr-6 text-lg border-b cursor-pointer"
+                  key={variation.name}
+                  onClick={() => {
+                    if (
+                      sessions.every(
+                        ({ variation: { name } }) => name !== variation.name
+                      )
+                    ) {
+                      addSessionGroup(variation);
+                    }
+                    setVariation(variation.name);
+                    closeModal();
+                  }}
+                >
+                  {variation.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </Modal>
+      ) : null}
     </>
   );
 };
