@@ -65,7 +65,9 @@ export const TimerPage: VFC = () => {
 
   const {
     sessions,
+    currentSessionCollection,
     sessionIndex,
+    variation,
     setSessionIndex,
     importFromCsTimer,
     changeSessionName,
@@ -79,12 +81,13 @@ export const TimerPage: VFC = () => {
     addSession,
     deleteSession,
   } = useSessions();
-  const { times } = sessions[sessionIndex];
+  const { times } = currentSessionCollection.sessions[sessionIndex];
 
   const ao5 = useMemo(() => calcAo(5, times.slice(-5)).pop() || null, [times]);
-  const ao12 = useMemo(() => calcAo(12, times.slice(-12)).pop() || null, [
-    times,
-  ]);
+  const ao12 = useMemo(
+    () => calcAo(12, times.slice(-12)).pop() || null,
+    [times]
+  );
 
   useEffect(() => {
     if (index + 3 >= scrambles.length) {
@@ -271,6 +274,7 @@ export const TimerPage: VFC = () => {
         insertRecord={insertRecord}
         sessionIndex={sessionIndex}
         setSessionIndex={setSessionIndex}
+        currentVariation={variation}
         changeSessionName={changeSessionName}
         sessions={sessions}
         addSession={addSession}

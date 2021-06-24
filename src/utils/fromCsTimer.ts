@@ -1,4 +1,4 @@
-import { SessionData } from '../components/Timer/timeData';
+import { SessionData, SessionCollection } from '../components/Timer/timeData';
 import { isUnknownObject } from './isUnknownObject';
 
 const excludeSessionData = (json: unknown) => {
@@ -14,23 +14,25 @@ const excludeSessionData = (json: unknown) => {
   if (typeof sessionData !== 'string') return null;
   return sessionData;
 };
-export const fromCsTimer = (json: unknown): SessionData[] => {
+
+export const fromCsTimer = (json: unknown): SessionCollection => {
   if (!isUnknownObject(json)) {
     throw new Error('invalid JSON given');
   }
-  const sessionData = JSON.parse(excludeSessionData(json) || 'null');
+  const sessionDataList = JSON.parse(excludeSessionData(json) || 'null');
+  const res: (SessionData & { scramble: string })[] = [];
 
-  return Object.keys(json).reduce((acc: SessionData[], key): SessionData[] => {
+  for (const key of Object.keys(json)) {
     if (!key.startsWith('session')) {
-      return acc;
+      continue;
     }
     const arr = json[key];
     if (!Array.isArray(arr)) {
       throw new Error('invalid JSON given');
     }
-    const copied = acc.concat();
 
-    copied[sessionData[key.replace(/^session/, '')].rank - 1] = {
+    const sessionData = sessionDataList[key.replace(/^session/, '')];
+    res[sessionData.rank - 1] = {
       times: arr.map((item: unknown) => {
         if (!Array.isArray(item)) {
           throw new Error('invalid JSON given');
@@ -43,8 +45,41 @@ export const fromCsTimer = (json: unknown): SessionData[] => {
           time: item[0][1],
         };
       }),
-      name: `${sessionData[key.replace(/^session/, '')].name}`,
+      name: `${sessionData.name}`,
+      scramble:
+        'scrType' in sessionData.opt
+          ? (sessionData.opt.scrType as string)
+          : 'default',
     };
-    return copied;
+  }
+
+  // {[scrambleName]: SessionData} という形で整理
+  const sessionMap = res.reduce<Record<string, SessionData[] | undefined>>(
+    (_acc, { scramble, ...item }) => {
+      const { [scramble]: sessions = [], ...acc } = _acc;
+      return {
+        ...acc,
+        [scramble]: sessions.concat(item),
+      };
+    },
+    {}
+  );
+
+  return Object.keys(sessionMap).reduce<SessionCollection>((acc, key) => {
+    const sessions = sessionMap[key];
+    if (!sessions) return acc;
+
+    return [
+      ...acc,
+      {
+        sessions,
+        variation: {
+          name:
+            key === '333oh' ? '3x3 OH' : key === '333ni' ? '3x3 BLD' : '3x3',
+          scramble: '3x3',
+        },
+        selectedSessionIndex: 0,
+      },
+    ];
   }, []);
 };

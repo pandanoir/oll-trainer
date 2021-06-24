@@ -1,3 +1,4 @@
+import { defaultVariation } from '../data/variations';
 import { fromCsTimer } from './fromCsTimer';
 
 describe('fromCsTimer', () => {
@@ -72,34 +73,40 @@ describe('fromCsTimer', () => {
     };
     expect(fromCsTimer(csTimerData)).toEqual([
       {
-        name: '1',
-        times: [
+        variation: defaultVariation,
+        sessions: [
           {
-            time: 753,
-            isDNF: false,
-            penalty: false,
-            scramble:
-              "F D2 R F2 R2 U' F2 D' R2 U R2 D' L2 U2 R B' L R2 D' F' U",
-            date: 1623582797000,
-          },
-          {
-            time: 744,
-            isDNF: true,
-            penalty: false,
+            name: '1',
+            times: [
+              {
+                time: 753,
+                isDNF: false,
+                penalty: false,
+                scramble:
+                  "F D2 R F2 R2 U' F2 D' R2 U R2 D' L2 U2 R B' L R2 D' F' U",
+                date: 1623582797000,
+              },
+              {
+                time: 744,
+                isDNF: true,
+                penalty: false,
 
-            scramble: "U' R F D2 L2 U2 L2 B' U2 B F L2 D F2 R F' D R' U",
-            date: 1623582799000,
-          },
-          {
-            time: 702,
-            isDNF: false,
-            penalty: true,
+                scramble: "U' R F D2 L2 U2 L2 B' U2 B F L2 D F2 R F' D R' U",
+                date: 1623582799000,
+              },
+              {
+                time: 702,
+                isDNF: false,
+                penalty: true,
 
-            scramble:
-              "F2 U D2 L' F2 R2 D2 B2 D2 F2 L' D2 F2 L D' B' R' U F2 U' B2",
-            date: 1623582801000,
+                scramble:
+                  "F2 U D2 L' F2 R2 D2 B2 D2 F2 L' D2 F2 L D' B' R' U F2 U' B2",
+                date: 1623582801000,
+              },
+            ],
           },
         ],
+        selectedSessionIndex: 0,
       },
     ]);
   });

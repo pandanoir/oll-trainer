@@ -3,7 +3,7 @@ import tw from 'twin.macro';
 import { fromCsTimer } from '../../utils/fromCsTimer';
 import { readAsText } from '../../utils/readAsText';
 import { PrimaryButton } from '../common/PrimaryButton';
-import { SessionData } from './timeData';
+import { SessionCollection } from './timeData';
 
 const FileButton = tw(
   PrimaryButton
@@ -12,7 +12,7 @@ const FileButton = tw(
 export const FileInput = ({
   onChange,
 }: {
-  onChange: (json: SessionData[]) => void;
+  onChange: (json: SessionCollection) => void;
 }) => {
   const fileRef = useRef<HTMLInputElement>(null);
 

@@ -19,7 +19,7 @@ import {
 import tw from 'twin.macro';
 
 import { calcAo } from '../../utils/calcAo';
-import { TimeData, SessionData } from './timeData';
+import { TimeData, SessionCollection } from './timeData';
 import { Times } from './Times';
 const pick =
   <T extends unknown>(name: keyof T) =>
@@ -35,6 +35,7 @@ import { LoadingIndicator } from '../common/LoadingIndicator';
 import { useStoragedState } from '../../utils/hooks/useLocalStorage';
 import { withPrefix } from '../../utils/withPrefix';
 import { SessionListItem } from './SessionListItem';
+import { Variation } from '../../data/variations';
 
 const Backdrop = tw.div`absolute z-10 w-full h-full bottom-0 flex flex-col bg-gray-300 bg-opacity-30 dark:bg-black dark:bg-opacity-50`;
 const SessionToolbar = tw.div`w-full h-12 bg-white dark:bg-gray-800 flex justify-between z-10`;
@@ -54,6 +55,7 @@ export const Session = ({
   setSessionIndex,
   changeSessionName,
   sessions,
+  currentVariation,
   addSession,
   deleteSession,
 }: {
@@ -68,7 +70,8 @@ export const Session = ({
   sessionIndex: number;
   setSessionIndex: Dispatch<SetStateAction<number>>;
   changeSessionName: (name: string) => void;
-  sessions: SessionData[];
+  sessions: SessionCollection;
+  currentVariation: string;
   addSession: () => void;
   deleteSession: (index: number) => void;
 }) => {
@@ -76,6 +79,15 @@ export const Session = ({
   const [opensRecordList, setOpensRecordList] = useState(false);
   const ao5List = useMemo(() => calcAo(5, times), [times]);
   const ao12List = useMemo(() => calcAo(12, times), [times]);
+  const currentSessions = useMemo(() => {
+    const currentSessions = sessions.find(
+      ({ variation }) => variation.name === currentVariation
+    );
+    if (!currentSessions) {
+      throw new Error('unexpected error');
+    }
+    return currentSessions.sessions;
+  }, [currentVariation, sessions]);
 
   const { showsModal, openModal, closeModal } = useModal();
   const [showsGraph, setShowsGraph] = useStoragedState(
@@ -177,7 +189,7 @@ export const Session = ({
               icon={faAngleLeft}
             />
             <input
-              value={sessions[sessionIndex].name}
+              value={currentSessions[sessionIndex].name}
               tw="w-36 bg-transparent"
               onChange={({ target: { value } }) => changeSessionName(value)}
             />
@@ -185,9 +197,11 @@ export const Session = ({
               icon={faAngleRight}
               css={[
                 tw`px-4 py-2 text-lg`,
-                sessionIndex + 1 >= sessions.length ? tw`text-gray-400` : '',
+                sessionIndex + 1 >= currentSessions.length
+                  ? tw`text-gray-400`
+                  : '',
               ]}
-              disabled={sessionIndex + 1 >= sessions.length}
+              disabled={sessionIndex + 1 >= currentSessions.length}
               onClick={prev}
             />
             <IconButton
@@ -195,8 +209,8 @@ export const Session = ({
               tw="px-2.5 my-1.5 text-lg text-white bg-gray-700 rounded"
               onClick={() => {
                 addSession();
-                if (sessionIndex === sessions.length - 1) {
-                  setSessionIndex(sessions.length);
+                if (sessionIndex === currentSessions.length - 1) {
+                  setSessionIndex(currentSessions.length);
                 }
               }}
             />
@@ -225,14 +239,14 @@ export const Session = ({
                 tw="px-2.5 my-1.5 text-lg text-white bg-gray-700 rounded"
                 onClick={() => {
                   addSession();
-                  if (sessionIndex === sessions.length - 1) {
-                    setSessionIndex(sessions.length);
+                  if (sessionIndex === currentSessions.length - 1) {
+                    setSessionIndex(currentSessions.length);
                   }
                 }}
               />
             </div>
             <ul tw="flex-1 overflow-y-auto">
-              {sessions.map((session, index) => (
+              {currentSessions.map((session, index) => (
                 <SessionListItem
                   key={`${index}--${session.name}`}
                   session={session}
