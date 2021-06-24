@@ -12,5 +12,8 @@ export default defineConfig({
     'process.platform': JSON.stringify('win32'),
     'process.env': {},
   },
+  build: {
+    assetsInlineLimit: 0,
+  },
   base: '/oll/',
 });
