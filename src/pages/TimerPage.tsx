@@ -41,6 +41,7 @@ import { isAwayFromBeginningElement } from '../utils/isAwayFromBeginningElement'
 
 import { playAudio } from '../utils/playAudio';
 import steadySoundUrl from '../sound/steady.mp3';
+import { Temporal } from 'proposal-temporal';
 
 const steadySound = fetch(steadySoundUrl).then((response) =>
   response.arrayBuffer()
@@ -115,7 +116,7 @@ export const TimerPage: VFC = () => {
         addTime({
           ...data,
           scramble: scrambles[index],
-          date: Date.now(),
+          date: Temporal.now.instant().epochMilliseconds,
         });
         swiper?.slideNext();
       },
@@ -136,7 +137,7 @@ export const TimerPage: VFC = () => {
       addTime({
         time: secTime * 1000,
         scramble: scrambles[index],
-        date: Date.now(),
+        date: Temporal.now.instant().epochMilliseconds,
       });
       swiper?.slideNext();
     },
