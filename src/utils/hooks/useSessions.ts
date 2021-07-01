@@ -7,20 +7,21 @@ import { isUnknownObject } from '../isUnknownObject';
 import { defaultVariation, Variation } from '../../data/variations';
 
 const version = 2;
-const getDefaultSessionCollection = (): SessionCollection => {
+const createNewSession = (num = 1) => {
   const today = new Date();
+  return {
+    times: [],
+    name: `${zerofill(today.getMonth() + 1, 2)}-${zerofill(
+      today.getDate(),
+      2
+    )} session${num}`,
+  };
+};
+const getDefaultSessionCollection = (): SessionCollection => {
   return [
     {
       variation: defaultVariation,
-      sessions: [
-        {
-          times: [],
-          name: `${zerofill(today.getMonth() + 1, 2)}-${zerofill(
-            today.getDate(),
-            2
-          )} session1`,
-        },
-      ],
+      sessions: [createNewSession()],
       selectedSessionIndex: 0,
     },
   ];
@@ -181,16 +182,9 @@ export const useSessions = (
     [findCurrentSession, updateSessions]
   );
   const addSession = useCallback(() => {
-    const today = new Date();
     updateSessions((draft) => {
       const { sessions } = findCurrentSessionCollection(draft);
-      sessions.push({
-        times: [],
-        name: `${zerofill(today.getMonth() + 1, 2)}-${zerofill(
-          today.getDate(),
-          2
-        )} session${sessions.length + 1}`,
-      });
+      sessions.push(createNewSession(sessions.length + 1));
     });
   }, [findCurrentSessionCollection, updateSessions]);
   const deleteSession = useCallback(
@@ -214,22 +208,13 @@ export const useSessions = (
   );
   const addSessionGroup = useCallback(
     (variation: Variation) => {
-      const today = new Date();
       updateSessions((draft) => {
         if (draft.some(({ variation: { name } }) => variation.name === name)) {
           return;
         }
         draft.push({
           variation,
-          sessions: [
-            {
-              times: [],
-              name: `${zerofill(today.getMonth() + 1, 2)}-${zerofill(
-                today.getDate(),
-                2
-              )} session1`,
-            },
-          ],
+          sessions: [createNewSession()],
           selectedSessionIndex: 0,
         });
       });
