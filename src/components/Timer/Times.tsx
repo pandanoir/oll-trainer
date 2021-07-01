@@ -17,6 +17,8 @@ import { noop } from '../../utils/noop';
 import { findIndexOfMax } from '../../utils/findIndexOfMax';
 import { findIndexOfMin } from '../../utils/findIndexOfMin';
 import { ModalCloseButton } from '../common/ModalCloseButton';
+import { Temporal } from 'proposal-temporal';
+import { getTimezoneStr } from '../../utils/getTimezoneStr';
 
 export const Times: VFC<{
   times: TimeData[];
@@ -219,7 +221,22 @@ export const Times: VFC<{
                   >
                     <span>date:</span>
                     <span>
-                      {new Date(times[selectedIndex].date).toLocaleString()}
+                      {new Temporal.TimeZone(
+                        getTimezoneStr(new Date().getTimezoneOffset())
+                      )
+                        .getPlainDateTimeFor(
+                          Temporal.Instant.fromEpochMilliseconds(
+                            times[selectedIndex].date
+                          )
+                        )
+                        .toLocaleString('ja-JP', {
+                          year: 'numeric',
+                          month: 'numeric',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          second: '2-digit',
+                        })}
                     </span>
 
                     <span>scramble:</span>
