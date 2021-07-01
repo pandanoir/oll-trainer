@@ -12,8 +12,6 @@ import { RouteList } from './route';
 import { useDarkMode, DarkModeContext } from './utils/hooks/useDarkMode';
 import { SwitchButton } from './components/common/SwitchButton';
 
-console.log(process.env.SOURCE_COMMIT);
-
 const App: VFC = () => {
   const { checkList, check, reset } = useCheck();
   const { darkMode, setLightMode, setDarkMode } = useDarkMode();
