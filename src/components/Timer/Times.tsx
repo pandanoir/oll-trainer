@@ -185,7 +185,7 @@ export const Times: VFC<{
             return (
               <Modal onClose={closeModal}>
                 <ModalCloseButton onClick={closeModal} />
-                <div tw="relative flex flex-col space-y-6 p-6 h-full">
+                <div tw="relative flex flex-col space-y-8 p-6 h-full">
                   <BigRecord
                     record={times[selectedIndex]}
                     onClick={closeModal}
@@ -210,14 +210,21 @@ export const Times: VFC<{
                       });
                     }}
                   />
-                  <span tw="flex space-x-2">
+                  <div
+                    tw="grid gap-x-3"
+                    style={{
+                      gridTemplateColumns:
+                        'max-content repeat(1, minmax(0, 1fr))',
+                    }}
+                  >
+                    <span>date:</span>
+                    <span>
+                      {new Date(times[selectedIndex].date).toLocaleString()}
+                    </span>
+
                     <span>scramble:</span>
-                    <textarea
-                      tw="inline-block resize-none flex-1 bg-transparent"
-                      readOnly
-                      value={times[selectedIndex].scramble}
-                    />
-                  </span>
+                    <span>{times[selectedIndex].scramble}</span>
+                  </div>
                   <span>
                     <TweetButton
                       text={`${showRecord(times[selectedIndex])} scramble: ${
