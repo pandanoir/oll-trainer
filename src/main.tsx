@@ -1,4 +1,4 @@
-import { useMemo, VFC } from 'react';
+import { useMemo, useState, VFC } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +11,7 @@ import './index.css';
 import { RouteList } from './route';
 import { useDarkMode, DarkModeContext } from './utils/hooks/useDarkMode';
 import { SwitchButton } from './components/common/SwitchButton';
+import { VolumeContext } from './utils/hooks/useAudio';
 
 const App: VFC = () => {
   const { checkList, check, reset } = useCheck();
@@ -20,39 +21,41 @@ const App: VFC = () => {
     []
   );
   return (
-    <DarkModeContext.Provider value={darkMode}>
-      <CheckContext.Provider value={{ checkList, check, reset }}>
-        <Router basename="/oll">
-          <Header
-            right={
-              <div tw="flex items-center flex-nowrap">
-                <SwitchButton
-                  value={darkMode ? 'right' : 'left'}
-                  onChange={(value) => {
-                    if (value === 'left') {
-                      setLightMode();
-                    } else {
-                      setDarkMode();
-                    }
-                  }}
-                />
-                <FontAwesomeIcon icon={faMoon} />
-              </div>
-            }
-          />
-          <Switch>
-            <Route path={['/oll']} exact>
-              {OllPage}
-            </Route>
-            {RouteList.map(({ path, component }) => (
-              <Route path={path} exact key={path}>
-                {component}
+    <VolumeContext.Provider value={useState(1)}>
+      <DarkModeContext.Provider value={darkMode}>
+        <CheckContext.Provider value={{ checkList, check, reset }}>
+          <Router basename="/oll">
+            <Header
+              right={
+                <div tw="flex items-center flex-nowrap">
+                  <SwitchButton
+                    value={darkMode ? 'right' : 'left'}
+                    onChange={(value) => {
+                      if (value === 'left') {
+                        setLightMode();
+                      } else {
+                        setDarkMode();
+                      }
+                    }}
+                  />
+                  <FontAwesomeIcon icon={faMoon} />
+                </div>
+              }
+            />
+            <Switch>
+              <Route path={['/oll']} exact>
+                {OllPage}
               </Route>
-            ))}
-          </Switch>
-        </Router>
-      </CheckContext.Provider>
-    </DarkModeContext.Provider>
+              {RouteList.map(({ path, component }) => (
+                <Route path={path} exact key={path}>
+                  {component}
+                </Route>
+              ))}
+            </Switch>
+          </Router>
+        </CheckContext.Provider>
+      </DarkModeContext.Provider>
+    </VolumeContext.Provider>
   );
 };
 render(<App />, document.querySelector('#app'));

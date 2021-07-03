@@ -39,9 +39,9 @@ import { TimerArea } from '../components/Timer/TimerArea';
 import { showAverage } from '../utils/showAverage';
 import { isAwayFromBeginningElement } from '../utils/isAwayFromBeginningElement';
 
-import { playAudio } from '../utils/playAudio';
 import steadySoundUrl from '../sound/steady.mp3';
 import { Temporal } from 'proposal-temporal';
+import { useAudio } from '../utils/hooks/useAudio';
 
 const steadySound = fetch(steadySoundUrl).then((response) =>
   response.arrayBuffer()
@@ -85,6 +85,7 @@ export const TimerPage: VFC = () => {
     addSessionGroup,
   } = useSessions();
   const { times } = currentSessionCollection.sessions[sessionIndex];
+  const { setVolume, playAudio } = useAudio();
 
   const ao5 = useMemo(() => calcAo(5, times.slice(-5)).pop() || null, [times]);
   const ao12 = useMemo(
@@ -129,7 +130,7 @@ export const TimerPage: VFC = () => {
         playAudio(await steadySound);
       }
     })();
-  }, [timerState]);
+  }, [playAudio, timerState]);
 
   const { openToast, closeToast, ...toastProps } = useToast();
   const onTypingTimerInput = useCallback(
