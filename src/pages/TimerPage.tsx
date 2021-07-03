@@ -42,6 +42,8 @@ import { isAwayFromBeginningElement } from '../utils/isAwayFromBeginningElement'
 import steadySoundUrl from '../sound/steady.mp3';
 import { Temporal } from 'proposal-temporal';
 import { useAudio } from '../utils/hooks/useAudio';
+import { IconButton } from '../components/common/IconButton';
+import { faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 
 const steadySound = fetch(steadySoundUrl).then((response) =>
   response.arrayBuffer()
@@ -85,7 +87,7 @@ export const TimerPage: VFC = () => {
     addSessionGroup,
   } = useSessions();
   const { times } = currentSessionCollection.sessions[sessionIndex];
-  const { setVolume, playAudio } = useAudio();
+  const { volume, setVolume, playAudio } = useAudio();
 
   const ao5 = useMemo(() => calcAo(5, times.slice(-5)).pop() || null, [times]);
   const ao12 = useMemo(
@@ -167,6 +169,11 @@ export const TimerPage: VFC = () => {
   return (
     <div tw="relative w-full flex flex-col flex-1 dark:bg-gray-800 dark:text-white">
       <div tw="flex space-x-1 px-3 overflow-x-auto">
+        <IconButton
+          tw="inline-block cursor-pointer select-none px-2"
+          icon={volume === 1 ? faVolumeUp : faVolumeMute}
+          onClick={() => setVolume((n) => 1 - n)}
+        />
         <ToggleButton checked={usesInspection} onChange={setUsesInspection}>
           インスペクションを使用
         </ToggleButton>
