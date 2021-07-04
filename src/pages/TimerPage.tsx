@@ -44,6 +44,7 @@ import { Temporal } from 'proposal-temporal';
 import { useAudio } from '../utils/hooks/useAudio';
 import { IconButton } from '../components/common/IconButton';
 import { faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
+import { playSilence } from '../utils/playAudio';
 
 const steadySound = fetch(steadySoundUrl).then((response) =>
   response.arrayBuffer()
@@ -206,7 +207,10 @@ export const TimerPage: VFC = () => {
         overlappingScreen={timerState !== IDOLING}
       >
         <TimerCover
-          onPointerDown={onPointerDown}
+          onPointerDown={() => {
+            playSilence();
+            onPointerDown();
+          }}
           onPointerUp={onPointerUp}
           disabled={inputsTimeManually}
           transparent={timerState === IDOLING}

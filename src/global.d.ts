@@ -3,3 +3,7 @@ declare module 'scrambo' {
     get(n?: number): string[];
   }
 }
+
+interface Window {
+  webkitAudioContext: typeof AudioContext;
+}
