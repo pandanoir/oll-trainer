@@ -1,5 +1,6 @@
-import { VFC } from 'react';
 import { faCaretRight, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { VFC } from 'react';
 import 'twin.macro';
 
 import { calcAverage } from '../../utils/calcAverage';
@@ -8,7 +9,6 @@ import { findIndexOfMin } from '../../utils/findIndexOfMin';
 import { showTime } from '../../utils/showTime';
 import { IconButton } from '../common/IconButton';
 import { SessionData, DNF } from './timeData';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const SessionListItem: VFC<{
   session: SessionData;

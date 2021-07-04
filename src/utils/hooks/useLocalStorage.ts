@@ -1,6 +1,6 @@
+import { produce } from 'immer';
 import { useCallback, useRef, useState } from 'react';
 import { useImmer } from 'use-immer';
-import { produce } from 'immer';
 const stateInitializer =
   <T>(storageKey: string, initialValue: T | (() => T)) =>
   () => {

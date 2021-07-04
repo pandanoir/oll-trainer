@@ -1,6 +1,6 @@
+import { CpPage } from './pages/CpPage';
 import { LearningPage } from './pages/LearningPage';
 import { OllPage } from './pages/OllPage';
-import { CpPage } from './pages/CpPage';
 import { ScramblePage } from './pages/ScramblePage';
 import { TimerPage } from './pages/TimerPage';
 

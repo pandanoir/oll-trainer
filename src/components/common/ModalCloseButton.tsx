@@ -1,5 +1,5 @@
-import { VFC } from 'react';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { VFC } from 'react';
 import 'twin.macro';
 
 import { IconButton } from './IconButton';

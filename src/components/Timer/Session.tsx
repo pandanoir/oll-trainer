@@ -1,13 +1,4 @@
 import {
-  Dispatch,
-  lazy,
-  SetStateAction,
-  Suspense,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import {
   faAngleLeft,
   faAngleRight,
   faPlus,
@@ -16,11 +7,19 @@ import {
   faServer,
   faList,
 } from '@fortawesome/free-solid-svg-icons';
+import {
+  Dispatch,
+  lazy,
+  SetStateAction,
+  Suspense,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import tw from 'twin.macro';
 
+import { defaultVariations, Variation } from '../../data/variations';
 import { calcAo } from '../../utils/calcAo';
-import { TimeData, SessionCollection } from './timeData';
-import { Times } from './Times';
 const pick =
   <T extends unknown>(name: keyof T) =>
   (items: T) => ({
@@ -28,16 +27,17 @@ const pick =
   });
 const TimeGraph = lazy(() => import('./TimeGraph').then(pick('TimeGraph')));
 
-import { IconButton } from '../common/IconButton';
-import { Modal, useModal } from '../common/Modal';
-import { LoadingIndicator } from '../common/LoadingIndicator';
-
 import { useStoragedState } from '../../utils/hooks/useLocalStorage';
 import { withPrefix } from '../../utils/withPrefix';
-import { SessionListItem } from './SessionListItem';
-import { PrimaryButton } from '../common/PrimaryButton';
-import { defaultVariations, Variation } from '../../data/variations';
+import { IconButton } from '../common/IconButton';
+import { LoadingIndicator } from '../common/LoadingIndicator';
+import { Modal, useModal } from '../common/Modal';
+
 import { ModalCloseButton } from '../common/ModalCloseButton';
+import { PrimaryButton } from '../common/PrimaryButton';
+import { SessionListItem } from './SessionListItem';
+import { TimeData, SessionCollection } from './timeData';
+import { Times } from './Times';
 
 const SESSION_LIST_MODAL = 'SESSION_LIST_MODAL';
 const VARIATION_LIST_MODAL = 'VARIATION_LIST_MODAL';

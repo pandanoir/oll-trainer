@@ -2,9 +2,9 @@
  * @jest-environment jsdom
  */
 import { renderHook } from '@testing-library/react-hooks';
-import { useDarkMode } from './useDarkMode';
 import { act } from 'react-test-renderer';
 import { withPrefix } from '../withPrefix';
+import { useDarkMode } from './useDarkMode';
 
 const STORAGE_KEY = withPrefix('theme');
 describe('useDarkMode', () => {

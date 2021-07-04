@@ -1,5 +1,5 @@
-import { showTime } from './showTime';
 import { TimeData } from '../components/Timer/timeData';
+import { showTime } from './showTime';
 
 export const showRecord = ({ isDNF, penalty, time }: TimeData) => {
   if (isDNF) {

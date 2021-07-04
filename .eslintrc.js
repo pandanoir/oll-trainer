@@ -23,5 +23,14 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'no-empty': ['error', { allowEmptyCatch: true }],
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'import/order': [
+      'error',
+      {
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
+        },
+      },
+    ],
   },
 };

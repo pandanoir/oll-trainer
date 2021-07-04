@@ -1,24 +1,24 @@
-import tw from 'twin.macro';
+import { Temporal } from 'proposal-temporal';
 import { VFC, useMemo, useState } from 'react';
+import tw from 'twin.macro';
+
+import { calcAo } from '../../utils/calcAo';
+import { exhaustiveCheck } from '../../utils/exhaustiveCheck';
+import { findIndexOfMax } from '../../utils/findIndexOfMax';
+import { findIndexOfMin } from '../../utils/findIndexOfMin';
+import { getTimezoneStr } from '../../utils/getTimezoneStr';
+import { noop } from '../../utils/noop';
+import { showAverage } from '../../utils/showAverage';
+import { showRecord } from '../../utils/showRecord';
 
 import { Modal, useModal } from '../common/Modal';
+import { ModalCloseButton } from '../common/ModalCloseButton';
 import { Toast, useToast } from '../common/Toast';
+import { ToggleButton } from '../common/ToggleButton';
 import { TweetButton } from '../TweetButton';
 import { BigRecord } from './BigRecord';
 import { RecordModifier } from './RecordModifier';
-import { ToggleButton } from '../common/ToggleButton';
-
 import { DNF, TimeData } from './timeData';
-import { calcAo } from '../../utils/calcAo';
-import { exhaustiveCheck } from '../../utils/exhaustiveCheck';
-import { showAverage } from '../../utils/showAverage';
-import { showRecord } from '../../utils/showRecord';
-import { noop } from '../../utils/noop';
-import { findIndexOfMax } from '../../utils/findIndexOfMax';
-import { findIndexOfMin } from '../../utils/findIndexOfMin';
-import { ModalCloseButton } from '../common/ModalCloseButton';
-import { Temporal } from 'proposal-temporal';
-import { getTimezoneStr } from '../../utils/getTimezoneStr';
 
 export const Times: VFC<{
   times: TimeData[];

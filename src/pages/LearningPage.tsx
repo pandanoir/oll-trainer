@@ -4,10 +4,11 @@ import 'twin.macro';
 import { Button } from '../components/common/Button';
 import { DangerButton } from '../components/common/DangerButton';
 import { PrimaryButton } from '../components/common/PrimaryButton';
-import { Solve } from '../components/Solve';
-import { CheckContext } from '../utils/hooks/useCheck';
-import { nextIndex, prevIndex } from '../utils';
 import { ListModal } from '../components/ListModal';
+import { Solve } from '../components/Solve';
+
+import { nextIndex, prevIndex } from '../utils';
+import { CheckContext } from '../utils/hooks/useCheck';
 import { useTitle } from '../utils/hooks/useTitle';
 
 export const LearningPage: VFC = () => {

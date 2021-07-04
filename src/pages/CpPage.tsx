@@ -1,15 +1,15 @@
 import { useEffect, useState, VFC } from 'react';
 import 'twin.macro';
 
-import { calculateScramble } from '../utils';
 import { TopFace, Color, cpList } from '../data/cpList';
-import { useInput } from '../utils/hooks/useInput';
-import { useQuery } from '../utils/hooks/useQuery';
+import { calculateScramble } from '../utils';
 import {
   checkCpPattern,
   cpSwapPatterns,
   getCompanionSwap,
 } from '../utils/checkCpPattern';
+import { useInput } from '../utils/hooks/useInput';
+import { useQuery } from '../utils/hooks/useQuery';
 import { useTitle } from '../utils/hooks/useTitle';
 
 const Cube: VFC<{ color: string; onClick?: () => void }> = ({

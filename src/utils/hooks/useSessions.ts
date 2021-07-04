@@ -1,10 +1,10 @@
-import { SessionCollection, TimeData } from '../../components/Timer/timeData';
-import { useVersionedImmerState, useStoragedState } from './useLocalStorage';
 import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
-import { zerofill } from '../zerofill';
-import { withPrefix } from '../withPrefix';
-import { isUnknownObject } from '../isUnknownObject';
+import { SessionCollection, TimeData } from '../../components/Timer/timeData';
 import { defaultVariation, Variation } from '../../data/variations';
+import { isUnknownObject } from '../isUnknownObject';
+import { withPrefix } from '../withPrefix';
+import { zerofill } from '../zerofill';
+import { useVersionedImmerState, useStoragedState } from './useLocalStorage';
 
 const version = 2;
 const createNewSession = (num = 1) => {

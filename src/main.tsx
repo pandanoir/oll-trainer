@@ -1,17 +1,17 @@
+import { faMoon } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMemo, useState, VFC } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { faMoon } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'twin.macro';
 
+import { SwitchButton } from './components/common/SwitchButton';
 import { Header } from './Header';
+import { RouteList } from './route';
+import { VolumeContext } from './utils/hooks/useAudio';
 import { CheckContext, useCheck } from './utils/hooks/useCheck';
 import './index.css';
-import { RouteList } from './route';
 import { useDarkMode, DarkModeContext } from './utils/hooks/useDarkMode';
-import { SwitchButton } from './components/common/SwitchButton';
-import { VolumeContext } from './utils/hooks/useAudio';
 
 const App: VFC = () => {
   const { checkList, check, reset } = useCheck();

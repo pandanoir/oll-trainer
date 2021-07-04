@@ -1,8 +1,9 @@
 import { VFC, useContext } from 'react';
-import { Solve } from './Solve';
+import tw from 'twin.macro';
+
 import { CheckContext } from '../utils/hooks/useCheck';
 import { useCheckbox } from '../utils/hooks/useCheckbox';
-import tw from 'twin.macro';
+import { Solve } from './Solve';
 
 const Overlay: VFC<{
   onClick: () => void;

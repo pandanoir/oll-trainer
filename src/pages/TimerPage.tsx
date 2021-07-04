@@ -1,9 +1,23 @@
+import { faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
+import { Temporal } from 'proposal-temporal';
 import { useCallback, useEffect, useMemo, useState, VFC } from 'react';
+import Scrambo from 'scrambo';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import Scrambo from 'scrambo';
 import tw from 'twin.macro';
 
+import { IconButton } from '../components/common/IconButton';
+import { PrimaryButton } from '../components/common/PrimaryButton';
+import { Toast, useToast } from '../components/common/Toast';
+import { ToggleButton } from '../components/common/ToggleButton';
+import { ExportButton } from '../components/Timer/ExportButton';
+import { FileInput } from '../components/Timer/FileInput';
+import { RecordItem } from '../components/Timer/RecordItem';
+import { RecordModifier } from '../components/Timer/RecordModifier';
+import { Session } from '../components/Timer/Session';
+import { TapTimer } from '../components/Timer/TapTimer';
+import { TimerArea } from '../components/Timer/TimerArea';
+import { TimerCover } from '../components/Timer/TimerCover';
 import {
   IDOLING,
   STEADY,
@@ -13,38 +27,25 @@ import {
   INSPECTION_STEADY,
   WORKING,
 } from '../components/Timer/timerState';
-import { TapTimer } from '../components/Timer/TapTimer';
-import { showTime } from '../utils/showTime';
-import { ToggleButton } from '../components/common/ToggleButton';
-import { useSessions } from '../utils/hooks/useSessions';
-import { RecordModifier } from '../components/Timer/RecordModifier';
-import { RecordItem } from '../components/Timer/RecordItem';
-import { Toast, useToast } from '../components/common/Toast';
 import { TypingTimer } from '../components/Timer/TypingTimer';
-import { ExportButton } from '../components/Timer/ExportButton';
-import { FileInput } from '../components/Timer/FileInput';
-import { calcAo } from '../utils/calcAo';
-import { Session } from '../components/Timer/Session';
-import { PrimaryButton } from '../components/common/PrimaryButton';
-import { useTitle } from '../utils/hooks/useTitle';
-import { useStoragedState } from '../utils/hooks/useLocalStorage';
-import { withStopPropagation } from '../utils/withStopPropagation';
-import '../swiper.css';
-import './TimerPage.css';
-import { withPrefix } from '../utils/withPrefix';
-import { useCubeTimer } from '../utils/hooks/useCubeTimer';
-import { toCsTimer } from '../utils/toCsTimer';
-import { TimerCover } from '../components/Timer/TimerCover';
-import { TimerArea } from '../components/Timer/TimerArea';
-import { showAverage } from '../utils/showAverage';
-import { isAwayFromBeginningElement } from '../utils/isAwayFromBeginningElement';
 
 import steadySoundUrl from '../sound/steady.mp3';
-import { Temporal } from 'proposal-temporal';
+import { calcAo } from '../utils/calcAo';
 import { useAudio } from '../utils/hooks/useAudio';
-import { IconButton } from '../components/common/IconButton';
-import { faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
+import { useCubeTimer } from '../utils/hooks/useCubeTimer';
+import { useStoragedState } from '../utils/hooks/useLocalStorage';
+import { useSessions } from '../utils/hooks/useSessions';
+import { useTitle } from '../utils/hooks/useTitle';
+import { isAwayFromBeginningElement } from '../utils/isAwayFromBeginningElement';
 import { playSilence } from '../utils/playAudio';
+import { showAverage } from '../utils/showAverage';
+import { showTime } from '../utils/showTime';
+import { toCsTimer } from '../utils/toCsTimer';
+import { withPrefix } from '../utils/withPrefix';
+import { withStopPropagation } from '../utils/withStopPropagation';
+
+import '../swiper.css';
+import './TimerPage.css';
 
 const steadySound = fetch(steadySoundUrl).then((response) =>
   response.arrayBuffer()

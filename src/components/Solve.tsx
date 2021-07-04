@@ -1,10 +1,10 @@
 import { VFC, PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
 import tw from 'twin.macro';
-import { groups, solves, calculateScramble } from '../utils';
 import { OLL } from '../oll';
-import '../index.css';
 import { RouteInfo } from '../route';
+import { groups, solves, calculateScramble } from '../utils';
+import '../index.css';
 import { checkCpPattern, cpSwapPatterns } from '../utils/checkCpPattern';
 
 interface Props {
