@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CubeFace } from 'src/utils';
+import { CubeFace } from '../../utils';
 
 export const useFace = (): {
   cubeStatus: CubeFace;
