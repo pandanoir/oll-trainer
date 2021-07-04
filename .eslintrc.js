@@ -1,5 +1,4 @@
 module.exports = {
-  plugins: ['react'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/eslint-recommended',
@@ -9,16 +8,11 @@ module.exports = {
     'prettier',
     'prettier/react',
   ],
-  parser: '@typescript-eslint/parser',
   env: {
     browser: true,
   },
   parserOptions: {
     ecmaVersion: 6,
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
-    },
     project: './tsconfig.json',
   },
   rules: {
