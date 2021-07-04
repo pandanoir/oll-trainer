@@ -29,7 +29,9 @@ import {
 } from '../components/Timer/timerState';
 import { TypingTimer } from '../components/Timer/TypingTimer';
 
+import eightSecondsSoundUrl from '../sound/eightSeconds.mp3';
 import steadySoundUrl from '../sound/steady.mp3';
+import twelveSecondsSoundUrl from '../sound/twelveSeconds.mp3';
 import { calcAo } from '../utils/calcAo';
 import { useAudio } from '../utils/hooks/useAudio';
 import { useCubeTimer } from '../utils/hooks/useCubeTimer';
@@ -48,6 +50,12 @@ import '../swiper.css';
 import './TimerPage.css';
 
 const steadySound = fetch(steadySoundUrl).then((response) =>
+  response.arrayBuffer()
+);
+const eightSecondsSound = fetch(eightSecondsSoundUrl).then((response) =>
+  response.arrayBuffer()
+);
+const twelveSecondsSound = fetch(twelveSecondsSoundUrl).then((response) =>
   response.arrayBuffer()
 );
 
@@ -128,6 +136,7 @@ export const TimerPage: VFC = () => {
       [addTime, index, scrambles, swiper]
     ),
   });
+  const inspectionTimeInteger = Math.ceil(inspectionTime / 1000);
   useEffect(() => {
     (async () => {
       if (timerState === STEADY || timerState === INSPECTION_STEADY) {
@@ -135,6 +144,18 @@ export const TimerPage: VFC = () => {
       }
     })();
   }, [playAudio, timerState]);
+
+  // インスペクションの経過時間に応じて効果音を鳴らす
+  useEffect(() => {
+    (async () => {
+      if (15 - inspectionTimeInteger === 8) {
+        playAudio(await eightSecondsSound);
+      }
+      if (15 - inspectionTimeInteger === 12) {
+        playAudio(await twelveSecondsSound);
+      }
+    })();
+  }, [inspectionTimeInteger, playAudio, timerState]);
 
   const { openToast, closeToast, ...toastProps } = useToast();
   const onTypingTimerInput = useCallback(
@@ -149,7 +170,6 @@ export const TimerPage: VFC = () => {
     [addTime, scrambles, index, swiper]
   );
 
-  const inspectionTimeInteger = Math.ceil(inspectionTime / 1000);
   const timerStr = useMemo(() => {
     if (
       timerState === INSPECTION ||
