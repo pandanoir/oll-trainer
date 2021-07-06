@@ -12,6 +12,8 @@ import { VolumeContext } from './utils/hooks/useAudio';
 import { CheckContext, useCheck } from './utils/hooks/useCheck';
 import './index.css';
 import { useDarkMode, DarkModeContext } from './utils/hooks/useDarkMode';
+import { useStoragedState } from './utils/hooks/useLocalStorage';
+import { withPrefix } from './utils/withPrefix';
 
 const App: VFC = () => {
   const { checkList, check, reset } = useCheck();
@@ -21,7 +23,7 @@ const App: VFC = () => {
     []
   );
   return (
-    <VolumeContext.Provider value={useState(1)}>
+    <VolumeContext.Provider value={useStoragedState(withPrefix('volume'), 1)}>
       <DarkModeContext.Provider value={darkMode}>
         <CheckContext.Provider value={{ checkList, check, reset }}>
           <Router basename="/oll">

@@ -9,7 +9,7 @@ import { noop } from '../noop';
 import { playAudio } from '../playAudio';
 
 export const VolumeContext = createContext<
-  [number, Dispatch<SetStateAction<number>>]
+  readonly [number, Dispatch<SetStateAction<number>>]
 >([1, noop]);
 export const useAudio = () => {
   const [volume, setVolume] = useContext(VolumeContext);
