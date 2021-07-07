@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import tw from 'twin.macro';
+import { usePortalRoot } from '../../utils/hooks/usePortalRoot';
 import { usePreventDefault } from '../../utils/hooks/usePreventDefault';
 
 type Props = {
@@ -13,14 +14,7 @@ type Props = {
 // 横スワイプで削除できるトースト
 // 消えるときは右へスライドしながら消える
 export const Toast = ({ title, onClose, label, onClick, shows }: Props) => {
-  const $el = useRef(document.createElement('div'));
-  useEffect(() => {
-    const current = $el.current;
-    document.body.appendChild(current);
-    return () => {
-      document.body.removeChild(current);
-    };
-  }, []);
+  const $el = usePortalRoot();
   const [hidden, setHidden] = useState(true);
   useEffect(() => {
     if (shows) {

@@ -9,21 +9,15 @@ import { createPortal } from 'react-dom';
 import { useHotkeys } from 'react-hotkeys-hook';
 import 'twin.macro';
 import { clickAway } from '../../utils/clickAway';
+import { usePortalRoot } from '../../utils/hooks/usePortalRoot';
 
 export const Modal = ({
   onClose,
   className,
   children,
 }: PropsWithChildren<{ onClose: () => void; className?: string }>) => {
-  const $el = useRef(document.createElement('div'));
+  const $el = usePortalRoot();
   const $modal = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const current = $el.current;
-    document.body.appendChild(current);
-    return () => {
-      document.body.removeChild(current);
-    };
-  }, []);
   useEffect(() => {
     if ($modal.current) {
       return clickAway($modal.current, onClose);

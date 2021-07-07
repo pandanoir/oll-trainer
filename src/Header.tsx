@@ -1,26 +1,18 @@
 import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useRef, useState, VFC } from 'react';
+import { useState, VFC } from 'react';
 import { createPortal } from 'react-dom';
 import { NavLink } from 'react-router-dom';
 import tw from 'twin.macro';
 
 import { IconButton } from './components/common/IconButton';
 import { RouteList } from './route';
+import { usePortalRoot } from './utils/hooks/usePortalRoot';
 
 const SideMenu: VFC<{ hidden?: boolean; onClose: () => void }> = ({
   hidden = false,
   onClose,
-}) => {
-  const $el = useRef(document.createElement('div'));
-  useEffect(() => {
-    const current = $el.current;
-    document.body.appendChild(current);
-    return () => {
-      document.body.removeChild(current);
-    };
-  }, []);
-
-  return createPortal(
+}) =>
+  createPortal(
     <div
       css={[
         hidden
@@ -51,9 +43,9 @@ const SideMenu: VFC<{ hidden?: boolean; onClose: () => void }> = ({
         </ul>
       </div>
     </div>,
-    $el.current
+    usePortalRoot().current
   );
-};
+
 export const Header: VFC<{ right: JSX.Element }> = ({ right }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   return (
