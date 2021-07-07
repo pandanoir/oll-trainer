@@ -31,14 +31,18 @@ const SideMenu: VFC<{ hidden?: boolean; onClose: () => void }> = ({
         ]}
         onTransitionEnd={() => setPrevHidden(hidden)}
       >
-        <IconButton tw="dark:text-white" icon={faTimes} onClick={onClose} />
+        <IconButton
+          tw="dark:text-white p-1 py-0.5 text-lg"
+          icon={faTimes}
+          onClick={onClose}
+        />
         <ul tw="flex flex-col space-y-1">
           {RouteList.map(({ path, name }) => (
             <li key={path}>
               <NavLink
                 to={path}
                 exact
-                tw="no-underline text-gray-600 dark:text-gray-300"
+                tw="inline-block no-underline text-gray-600 dark:text-gray-300 py-1.5"
                 activeClassName="font-bold"
                 onClick={onClose}
               >
