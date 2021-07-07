@@ -11,19 +11,25 @@ import { IconButton } from './common/IconButton';
 const SideMenu: VFC<{ hidden?: boolean; onClose: () => void }> = ({
   hidden = false,
   onClose,
-}) =>
-  createPortal(
+}) => {
+  const [prevHidden, setPrevHidden] = useState(hidden);
+
+  return createPortal(
     <div
       css={[
-        hidden
-          ? tw`hidden`
+        hidden && prevHidden
+          ? tw`opacity-0 pointer-events-none`
           : tw`md:hidden absolute z-10 inset-0 bg-gray-300 bg-opacity-30 dark:bg-black dark:bg-opacity-50`,
       ]}
       onClick={onClose}
     >
       <div
         onClick={(event) => event.stopPropagation()}
-        tw="m-0 p-3 pr-6 flex flex-col items-start space-y-3 md:hidden list-none border-r-2 absolute top-0 bottom-0 bg-white dark:bg-gray-800"
+        css={[
+          tw`m-0 p-3 pr-6 flex flex-col transform items-start space-y-3 md:hidden list-none border-r-2 absolute top-0 bottom-0 bg-white dark:bg-gray-800 transition-transform duration-150`,
+          hidden ? tw`-translate-x-full` : tw`translate-x-0`,
+        ]}
+        onTransitionEnd={() => setPrevHidden(hidden)}
       >
         <IconButton tw="dark:text-white" icon={faTimes} onClick={onClose} />
         <ul tw="flex flex-col space-y-1">
@@ -45,6 +51,7 @@ const SideMenu: VFC<{ hidden?: boolean; onClose: () => void }> = ({
     </div>,
     usePortalRoot().current
   );
+};
 
 export const Header: VFC<{ right: JSX.Element }> = ({ right }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
