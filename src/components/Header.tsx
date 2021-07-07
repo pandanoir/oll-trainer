@@ -4,9 +4,9 @@ import { createPortal } from 'react-dom';
 import { NavLink } from 'react-router-dom';
 import tw from 'twin.macro';
 
-import { IconButton } from './components/common/IconButton';
-import { RouteList } from './route';
-import { usePortalRoot } from './utils/hooks/usePortalRoot';
+import { RouteList } from '../route';
+import { usePortalRoot } from '../utils/hooks/usePortalRoot';
+import { IconButton } from './common/IconButton';
 
 const SideMenu: VFC<{ hidden?: boolean; onClose: () => void }> = ({
   hidden = false,

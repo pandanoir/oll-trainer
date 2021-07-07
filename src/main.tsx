@@ -1,12 +1,12 @@
 import { faMoon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useMemo, useState, VFC } from 'react';
+import { useMemo, VFC } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import 'twin.macro';
 
 import { SwitchButton } from './components/common/SwitchButton';
-import { Header } from './Header';
+import { Header } from './components/Header';
 import { RouteList } from './route';
 import { VolumeContext } from './utils/hooks/useAudio';
 import { CheckContext, useCheck } from './utils/hooks/useCheck';
