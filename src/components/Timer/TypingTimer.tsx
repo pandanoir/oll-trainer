@@ -6,6 +6,7 @@ import {
   ChangeEvent,
   useMemo,
 } from 'react';
+import { useIntl } from 'react-intl';
 import 'twin.macro';
 import { noop } from '../../utils/noop';
 import { showRecord } from '../../utils/showRecord';
@@ -17,6 +18,7 @@ export const TypingTimer: VFC<{
   className?: string;
   onInput: (time: number) => void;
 }> = ({ prevTime, className = '', onInput }) => {
+  const { formatMessage } = useIntl();
   const [value, setValue] = useState('');
   useEffect(() => {
     setValue('');
@@ -30,10 +32,15 @@ export const TypingTimer: VFC<{
 
   const placeholder = useMemo(() => {
     if (!prevTime) {
-      return 'タイムを入力';
+      return formatMessage({
+        id: 'xgQ7Qv',
+        description:
+          '入力フォーム。タイムを手動で入力するフォームのプレースホルダー',
+        defaultMessage: 'タイムを入力',
+      });
     }
     return showRecord(prevTime);
-  }, [prevTime]);
+  }, [formatMessage, prevTime]);
 
   return (
     <input

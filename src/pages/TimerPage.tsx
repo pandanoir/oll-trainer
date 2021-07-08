@@ -1,6 +1,7 @@
 import { faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 import { Temporal } from 'proposal-temporal';
 import { useCallback, useEffect, useMemo, useState, VFC } from 'react';
+import { useIntl } from 'react-intl';
 import Scrambo from 'scrambo';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -63,6 +64,7 @@ SwiperCore.use([Navigation, Keyboard]);
 
 export const TimerPage: VFC = () => {
   useTitle('Hi-Timer');
+  const { formatMessage } = useIntl();
   const [scrambles, setScrambles] = useState<string[]>([]);
   const [index, setIndex] = useState(0);
   const [swiper, setControlledSwiper] = useState<SwiperCore>();
@@ -197,17 +199,29 @@ export const TimerPage: VFC = () => {
           onClick={() => setVolume((n) => 1 - n)}
         />
         <ToggleButton checked={usesInspection} onChange={setUsesInspection}>
-          インスペクションを使用
+          {formatMessage({
+            id: 's3DHhX',
+            description: 'ボタン。インスペクションを使用するか選択する',
+            defaultMessage: 'インスペクションを使用',
+          })}
         </ToggleButton>
         <ToggleButton
           checked={inputsTimeManually}
           onChange={setInputsTimeManually}
         >
-          手動でタイムを入力
+          {formatMessage({
+            id: 'Fbp3x5',
+            description: 'ボタン。手動でタイムを入力するかどうか選択する',
+            defaultMessage: '手動でタイムを入力',
+          })}
         </ToggleButton>
         <FileInput onChange={importFromCsTimer} />
         <ExportButton getContent={() => JSON.stringify(toCsTimer(sessions))}>
-          ファイルをエクスポート
+          {formatMessage({
+            id: 'PhOg3j',
+            description: 'ボタン。ファイルをエクスポートする',
+            defaultMessage: 'ファイルをエクスポート',
+          })}
         </ExportButton>
       </div>
       <Swiper
@@ -286,8 +300,18 @@ export const TimerPage: VFC = () => {
                 deleteRecord={() => {
                   const deletedRecord = deleteRecord(times.length - 1);
                   openToast({
-                    title: '削除しました',
-                    buttonLabel: '元に戻す',
+                    title: formatMessage({
+                      id: 'nWPbmS',
+                      description:
+                        'トースト。タイムを削除するときに出すメッセージ。',
+                      defaultMessage: '削除しました',
+                    }),
+                    buttonLabel: formatMessage({
+                      id: 'MyF1FU',
+                      description:
+                        'トースト。タイムを削除したあと元に戻すためのボタン。',
+                      defaultMessage: '元に戻す',
+                    }),
                     callback: () => {
                       insertRecord(times.length - 1, deletedRecord);
                       closeToast();

@@ -1,5 +1,6 @@
 import { Temporal } from 'proposal-temporal';
 import { VFC, useMemo, useState } from 'react';
+import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 
 import { calcAo } from '../../utils/calcAo';
@@ -37,6 +38,7 @@ export const Times: VFC<{
   deleteRecord,
   insertRecord,
 }) => {
+  const { formatMessage } = useIntl();
   const ao5 = useMemo(() => calcAo(5, times), [times]);
   const ao12 = useMemo(() => calcAo(12, times), [times]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -202,8 +204,18 @@ export const Times: VFC<{
                       const deletedRecord = deleteRecord(selectedIndex);
                       closeModal();
                       openToast({
-                        title: '削除しました',
-                        buttonLabel: '元に戻す',
+                        title: formatMessage({
+                          id: 'nWPbmS',
+                          description:
+                            'トースト。タイムを削除するときに出すメッセージ。',
+                          defaultMessage: '削除しました',
+                        }),
+                        buttonLabel: formatMessage({
+                          id: 'MyF1FU',
+                          description:
+                            'トースト。タイムを削除したあと元に戻すためのボタン。',
+                          defaultMessage: '元に戻す',
+                        }),
                         callback: () => {
                           insertRecord(selectedIndex, deletedRecord);
                           closeToast();
@@ -317,7 +329,12 @@ ${selectedTimes.reduce((acc, time, index) => {
                   >
                     <TweetButton text={tweetText} />
                     <ToggleButton checked={sharesScramble} onChange={onChange}>
-                      スクランブルをシェアする
+                      {formatMessage({
+                        id: 'dS0Yiz',
+                        description:
+                          'ラベル。タイムをシェアするときにスクランブルを載せるかどうか',
+                        defaultMessage: 'スクランブルをシェアする',
+                      })}
                     </ToggleButton>
                   </span>
                 </div>

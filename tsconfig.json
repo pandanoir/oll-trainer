@@ -6,7 +6,10 @@
     "lib": [
       "esnext",
       "esnext.asynciterable",
-      "dom"
+      "dom",
+      "esnext.intl",
+      "es2017.intl",
+      "es2018.intl"
     ],
     "esModuleInterop": true,
     "sourceMap": true,
@@ -19,6 +22,7 @@
     ],
     "noEmit": true,
     "jsx": "react-jsx",
+    "resolveJsonModule": true
   },
   "include": [
     "./src",

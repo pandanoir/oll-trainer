@@ -10,6 +10,7 @@ module.exports = {
     'prettier',
     'prettier/react',
   ],
+  plugins: ['formatjs'],
   env: {
     browser: true,
   },
@@ -32,5 +33,6 @@ module.exports = {
         },
       },
     ],
+    'formatjs/enforce-id': 'error',
   },
 };

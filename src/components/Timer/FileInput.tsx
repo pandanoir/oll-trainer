@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 import { fromCsTimer } from '../../utils/fromCsTimer';
 import { readAsText } from '../../utils/readAsText';
@@ -14,6 +15,7 @@ export const FileInput = ({
 }: {
   onChange: (json: SessionCollection) => void;
 }) => {
+  const { formatMessage } = useIntl();
   const fileRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -29,7 +31,14 @@ export const FileInput = ({
             const text = await readAsText(files[0]);
             onChange(fromCsTimer(JSON.parse(text)));
           } catch {
-            alert('インポート中にエラーが発生しました');
+            alert(
+              formatMessage({
+                id: 'paDr7J',
+                description:
+                  'アラートメッセージ。csTimerからインポート中にエラーが出たときに表示するメッセージ。',
+                defaultMessage: 'インポート中にエラーが発生しました',
+              })
+            );
           }
         }}
         accept="text/*"
@@ -42,7 +51,11 @@ export const FileInput = ({
           }
         }}
       >
-        csTimer からインポート
+        {formatMessage({
+          id: 'vvTc/s',
+          description: 'ボタン。csTimerからインポートする',
+          defaultMessage: 'csTimer からインポート',
+        })}
       </FileButton>
     </>
   );

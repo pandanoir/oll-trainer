@@ -16,6 +16,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 
 import { defaultVariations, Variation } from '../../data/variations';
@@ -84,6 +85,7 @@ export const Session = ({
   deleteSession: (index: number) => void;
   addSessionGroup: (variation: Variation) => void;
 }) => {
+  const { formatMessage } = useIntl();
   const recordListRef = useRef<HTMLDivElement>(null);
   const [opensRecordList, setOpensRecordList] = useState(false);
   const ao5List = useMemo(() => calcAo(5, times), [times]);
@@ -285,7 +287,14 @@ export const Session = ({
                   }}
                   onDeleteButtonClick={() =>
                     confirm(
-                      `セッション ${session.name} を削除しますか?この操作は取り消せません`
+                      formatMessage(
+                        {
+                          id: '4HvXVf',
+                          description: 'アラート。セッション削除時に確認する',
+                          defaultMessage: `セッション {session} を削除しますか?この操作は取り消せません`,
+                        },
+                        { session: session.name }
+                      )
                     ) && deleteSession(index)
                   }
                 />

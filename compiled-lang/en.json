@@ -1,0 +1,70 @@
+{
+  "4HvXVf": [
+    {
+      "type": 0,
+      "value": "Delete session \""
+    },
+    {
+      "type": 1,
+      "value": "session"
+    },
+    {
+      "type": 0,
+      "value": "\"? This action cannot be undone"
+    }
+  ],
+  "Fbp3x5": [
+    {
+      "type": 0,
+      "value": "input time by typing"
+    }
+  ],
+  "MyF1FU": [
+    {
+      "type": 0,
+      "value": "undo"
+    }
+  ],
+  "PhOg3j": [
+    {
+      "type": 0,
+      "value": "export to file"
+    }
+  ],
+  "dS0Yiz": [
+    {
+      "type": 0,
+      "value": "Share record with scramble"
+    }
+  ],
+  "nWPbmS": [
+    {
+      "type": 0,
+      "value": "Deleted"
+    }
+  ],
+  "paDr7J": [
+    {
+      "type": 0,
+      "value": "An error occurred during import"
+    }
+  ],
+  "s3DHhX": [
+    {
+      "type": 0,
+      "value": "use inspection"
+    }
+  ],
+  "vvTc/s": [
+    {
+      "type": 0,
+      "value": "Import from csTimer"
+    }
+  ],
+  "xgQ7Qv": [
+    {
+      "type": 0,
+      "value": "input time"
+    }
+  ]
+}
