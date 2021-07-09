@@ -1,4 +1,4 @@
-import { faMoon } from '@fortawesome/free-solid-svg-icons';
+import { faCog, faMoon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useMemo, VFC } from 'react';
 import { render } from 'react-dom';
@@ -8,8 +8,12 @@ import 'twin.macro';
 
 import en from '../compiled-lang/en.json';
 import ja from '../compiled-lang/ja.json';
+import { IconButton } from './components/common/IconButton';
+import { Modal, useModal } from './components/common/Modal';
+import { ModalCloseButton } from './components/common/ModalCloseButton';
 import { SwitchButton } from './components/common/SwitchButton';
 import { Header } from './components/Header';
+import { LanguageSettingSelect } from './components/Timer/LanguageSettingSelect';
 import { RouteList } from './route';
 import { VolumeContext } from './utils/hooks/useAudio';
 import { CheckContext, useCheck } from './utils/hooks/useCheck';
@@ -38,7 +42,12 @@ const App: VFC = () => {
     () => RouteList.find(({ name }) => name === 'oll')?.component,
     []
   );
-  const [locale] = useStoragedState(withPrefix('locale'), navigator.language);
+  const [locale, setLocale] = useStoragedState(
+    withPrefix('locale'),
+    navigator.language
+  );
+  const { showsModal, openModal, closeModal } = useModal();
+
   return (
     <IntlProvider
       locale={locale}
@@ -51,19 +60,26 @@ const App: VFC = () => {
             <Router basename="/oll">
               <Header
                 right={
-                  <div tw="flex items-center flex-nowrap">
-                    <SwitchButton
-                      value={darkMode ? 'right' : 'left'}
-                      onChange={(value) => {
-                        if (value === 'left') {
-                          setLightMode();
-                        } else {
-                          setDarkMode();
-                        }
-                      }}
+                  <span tw="flex space-x-2">
+                    <IconButton
+                      tw="w-8 h-8 rounded-full bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-white"
+                      icon={faCog}
+                      onClick={openModal}
                     />
-                    <FontAwesomeIcon icon={faMoon} />
-                  </div>
+                    <span tw="flex items-center flex-nowrap">
+                      <SwitchButton
+                        value={darkMode ? 'right' : 'left'}
+                        onChange={(value) => {
+                          if (value === 'left') {
+                            setLightMode();
+                          } else {
+                            setDarkMode();
+                          }
+                        }}
+                      />
+                      <FontAwesomeIcon icon={faMoon} />
+                    </span>
+                  </span>
                 }
               />
               <Switch>
@@ -76,6 +92,18 @@ const App: VFC = () => {
                   </Route>
                 ))}
               </Switch>
+              {showsModal && (
+                <Modal onClose={closeModal}>
+                  <ModalCloseButton onClick={closeModal} />
+                  <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
+                    <div tw="text-lg">Settings</div>
+                    <LanguageSettingSelect
+                      locale={locale}
+                      setLocale={setLocale}
+                    />
+                  </div>
+                </Modal>
+              )}
             </Router>
           </CheckContext.Provider>
         </DarkModeContext.Provider>
