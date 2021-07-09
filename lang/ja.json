@@ -15,6 +15,10 @@
     "developer_comment": "ボタン。ファイルをエクスポートする",
     "string": "ファイルをエクスポート"
   },
+  "ViVJ9R": {
+    "developer_comment": "設定のラベル。使用言語を設定する",
+    "string": "使用言語"
+  },
   "dS0Yiz": {
     "developer_comment": "ラベル。タイムをシェアするときにスクランブルを載せるかどうか",
     "string": "スクランブルをシェアする"

@@ -1,5 +1,6 @@
 import { VFC, Dispatch, SetStateAction } from 'react';
 import { useIntl } from 'react-intl';
+import 'twin.macro';
 
 export const LanguageSettingSelect: VFC<{
   locale: string;
@@ -15,6 +16,7 @@ export const LanguageSettingSelect: VFC<{
       })}
       :
       <select
+        tw="bg-transparent"
         value={locale}
         onChange={({ target: { value } }) => setLocale(value)}
       >
