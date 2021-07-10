@@ -10,6 +10,7 @@ import {
 import {
   Dispatch,
   lazy,
+  ReactNode,
   SetStateAction,
   Suspense,
   useMemo,
@@ -38,7 +39,6 @@ import { ModalCloseButton } from '../common/ModalCloseButton';
 import { PrimaryButton } from '../common/PrimaryButton';
 import { SessionListItem } from './SessionListItem';
 import { TimeData, SessionCollection } from './timeData';
-import { Times } from './Times';
 
 const SESSION_LIST_MODAL = 'SESSION_LIST_MODAL';
 const VARIATION_LIST_MODAL = 'VARIATION_LIST_MODAL';
@@ -50,12 +50,6 @@ const RecordList = tw.div`absolute bg-white dark:bg-gray-800 w-full max-h-1/2-sc
 
 export const Session = ({
   times,
-  changeToDNF,
-  imposePenalty,
-  undoDNF,
-  undoPenalty,
-  deleteRecord,
-  insertRecord,
 
   sessionIndex,
   setSessionIndex,
@@ -66,14 +60,9 @@ export const Session = ({
   addSession,
   deleteSession,
   addSessionGroup,
+  recordListComponent,
 }: {
   times: TimeData[];
-  changeToDNF: (index: number) => void;
-  undoDNF: (index: number) => void;
-  imposePenalty: (index: number) => void;
-  undoPenalty: (index: number) => void;
-  deleteRecord: (index: number) => TimeData;
-  insertRecord: (index: number, record: TimeData) => void;
 
   sessionIndex: number;
   setSessionIndex: Dispatch<SetStateAction<number>>;
@@ -84,6 +73,7 @@ export const Session = ({
   addSession: () => void;
   deleteSession: (index: number) => void;
   addSessionGroup: (variation: Variation) => void;
+  recordListComponent: ReactNode;
 }) => {
   const { formatMessage } = useIntl();
   const recordListRef = useRef<HTMLDivElement>(null);
@@ -192,17 +182,7 @@ export const Session = ({
               />
             </Suspense>
           ) : (
-            <div tw="pt-12">
-              <Times
-                times={times}
-                changeToDNF={changeToDNF}
-                imposePenalty={imposePenalty}
-                undoDNF={undoDNF}
-                undoPenalty={undoPenalty}
-                deleteRecord={deleteRecord}
-                insertRecord={insertRecord}
-              />
-            </div>
+            recordListComponent
           )}
         </RecordList>
 

@@ -28,6 +28,7 @@ import {
   INSPECTION_STEADY,
   WORKING,
 } from '../components/Timer/timerState';
+import { Times } from '../components/Timer/Times';
 import { TypingTimer } from '../components/Timer/TypingTimer';
 
 import eightSecondsSoundUrl from '../sound/eightSeconds.mp3';
@@ -326,12 +327,6 @@ export const TimerPage: VFC = () => {
       </TimerArea>
       <Session
         times={times}
-        changeToDNF={changeToDNF}
-        imposePenalty={imposePenalty}
-        undoDNF={undoDNF}
-        undoPenalty={undoPenalty}
-        deleteRecord={deleteRecord}
-        insertRecord={insertRecord}
         sessionIndex={sessionIndex}
         setSessionIndex={setSessionIndex}
         currentVariation={variation}
@@ -341,6 +336,19 @@ export const TimerPage: VFC = () => {
         addSession={addSession}
         deleteSession={deleteSession}
         addSessionGroup={addSessionGroup}
+        recordListComponent={
+          <div tw="pt-12">
+            <Times
+              times={times}
+              changeToDNF={changeToDNF}
+              imposePenalty={imposePenalty}
+              undoDNF={undoDNF}
+              undoPenalty={undoPenalty}
+              deleteRecord={deleteRecord}
+              insertRecord={insertRecord}
+            />
+          </div>
+        }
       />
       <Toast {...toastProps} />
     </div>
