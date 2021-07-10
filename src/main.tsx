@@ -14,11 +14,15 @@ import { ModalCloseButton } from './components/common/ModalCloseButton';
 import { SwitchButton } from './components/common/SwitchButton';
 import { Header } from './components/Header';
 import { LanguageSettingSelect } from './components/Timer/LanguageSettingSelect';
+import { UserDefinedVariationContext, Variation } from './data/variations';
 import { RouteList } from './route';
 import { VolumeContext } from './utils/hooks/useAudio';
 import { CheckContext, useCheck } from './utils/hooks/useCheck';
 import { useDarkMode, DarkModeContext } from './utils/hooks/useDarkMode';
-import { useStoragedState } from './utils/hooks/useLocalStorage';
+import {
+  useStoragedImmerState,
+  useStoragedState,
+} from './utils/hooks/useLocalStorage';
 import { withPrefix } from './utils/withPrefix';
 import './index.css';
 
@@ -54,60 +58,69 @@ const App: VFC = () => {
       defaultLocale="en"
       messages={selectMessages(locale)}
     >
-      <VolumeContext.Provider value={useStoragedState(withPrefix('volume'), 1)}>
-        <DarkModeContext.Provider value={darkMode}>
-          <CheckContext.Provider value={{ checkList, check, reset }}>
-            <Router basename="/oll">
-              <Header
-                right={
-                  <span tw="flex space-x-2">
-                    <IconButton
-                      tw="w-8 h-8 rounded-full bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-white"
-                      icon={faCog}
-                      onClick={openModal}
-                    />
-                    <span tw="flex items-center flex-nowrap">
-                      <SwitchButton
-                        value={darkMode ? 'right' : 'left'}
-                        onChange={(value) => {
-                          if (value === 'left') {
-                            setLightMode();
-                          } else {
-                            setDarkMode();
-                          }
-                        }}
+      <UserDefinedVariationContext.Provider
+        value={useStoragedImmerState<Variation[]>(
+          withPrefix('user-defined-variations'),
+          []
+        )}
+      >
+        <VolumeContext.Provider
+          value={useStoragedState(withPrefix('volume'), 1)}
+        >
+          <DarkModeContext.Provider value={darkMode}>
+            <CheckContext.Provider value={{ checkList, check, reset }}>
+              <Router basename="/oll">
+                <Header
+                  right={
+                    <span tw="flex space-x-2">
+                      <IconButton
+                        tw="w-8 h-8 rounded-full bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-white"
+                        icon={faCog}
+                        onClick={openModal}
                       />
-                      <FontAwesomeIcon icon={faMoon} />
+                      <span tw="flex items-center flex-nowrap">
+                        <SwitchButton
+                          value={darkMode ? 'right' : 'left'}
+                          onChange={(value) => {
+                            if (value === 'left') {
+                              setLightMode();
+                            } else {
+                              setDarkMode();
+                            }
+                          }}
+                        />
+                        <FontAwesomeIcon icon={faMoon} />
+                      </span>
                     </span>
-                  </span>
-                }
-              />
-              <Switch>
-                <Route path={['/oll']} exact>
-                  {OllPage}
-                </Route>
-                {RouteList.map(({ path, component }) => (
-                  <Route path={path} exact key={path}>
-                    {component}
+                  }
+                />
+                <Switch>
+                  <Route path={['/oll']} exact>
+                    {OllPage}
                   </Route>
-                ))}
-              </Switch>
-              {showsModal && (
-                <Modal onClose={closeModal}>
-                  <ModalCloseButton onClick={closeModal} />
-                  <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
-                    <div tw="text-lg">Settings</div>
-                    <LanguageSettingSelect
-                      locale={locale}
-                      setLocale={setLocale}
-                    />
-                  </div>
-                </Modal>
-              )}
-            </Router>
-          </CheckContext.Provider>
-        </DarkModeContext.Provider>
-      </VolumeContext.Provider>
+                  {RouteList.map(({ path, component }) => (
+                    <Route path={path} exact key={path}>
+                      {component}
+                    </Route>
+                  ))}
+                </Switch>
+                {showsModal && (
+                  <Modal onClose={closeModal}>
+                    <ModalCloseButton onClick={closeModal} />
+                    <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
+                      <div tw="text-lg">Settings</div>
+                      <LanguageSettingSelect
+                        locale={locale}
+                        setLocale={setLocale}
+                      />
+                    </div>
+                  </Modal>
+                )}
+              </Router>
+            </CheckContext.Provider>
+          </DarkModeContext.Provider>
+        </VolumeContext.Provider>
+      </UserDefinedVariationContext.Provider>
     </IntlProvider>
   );
 };

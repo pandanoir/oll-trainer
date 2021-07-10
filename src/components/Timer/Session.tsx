@@ -13,6 +13,7 @@ import {
   ReactNode,
   SetStateAction,
   Suspense,
+  useContext,
   useMemo,
   useRef,
   useState,
@@ -20,7 +21,11 @@ import {
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 
-import { defaultVariations, Variation } from '../../data/variations';
+import {
+  defaultVariations,
+  UserDefinedVariationContext,
+  Variation,
+} from '../../data/variations';
 import { calcAo } from '../../utils/calcAo';
 const pick =
   <T extends unknown>(name: keyof T) =>
@@ -39,6 +44,7 @@ import { ModalCloseButton } from '../common/ModalCloseButton';
 import { PrimaryButton } from '../common/PrimaryButton';
 import { SessionListItem } from './SessionListItem';
 import { TimeData, SessionCollection } from './timeData';
+import { VariationModal } from './VariationModal';
 
 const SESSION_LIST_MODAL = 'SESSION_LIST_MODAL';
 const VARIATION_LIST_MODAL = 'VARIATION_LIST_MODAL';
@@ -76,6 +82,7 @@ export const Session = ({
   recordListComponent: ReactNode;
 }) => {
   const { formatMessage } = useIntl();
+  const [userDefinedVariation] = useContext(UserDefinedVariationContext);
   const recordListRef = useRef<HTMLDivElement>(null);
   const [opensRecordList, setOpensRecordList] = useState(false);
   const ao5List = useMemo(() => calcAo(5, times), [times]);
@@ -283,35 +290,27 @@ export const Session = ({
           </div>
         </Modal>
       ) : modalType === VARIATION_LIST_MODAL ? (
-        <Modal tw="lg:inset-x-1/4 lg:w-1/2" onClose={closeModal}>
-          <ModalCloseButton onClick={closeModal} />
-          <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
-            <div tw="flex space-x-2">
-              <span tw="text-3xl">Variation</span>
-            </div>
-            <ul tw="flex-1 overflow-y-auto">
-              {defaultVariations.map((variation) => (
-                <li
-                  tw="px-3 pb-1 pt-3 lg:mr-6 text-lg border-b cursor-pointer"
-                  key={variation.name}
-                  onClick={() => {
-                    if (
-                      sessions.every(
-                        ({ variation: { name } }) => name !== variation.name
-                      )
-                    ) {
-                      addSessionGroup(variation);
-                    }
-                    setVariation(variation.name);
-                    closeModal();
-                  }}
-                >
-                  {variation.name}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Modal>
+        <VariationModal onClose={closeModal}>
+          {[...defaultVariations, ...userDefinedVariation].map((variation) => (
+            <li
+              tw="px-3 pb-1 pt-3 lg:mr-6 text-lg border-b cursor-pointer"
+              key={variation.name}
+              onClick={() => {
+                if (
+                  sessions.every(
+                    ({ variation: { name } }) => name !== variation.name
+                  )
+                ) {
+                  addSessionGroup(variation);
+                }
+                setVariation(variation.name);
+                closeModal();
+              }}
+            >
+              {variation.name}
+            </li>
+          ))}
+        </VariationModal>
       ) : null}
     </>
   );
