@@ -18,14 +18,14 @@ type UnionToIntersection<U> = (
   ? V
   : never;
 
-type Hoge = UnionToIntersection<
+type RouteInfo = UnionToIntersection<
   typeof RouteList[number] extends infer R
     ? R extends { name: string }
       ? { [K in R['name']]: Omit<R, 'name'> }
       : never
     : never
 >;
-export const RouteInfo: Hoge = {
+export const RouteInfo: RouteInfo = {
   'Hi-Timer': RouteList[0],
   oll: RouteList[1],
   learn: RouteList[2],
