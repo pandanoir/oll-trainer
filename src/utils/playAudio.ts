@@ -19,6 +19,9 @@ export const playAudio = async (
   audioData: ArrayBuffer,
   { volume = 1 } = { volume: 1 }
 ) => {
+  if (volume === 0) {
+    return;
+  }
   const audioCtx = getAudioContext();
   const gainNode = audioCtx.createGain();
   const source = audioCtx.createBufferSource();
