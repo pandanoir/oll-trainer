@@ -1,4 +1,5 @@
 import { CpPage } from './pages/CpPage';
+import { InspectionPage } from './pages/InspectionPage';
 import { LearningPage } from './pages/LearningPage';
 import { OllPage } from './pages/OllPage';
 import { ScramblePage } from './pages/ScramblePage';
@@ -9,6 +10,7 @@ export const RouteList = [
   { path: '/', component: <OllPage />, name: 'oll' },
   { path: '/learn', component: <LearningPage />, name: 'learn' },
   { path: '/scramble', component: <ScramblePage />, name: 'scramble' },
+  { path: '/inspection', component: <InspectionPage />, name: 'inspection' },
   { path: '/cp', component: <CpPage />, name: 'cp check' },
 ] as const;
 
@@ -30,5 +32,6 @@ export const RouteInfo: RouteInfo = {
   oll: RouteList[1],
   learn: RouteList[2],
   scramble: RouteList[3],
-  'cp check': RouteList[4],
+  inspection: RouteList[4],
+  'cp check': RouteList[5],
 } as const;
