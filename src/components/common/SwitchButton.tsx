@@ -7,13 +7,15 @@ export const SwitchButton: VFC<{
 }> = ({ value, onChange }) => {
   return (
     <button
-      css={[
-        tw`rounded-full w-9 h-5 bg-gray-500 focus:outline-none`,
-        value === 'left' ? tw`text-left` : tw`text-right`,
-      ]}
+      tw="relative rounded-full w-9 h-5 px-1 py-1 bg-gray-500 focus:outline-none"
       onClick={() => onChange(value === 'left' ? 'right' : 'left')}
     >
-      <div tw="inline-block rounded-full bg-white h-3 w-3 mx-1 my-1"></div>
+      <div
+        css={[
+          tw`inline-block absolute top-1 transition-position duration-100 ease-out rounded-full bg-white h-3 w-3`,
+          value === 'left' ? tw`left-1` : tw`left-5`,
+        ]}
+      />
     </button>
   );
 };
