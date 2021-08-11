@@ -83,7 +83,7 @@ export const TimerPage: VFC = () => {
     sessions,
     currentSessionCollection,
     sessionIndex,
-    variation,
+    variationName,
     setSessionIndex,
     setVariation,
     importFromCsTimer,
@@ -97,7 +97,6 @@ export const TimerPage: VFC = () => {
     addTime,
     addSession,
     deleteSession,
-    addSessionGroup,
   } = useSessions();
   const { times } = currentSessionCollection.sessions[sessionIndex];
   const { volume, setVolume, playAudio } = useAudio();
@@ -329,13 +328,12 @@ export const TimerPage: VFC = () => {
         times={times}
         sessionIndex={sessionIndex}
         setSessionIndex={setSessionIndex}
-        currentVariation={variation}
+        currentVariation={variationName}
         setVariation={setVariation}
         changeSessionName={changeSessionName}
         sessions={sessions}
         addSession={addSession}
         deleteSession={deleteSession}
-        addSessionGroup={addSessionGroup}
         recordListComponent={
           <div tw="pt-12">
             <Times

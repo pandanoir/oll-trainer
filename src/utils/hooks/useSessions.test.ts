@@ -417,7 +417,7 @@ describe('useSessions', () => {
     ).toBe('3:session1');
     expect(result.current.currentSessionCollection.variation.name).toBe('3x3');
     act(() => {
-      result.current.setVariation('2x2');
+      result.current.setVariation({ name: '2x2', scramble: '2x2' });
     });
     expect(result.current.sessionIndex).toBe(1);
     expect(
@@ -427,7 +427,7 @@ describe('useSessions', () => {
     ).toBe('2:session2');
     expect(result.current.currentSessionCollection.variation.name).toBe('2x2');
     act(() => {
-      result.current.setVariation('4x4');
+      result.current.setVariation({ name: '4x4', scramble: '4x4' });
     });
     expect(result.current.sessionIndex).toBe(3);
     expect(
@@ -437,7 +437,7 @@ describe('useSessions', () => {
     ).toBe('4:session4');
     expect(result.current.currentSessionCollection.variation.name).toBe('4x4');
     act(() => {
-      result.current.setVariation('3x3');
+      result.current.setVariation({ name: '3x3', scramble: '3x3' });
     });
     expect(result.current.sessionIndex).toBe(0);
     expect(
@@ -477,7 +477,7 @@ describe('useSessions', () => {
       ])
     );
     act(() => {
-      result.current.setVariation('4x4');
+      result.current.setVariation({ name: '4x4', scramble: '4x4' });
     });
     act(() => {
       result.current.changeSessionName('4:renamed-session');

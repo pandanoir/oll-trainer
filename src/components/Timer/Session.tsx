@@ -65,7 +65,6 @@ export const Session = ({
   setVariation,
   addSession,
   deleteSession,
-  addSessionGroup,
   recordListComponent,
 }: {
   times: TimeData[];
@@ -75,10 +74,9 @@ export const Session = ({
   changeSessionName: (name: string) => void;
   sessions: SessionCollection;
   currentVariation: string;
-  setVariation: Dispatch<SetStateAction<string>>;
+  setVariation: (arg: Variation) => void;
   addSession: () => void;
   deleteSession: (index: number) => void;
-  addSessionGroup: (variation: Variation) => void;
   recordListComponent: ReactNode;
 }) => {
   const { formatMessage } = useIntl();
@@ -296,14 +294,7 @@ export const Session = ({
               tw="px-3 pb-1 pt-3 lg:mr-6 text-lg border-b cursor-pointer"
               key={variation.name}
               onClick={() => {
-                if (
-                  sessions.every(
-                    ({ variation: { name } }) => name !== variation.name
-                  )
-                ) {
-                  addSessionGroup(variation);
-                }
-                setVariation(variation.name);
+                setVariation(variation);
                 closeModal();
               }}
             >

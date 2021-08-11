@@ -75,14 +75,20 @@ export const useSessions = (
     migration
   );
 
-  const [variation, setVariation] = useStoragedState<string>(
+  const [variationName, setVariationName] = useStoragedState<string>(
     withPrefix('variation'),
     defaultVariation.name
   );
+  const setVariation = (variation: Variation) => {
+    if (sessions.every(({ variation: { name } }) => name !== variation.name)) {
+      addSessionGroup(variation);
+    }
+    setVariationName(variation.name);
+  };
   const findCurrentSession = useCallback(
     (data: SessionCollection) => {
       for (const val of data) {
-        if (val.variation.name === variation) {
+        if (val.variation.name === variationName) {
           if (val.selectedSessionIndex >= val.sessions.length) {
             return val.sessions[0];
           }
@@ -91,18 +97,18 @@ export const useSessions = (
       }
       throw new Error('unexpected error');
     },
-    [variation]
+    [variationName]
   );
   const findCurrentSessionCollection = useCallback(
     (data: SessionCollection) => {
       for (const val of data) {
-        if (val.variation.name === variation) {
+        if (val.variation.name === variationName) {
           return val;
         }
       }
       throw new Error('unexpected error');
     },
-    [variation]
+    [variationName]
   );
 
   const changeSessionName = useCallback(
@@ -230,7 +236,7 @@ export const useSessions = (
       () => findCurrentSessionCollection(sessions),
       [findCurrentSessionCollection, sessions]
     ),
-    variation,
+    variationName,
     sessionIndex: useMemo(
       () => findCurrentSessionCollection(sessions).selectedSessionIndex,
       [findCurrentSessionCollection, sessions]
