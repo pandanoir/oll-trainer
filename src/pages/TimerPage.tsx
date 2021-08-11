@@ -1,6 +1,13 @@
 import { faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 import { Temporal } from 'proposal-temporal';
-import { useCallback, useEffect, useMemo, useState, VFC } from 'react';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  VFC,
+} from 'react';
 import { useIntl } from 'react-intl';
 import Scrambo from 'scrambo';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
@@ -8,6 +15,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import tw from 'twin.macro';
 
 import { IconButton } from '../components/common/IconButton';
+import { useModal } from '../components/common/Modal';
 import { PrimaryButton } from '../components/common/PrimaryButton';
 import { Toast, useToast } from '../components/common/Toast';
 import { ToggleButton } from '../components/common/ToggleButton';
@@ -30,6 +38,11 @@ import {
 } from '../components/Timer/timerState';
 import { Times } from '../components/Timer/Times';
 import { TypingTimer } from '../components/Timer/TypingTimer';
+import { VariationModal } from '../components/Timer/VariationModal';
+import {
+  defaultVariations,
+  UserDefinedVariationContext,
+} from '../data/variations';
 
 import eightSecondsSoundUrl from '../sound/eightSeconds.mp3';
 import steadySoundUrl from '../sound/steady.mp3';
@@ -78,6 +91,7 @@ export const TimerPage: VFC = () => {
     withPrefix('inputs-time-manually'),
     false
   );
+  const [userDefinedVariation] = useContext(UserDefinedVariationContext);
 
   const {
     sessions,
@@ -160,6 +174,11 @@ export const TimerPage: VFC = () => {
   }, [inspectionTimeInteger, playAudio, timerState]);
 
   const { openToast, closeToast, ...toastProps } = useToast();
+  const {
+    openModal: openVariationModal,
+    closeModal: closeVariationModal,
+    showsModal: showsVariationModal,
+  } = useModal();
   const onTypingTimerInput = useCallback(
     (secTime) => {
       addTime({
@@ -252,6 +271,19 @@ export const TimerPage: VFC = () => {
           />
         }
       >
+        <PrimaryButton
+          tw="absolute top-1.5 left-2 px-5 py-0"
+          onTouchEnd={(event) => {
+            if (isAwayFromBeginningElement(event)) {
+              return;
+            }
+            event.stopPropagation();
+            openVariationModal();
+          }}
+          onClick={withStopPropagation(openVariationModal)}
+        >
+          {variationName}
+        </PrimaryButton>
         {inputsTimeManually ? (
           <TypingTimer
             tw="z-20"
@@ -351,6 +383,23 @@ export const TimerPage: VFC = () => {
         }
       />
       <Toast {...toastProps} />
+
+      {showsVariationModal && (
+        <VariationModal onClose={closeVariationModal}>
+          {[...defaultVariations, ...userDefinedVariation].map((variation) => (
+            <li
+              tw="px-3 pb-1 pt-3 lg:mr-6 text-lg border-b cursor-pointer"
+              key={variation.name}
+              onClick={() => {
+                setVariation(variation);
+                closeVariationModal();
+              }}
+            >
+              {variation.name}
+            </li>
+          ))}
+        </VariationModal>
+      )}
     </div>
   );
 };
