@@ -240,16 +240,18 @@ export const TimerPage: VFC = () => {
       <TimerArea
         disabled={inputsTimeManually}
         overlappingScreen={timerState !== IDOLING}
+        cover={
+          <TimerCover
+            onPointerDown={() => {
+              playSilence();
+              onPointerDown();
+            }}
+            onPointerUp={onPointerUp}
+            disabled={inputsTimeManually}
+            transparent={timerState === IDOLING}
+          />
+        }
       >
-        <TimerCover
-          onPointerDown={() => {
-            playSilence();
-            onPointerDown();
-          }}
-          onPointerUp={onPointerUp}
-          disabled={inputsTimeManually}
-          transparent={timerState === IDOLING}
-        />
         {inputsTimeManually ? (
           <TypingTimer
             tw="z-20"
