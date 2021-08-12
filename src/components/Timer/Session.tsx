@@ -2,7 +2,7 @@ import {
   faAngleLeft,
   faAngleRight,
   faPlus,
-  faChartBar,
+  faChartLine,
   faAngleUp,
   faServer,
   faList,
@@ -147,6 +147,7 @@ export const Session = ({
             <div tw="fixed left-0 z-10 w-max bg-white dark:bg-gray-800">
               <IconButton
                 icon={faList}
+                title="session list"
                 tw="px-4 py-2 text-lg"
                 onClick={openSessionListModal}
               />
@@ -156,7 +157,8 @@ export const Session = ({
             </div>
           )}
           <IconButton
-            icon={showsGraph ? faServer : faChartBar}
+            icon={showsGraph ? faServer : faChartLine}
+            title={showsGraph ? 'show record' : 'show graph'}
             tw="fixed right-0 px-4 py-2 text-lg z-10 bg-white dark:bg-gray-800"
             onClick={() => setShowsGraph((v) => !v)}
           />
@@ -198,6 +200,7 @@ export const Session = ({
                 tw`px-4 py-2 text-lg`,
                 sessionIndex <= 0 ? tw`text-gray-400` : '',
               ]}
+              title="prev session"
               disabled={sessionIndex <= 0}
               onClick={next}
               icon={faAngleLeft}
@@ -209,6 +212,7 @@ export const Session = ({
             />
             <IconButton
               icon={faAngleRight}
+              title="next session"
               css={[
                 tw`px-4 py-2 text-lg`,
                 sessionIndex + 1 >= currentSessions.length
@@ -220,6 +224,7 @@ export const Session = ({
             />
             <IconButton
               icon={faPlus}
+              title="add session"
               tw="px-2.5 my-1.5 text-lg text-white bg-gray-700 rounded"
               onClick={() => {
                 addSession();
@@ -232,6 +237,7 @@ export const Session = ({
           <div tw="flex content-center">
             <IconButton
               icon={faAngleUp}
+              title={opensRecordList ? 'close record list' : 'open record list'}
               css={[
                 tw`px-4 py-2 text-lg`,
                 tw`transform transition-all duration-300`,

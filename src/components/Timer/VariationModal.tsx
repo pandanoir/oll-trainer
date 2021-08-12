@@ -47,6 +47,7 @@ const AddForm: VFC<{ onAddClick: (arg: Variation) => void }> = ({
       </span>
       <IconButton
         icon={faPlusCircle}
+        title="create variation"
         tw="text-xl disabled:opacity-40 disabled:cursor-auto"
         disabled={
           newVariationName === '' ||
@@ -78,6 +79,7 @@ export const VariationModal: VFC<PropsWithChildren<{ onClose: () => void }>> =
             <span tw="text-3xl">Variation</span>
             <IconButton
               icon={faPlus}
+              title="add variation"
               tw="px-2.5 my-1.5 text-lg text-white bg-gray-700 rounded"
               onClick={() => setShowsAddForm(true)}
             />
