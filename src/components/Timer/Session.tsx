@@ -13,7 +13,6 @@ import {
   ReactNode,
   SetStateAction,
   Suspense,
-  useContext,
   useMemo,
   useRef,
   useState,
@@ -21,11 +20,6 @@ import {
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 
-import {
-  defaultVariations,
-  UserDefinedVariationContext,
-  Variation,
-} from '../../data/variations';
 import { calcAo } from '../../utils/calcAo';
 const pick =
   <T extends unknown>(name: keyof T) =>
@@ -41,14 +35,11 @@ import { LoadingIndicator } from '../common/LoadingIndicator';
 import { Modal, useModal } from '../common/Modal';
 
 import { ModalCloseButton } from '../common/ModalCloseButton';
-import { PrimaryButton } from '../common/PrimaryButton';
 import { SessionListItem } from './SessionListItem';
 import { TimeData, SessionCollection } from './timeData';
-import { VariationModal } from './VariationModal';
 
 const SESSION_LIST_MODAL = 'SESSION_LIST_MODAL';
-const VARIATION_LIST_MODAL = 'VARIATION_LIST_MODAL';
-type ModalType = typeof SESSION_LIST_MODAL | typeof VARIATION_LIST_MODAL;
+type ModalType = typeof SESSION_LIST_MODAL;
 const Backdrop = tw.div`absolute z-10 w-full h-full bottom-0 flex flex-col bg-gray-300 bg-opacity-30 dark:bg-black dark:bg-opacity-50`;
 const SessionToolbar = tw.div`w-full h-12 bg-white dark:bg-gray-800 flex justify-between z-10`;
 const RecordListWrapper = tw.div`w-full relative bottom-0 flex flex-col z-10`;
@@ -62,7 +53,6 @@ export const Session = ({
   changeSessionName,
   sessions,
   currentVariation,
-  setVariation,
   addSession,
   deleteSession,
   recordListComponent,
@@ -74,13 +64,11 @@ export const Session = ({
   changeSessionName: (name: string) => void;
   sessions: SessionCollection;
   currentVariation: string;
-  setVariation: (arg: Variation) => void;
   addSession: () => void;
   deleteSession: (index: number) => void;
   recordListComponent: ReactNode;
 }) => {
   const { formatMessage } = useIntl();
-  const [userDefinedVariation] = useContext(UserDefinedVariationContext);
   const recordListRef = useRef<HTMLDivElement>(null);
   const [opensRecordList, setOpensRecordList] = useState(false);
   const ao5List = useMemo(() => calcAo(5, times), [times]);
@@ -123,10 +111,6 @@ export const Session = ({
     setModalType(SESSION_LIST_MODAL);
     openModal();
   };
-  const openVariationListModal = () => {
-    setModalType(VARIATION_LIST_MODAL);
-    openModal();
-  };
   return (
     <>
       {opensRecordList && (
@@ -151,9 +135,6 @@ export const Session = ({
                 tw="px-4 py-2 text-lg"
                 onClick={openSessionListModal}
               />
-              <PrimaryButton tw="px-5 py-0" onClick={openVariationListModal}>
-                {currentVariation}
-              </PrimaryButton>
             </div>
           )}
           <IconButton
@@ -293,21 +274,6 @@ export const Session = ({
             </ul>
           </div>
         </Modal>
-      ) : modalType === VARIATION_LIST_MODAL ? (
-        <VariationModal onClose={closeModal}>
-          {[...defaultVariations, ...userDefinedVariation].map((variation) => (
-            <li
-              tw="px-3 pb-1 pt-3 lg:mr-6 text-lg border-b cursor-pointer"
-              key={variation.name}
-              onClick={() => {
-                setVariation(variation);
-                closeModal();
-              }}
-            >
-              {variation.name}
-            </li>
-          ))}
-        </VariationModal>
       ) : null}
     </>
   );
