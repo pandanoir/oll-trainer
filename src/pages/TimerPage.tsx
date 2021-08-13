@@ -307,6 +307,13 @@ export const TimerPage: VFC = () => {
           icon={faInfoCircle}
           title="session list"
           tw="absolute top-1.5 right-2 px-2 py-1 text-lg"
+          onTouchEnd={(event) => {
+            if (isAwayFromBeginningElement(event)) {
+              return;
+            }
+            event.stopPropagation();
+            openStatisticsModal();
+          }}
           onClick={openStatisticsModal}
         />
 
