@@ -1,4 +1,8 @@
-import { faVolumeMute, faVolumeUp } from '@fortawesome/free-solid-svg-icons';
+import {
+  faInfoCircle,
+  faVolumeMute,
+  faVolumeUp,
+} from '@fortawesome/free-solid-svg-icons';
 import { Temporal } from 'proposal-temporal';
 import {
   useCallback,
@@ -24,6 +28,7 @@ import { FileInput } from '../components/Timer/FileInput';
 import { RecordItem } from '../components/Timer/RecordItem';
 import { RecordModifier } from '../components/Timer/RecordModifier';
 import { Session } from '../components/Timer/Session';
+import { StatisticsModal } from '../components/Timer/StatisticsModal';
 import { TapTimer } from '../components/Timer/TapTimer';
 import { TimerArea } from '../components/Timer/TimerArea';
 import { TimerCover } from '../components/Timer/TimerCover';
@@ -73,6 +78,10 @@ const eightSecondsSound = fetch(eightSecondsSoundUrl).then((response) =>
 const twelveSecondsSound = fetch(twelveSecondsSoundUrl).then((response) =>
   response.arrayBuffer()
 );
+
+const VARIATION_MODAL = 'VARIATION_MODAL';
+const STATISTICS_MODAL = 'STATISTICS_MODAL';
+type ModalType = typeof VARIATION_MODAL | typeof STATISTICS_MODAL;
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -174,11 +183,21 @@ export const TimerPage: VFC = () => {
   }, [inspectionTimeInteger, playAudio, timerState]);
 
   const { openToast, closeToast, ...toastProps } = useToast();
-  const {
-    openModal: openVariationModal,
-    closeModal: closeVariationModal,
-    showsModal: showsVariationModal,
-  } = useModal();
+  const [modalType, setModalType] = useState<ModalType | null>(null);
+  const { openModal, closeModal: _closeModal } = useModal();
+  const openVariationModal = () => {
+    openModal();
+    setModalType(VARIATION_MODAL);
+  };
+  const openStatisticsModal = () => {
+    openModal();
+    setModalType(STATISTICS_MODAL);
+  };
+  const closeModal = () => {
+    _closeModal();
+    setModalType(null);
+  };
+
   const onTypingTimerInput = useCallback(
     (secTime) => {
       addTime({
@@ -284,6 +303,13 @@ export const TimerPage: VFC = () => {
         >
           {variationName}
         </PrimaryButton>
+        <IconButton
+          icon={faInfoCircle}
+          title="session list"
+          tw="absolute top-1.5 right-2 px-2 py-1 text-lg"
+          onClick={openStatisticsModal}
+        />
+
         {inputsTimeManually ? (
           <TypingTimer
             tw="z-20"
@@ -363,7 +389,6 @@ export const TimerPage: VFC = () => {
         sessionIndex={sessionIndex}
         setSessionIndex={setSessionIndex}
         currentVariation={variationName}
-        setVariation={setVariation}
         changeSessionName={changeSessionName}
         sessions={sessions}
         addSession={addSession}
@@ -384,22 +409,24 @@ export const TimerPage: VFC = () => {
       />
       <Toast {...toastProps} />
 
-      {showsVariationModal && (
-        <VariationModal onClose={closeVariationModal}>
+      {modalType === VARIATION_MODAL ? (
+        <VariationModal onClose={closeModal}>
           {[...defaultVariations, ...userDefinedVariation].map((variation) => (
             <li
               tw="px-3 pb-1 pt-3 lg:mr-6 text-lg border-b cursor-pointer"
               key={variation.name}
               onClick={() => {
                 setVariation(variation);
-                closeVariationModal();
+                closeModal();
               }}
             >
               {variation.name}
             </li>
           ))}
         </VariationModal>
-      )}
+      ) : modalType === STATISTICS_MODAL ? (
+        <StatisticsModal sessions={sessions} onClose={closeModal} />
+      ) : null}
     </div>
   );
 };

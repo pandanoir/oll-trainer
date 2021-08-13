@@ -3,3 +3,8 @@ public/dist/
 dist
 coverage/
 src/sound
+src/utils/**/*.d.ts
+src/data/**/*.d.ts
+src/components/**/*.d.ts
+src/worker/**/*.d.ts
+*.tsbuildinfo

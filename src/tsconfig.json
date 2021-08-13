@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.json",
+  "exclude": [
+    "**/*.test.tsx",
+    "**/*.test.ts",
+  ],
+  "references": [
+    {
+      "path": "./worker/tsconfig.json"
+    }
+  ]
+}

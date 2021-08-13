@@ -1,0 +1,29 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "../",
+    "lib": [
+      "webworker",
+      "esnext"
+    ],
+    "types": [
+      "node"
+    ],
+    "composite": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true
+  },
+  "include": [
+    "./",
+    "../components/Timer/timeData.ts",
+    "../data/variations.ts",
+    "../utils/calcAo.ts",
+    "../utils/calcAverage.ts",
+    "../utils/calcRecord.ts",
+    "../utils/calcStandardDeviation.ts",
+    "../utils/findIndexOfMin.ts",
+    "../utils/heap.ts",
+    "../utils/noop.ts",
+    "../utils/prioritySumStructure.ts",
+  ],
+}
