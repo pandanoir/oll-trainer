@@ -4,7 +4,7 @@ export class Heap {
   constructor(private compare = (x: number, y: number) => x < y) {}
   push(...values: number[]) {
     for (const value of values) {
-      this.node.push(value);
+      this.node[this.node.length] = value;
       if (!this.index[value]) {
         this.index[value] = new Set();
       }

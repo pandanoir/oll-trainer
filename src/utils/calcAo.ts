@@ -30,7 +30,7 @@ export const calcAo = (
       sum += record;
     }
     if (i + 1 < n) {
-      ao.push(null);
+      ao[i] = null;
       continue;
     }
     if (i + 1 > n) {
@@ -44,13 +44,13 @@ export const calcAo = (
       }
     }
     if (dnfCount >= 2) {
-      ao.push(DNF);
+      ao[i] = DNF;
     } else if (dnfCount === 1) {
-      ao.push((sum - sumOfBests.query()) / (n - fivePercent * 2));
+      ao[i] = (sum - sumOfBests.query()) / (n - fivePercent * 2);
     } else {
-      ao.push(
-        (sum - sumOfWorsts.query() - sumOfBests.query()) / (n - fivePercent * 2)
-      );
+      ao[i] =
+        (sum - sumOfWorsts.query() - sumOfBests.query()) /
+        (n - fivePercent * 2);
     }
   }
   return ao;
