@@ -281,7 +281,9 @@ export const TimerPage: VFC = () => {
         cover={
           <TimerCover
             onPointerDown={() => {
-              playSilence();
+              if (volume > 0) {
+                playSilence();
+              }
               onPointerDown();
             }}
             onPointerUp={onPointerUp}
