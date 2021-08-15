@@ -6,9 +6,9 @@ import {
 } from '../components/Timer/timeData';
 import { calcAo } from '../utils/calcAo';
 import { calcAverage } from '../utils/calcAverage';
+import { calcBestAo as _calcBestAo } from '../utils/calcBestAo';
 import { calcRecord } from '../utils/calcRecord';
 import { calcStandardDeviation } from '../utils/calcStandardDeviation';
-import { findIndexOfMin } from '../utils/findIndexOfMin';
 
 type SessionAverage = {
   ao5?: Average;
@@ -34,6 +34,15 @@ export type WorkerResult = {
     sessionAverage: SessionAverage[];
   };
 };
+const calcBestAo: (
+  ...args: Parameters<typeof _calcBestAo>
+) => Average | undefined = (n, times) => {
+  const res = _calcBestAo(n, times);
+  if (res === Infinity) {
+    return undefined;
+  }
+  return res;
+};
 const calcSessionAverage = (
   sessionCollection: SessionCollection
 ): {
@@ -43,24 +52,6 @@ const calcSessionAverage = (
     [variationName in string]: SessionAverage[];
   } = {};
 
-  const calcBestAverage: (...args: Parameters<typeof calcAo>) => Average = (
-    n,
-    times
-  ) => {
-    const average = calcAo(n, times).filter(
-      <T>(x: T): x is Exclude<T, null> => x !== null
-    );
-    if (average.length === 0) {
-      return null;
-    }
-    const avgOnlyNumber = average.filter(
-      (x): x is number => typeof x === 'number'
-    );
-    if (avgOnlyNumber.length === 0) {
-      return DNF;
-    }
-    return avgOnlyNumber[findIndexOfMin(avgOnlyNumber)];
-  };
   for (const { variation, sessions } of sessionCollection) {
     sessionAverage[variation.name] = sessions.map(({ times, name }) => {
       const timesExcludingDNF = times
@@ -79,15 +70,23 @@ const calcSessionAverage = (
         ao5List: calcAo(5, times),
         ao12List: calcAo(12, times),
       };
-      if (times.length >= 5) res.ao5 = calcBestAverage(5, times);
-      if (times.length >= 12) res.ao12 = calcBestAverage(12, times);
-      if (times.length >= 25) res.ao25 = calcBestAverage(25, times);
-      if (times.length >= 50) res.ao50 = calcBestAverage(50, times);
-      if (times.length >= 100) res.ao100 = calcBestAverage(100, times);
+      if (times.length >= 5) res.ao5 = calcBestAo(5, times);
+      if (times.length >= 12) res.ao12 = calcBestAo(12, times);
+      if (times.length >= 25) res.ao25 = calcBestAo(25, times);
+      if (times.length >= 50) res.ao50 = calcBestAo(50, times);
+      if (times.length >= 100) res.ao100 = calcBestAo(100, times);
       return res;
     });
   }
   return sessionAverage;
+};
+
+const min = (arr: number[]) => {
+  let min = arr[0];
+  for (let i = 0, len = arr.length; i < len; ++i) {
+    if (min > arr[i]) min = arr[i];
+  }
+  return min;
 };
 
 declare const self: DedicatedWorkerGlobalScope;
@@ -97,17 +96,6 @@ self.addEventListener(
     const sessions: SessionCollection = data;
     const sessionAverage = calcSessionAverage(sessions);
 
-    const calcBestAo: (
-      ...args: Parameters<typeof calcAo>
-    ) => Average | undefined = (n, times) => {
-      const sortedAo = calcAo(n, times)
-        .filter(
-          (x): x is Exclude<typeof x, null | typeof DNF> =>
-            x !== DNF && x !== null
-        )
-        .sort((a, b) => a - b);
-      return sortedAo.length > 0 ? sortedAo[0] : undefined;
-    };
     const message: WorkerResult = {};
     for (const { variation, sessions: session } of sessions) {
       const allSessionTime = session.reduce<TimeData[]>(
@@ -121,7 +109,7 @@ self.addEventListener(
         timesExcludingDNF.length > 0 ? calcAverage(timesExcludingDNF) : null;
 
       message[variation.name] = {
-        best: timesExcludingDNF.concat().sort((a, b) => a - b)[0],
+        best: min(timesExcludingDNF),
         bestAo5: calcBestAo(5, allSessionTime),
         bestAo12: calcBestAo(12, allSessionTime),
         bestAo25: calcBestAo(25, allSessionTime),

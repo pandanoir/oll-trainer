@@ -1,11 +1,9 @@
-import { Average, DNF, TimeData } from '../components/Timer/timeData';
+import { TimeData, DNF } from '../components/Timer/timeData';
 import { calcRecord } from './calcRecord';
 import { PrioritySumStructure } from './prioritySumStructure';
 
-/**
- * 上位5%と下位5%を除いた平均を求める(除く数は小数点以下切り上げた個数)
- */
-export const calcAo = (
+// calcAo と同じアルゴリズムで best Ao を計算する
+export const calcBestAo = (
   n: number,
   times: Pick<TimeData, 'time' | 'isDNF' | 'penalty'>[]
 ) => {
@@ -16,7 +14,8 @@ export const calcAo = (
       (a, b) => a < b
     ),
     sumOfBests = new PrioritySumStructure(fivePercent);
-  const ao: Average[] = [];
+
+  let bestAo = Infinity;
   for (let i = 0, len = times.length, sum = 0, dnfCount = 0; i < len; i++) {
     const record = calcRecord(times[i]);
     if (record === DNF) {
@@ -27,9 +26,9 @@ export const calcAo = (
       sum += record;
     }
     if (i + 1 < n) {
-      ao[i] = null;
       continue;
     }
+
     if (i + 1 > n) {
       const record = calcRecord(times[i - n]);
       if (record === DNF) {
@@ -41,14 +40,19 @@ export const calcAo = (
       }
     }
     if (dnfCount >= 2) {
-      ao[i] = DNF;
-    } else if (dnfCount === 1) {
-      ao[i] = (sum - sumOfBests.query()) / (n - fivePercent * 2);
+      continue;
+    }
+    if (dnfCount === 1) {
+      bestAo = Math.min(
+        bestAo,
+        (sum - sumOfBests.query()) / (n - fivePercent * 2)
+      );
     } else {
-      ao[i] =
-        (sum - sumOfWorsts.query() - sumOfBests.query()) /
-        (n - fivePercent * 2);
+      bestAo = Math.min(
+        bestAo,
+        (sum - sumOfWorsts.query() - sumOfBests.query()) / (n - fivePercent * 2)
+      );
     }
   }
-  return ao;
+  return bestAo;
 };

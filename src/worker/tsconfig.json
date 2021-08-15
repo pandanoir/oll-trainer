@@ -18,6 +18,7 @@
     "../components/Timer/timeData.ts",
     "../data/variations.ts",
     "../utils/calcAo.ts",
+    "../utils/calcBestAo.ts",
     "../utils/calcAverage.ts",
     "../utils/calcRecord.ts",
     "../utils/calcStandardDeviation.ts",
