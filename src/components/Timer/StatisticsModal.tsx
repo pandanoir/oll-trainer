@@ -42,6 +42,19 @@ const Tab = <T extends readonly string[]>({
     </div>
   );
 };
+
+const Details: VFC<{ summary: ReactNode; detail: () => ReactNode }> = ({
+  summary,
+  detail,
+}) => {
+  const [showsDetail, setShowsDetail] = useState(false);
+  return (
+    <details open={showsDetail} onToggle={() => setShowsDetail((v) => !v)}>
+      <summary tw="cursor-pointer select-none">{summary}</summary>
+      {showsDetail && detail()}
+    </details>
+  );
+};
 export const StatisticsModal: VFC<{
   onClose: () => void;
   sessions: SessionCollection;
@@ -101,51 +114,51 @@ export const StatisticsModal: VFC<{
                   <li>standardDeviation: {standardDeviation}</li>
                 )}
               </ul>
-              <details>
-                <summary tw="cursor-pointer select-none">
-                  セッション記録
-                </summary>
-                <ul
-                  tw="grid px-3 gap-y-1"
-                  style={{
-                    gridTemplateColumns:
-                      'max-content repeat(3, minmax(0, 1fr))',
-                  }}
-                >
-                  <li tw="contents order-1">
-                    <span tw="pr-2 border-b border-gray-300">No.</span>
-                    <span tw="border-b border-gray-300">record</span>
-                    <span tw="border-b border-gray-300">ao5</span>
-                    <span tw="border-b border-gray-300">ao12</span>
-                  </li>
-                  {times.map((time, index) => {
-                    const style = [
-                      index !== times.length - 1 && tw`border-b`,
-                      tw`border-gray-200 dark:border-gray-700`,
-                    ];
-                    return (
-                      <li key={time.date} tw="contents">
-                        <span css={[style, tw`pr-2`]}>{index + 1}</span>
-                        <span css={style}>{showRecord(time)}</span>
-                        <span css={style}>
-                          {showAverage(
-                            sessionAverage?.[sessionIndex].ao5List[index] ||
-                              null,
-                            '-'
-                          )}
-                        </span>
-                        <span css={style}>
-                          {showAverage(
-                            sessionAverage?.[sessionIndex].ao12List[index] ||
-                              null,
-                            '-'
-                          )}
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </details>
+              <Details
+                summary="セッション記録"
+                detail={() => (
+                  <ul
+                    tw="grid px-3 gap-y-1"
+                    style={{
+                      gridTemplateColumns:
+                        'max-content repeat(3, minmax(0, 1fr))',
+                    }}
+                  >
+                    <li tw="contents order-1">
+                      <span tw="pr-2 border-b border-gray-300">No.</span>
+                      <span tw="border-b border-gray-300">record</span>
+                      <span tw="border-b border-gray-300">ao5</span>
+                      <span tw="border-b border-gray-300">ao12</span>
+                    </li>
+                    {times.map((time, index) => {
+                      const style = [
+                        index !== times.length - 1 && tw`border-b`,
+                        tw`border-gray-200 dark:border-gray-700`,
+                      ];
+                      return (
+                        <li key={time.date} tw="contents">
+                          <span css={[style, tw`pr-2`]}>{index + 1}</span>
+                          <span css={style}>{showRecord(time)}</span>
+                          <span css={style}>
+                            {showAverage(
+                              sessionAverage?.[sessionIndex].ao5List[index] ||
+                                null,
+                              '-'
+                            )}
+                          </span>
+                          <span css={style}>
+                            {showAverage(
+                              sessionAverage?.[sessionIndex].ao12List[index] ||
+                                null,
+                              '-'
+                            )}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              />
             </div>
           );
         })}
