@@ -1,4 +1,9 @@
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBars,
+  faExternalLinkAlt,
+  faTimes,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState, VFC } from 'react';
 import { createPortal } from 'react-dom';
 import { NavLink } from 'react-router-dom';
@@ -50,6 +55,17 @@ const SideMenu: VFC<{ hidden?: boolean; onClose: () => void }> = ({
               </NavLink>
             </li>
           ))}
+          <li>
+            <a
+              href="https://github.com/pandanoir/oll-trainer"
+              target="_blank"
+              rel="noreferrer"
+              tw="no-underline text-gray-600 dark:text-gray-300 flex space-x-1 items-center"
+            >
+              <span>GitHub</span>
+              <FontAwesomeIcon tw="text-sm" icon={faExternalLinkAlt} />
+            </a>
+          </li>
         </ul>
       </div>
     </div>,
@@ -81,6 +97,17 @@ export const Header: VFC<{ right: JSX.Element }> = ({ right }) => {
                 </NavLink>
               </li>
             ))}
+            <li>
+              <a
+                href="https://github.com/pandanoir/oll-trainer"
+                target="_blank"
+                rel="noreferrer"
+                tw="no-underline text-gray-600 dark:text-gray-300 flex space-x-1 items-center"
+              >
+                <span>GitHub</span>
+                <FontAwesomeIcon tw="text-sm" icon={faExternalLinkAlt} />
+              </a>
+            </li>
           </ul>
         </span>
         {right}
