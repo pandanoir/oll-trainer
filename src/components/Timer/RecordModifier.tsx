@@ -3,9 +3,9 @@ import tw from 'twin.macro';
 
 import { isAwayFromBeginningElement } from '../../utils/isAwayFromBeginningElement';
 import { withStopPropagation } from '../../utils/withStopPropagation';
-import { DangerButton } from '../common/DangerButton';
 import { PrimaryButton } from '../common/PrimaryButton';
 import { SecondaryButton } from '../common/SecondaryButton';
+import { SecondaryDangerButton } from '../common/SecondaryDangerButton';
 import { TimeData } from './timeData';
 
 const ButtonWrapper = tw.div`flex justify-center space-x-2 flex-wrap pointer-events-none`;
@@ -41,12 +41,12 @@ export const RecordModifier = ({
         >
           undo DNF
         </SecondaryButton>
-        <DangerButton
+        <SecondaryDangerButton
           onClick={withStopPropagation(deleteRecord)}
           onTouchEnd={touchEnd(deleteRecord)}
         >
           delete
-        </DangerButton>
+        </SecondaryDangerButton>
       </ButtonWrapper>
     );
   }
@@ -65,12 +65,12 @@ export const RecordModifier = ({
         >
           DNF
         </SecondaryButton>
-        <DangerButton
+        <SecondaryDangerButton
           onClick={withStopPropagation(deleteRecord)}
           onTouchEnd={touchEnd(deleteRecord)}
         >
           delete
-        </DangerButton>
+        </SecondaryDangerButton>
       </ButtonWrapper>
     );
   }
@@ -88,12 +88,12 @@ export const RecordModifier = ({
       >
         DNF
       </SecondaryButton>
-      <DangerButton
+      <SecondaryDangerButton
         onClick={withStopPropagation(deleteRecord)}
         onTouchEnd={touchEnd(deleteRecord)}
       >
         delete
-      </DangerButton>
+      </SecondaryDangerButton>
     </ButtonWrapper>
   );
 };
