@@ -1,8 +1,10 @@
 import {
+  faAngleRight,
   faInfoCircle,
   faVolumeMute,
   faVolumeUp,
 } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Temporal } from 'proposal-temporal';
 import {
   useCallback,
@@ -422,13 +424,20 @@ export const TimerPage: VFC = () => {
         <VariationModal onClose={closeModal}>
           {[...defaultVariations, ...userDefinedVariation].map((variation) => (
             <li
-              tw="px-3 pb-1 pt-3 lg:mr-6 text-lg border-b cursor-pointer"
+              tw="px-3 pb-1 pt-3 lg:mr-6 text-lg border-b cursor-pointer hover:text-blue-500 hover:dark:text-blue-400"
               key={variation.name}
               onClick={() => {
                 setVariation(variation);
                 closeModal();
               }}
             >
+              {variation.name === variationName ? (
+                <span tw="pr-1">
+                  <FontAwesomeIcon icon={faAngleRight} />
+                </span>
+              ) : (
+                <span tw="w-3 inline-block" />
+              )}
               {variation.name}
             </li>
           ))}
