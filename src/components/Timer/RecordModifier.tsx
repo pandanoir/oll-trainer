@@ -3,7 +3,6 @@ import tw from 'twin.macro';
 
 import { isAwayFromBeginningElement } from '../../utils/isAwayFromBeginningElement';
 import { withStopPropagation } from '../../utils/withStopPropagation';
-import { PrimaryButton } from '../common/PrimaryButton';
 import { SecondaryButton } from '../common/SecondaryButton';
 import { SecondaryDangerButton } from '../common/SecondaryDangerButton';
 import { TimeData } from './timeData';
@@ -53,12 +52,12 @@ export const RecordModifier = ({
   if (record.penalty) {
     return (
       <ButtonWrapper>
-        <PrimaryButton
+        <SecondaryButton
           onClick={withStopPropagation(undoPenalty)}
           onTouchEnd={touchEnd(undoPenalty)}
         >
           undo +2
-        </PrimaryButton>
+        </SecondaryButton>
         <SecondaryButton
           onClick={withStopPropagation(changeToDNF)}
           onTouchEnd={touchEnd(changeToDNF)}
@@ -76,12 +75,12 @@ export const RecordModifier = ({
   }
   return (
     <ButtonWrapper>
-      <PrimaryButton
+      <SecondaryButton
         onClick={withStopPropagation(imposePenalty)}
         onTouchEnd={touchEnd(imposePenalty)}
       >
         +2
-      </PrimaryButton>
+      </SecondaryButton>
       <SecondaryButton
         onClick={withStopPropagation(changeToDNF)}
         onTouchEnd={touchEnd(changeToDNF)}
