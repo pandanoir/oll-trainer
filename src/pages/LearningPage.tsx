@@ -1,9 +1,9 @@
 import { VFC, useContext, useEffect, useState } from 'react';
 import 'twin.macro';
 
-import { Button } from '../components/common/Button';
 import { DangerButton } from '../components/common/DangerButton';
 import { PrimaryButton } from '../components/common/PrimaryButton';
+import { SecondaryButton } from '../components/common/SecondaryButton';
 import { ListModal } from '../components/ListModal';
 import { Solve } from '../components/Solve';
 
@@ -43,12 +43,12 @@ export const LearningPage: VFC = () => {
   return target === undefined ? (
     <div>all done!</div>
   ) : (
-    <div tw="flex flex-col items-center">
+    <div tw="flex flex-col items-center space-y-2">
       のこり {size} 個
       <Solve index={target[0]} />
       <div tw="flex space-x-2">
-        <Button onClick={prev}>prev</Button>
-        <Button onClick={next}>next</Button>
+        <SecondaryButton onClick={prev}>prev</SecondaryButton>
+        <SecondaryButton onClick={next}>next</SecondaryButton>
         <PrimaryButton onClick={() => check(target[1])}>check</PrimaryButton>
         <DangerButton
           onClick={() =>
@@ -58,7 +58,7 @@ export const LearningPage: VFC = () => {
           reset
         </DangerButton>
       </div>
-      <button onClick={openListModal}>一覧</button>
+      <SecondaryButton onClick={openListModal}>一覧</SecondaryButton>
       {showsModal && <ListModal onClose={() => setShowsModal(false)} />}
     </div>
   );
