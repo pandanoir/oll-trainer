@@ -6,6 +6,7 @@ import eightSecondsSoundUrl from '../sound/eightSeconds.mp3';
 import twelveSecondsSoundUrl from '../sound/twelveSeconds.mp3';
 import timeoutSoundUrl from '../sound/警告音1.mp3';
 import dnfSoundUrl from '../sound/警告音2.mp3';
+import { useTitle } from '../utils/hooks/useTitle';
 import { playAudio, playSilence } from '../utils/playAudio';
 
 const showRestInspectionTime = (pastMillisec: number) =>
@@ -49,6 +50,7 @@ export const InspectionPage = () => {
   const { play: callTimeout, reset: resetHasCalledTimeout } =
     usePlayOnce(timeoutSound);
   const { play: callDNF, reset: resetHasCalledDNF } = usePlayOnce(dnfSound);
+  useTitle('Inspection');
 
   useHotkeys(
     'space',
