@@ -18,6 +18,7 @@ const SideMenu: VFC<{ hidden?: boolean; onClose: () => void }> = ({
   onClose,
 }) => {
   const [prevHidden, setPrevHidden] = useState(hidden);
+  const linkStyle = tw`inline-block no-underline text-gray-600 dark:text-gray-300 py-1.5`;
 
   return createPortal(
     <div
@@ -47,7 +48,7 @@ const SideMenu: VFC<{ hidden?: boolean; onClose: () => void }> = ({
               <NavLink
                 to={path}
                 exact
-                tw="inline-block no-underline text-gray-600 dark:text-gray-300 py-1.5"
+                css={linkStyle}
                 activeClassName="font-bold"
                 onClick={onClose}
               >
@@ -60,7 +61,7 @@ const SideMenu: VFC<{ hidden?: boolean; onClose: () => void }> = ({
               href="https://github.com/pandanoir/oll-trainer"
               target="_blank"
               rel="noreferrer"
-              tw="no-underline text-gray-600 dark:text-gray-300 flex space-x-1 items-center"
+              css={[linkStyle, tw`flex space-x-1 items-center`]}
             >
               <span>GitHub</span>
               <FontAwesomeIcon tw="text-sm" icon={faExternalLinkAlt} />
@@ -75,6 +76,8 @@ const SideMenu: VFC<{ hidden?: boolean; onClose: () => void }> = ({
 
 export const Header: VFC<{ right: JSX.Element }> = ({ right }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
+  const linkStyle = tw`no-underline text-gray-600 dark:text-gray-300 hover:text-blue-500 hover:dark:text-blue-400 hover:underline`;
+
   return (
     <header tw="px-3 pt-5 pb-3 bg-white dark:bg-gray-800">
       <nav tw="flex place-content-between">
@@ -90,7 +93,7 @@ export const Header: VFC<{ right: JSX.Element }> = ({ right }) => {
                 <NavLink
                   to={path}
                   exact
-                  tw="no-underline text-gray-600 dark:text-gray-300"
+                  css={linkStyle}
                   activeClassName="font-bold"
                 >
                   {name}
@@ -102,7 +105,7 @@ export const Header: VFC<{ right: JSX.Element }> = ({ right }) => {
                 href="https://github.com/pandanoir/oll-trainer"
                 target="_blank"
                 rel="noreferrer"
-                tw="no-underline text-gray-600 dark:text-gray-300 flex space-x-1 items-center"
+                css={[linkStyle, tw`flex space-x-1 items-center`]}
               >
                 <span>GitHub</span>
                 <FontAwesomeIcon tw="text-sm" icon={faExternalLinkAlt} />
