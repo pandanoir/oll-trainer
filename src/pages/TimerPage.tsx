@@ -424,7 +424,7 @@ export const TimerPage: VFC = () => {
         <VariationModal onClose={closeModal}>
           {[...defaultVariations, ...userDefinedVariation].map((variation) => (
             <li
-              tw="px-3 pb-1 pt-3 lg:mr-6 text-lg border-b cursor-pointer hover:text-blue-500 hover:dark:text-blue-400"
+              tw="px-3 pb-1 pt-3 lg:mr-6 text-lg border-b cursor-pointer hover:text-hovertext hover:dark:text-hovertext-dark"
               key={variation.name}
               onClick={() => {
                 setVariation(variation);

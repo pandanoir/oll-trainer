@@ -98,7 +98,7 @@ export const Times: VFC<{
           <li tw="grid grid-cols-3">
             <span
               onClick={() => openModal(bestRecordIndex)}
-              tw="cursor-pointer py-1"
+              tw="cursor-pointer py-1 hover:text-hovertext hover:dark:text-hovertext-dark"
             >
               {bestRecordIndex === -1
                 ? '-'
@@ -114,7 +114,7 @@ export const Times: VFC<{
                 bestAo5Index !== -1 && ao5[bestAo5Index]
                   ? tw`cursor-pointer`
                   : '',
-                tw`py-1`,
+                tw`py-1 hover:text-hovertext hover:dark:text-hovertext-dark`,
               ]}
             >
               {bestAo5Index !== -1 && showAverage(ao5[bestAo5Index], '-')}
@@ -129,7 +129,7 @@ export const Times: VFC<{
                 bestAo12Index !== -1 && ao12[bestAo12Index]
                   ? tw`cursor-pointer`
                   : '',
-                tw`py-1`,
+                tw`py-1 hover:text-hovertext hover:dark:text-hovertext-dark`,
               ]}
             >
               {bestAo12Index !== -1 && showAverage(ao12[bestAo12Index], '-')}
@@ -156,7 +156,7 @@ export const Times: VFC<{
                 </span>
                 <span
                   onClick={() => openModal(index)}
-                  tw="cursor-pointer border-b border-gray-200 dark:border-gray-700"
+                  tw="cursor-pointer border-b border-gray-200 dark:border-gray-700 hover:text-hovertext hover:dark:text-hovertext-dark"
                 >
                   {showRecord(time)}
                 </span>
@@ -164,7 +164,7 @@ export const Times: VFC<{
                   onClick={ao5[index] ? () => openAo5Modal(index) : noop}
                   css={[
                     ao5[index] ? tw`cursor-pointer` : '',
-                    tw`border-b border-gray-200 dark:border-gray-700`,
+                    tw`border-b border-gray-200 dark:border-gray-700 hover:text-hovertext hover:dark:text-hovertext-dark`,
                   ]}
                 >
                   {showAverage(ao5[index], '-')}
@@ -173,7 +173,7 @@ export const Times: VFC<{
                   onClick={ao12[index] ? () => openAo12Modal(index) : noop}
                   css={[
                     ao12[index] ? tw`cursor-pointer` : '',
-                    tw`border-b border-gray-200 dark:border-gray-700`,
+                    tw`border-b border-gray-200 dark:border-gray-700 hover:text-hovertext hover:dark:text-hovertext-dark`,
                   ]}
                 >
                   {showAverage(ao12[index], '-')}

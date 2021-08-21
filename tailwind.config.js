@@ -1,3 +1,5 @@
+const colors = require('tailwindcss/colors');
+
 module.exports = {
   purge: ['./src/**/*.tsx', './src/**/*.ts', './public/index.html'],
   darkMode: 'class', // or 'media' or 'class'
@@ -14,6 +16,10 @@ module.exports = {
       },
       zIndex: {
         '-10': '-10',
+      },
+      colors: {
+        hovertext: colors.blue['500'],
+        'hovertext-dark': colors.blue['400'],
       },
     },
   },
