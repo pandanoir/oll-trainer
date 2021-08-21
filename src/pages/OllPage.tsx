@@ -1,12 +1,14 @@
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { VFC } from 'react';
 import tw from 'twin.macro';
 
-import { Button } from '../components/common/Button';
+import { PrimaryButton } from '../components/common/PrimaryButton';
 import { Solve } from '../components/Solve';
 import { faces, rotate, CubeFace as CubeFaceType } from '../utils';
 import { useFace } from '../utils/hooks/useFace';
-import '../index.css';
 import { useTitle } from '../utils/hooks/useTitle';
+import '../index.css';
 
 const CubeFace: VFC<{
   cubeStatus: CubeFaceType;
@@ -22,7 +24,7 @@ const CubeFace: VFC<{
           }}
           css={[
             isChecked ? tw`bg-yellow-200` : tw`bg-gray-600`,
-            tw`w-24 h-24 border border-gray-800`,
+            tw`w-24 h-24 border border-gray-800 cursor-pointer`,
           ]}
         />
       ))}
@@ -34,10 +36,12 @@ export const OllPage: VFC = () => {
   useTitle('OLL');
   const { cubeStatus, toggleCube, clearCube } = useFace();
   return (
-    <div>
+    <div tw="flex flex-col space-y-3 items-center">
       <CubeFace cubeStatus={cubeStatus} toggleCube={toggleCube} />
-      <Button onClick={clearCube}>clear face</Button>
-      <div tw="flex overflow-x-scroll space-x-3">
+      <PrimaryButton tw="w-max" onClick={clearCube}>
+        clear face
+      </PrimaryButton>
+      <div tw="flex overflow-x-auto space-x-3">
         {faces.map((_face, index) => {
           for (let face = _face, j = 0; j < 4; ++j, face = rotate(face)) {
             if ([...Array(9).keys()].every((i) => cubeStatus[i] === face[i])) {
@@ -50,7 +54,8 @@ export const OllPage: VFC = () => {
                     target="_blank"
                     rel="noreferrer"
                   >
-                    AlgDb.net で他のやり方を調べる
+                    AlgDb.net で他のやり方を調べる{' '}
+                    <FontAwesomeIcon icon={faExternalLinkAlt} />
                   </a>
                 </div>
               );
