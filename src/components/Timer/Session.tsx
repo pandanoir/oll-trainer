@@ -238,7 +238,7 @@ export const Session = ({
               <span tw="text-3xl">Sessions</span>
               <IconButton
                 icon={faPlus}
-                tw="px-2.5 my-1.5 text-lg text-white border-blue-500 border-2 text-blue-400 rounded"
+                tw="px-2.5 my-1.5 text-lg text-white bg-gray-700 rounded"
                 onClick={() => {
                   addSession();
                   if (sessionIndex === currentSessions.length - 1) {
