@@ -1,4 +1,4 @@
-import { faCaretRight, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faAngleRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { VFC } from 'react';
 import 'twin.macro';
@@ -29,11 +29,11 @@ export const SessionListItem: VFC<{
   return (
     <li tw="px-3 pb-1 pt-3 lg:mr-6 text-lg flex justify-between items-center border-b space-x-3">
       <span
-        tw="flex-1 overflow-hidden whitespace-nowrap cursor-pointer"
+        tw="flex-1 overflow-hidden whitespace-nowrap cursor-pointer hover:text-hovertext hover:dark:text-hovertext-dark"
         onClick={onClick}
       >
         <span tw="w-3 inline-block">
-          {selected && <FontAwesomeIcon icon={faCaretRight} />}
+          {selected && <FontAwesomeIcon icon={faAngleRight} />}
         </span>
         {name}
       </span>
