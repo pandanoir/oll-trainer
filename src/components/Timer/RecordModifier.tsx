@@ -35,18 +35,18 @@ export const RecordModifier = ({
   if (record.isDNF) {
     return (
       <ButtonWrapper>
-        <DangerButton
+        <SecondaryButton
           onClick={withStopPropagation(undoDNF)}
           onTouchEnd={touchEnd(undoDNF)}
         >
           undo DNF
-        </DangerButton>
-        <SecondaryButton
+        </SecondaryButton>
+        <DangerButton
           onClick={withStopPropagation(deleteRecord)}
           onTouchEnd={touchEnd(deleteRecord)}
         >
           delete
-        </SecondaryButton>
+        </DangerButton>
       </ButtonWrapper>
     );
   }
@@ -59,18 +59,18 @@ export const RecordModifier = ({
         >
           undo +2
         </PrimaryButton>
-        <DangerButton
+        <SecondaryButton
           onClick={withStopPropagation(changeToDNF)}
           onTouchEnd={touchEnd(changeToDNF)}
         >
           DNF
-        </DangerButton>
-        <SecondaryButton
+        </SecondaryButton>
+        <DangerButton
           onClick={withStopPropagation(deleteRecord)}
           onTouchEnd={touchEnd(deleteRecord)}
         >
           delete
-        </SecondaryButton>
+        </DangerButton>
       </ButtonWrapper>
     );
   }
@@ -82,18 +82,18 @@ export const RecordModifier = ({
       >
         +2
       </PrimaryButton>
-      <DangerButton
+      <SecondaryButton
         onClick={withStopPropagation(changeToDNF)}
         onTouchEnd={touchEnd(changeToDNF)}
       >
         DNF
-      </DangerButton>
-      <SecondaryButton
+      </SecondaryButton>
+      <DangerButton
         onClick={withStopPropagation(deleteRecord)}
         onTouchEnd={touchEnd(deleteRecord)}
       >
         delete
-      </SecondaryButton>
+      </DangerButton>
     </ButtonWrapper>
   );
 };

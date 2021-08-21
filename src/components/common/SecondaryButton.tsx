@@ -3,4 +3,4 @@ import { Button } from './Button';
 
 export const SecondaryButton = tw(
   Button
-)`border-4 border-pink-600 bg-white text-black rounded-md font-bold`;
+)`border-2 border-blue-400 text-blue-600 bg-transparent rounded-md font-bold dark:border-blue-400 dark:text-blue-300`;
