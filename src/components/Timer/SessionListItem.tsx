@@ -29,7 +29,7 @@ export const SessionListItem: VFC<{
   return (
     <li tw="px-3 pb-1 pt-3 lg:mr-6 text-lg flex justify-between items-center border-b space-x-3">
       <span
-        tw="flex-1 overflow-hidden whitespace-nowrap cursor-pointer hover:text-hovertext hover:dark:text-hovertext-dark"
+        tw="flex-1 overflow-hidden whitespace-nowrap cursor-pointer hover:text-hover hover:dark:text-hover-dark"
         onClick={onClick}
       >
         <span tw="w-3 inline-block">

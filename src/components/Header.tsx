@@ -76,7 +76,7 @@ const SideMenu: VFC<{ hidden?: boolean; onClose: () => void }> = ({
 
 export const Header: VFC<{ right: JSX.Element }> = ({ right }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const linkStyle = tw`no-underline text-gray-600 dark:text-gray-300 hover:text-hovertext hover:dark:text-hovertext-dark hover:underline`;
+  const linkStyle = tw`no-underline text-gray-600 dark:text-gray-300 hover:text-hover hover:dark:text-hover-dark hover:underline`;
 
   return (
     <header tw="px-3 pt-5 pb-3 bg-white dark:bg-gray-800">

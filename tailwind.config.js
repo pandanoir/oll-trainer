@@ -18,8 +18,10 @@ module.exports = {
         '-10': '-10',
       },
       colors: {
-        hovertext: colors.blue['500'],
-        'hovertext-dark': colors.blue['400'],
+        hover: {
+          DEFAULT: colors.blue[500],
+          dark: colors.blue[400],
+        },
       },
     },
   },
