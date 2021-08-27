@@ -1,6 +1,8 @@
 import {
   faAngleRight,
+  faDownload,
   faInfoCircle,
+  faUpload,
   faVolumeMute,
   faVolumeUp,
 } from '@fortawesome/free-solid-svg-icons';
@@ -262,10 +264,10 @@ export const TimerPage: VFC = () => {
           })}
         </ToggleButton>
         <SecondaryButton onClick={() => openModal(IMPORT_MODAL)}>
-          import
+          <FontAwesomeIcon icon={faDownload} /> import
         </SecondaryButton>
         <SecondaryButton onClick={() => openModal(EXPORT_MODAL)}>
-          export
+          <FontAwesomeIcon icon={faUpload} /> export
         </SecondaryButton>
       </div>
       <Swiper
