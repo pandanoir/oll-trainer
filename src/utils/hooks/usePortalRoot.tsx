@@ -4,9 +4,9 @@ export const usePortalRoot = () => {
   const $el = useRef(document.createElement('div'));
   useEffect(() => {
     const current = $el.current;
-    document.body.appendChild(current);
+    document.querySelector('#portal_root')?.appendChild(current);
     return () => {
-      document.body.removeChild(current);
+      document.querySelector('#portal_root')?.removeChild(current);
     };
   }, []);
   return $el;
