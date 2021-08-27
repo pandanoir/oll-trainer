@@ -1,5 +1,5 @@
 .toggle-btn--base {
-  @apply inline-block rounded cursor-pointer select-none whitespace-nowrap;
+  @apply h-min inline-block  rounded cursor-pointer select-none whitespace-nowrap;
 }
 .toggle-btn {
   @apply toggle-btn--base;

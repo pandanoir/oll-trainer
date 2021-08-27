@@ -21,8 +21,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import tw from 'twin.macro';
 
 import { IconButton } from '../components/common/IconButton';
-import { useModal } from '../components/common/Modal';
+import { Modal, useModal } from '../components/common/Modal';
+import { ModalCloseButton } from '../components/common/ModalCloseButton';
 import { PrimaryButton } from '../components/common/PrimaryButton';
+import { SecondaryButton } from '../components/common/SecondaryButton';
 import { Toast, useToast } from '../components/common/Toast';
 import { ToggleButton } from '../components/common/ToggleButton';
 import { ExportButton } from '../components/Timer/ExportButton';
@@ -55,6 +57,8 @@ import eightSecondsSoundUrl from '../sound/eightSeconds.mp3';
 import steadySoundUrl from '../sound/steady.mp3';
 import twelveSecondsSoundUrl from '../sound/twelveSeconds.mp3';
 import { calcAo } from '../utils/calcAo';
+import { exhaustiveCheck } from '../utils/exhaustiveCheck';
+import { fromCsTimer } from '../utils/fromCsTimer';
 import { useAudio } from '../utils/hooks/useAudio';
 import { useCubeTimer } from '../utils/hooks/useCubeTimer';
 import { useStoragedState } from '../utils/hooks/useLocalStorage';
@@ -83,7 +87,13 @@ const twelveSecondsSound = fetch(twelveSecondsSoundUrl).then((response) =>
 
 const VARIATION_MODAL = 'VARIATION_MODAL';
 const STATISTICS_MODAL = 'STATISTICS_MODAL';
-type ModalType = typeof VARIATION_MODAL | typeof STATISTICS_MODAL;
+const IMPORT_MODAL = 'IMPORT_MODAL';
+const EXPORT_MODAL = 'EXPORT_MODAL';
+type ModalType =
+  | typeof VARIATION_MODAL
+  | typeof STATISTICS_MODAL
+  | typeof IMPORT_MODAL
+  | typeof EXPORT_MODAL;
 
 SwiperCore.use([Navigation, Keyboard]);
 
@@ -186,14 +196,10 @@ export const TimerPage: VFC = () => {
 
   const { openToast, closeToast, ...toastProps } = useToast();
   const [modalType, setModalType] = useState<ModalType | null>(null);
-  const { openModal, closeModal: _closeModal } = useModal();
-  const openVariationModal = () => {
-    openModal();
-    setModalType(VARIATION_MODAL);
-  };
-  const openStatisticsModal = () => {
-    openModal();
-    setModalType(STATISTICS_MODAL);
+  const { openModal: _openModal, closeModal: _closeModal } = useModal();
+  const openModal = (modalType: ModalType) => {
+    _openModal();
+    setModalType(modalType);
   };
   const closeModal = () => {
     _closeModal();
@@ -232,7 +238,7 @@ export const TimerPage: VFC = () => {
 
   return (
     <div tw="relative w-full flex flex-col flex-1 dark:bg-gray-800 dark:text-white">
-      <div tw="flex space-x-1 px-3 overflow-x-auto">
+      <div tw="flex space-x-1 px-3 overflow-x-auto items-center">
         <IconButton
           tw="inline-block cursor-pointer select-none px-2"
           icon={volume === 1 ? faVolumeUp : faVolumeMute}
@@ -255,14 +261,12 @@ export const TimerPage: VFC = () => {
             defaultMessage: '手動でタイムを入力',
           })}
         </ToggleButton>
-        <FileInput onChange={importFromCsTimer} />
-        <ExportButton getContent={() => JSON.stringify(toCsTimer(sessions))}>
-          {formatMessage({
-            id: 'PhOg3j',
-            description: 'ボタン。ファイルをエクスポートする',
-            defaultMessage: 'ファイルをエクスポート',
-          })}
-        </ExportButton>
+        <SecondaryButton onClick={() => openModal(IMPORT_MODAL)}>
+          import
+        </SecondaryButton>
+        <SecondaryButton onClick={() => openModal(EXPORT_MODAL)}>
+          export
+        </SecondaryButton>
       </div>
       <Swiper
         slidesOffsetAfter={27 * 2}
@@ -301,9 +305,9 @@ export const TimerPage: VFC = () => {
               return;
             }
             event.stopPropagation();
-            openVariationModal();
+            openModal(VARIATION_MODAL);
           }}
-          onClick={withStopPropagation(openVariationModal)}
+          onClick={withStopPropagation(() => openModal(VARIATION_MODAL))}
         >
           {variationName}
         </PrimaryButton>
@@ -316,9 +320,9 @@ export const TimerPage: VFC = () => {
               return;
             }
             event.stopPropagation();
-            openStatisticsModal();
+            openModal(STATISTICS_MODAL);
           }}
-          onClick={openStatisticsModal}
+          onClick={() => openModal(STATISTICS_MODAL)}
         />
 
         {inputsTimeManually ? (
@@ -444,7 +448,50 @@ export const TimerPage: VFC = () => {
         </VariationModal>
       ) : modalType === STATISTICS_MODAL ? (
         <StatisticsModal sessions={sessions} onClose={closeModal} />
-      ) : null}
+      ) : modalType === IMPORT_MODAL ? (
+        <Modal onClose={closeModal}>
+          <ModalCloseButton onClick={closeModal} />
+          <div tw="p-10">
+            <span tw="flex space-x-0 space-y-2 flex-col justify-center items-center sm:flex-row sm:space-x-3 sm:space-y-0">
+              <FileInput
+                onChange={(text) =>
+                  importFromCsTimer(fromCsTimer(JSON.parse(text)))
+                }
+                onError={() => {
+                  alert(
+                    formatMessage({
+                      id: 'paDr7J',
+                      description:
+                        'アラートメッセージ。csTimerからインポート中にエラーが出たときに表示するメッセージ。',
+                      defaultMessage: 'インポート中にエラーが発生しました',
+                    })
+                  );
+                }}
+                button={(onClick) => (
+                  <SecondaryButton tw="w-max" onClick={onClick}>
+                    csTimer からインポート
+                  </SecondaryButton>
+                )}
+              />
+            </span>
+          </div>
+        </Modal>
+      ) : modalType === EXPORT_MODAL ? (
+        <Modal onClose={closeModal}>
+          <ModalCloseButton onClick={closeModal} />
+          <div tw="p-10">
+            <span tw="flex space-x-0 space-y-2 flex-col justify-center items-center sm:flex-row sm:space-x-3 sm:space-y-0">
+              <ExportButton
+                getContent={() => JSON.stringify(toCsTimer(sessions))}
+              >
+                <SecondaryButton>csTimer 形式でエクスポート</SecondaryButton>
+              </ExportButton>
+            </span>
+          </div>
+        </Modal>
+      ) : modalType == null ? null : (
+        exhaustiveCheck(modalType)
+      )}
     </div>
   );
 };

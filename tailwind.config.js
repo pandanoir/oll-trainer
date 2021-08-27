@@ -8,6 +8,9 @@ module.exports = {
       maxHeight: {
         '1/2-screen': '50vh',
       },
+      height: {
+        min: 'min-content',
+      },
       transitionProperty: {
         position: 'top, left, bottom, right',
       },

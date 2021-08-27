@@ -3,8 +3,7 @@ import { PropsWithChildren, useRef } from 'react';
 export const ExportButton = ({
   children,
   getContent,
-  className,
-}: PropsWithChildren<{ getContent: () => string; className?: string }>) => {
+}: PropsWithChildren<{ getContent: () => string }>) => {
   const fileName = 'export.json';
   const buttonRef = useRef<HTMLAnchorElement>(null);
   const handleDownload = () => {
@@ -17,13 +16,7 @@ export const ExportButton = ({
     }
   };
   return (
-    <a
-      className={className}
-      ref={buttonRef}
-      href="#"
-      download={fileName}
-      onClick={handleDownload}
-    >
+    <a ref={buttonRef} href="#" download={fileName} onClick={handleDownload}>
       {children}
     </a>
   );
