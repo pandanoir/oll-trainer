@@ -123,7 +123,7 @@ export const TimerPage: VFC = () => {
     variationName,
     setSessionIndex,
     setVariation,
-    importFromCsTimer,
+    importFromUserData,
     changeSessionName,
     changeToDNF,
     undoDNF,
@@ -457,7 +457,7 @@ export const TimerPage: VFC = () => {
             <span tw="flex space-x-0 space-y-2 flex-col justify-center items-center sm:flex-row sm:space-x-3 sm:space-y-0">
               <FileInput
                 onChange={(text) =>
-                  importFromCsTimer(fromCsTimer(JSON.parse(text)))
+                  importFromUserData(fromCsTimer(JSON.parse(text)))
                 }
                 onError={() => {
                   alert(

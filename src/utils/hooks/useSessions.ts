@@ -227,7 +227,7 @@ export const useSessions = (
     },
     [updateSessions]
   );
-  const importFromCsTimer = (data: SessionCollection) => {
+  const importFromUserData = (data: SessionCollection) => {
     updateSessions(data);
   };
   return {
@@ -257,7 +257,7 @@ export const useSessions = (
     ),
     setVariation,
     changeSessionName,
-    importFromCsTimer,
+    importFromUserData,
     changeToDNF,
     undoDNF,
     imposePenalty,
