@@ -17,6 +17,7 @@ export type SessionData = {
   name: string;
 };
 
+/** @see {isSessionCollection} ts-auto-guard:type-guard */
 // 種目ごとにまとまったセッション
 export type SessionCollection = {
   sessions: SessionData[];
