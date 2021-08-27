@@ -11,6 +11,13 @@ import {
 } from '../../components/Timer/timerState';
 import { exhaustiveCheck } from '../exhaustiveCheck';
 
+/**
+ * 各種仕様
+ * time: タイマーの現在のタイム。millisec。タイマー作動中は60fpsで変化する。
+ * inspectionTime: インスペクション中の経過時刻を millisec で保持するステート。タイマーがスタートしてインスペクションが終了した時点で 0 にセットされる。
+ * timerState: タイマーの状態。静止状態、ready、steady、タイム記録中、インスペクション中、インスペクション中ready、インスペクション中steadyなどがある。
+ *   readyはキャンセル可能で、キーを離したらキャンセルされる。steadyでキーを離すとタイマーが作動する。
+ */
 export const useTimer = ({
   onFinishTimer,
   now = () => performance.now(),
