@@ -29,7 +29,7 @@ export const FileInput = ({
             onError(e);
           }
         }}
-        accept="text/*"
+        accept="application/json,text/*"
         tw="hidden"
         hidden
       />
