@@ -20,6 +20,11 @@ import {
 import { exhaustiveCheck } from '../exhaustiveCheck';
 import { useTimer } from './useTimer';
 
+/**
+ * useTimer はキューブタイマー用のロジックだけ書いてあり、キーボードやマウスと接続する部分が書かれていない。
+ * このカスタムフックはキーボード、マウスから useTimer を使うためのフック。
+ * 逆に言うと、接続するところしかやっていない。たとえばインスペクションの経過時間に応じて音を出す処理は入っていない。
+ */
 export const useCubeTimer = ({
   inputsTimeManually,
   usesInspection,
