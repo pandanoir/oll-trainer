@@ -22,14 +22,13 @@ import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import tw from 'twin.macro';
 import { IconButton } from '../components/common/IconButton';
-import { Modal, useModal } from '../components/common/Modal';
-import { ModalCloseButton } from '../components/common/ModalCloseButton';
+import { useModal } from '../components/common/Modal';
 import { PrimaryButton } from '../components/common/PrimaryButton';
 import { SecondaryButton } from '../components/common/SecondaryButton';
 import { Toast, useToast } from '../components/common/Toast';
 import { ToggleButton } from '../components/common/ToggleButton';
-import { ExportButton } from '../components/Timer/ExportButton';
-import { FileInput } from '../components/Timer/FileInput';
+import { ExportModal } from '../components/Timer/ExportModal';
+import { ImportModal } from '../components/Timer/ImportModal';
 import { RecordItem } from '../components/Timer/RecordItem';
 import { RecordModifier } from '../components/Timer/RecordModifier';
 import { Session } from '../components/Timer/Session';
@@ -56,11 +55,8 @@ import {
 import eightSecondsSoundUrl from '../sound/eightSeconds.mp3';
 import steadySoundUrl from '../sound/steady.mp3';
 import twelveSecondsSoundUrl from '../sound/twelveSeconds.mp3';
-import { HiTimerDataJSON } from '../types/HiTimerDataJSON';
-import { isHiTimerDataJSON } from '../types/HiTimerDataJSON.guard';
 import { calcAo } from '../utils/calcAo';
 import { exhaustiveCheck } from '../utils/exhaustiveCheck';
-import { fromCsTimer } from '../utils/fromCsTimer';
 import { useAudio } from '../utils/hooks/useAudio';
 import { useCubeTimer } from '../utils/hooks/useCubeTimer';
 import { useStoragedState } from '../utils/hooks/useLocalStorage';
@@ -70,7 +66,6 @@ import { isAwayFromBeginningElement } from '../utils/isAwayFromBeginningElement'
 import { playSilence } from '../utils/playAudio';
 import { showAverage } from '../utils/showAverage';
 import { showTime } from '../utils/showTime';
-import { toCsTimer } from '../utils/toCsTimer';
 import { withPrefix } from '../utils/withPrefix';
 import { withStopPropagation } from '../utils/withStopPropagation';
 import '../swiper.css';
@@ -113,9 +108,7 @@ export const TimerPage: VFC = () => {
     withPrefix('inputs-time-manually'),
     false
   );
-  const [userDefinedVariation, updateUserDefinedVariation] = useContext(
-    UserDefinedVariationContext
-  );
+  const [userDefinedVariation] = useContext(UserDefinedVariationContext);
 
   const {
     sessions,
@@ -452,119 +445,22 @@ export const TimerPage: VFC = () => {
       ) : modalType === STATISTICS_MODAL ? (
         <StatisticsModal sessions={sessions} onClose={closeModal} />
       ) : modalType === IMPORT_MODAL ? (
-        <Modal onClose={closeModal}>
-          <ModalCloseButton onClick={closeModal} />
-          <div tw="p-10">
-            <span tw="flex space-x-0 space-y-2 flex-col justify-center items-center sm:flex-row sm:space-x-3 sm:space-y-0">
-              <FileInput
-                onChange={(text) => {
-                  importFromUserData(fromCsTimer(JSON.parse(text)));
-                  closeModal();
-                }}
-                onError={() => {
-                  alert(
-                    formatMessage({
-                      id: 'paDr7J',
-                      description:
-                        'アラートメッセージ。インポート中にエラーが出たときに表示するメッセージ。',
-                      defaultMessage: 'インポート中にエラーが発生しました',
-                    })
-                  );
-                }}
-                button={(onClick) => (
-                  <SecondaryButton
-                    tw="w-max"
-                    onClick={() => {
-                      if (
-                        confirm(
-                          'インポートすると、現在のセッション情報がすべて消去されます。インポートしますか?'
-                        )
-                      ) {
-                        onClick();
-                      }
-                    }}
-                  >
-                    csTimer からインポート
-                  </SecondaryButton>
-                )}
-              />
-              <FileInput
-                onChange={(text) => {
-                  const data = JSON.parse(text);
-                  if (!isHiTimerDataJSON(data)) {
-                    throw new Error('invalid json');
-                  }
-
-                  importFromUserData(data.sessions);
-                  updateUserDefinedVariation(
-                    data.settings.userDefinedVariation
-                  );
-                  const variation = [
-                    ...defaultVariations,
-                    ...data.settings.userDefinedVariation,
-                  ].find(({ name }) => name === data.settings.variation);
-                  if (variation) {
-                    setVariation(variation);
-                  }
-                  closeModal();
-                }}
-                onError={() => {
-                  alert(
-                    formatMessage({
-                      id: 'paDr7J',
-                      description:
-                        'アラートメッセージ。インポート中にエラーが出たときに表示するメッセージ。',
-                      defaultMessage: 'インポート中にエラーが発生しました',
-                    })
-                  );
-                }}
-                button={(onClick) => (
-                  <SecondaryButton
-                    tw="w-max"
-                    onClick={() => {
-                      if (
-                        confirm(
-                          'インポートすると、現在のセッション情報がすべて消去されます。インポートしますか?'
-                        )
-                      ) {
-                        onClick();
-                      }
-                    }}
-                  >
-                    Hi-Timer からインポート
-                  </SecondaryButton>
-                )}
-              />
-            </span>
-          </div>
-        </Modal>
+        <ImportModal
+          onClose={closeModal}
+          importSessionCollection={importFromUserData}
+          setVariation={setVariation}
+        />
       ) : modalType === EXPORT_MODAL ? (
-        <Modal onClose={closeModal}>
-          <ModalCloseButton onClick={closeModal} />
-          <div tw="p-10">
-            <span tw="flex space-x-0 space-y-2 flex-col justify-center items-center sm:flex-row sm:space-x-3 sm:space-y-0">
-              <ExportButton
-                getContent={() => JSON.stringify(toCsTimer(sessions))}
-              >
-                <SecondaryButton>csTimer 形式でエクスポート</SecondaryButton>
-              </ExportButton>
-              <ExportButton
-                getContent={() => {
-                  const data: HiTimerDataJSON = {
-                    sessions,
-                    settings: {
-                      variation: variationName,
-                      userDefinedVariation,
-                    },
-                  };
-                  return JSON.stringify(data);
-                }}
-              >
-                <SecondaryButton>Hi-Timer 形式でエクスポート</SecondaryButton>
-              </ExportButton>
-            </span>
-          </div>
-        </Modal>
+        <ExportModal
+          onClose={closeModal}
+          getSetting={() => ({
+            sessions,
+            settings: {
+              variation: variationName,
+              userDefinedVariation,
+            },
+          })}
+        />
       ) : modalType == null ? null : (
         exhaustiveCheck(modalType)
       )}
