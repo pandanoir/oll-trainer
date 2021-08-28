@@ -56,6 +56,8 @@ import {
 import eightSecondsSoundUrl from '../sound/eightSeconds.mp3';
 import steadySoundUrl from '../sound/steady.mp3';
 import twelveSecondsSoundUrl from '../sound/twelveSeconds.mp3';
+import { HiTimerDataJSON } from '../types/HiTimerDataJSON';
+import { isHiTimerDataJSON } from '../types/HiTimerDataJSON.guard';
 import { calcAo } from '../utils/calcAo';
 import { exhaustiveCheck } from '../utils/exhaustiveCheck';
 import { fromCsTimer } from '../utils/fromCsTimer';
@@ -73,8 +75,6 @@ import { withPrefix } from '../utils/withPrefix';
 import { withStopPropagation } from '../utils/withStopPropagation';
 import '../swiper.css';
 import './TimerPage.css';
-import { HiTimerDataJSON } from '../types/HiTimerDataJSON';
-import { isHiTimerDataJSON } from '../types/HiTimerDataJSON.guard';
 
 const steadySound = fetch(steadySoundUrl).then((response) =>
   response.arrayBuffer()
@@ -505,7 +505,7 @@ export const TimerPage: VFC = () => {
                   ].find(({ name }) => name === data.settings.variation);
                   if (variation) {
                     setVariation(variation);
-                }
+                  }
                   closeModal();
                 }}
                 onError={() => {

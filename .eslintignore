@@ -1,0 +1,3 @@
+src/**/*.d.ts
+src/**/*.guard.ts
+node_modules

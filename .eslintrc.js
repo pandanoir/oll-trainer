@@ -8,7 +8,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.ts'],
+      files: ['*.ts', '*.tsx'],
       extends: [
         'eslint:recommended',
         'plugin:import/recommended',
@@ -23,9 +23,11 @@ module.exports = {
       plugins: ['formatjs'],
       env: {
         browser: true,
+        node: false,
       },
       parserOptions: {
         ecmaVersion: 6,
+        sourceType: 'module',
         project: './tsconfig.json',
       },
       rules: {
