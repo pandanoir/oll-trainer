@@ -21,7 +21,6 @@ import Scrambo from 'scrambo';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import tw from 'twin.macro';
-
 import { IconButton } from '../components/common/IconButton';
 import { Modal, useModal } from '../components/common/Modal';
 import { ModalCloseButton } from '../components/common/ModalCloseButton';
@@ -54,7 +53,6 @@ import {
   defaultVariations,
   UserDefinedVariationContext,
 } from '../data/variations';
-
 import eightSecondsSoundUrl from '../sound/eightSeconds.mp3';
 import steadySoundUrl from '../sound/steady.mp3';
 import twelveSecondsSoundUrl from '../sound/twelveSeconds.mp3';
@@ -73,9 +71,10 @@ import { showTime } from '../utils/showTime';
 import { toCsTimer } from '../utils/toCsTimer';
 import { withPrefix } from '../utils/withPrefix';
 import { withStopPropagation } from '../utils/withStopPropagation';
-
 import '../swiper.css';
 import './TimerPage.css';
+import { HiTimerDataJSON } from '../types/HiTimerDataJSON';
+import { isHiTimerDataJSON } from '../types/HiTimerDataJSON.guard';
 
 const steadySound = fetch(steadySoundUrl).then((response) =>
   response.arrayBuffer()
@@ -114,7 +113,9 @@ export const TimerPage: VFC = () => {
     withPrefix('inputs-time-manually'),
     false
   );
-  const [userDefinedVariation] = useContext(UserDefinedVariationContext);
+  const [userDefinedVariation, updateUserDefinedVariation] = useContext(
+    UserDefinedVariationContext
+  );
 
   const {
     sessions,
@@ -456,22 +457,81 @@ export const TimerPage: VFC = () => {
           <div tw="p-10">
             <span tw="flex space-x-0 space-y-2 flex-col justify-center items-center sm:flex-row sm:space-x-3 sm:space-y-0">
               <FileInput
-                onChange={(text) =>
-                  importFromUserData(fromCsTimer(JSON.parse(text)))
-                }
+                onChange={(text) => {
+                  importFromUserData(fromCsTimer(JSON.parse(text)));
+                  closeModal();
+                }}
                 onError={() => {
                   alert(
                     formatMessage({
                       id: 'paDr7J',
                       description:
-                        'アラートメッセージ。csTimerからインポート中にエラーが出たときに表示するメッセージ。',
+                        'アラートメッセージ。インポート中にエラーが出たときに表示するメッセージ。',
                       defaultMessage: 'インポート中にエラーが発生しました',
                     })
                   );
                 }}
                 button={(onClick) => (
-                  <SecondaryButton tw="w-max" onClick={onClick}>
+                  <SecondaryButton
+                    tw="w-max"
+                    onClick={() => {
+                      if (
+                        confirm(
+                          'インポートすると、現在のセッション情報がすべて消去されます。インポートしますか?'
+                        )
+                      ) {
+                        onClick();
+                      }
+                    }}
+                  >
                     csTimer からインポート
+                  </SecondaryButton>
+                )}
+              />
+              <FileInput
+                onChange={(text) => {
+                  const data = JSON.parse(text);
+                  if (!isHiTimerDataJSON(data)) {
+                    throw new Error('invalid json');
+                  }
+
+                  importFromUserData(data.sessions);
+                  updateUserDefinedVariation(
+                    data.settings.userDefinedVariation
+                  );
+                  const variation = [
+                    ...defaultVariations,
+                    ...data.settings.userDefinedVariation,
+                  ].find(({ name }) => name === data.settings.variation);
+                  if (variation) {
+                    setVariation(variation);
+                }
+                  closeModal();
+                }}
+                onError={() => {
+                  alert(
+                    formatMessage({
+                      id: 'paDr7J',
+                      description:
+                        'アラートメッセージ。インポート中にエラーが出たときに表示するメッセージ。',
+                      defaultMessage: 'インポート中にエラーが発生しました',
+                    })
+                  );
+                }}
+                button={(onClick) => (
+                  <SecondaryButton
+                    tw="w-max"
+                    onClick={() => {
+                      if (
+                        confirm(
+                          'インポートすると、現在のセッション情報がすべて消去されます。インポートしますか?'
+                        )
+                      ) {
+                        onClick();
+                      }
+                    }}
+                  >
+                    Hi-Timer からインポート
                   </SecondaryButton>
                 )}
               />
@@ -487,6 +547,20 @@ export const TimerPage: VFC = () => {
                 getContent={() => JSON.stringify(toCsTimer(sessions))}
               >
                 <SecondaryButton>csTimer 形式でエクスポート</SecondaryButton>
+              </ExportButton>
+              <ExportButton
+                getContent={() => {
+                  const data: HiTimerDataJSON = {
+                    sessions,
+                    settings: {
+                      variation: variationName,
+                      userDefinedVariation,
+                    },
+                  };
+                  return JSON.stringify(data);
+                }}
+              >
+                <SecondaryButton>Hi-Timer 形式でエクスポート</SecondaryButton>
               </ExportButton>
             </span>
           </div>
