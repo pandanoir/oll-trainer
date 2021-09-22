@@ -148,7 +148,7 @@ type Scene =
   | typeof CORRECT_SCENE
   | typeof INCORRECT_SCENE;
 
-export const EoPage = () => {
+export const EoQuizPage = () => {
   useTitle('Eo quiz');
   const [id, setId] = useState((Math.random() * patterns.length) | 0);
   const { value: crossColor, onChange: onCrossColorChange } = useInput('Y');

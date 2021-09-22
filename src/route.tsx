@@ -1,5 +1,5 @@
 import { CpPage } from './pages/CpPage';
-import { EoPage } from './pages/EoPage';
+import { EoQuizPage } from './pages/EoQuizPage';
 import { InspectionPage } from './pages/InspectionPage';
 import { LearningPage } from './pages/LearningPage';
 import { OllPage } from './pages/OllPage';
@@ -13,7 +13,7 @@ export const RouteList = [
   { path: '/scramble', component: <ScramblePage />, name: 'scramble' },
   { path: '/inspection', component: <InspectionPage />, name: 'inspection' },
   { path: '/cp', component: <CpPage />, name: 'cp check' },
-  { path: '/quiz', component: <EoPage />, name: 'quiz' },
+  { path: '/quiz', component: <EoQuizPage />, name: 'quiz' },
 ] as const;
 
 type UnionToIntersection<U> = (
