@@ -241,6 +241,7 @@ export const EoPage = () => {
 
   return (
     <div tw="w-full grid place-items-center space-y-3">
+      <div tw="text-2xl font-bold">Eo Quiz</div>
       <div tw="h-64 w-64 grid place-items-center">
         <CubeImage cube={cube} />
       </div>
@@ -312,6 +313,13 @@ export const EoPage = () => {
           </select>
         </span>
       </details>
+      <div tw="px-5">
+        説明:
+        <br />
+        F2L のエッジの向き(EO)が合っているかどうか当てるクイズアプリです。
+        <br />
+        基本的なF2Lのみ出題しています。
+      </div>
     </div>
   );
 };
