@@ -15,6 +15,7 @@ import { SwitchButton } from './components/common/SwitchButton';
 import { Header } from './components/Header';
 import { LanguageSettingSelect } from './components/Timer/LanguageSettingSelect';
 import { UserDefinedVariationContext, Variation } from './data/variations';
+import { NotFoundPage } from './pages/NotFoundPage';
 import { RouteList } from './route';
 import { VolumeContext } from './utils/hooks/useAudio';
 import { CheckContext, useCheck } from './utils/hooks/useCheck';
@@ -103,6 +104,9 @@ const App: VFC = () => {
                       {component}
                     </Route>
                   ))}
+                  <Route>
+                    <NotFoundPage />
+                  </Route>
                 </Switch>
                 {showsModal && (
                   <Modal onClose={closeModal}>
