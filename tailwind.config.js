@@ -25,6 +25,7 @@ module.exports = {
           DEFAULT: colors.blue[500],
           dark: colors.blue[400],
         },
+        orange: colors.orange,
       },
     },
   },
