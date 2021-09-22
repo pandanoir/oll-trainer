@@ -186,7 +186,9 @@ export const StatisticsModal: VFC<{
             >
               {[...defaultVariations, ...userDefinedVariation].map(
                 ({ name }) => (
-                  <option key={name}>{name}</option>
+                  <option tw="text-black" key={name}>
+                    {name}
+                  </option>
                 )
               )}
             </select>

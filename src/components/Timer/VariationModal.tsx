@@ -38,7 +38,7 @@ const AddForm: VFC<{ onAddClick: (arg: Variation) => void }> = ({
           onChange={onChangeSelect}
         >
           {availableScrambles.map((scrambleType) => (
-            <option value={scrambleType} key={scrambleType}>
+            <option tw="text-black" value={scrambleType} key={scrambleType}>
               {scrambleType}
             </option>
           ))}

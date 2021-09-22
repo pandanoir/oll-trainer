@@ -20,8 +20,12 @@ export const LanguageSettingSelect: VFC<{
         value={locale}
         onChange={({ target: { value } }) => setLocale(value)}
       >
-        <option value="ja">日本語</option>
-        <option value="en">English</option>
+        <option tw="text-black" value="ja">
+          日本語
+        </option>
+        <option tw="text-black" value="en">
+          English
+        </option>
       </select>
     </span>
   );
