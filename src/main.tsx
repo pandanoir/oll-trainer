@@ -16,6 +16,7 @@ import { Header } from './components/Header';
 import { LanguageSettingSelect } from './components/Timer/LanguageSettingSelect';
 import { UserDefinedVariationContext, Variation } from './data/variations';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { TopPage } from './pages/TopPage';
 import { RouteList } from './route';
 import { VolumeContext } from './utils/hooks/useAudio';
 import { CheckContext, useCheck } from './utils/hooks/useCheck';
@@ -96,8 +97,8 @@ const App: VFC = () => {
                   }
                 />
                 <Switch>
-                  <Route path={['/oll']} exact>
-                    {OllPage}
+                  <Route path="/" exact>
+                    <TopPage />
                   </Route>
                   {RouteList.map(({ path, component }) => (
                     <Route path={path} exact key={path}>
