@@ -74,22 +74,22 @@ const CubeImage: VFC<{ cube: Cube }> = ({ cube }) => {
         `,
       ]}
     >
-      <Face css="transform: rotateX(90deg) translateZ(50px);">
+      <Face css="width: 100px; height: 100px; transform: rotateX(90deg) translateZ(50px);">
         {color2Cubelet(cube.face.U)}
       </Face>
-      <Face css="transform: rotateX(90deg) translateZ(-50px);">
+      <Face css="width: 100px; height: 100px; transform: rotateX(90deg) translateZ(-50px);">
         {color2Cubelet(cube.face.D)}
       </Face>
-      <Face css="transform: rotateY(90deg) translateZ(50px);">
+      <Face css="width: 100px; height: 100px; transform: rotateY(90deg) translateZ(50px);">
         {color2Cubelet(cube.face.R)}
       </Face>
-      <Face css="transform: rotateY(90deg) translateZ(-50px);">
+      <Face css="width: 100px; height: 100px; transform: rotateY(90deg) translateZ(-50px);">
         {color2Cubelet(cube.face.L)}
       </Face>
-      <Face css="transform: translateZ(50px);">
+      <Face css="width: 100px; height: 100px; transform: translateZ(50px);">
         {color2Cubelet(cube.face.F)}
       </Face>
-      <Face css="transform: translateZ(-50px);">
+      <Face css="width: 100px; height: 100px; transform: translateZ(-50px);">
         {color2Cubelet(cube.face.B)}
       </Face>
     </div>
