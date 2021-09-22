@@ -14,6 +14,7 @@ import tw, { css } from 'twin.macro';
 import { SecondaryButton } from '../components/common/SecondaryButton';
 import { ToggleButton } from '../components/common/ToggleButton';
 import { useInput } from '../utils/hooks/useInput';
+import { useTitle } from '../utils/hooks/useTitle';
 import { noop } from '../utils/noop';
 
 const Face: VFC<
@@ -148,6 +149,7 @@ type Scene =
   | typeof INCORRECT_SCENE;
 
 export const EoPage = () => {
+  useTitle('Eo quiz');
   const [id, setId] = useState((Math.random() * patterns.length) | 0);
   const { value: crossColor, onChange: onCrossColorChange } = useInput('Y');
   const [randomizes, setRandomizes] = useState(false);
