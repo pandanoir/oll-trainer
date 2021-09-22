@@ -13,7 +13,7 @@ export const RouteList = [
   { path: '/scramble', component: <ScramblePage />, name: 'scramble' },
   { path: '/inspection', component: <InspectionPage />, name: 'inspection' },
   { path: '/cp', component: <CpPage />, name: 'cp check' },
-  { path: '/quiz', component: <EoPage />, name: 'eo quiz' },
+  { path: '/quiz', component: <EoPage />, name: 'quiz' },
 ] as const;
 
 type UnionToIntersection<U> = (
@@ -36,5 +36,5 @@ export const RouteInfo: RouteInfo = {
   scramble: RouteList[3],
   inspection: RouteList[4],
   'cp check': RouteList[5],
-  'eo quiz': RouteList[6],
+  quiz: RouteList[6],
 } as const;
