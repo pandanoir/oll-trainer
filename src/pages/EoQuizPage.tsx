@@ -217,7 +217,11 @@ export const EoQuizPage = () => {
     setScene(patterns[id].answer === answer ? CORRECT_SCENE : INCORRECT_SCENE);
     setTimeout(() => {
       setScene(QUESTION_SCENE);
-      setId((id) => (id + 1) % patterns.length);
+      setId(
+        (id) =>
+          (id + 1 + ((Math.random() * (patterns.length - 1)) | 0)) %
+          patterns.length
+      );
     }, 500);
   };
   const onCheckClick = () => {
