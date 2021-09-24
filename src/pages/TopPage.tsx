@@ -10,6 +10,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink } from 'react-router-dom';
 import 'twin.macro';
+import { useTitle } from '../utils/hooks/useTitle';
 
 const RouteList = [
   { path: '/timer', name: 'Hi-Timer', icon: faStopwatch },
@@ -20,6 +21,7 @@ const RouteList = [
   { path: '/learn', name: 'learn', icon: faPen },
 ] as const;
 export const TopPage = () => {
+  useTitle('Top page');
   return (
     <div tw="flex justify-center space-x-4 gap-y-3 flex-wrap">
       {RouteList.map(({ path, name, icon = faExclamation }) => {
