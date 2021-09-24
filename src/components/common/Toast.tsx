@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState, memo } from 'react';
 import { createPortal } from 'react-dom';
-import tw from 'twin.macro';
+import tw, { css } from 'twin.macro';
 import { usePortalRoot } from '../../utils/hooks/usePortalRoot';
 import { usePreventDefault } from '../../utils/hooks/usePreventDefault';
 
@@ -38,14 +38,15 @@ const ToastRaw = ({ title, onClose, label, onClick, shows }: Props) => {
             ? ''
             : tw`transform translate-x-full duration-2000 transition-all`,
           touching ? '' : tw`transition-all`,
+          css`
+            touch-action: none;
+          `,
+          typeof initialCursorX === 'number' &&
+            typeof cursorX === 'number' &&
+            css`
+              transform: translateX(${cursorX - initialCursorX}px);
+            `,
         ]}
-        style={{
-          touchAction: 'none',
-          ...(typeof initialCursorX === 'number' &&
-            typeof cursorX === 'number' && {
-              transform: `translateX(${cursorX - initialCursorX}px)`,
-            }),
-        }}
         onTransitionEnd={() => {
           if (!shows) {
             setHidden(true);

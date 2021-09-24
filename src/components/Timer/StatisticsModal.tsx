@@ -119,10 +119,7 @@ export const StatisticsModal: VFC<{
                 detail={() => (
                   <ul
                     tw="grid px-3 gap-y-1"
-                    style={{
-                      gridTemplateColumns:
-                        'max-content repeat(3, minmax(0, 1fr))',
-                    }}
+                    css="grid-template-columns: max-content repeat(3, minmax(0, 1fr))"
                   >
                     <li tw="contents order-1">
                       <span tw="pr-2 border-b border-gray-300">No.</span>

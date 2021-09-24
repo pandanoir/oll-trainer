@@ -224,10 +224,7 @@ export const Times: VFC<{
                   />
                   <div
                     tw="grid gap-x-3"
-                    style={{
-                      gridTemplateColumns:
-                        'max-content repeat(1, minmax(0, 1fr))',
-                    }}
+                    css="grid-template-columns: max-content 1fr"
                   >
                     <span>date:</span>
                     <span>
@@ -303,7 +300,7 @@ ${selectedTimes.reduce((acc, time, index) => {
                   <div tw="flex-shrink overflow-x-hidden overflow-y-auto">
                     <ul
                       tw="inline-grid gap-x-2 gap-y-1"
-                      style={{ gridTemplateColumns: 'max-content 1fr' }}
+                      css="grid-template-columns: max-content 1fr"
                     >
                       {selectedTimes.map((time, index) => (
                         <li tw="contents" key={startIndex + index}>
