@@ -27,7 +27,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
-    "@fullhuman/postcss-purgecss": "^3.1.3",
+    "@fullhuman/postcss-purgecss": "^4.0.0",
     "@pandanoir/rubikscube": "^0.1.0",
     "@tailwindcss/postcss7-compat": "^2.0.2",
     "@types/jest": "^26.0.23",
