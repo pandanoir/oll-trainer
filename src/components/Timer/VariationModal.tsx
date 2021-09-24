@@ -84,19 +84,21 @@ export const VariationModal: VFC<PropsWithChildren<{ onClose: () => void }>> =
               onClick={() => setShowsAddForm(true)}
             />
           </div>
-          <ul tw="flex-1 overflow-y-auto">
+          <div>
             {showsAddForm && (
-              <AddForm
-                onAddClick={(newVariation) => {
-                  updateUserDefinedVariation((arr) => {
-                    arr.push(newVariation);
-                  });
-                  setShowsAddForm(false);
-                }}
-              />
+              <ul>
+                <AddForm
+                  onAddClick={(newVariation) => {
+                    updateUserDefinedVariation((arr) => {
+                      arr.push(newVariation);
+                    });
+                    setShowsAddForm(false);
+                  }}
+                />
+              </ul>
             )}
             {children}
-          </ul>
+          </div>
         </div>
       </Modal>
     );

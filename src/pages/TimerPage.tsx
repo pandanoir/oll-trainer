@@ -2,6 +2,7 @@ import {
   faAngleRight,
   faDownload,
   faInfoCircle,
+  faTimes,
   faUpload,
   faVolumeMute,
   faVolumeUp,
@@ -283,7 +284,11 @@ export const TimerPage: VFC = () => {
     addTime,
     addSession,
     deleteSession,
+    deleteAllSessionsByVariation,
   } = useSessions();
+  const [, updateUserDefinedVariation] = useContext(
+    UserDefinedVariationContext
+  );
   const { times } = currentSessionCollection.sessions[sessionIndex];
   const { volume, setVolume, playAudio } = useAudio();
 
@@ -515,25 +520,68 @@ export const TimerPage: VFC = () => {
 
       {modalType === VARIATION_MODAL ? (
         <VariationModal onClose={closeModal}>
-          {[...defaultVariations, ...userDefinedVariation].map((variation) => (
-            <li
-              tw="px-3 pb-1 pt-3 lg:mr-6 text-lg border-b cursor-pointer hover:text-hover hover:dark:text-hover-dark"
-              key={variation.name}
-              onClick={() => {
-                setVariation(variation);
-                closeModal();
-              }}
-            >
-              {variation.name === variationName ? (
-                <span tw="pr-1">
-                  <FontAwesomeIcon icon={faAngleRight} />
+          <ul
+            tw="flex-1 overflow-y-auto grid gap-y-1"
+            css="grid-template-columns: max-content minmax(0, 1fr) max-content;"
+          >
+            {defaultVariations.map((variation) => (
+              <li
+                tw="contents lg:mr-6 text-lg cursor-pointer"
+                key={variation.name}
+                onClick={() => {
+                  setVariation(variation);
+                  closeModal();
+                }}
+              >
+                <span tw="contents hover:text-hover hover:dark:text-hover-dark">
+                  <span tw="border-b px-2">
+                    {variation.name === variationName && (
+                      <FontAwesomeIcon icon={faAngleRight} />
+                    )}
+                  </span>
+                  <span tw="border-b">{variation.name}</span>
+                  <span tw="border-b" />
                 </span>
-              ) : (
-                <span tw="w-3 inline-block" />
-              )}
-              {variation.name}
-            </li>
-          ))}
+              </li>
+            ))}
+            {userDefinedVariation.map((variation) => (
+              <li tw="contents lg:mr-6 text-lg" key={variation.name}>
+                <span
+                  tw="contents border-b cursor-pointer hover:text-hover hover:dark:text-hover-dark"
+                  onClick={() => {
+                    setVariation(variation);
+                    closeModal();
+                  }}
+                >
+                  <span tw="text-center border-b px-2">
+                    {variation.name === variationName && (
+                      <FontAwesomeIcon icon={faAngleRight} />
+                    )}
+                  </span>
+                  <span tw="border-b">{variation.name}</span>
+                </span>
+                <span tw="cursor-pointer border-b hover:dark:text-hover-dark">
+                  <IconButton
+                    tw="px-3"
+                    icon={faTimes}
+                    onClick={() => {
+                      if (
+                        confirm(
+                          `「${variation.name}」を削除しますか?${variation.name}のデータもすべて削除されます。`
+                        )
+                      ) {
+                        deleteAllSessionsByVariation(variation);
+                        updateUserDefinedVariation((draft) =>
+                          draft.filter((item) => item.name !== variation.name)
+                        );
+                        setVariation(defaultVariations[0]);
+                      }
+                    }}
+                  />
+                </span>
+              </li>
+            ))}
+          </ul>
         </VariationModal>
       ) : modalType === STATISTICS_MODAL ? (
         <StatisticsModal sessions={sessions} onClose={closeModal} />

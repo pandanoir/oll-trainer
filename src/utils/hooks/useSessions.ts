@@ -230,6 +230,17 @@ export const useSessions = (
   const importFromUserData = (data: SessionCollection) => {
     updateSessions(data);
   };
+  const deleteAllSessionsByVariation = (variation: Variation) => {
+    updateSessions((draft) => {
+      for (let i = 0; i < draft.length; i++) {
+        if (draft[i].variation.name === variation.name) {
+          draft.splice(i, 1);
+          return;
+        }
+      }
+    });
+  };
+
   return {
     sessions,
     currentSessionCollection: useMemo(
@@ -268,5 +279,6 @@ export const useSessions = (
     addSession,
     deleteSession,
     addSessionGroup,
+    deleteAllSessionsByVariation,
   } as const;
 };
