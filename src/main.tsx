@@ -44,10 +44,6 @@ const selectMessages = (
 const App: VFC = () => {
   const { checkList, check, reset } = useCheck();
   const { darkMode, setLightMode, setDarkMode } = useDarkMode();
-  const OllPage = useMemo(
-    () => RouteList.find(({ name }) => name === 'oll')?.component,
-    []
-  );
   const [locale, setLocale] = useStoragedState(
     withPrefix('locale'),
     navigator.language
