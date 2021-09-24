@@ -9,6 +9,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Temporal } from 'proposal-temporal';
 import {
+  ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -34,6 +35,7 @@ import { RecordModifier } from '../components/Timer/RecordModifier';
 import { Session } from '../components/Timer/Session';
 import { StatisticsModal } from '../components/Timer/StatisticsModal';
 import { TapTimer } from '../components/Timer/TapTimer';
+import { TimeData } from '../components/Timer/timeData';
 import { TimerArea } from '../components/Timer/TimerArea';
 import { TimerCover } from '../components/Timer/TimerCover';
 import {
@@ -93,6 +95,159 @@ type ModalType =
 
 SwiperCore.use([Navigation, Keyboard]);
 
+const Timer: VFC<{
+  usesInspection: boolean;
+  inputsTimeManually: boolean;
+  onFinish: (time: {
+    time: number;
+    penalty?: boolean | undefined;
+    isDNF?: boolean | undefined;
+  }) => void;
+  onTypingTimerInput: (time: number) => void;
+  playAudio: (audioData: ArrayBuffer) => Promise<void>;
+  times: TimeData[];
+  volume: number;
+  variationChooseButton: ReactNode;
+  statisticsButton: ReactNode;
+  recordModifier: ReactNode;
+}> = ({
+  usesInspection,
+  inputsTimeManually,
+  onFinish,
+  onTypingTimerInput,
+  playAudio,
+  times,
+  volume,
+  variationChooseButton: yesButton,
+  statisticsButton: awesomeButton,
+  recordModifier,
+}) => {
+  const {
+    onPointerDown,
+    onPointerUp,
+    cancelTimer,
+    timerState,
+    inspectionTime,
+    time,
+  } = useCubeTimer({
+    usesInspection,
+    inputsTimeManually,
+    onFinish,
+  });
+  const inspectionTimeInteger = Math.ceil(inspectionTime / 1000);
+  useEffect(() => {
+    (async () => {
+      if (timerState === STEADY || timerState === INSPECTION_STEADY) {
+        playAudio(await steadySound);
+      }
+    })();
+  }, [playAudio, timerState]);
+
+  // インスペクションの経過時間に応じて効果音を鳴らす
+  useEffect(() => {
+    (async () => {
+      if (15 - inspectionTimeInteger === 8) {
+        playAudio(await eightSecondsSound);
+      }
+      if (15 - inspectionTimeInteger === 12) {
+        playAudio(await twelveSecondsSound);
+      }
+    })();
+  }, [inspectionTimeInteger, playAudio, timerState]);
+  const ao5 = useMemo(() => calcAo(5, times.slice(-5)).pop() || null, [times]);
+  const ao12 = useMemo(
+    () => calcAo(12, times.slice(-12)).pop() || null,
+    [times]
+  );
+
+  const timerStr = useMemo(() => {
+    if (
+      timerState === INSPECTION ||
+      timerState === INSPECTION_READY ||
+      timerState === INSPECTION_STEADY
+    )
+      return inspectionTimeInteger > 0
+        ? inspectionTimeInteger
+        : inspectionTimeInteger > -2
+        ? '+ 2'
+        : 'DNF';
+    if (timerState === IDOLING && times.length > 0)
+      return <RecordItem record={times[times.length - 1]} />;
+    if (timerState === READY) return 'READY';
+    if (timerState === STEADY) return 'STEADY';
+    return showTime(time);
+  }, [inspectionTimeInteger, time, timerState, times]);
+
+  return (
+    <TimerArea
+      disabled={inputsTimeManually}
+      overlappingScreen={timerState !== IDOLING}
+      cover={useMemo(
+        () => (
+          <TimerCover
+            onPointerDown={() => {
+              if (volume > 0) {
+                playSilence();
+              }
+              onPointerDown();
+            }}
+            onPointerUp={onPointerUp}
+            disabled={inputsTimeManually}
+            transparent={timerState === IDOLING}
+          />
+        ),
+        [inputsTimeManually, onPointerDown, onPointerUp, timerState, volume]
+      )}
+    >
+      {yesButton}
+      {awesomeButton}
+      {inputsTimeManually ? (
+        <TypingTimer
+          tw="z-20"
+          prevTime={times.length > 0 ? times[times.length - 1] : undefined}
+          onInput={onTypingTimerInput}
+        />
+      ) : (
+        <TapTimer tw="z-20 pointer-events-none" timerState={timerState}>
+          {timerStr}
+        </TapTimer>
+      )}
+      <div>ao5: {showAverage(ao5, '-')}</div>
+      <div>ao12: {showAverage(ao12, '-')}</div>
+      <div
+        css={[
+          tw`pointer-events-none select-none`,
+          timerState === READY ||
+          timerState === STEADY ||
+          timerState === WORKING
+            ? tw`z-auto`
+            : tw`z-20`,
+        ]}
+      >
+        {timerState === INSPECTION ||
+        timerState === INSPECTION_READY ||
+        timerState === INSPECTION_STEADY ? (
+          <PrimaryButton
+            onTouchEnd={(event) => {
+              if (isAwayFromBeginningElement(event)) {
+                return;
+              }
+              event.stopPropagation();
+              event.preventDefault();
+              cancelTimer();
+            }}
+            onClick={withStopPropagation(cancelTimer)}
+          >
+            cancel
+          </PrimaryButton>
+        ) : (
+          times.length > 0 && recordModifier
+        )}
+      </div>
+    </TimerArea>
+  );
+};
+
 export const TimerPage: VFC = () => {
   useTitle('Hi-Timer');
   const { formatMessage } = useIntl();
@@ -132,12 +287,6 @@ export const TimerPage: VFC = () => {
   const { times } = currentSessionCollection.sessions[sessionIndex];
   const { volume, setVolume, playAudio } = useAudio();
 
-  const ao5 = useMemo(() => calcAo(5, times.slice(-5)).pop() || null, [times]);
-  const ao12 = useMemo(
-    () => calcAo(12, times.slice(-12)).pop() || null,
-    [times]
-  );
-
   useEffect(() => {
     if (index + 3 >= scrambles.length) {
       const id = setTimeout(() => {
@@ -147,91 +296,20 @@ export const TimerPage: VFC = () => {
     }
   }, [index, scrambles]);
 
-  const {
-    onPointerDown,
-    onPointerUp,
-    cancelTimer,
-    timerState,
-    inspectionTime,
-    time,
-  } = useCubeTimer({
-    usesInspection,
-    inputsTimeManually,
-    onFinish: useCallback(
-      (data) => {
-        addTime({
-          ...data,
-          scramble: scrambles[index],
-          date: Temporal.now.instant().epochMilliseconds,
-        });
-        swiper?.slideNext();
-      },
-      [addTime, index, scrambles, swiper]
-    ),
-  });
-  const inspectionTimeInteger = Math.ceil(inspectionTime / 1000);
-  useEffect(() => {
-    (async () => {
-      if (timerState === STEADY || timerState === INSPECTION_STEADY) {
-        playAudio(await steadySound);
-      }
-    })();
-  }, [playAudio, timerState]);
-
-  // インスペクションの経過時間に応じて効果音を鳴らす
-  useEffect(() => {
-    (async () => {
-      if (15 - inspectionTimeInteger === 8) {
-        playAudio(await eightSecondsSound);
-      }
-      if (15 - inspectionTimeInteger === 12) {
-        playAudio(await twelveSecondsSound);
-      }
-    })();
-  }, [inspectionTimeInteger, playAudio, timerState]);
-
   const { openToast, closeToast, ...toastProps } = useToast();
   const [modalType, setModalType] = useState<ModalType | null>(null);
   const { openModal: _openModal, closeModal: _closeModal } = useModal();
-  const openModal = (modalType: ModalType) => {
-    _openModal();
-    setModalType(modalType);
-  };
+  const openModal = useCallback(
+    (modalType: ModalType) => {
+      _openModal();
+      setModalType(modalType);
+    },
+    [_openModal]
+  );
   const closeModal = () => {
     _closeModal();
     setModalType(null);
   };
-
-  const onTypingTimerInput = useCallback(
-    (secTime) => {
-      addTime({
-        time: secTime * 1000,
-        scramble: scrambles[index],
-        date: Temporal.now.instant().epochMilliseconds,
-      });
-      swiper?.slideNext();
-    },
-    [addTime, scrambles, index, swiper]
-  );
-
-  const timerStr = useMemo(() => {
-    if (
-      timerState === INSPECTION ||
-      timerState === INSPECTION_READY ||
-      timerState === INSPECTION_STEADY
-    )
-      return inspectionTimeInteger > 0
-        ? inspectionTimeInteger
-        : inspectionTimeInteger > -2
-        ? '+ 2'
-        : 'DNF';
-    if (timerState === IDOLING && times.length > 0)
-      return <RecordItem record={times[times.length - 1]} />;
-    if (timerState === READY) return 'READY';
-    if (timerState === STEADY) return 'STEADY';
-    return showTime(time);
-  }, [inspectionTimeInteger, time, timerState, times]);
-
   return (
     <div tw="relative w-full flex flex-col flex-1 dark:bg-gray-800 dark:text-white">
       <div tw="flex space-x-1 px-3 overflow-x-auto items-center">
@@ -266,135 +344,139 @@ export const TimerPage: VFC = () => {
       </div>
       <Swiper
         slidesOffsetAfter={27 * 2}
-        onSlideChange={({ activeIndex }) => setIndex(activeIndex)}
+        onSlideChange={useCallback(
+          ({ activeIndex }) => setIndex(activeIndex),
+          []
+        )}
         keyboard
         spaceBetween={50}
         navigation
         onSwiper={setControlledSwiper}
-        style={{ zIndex: 10 }}
-      >
-        {scrambles.map((scramble, index) => (
-          <SwiperSlide key={index}>{scramble}</SwiperSlide>
-        ))}
-      </Swiper>
-      <TimerArea
-        disabled={inputsTimeManually}
-        overlappingScreen={timerState !== IDOLING}
-        cover={
-          <TimerCover
-            onPointerDown={() => {
-              if (volume > 0) {
-                playSilence();
-              }
-              onPointerDown();
-            }}
-            onPointerUp={onPointerUp}
-            disabled={inputsTimeManually}
-            transparent={timerState === IDOLING}
-          />
-        }
-      >
-        <PrimaryButton
-          tw="absolute top-1.5 left-2 px-5 py-0"
-          onTouchEnd={(event) => {
-            if (isAwayFromBeginningElement(event)) {
-              return;
-            }
-            event.stopPropagation();
-            openModal(VARIATION_MODAL);
-          }}
-          onClick={withStopPropagation(() => openModal(VARIATION_MODAL))}
-        >
-          {variationName}
-        </PrimaryButton>
-        <IconButton
-          icon={faInfoCircle}
-          title="session list"
-          tw="absolute top-1.5 right-2 px-2 py-1 text-lg"
-          onTouchEnd={(event) => {
-            if (isAwayFromBeginningElement(event)) {
-              return;
-            }
-            event.stopPropagation();
-            openModal(STATISTICS_MODAL);
-          }}
-          onClick={() => openModal(STATISTICS_MODAL)}
-        />
-
-        {inputsTimeManually ? (
-          <TypingTimer
-            tw="z-20"
-            prevTime={times.length > 0 ? times[times.length - 1] : undefined}
-            onInput={onTypingTimerInput}
-          />
-        ) : (
-          <TapTimer tw="z-20 pointer-events-none" timerState={timerState}>
-            {timerStr}
-          </TapTimer>
+        style={useMemo(
+          () => ({
+            zIndex: 10,
+          }),
+          []
         )}
-        <div>ao5: {showAverage(ao5, '-')}</div>
-        <div>ao12: {showAverage(ao12, '-')}</div>
-        <div
-          css={[
-            tw`pointer-events-none select-none`,
-            timerState === READY ||
-            timerState === STEADY ||
-            timerState === WORKING
-              ? tw`z-auto`
-              : tw`z-20`,
-          ]}
-        >
-          {timerState === INSPECTION ||
-          timerState === INSPECTION_READY ||
-          timerState === INSPECTION_STEADY ? (
+      >
+        {useMemo(
+          () =>
+            scrambles.map((scramble, index) => (
+              <SwiperSlide key={index}>{scramble}</SwiperSlide>
+            )),
+          [scrambles]
+        )}
+      </Swiper>
+      <Timer
+        usesInspection={usesInspection}
+        inputsTimeManually={inputsTimeManually}
+        playAudio={playAudio}
+        times={times}
+        volume={volume}
+        onFinish={useCallback(
+          (data) => {
+            addTime({
+              ...data,
+              scramble: scrambles[index],
+              date: Temporal.now.instant().epochMilliseconds,
+            });
+            swiper?.slideNext();
+          },
+          [addTime, index, scrambles, swiper]
+        )}
+        onTypingTimerInput={useCallback(
+          (secTime) => {
+            addTime({
+              time: secTime * 1000,
+              scramble: scrambles[index],
+              date: Temporal.now.instant().epochMilliseconds,
+            });
+            swiper?.slideNext();
+          },
+          [addTime, scrambles, index, swiper]
+        )}
+        variationChooseButton={useMemo(
+          () => (
             <PrimaryButton
+              tw="absolute top-1.5 left-2 px-5 py-0"
               onTouchEnd={(event) => {
                 if (isAwayFromBeginningElement(event)) {
                   return;
                 }
                 event.stopPropagation();
-                event.preventDefault();
-                cancelTimer();
+                openModal(VARIATION_MODAL);
               }}
-              onClick={withStopPropagation(cancelTimer)}
+              onClick={withStopPropagation(() => openModal(VARIATION_MODAL))}
             >
-              cancel
+              {variationName}
             </PrimaryButton>
-          ) : (
-            times.length > 0 && (
-              <RecordModifier
-                record={times[times.length - 1]}
-                changeToDNF={() => changeToDNF(times.length - 1)}
-                imposePenalty={() => imposePenalty(times.length - 1)}
-                undoDNF={() => undoDNF(times.length - 1)}
-                undoPenalty={() => undoPenalty(times.length - 1)}
-                deleteRecord={() => {
-                  const deletedRecord = deleteRecord(times.length - 1);
-                  openToast({
-                    title: formatMessage({
-                      id: 'nWPbmS',
-                      description:
-                        'トースト。タイムを削除するときに出すメッセージ。',
-                      defaultMessage: '削除しました',
-                    }),
-                    buttonLabel: formatMessage({
-                      id: 'MyF1FU',
-                      description:
-                        'トースト。タイムを削除したあと元に戻すためのボタン。',
-                      defaultMessage: '元に戻す',
-                    }),
-                    callback: () => {
-                      insertRecord(times.length - 1, deletedRecord);
-                      closeToast();
-                    },
-                    timeout: 10 * 1000,
-                  });
-                }}
-              />
-            )
-          )}
-        </div>
-      </TimerArea>
+          ),
+          [openModal, variationName]
+        )}
+        statisticsButton={useMemo(
+          () => (
+            <IconButton
+              icon={faInfoCircle}
+              title="session list"
+              tw="absolute top-1.5 right-2 px-2 py-1 text-lg"
+              onTouchEnd={(event) => {
+                if (isAwayFromBeginningElement(event)) {
+                  return;
+                }
+                event.stopPropagation();
+                openModal(STATISTICS_MODAL);
+              }}
+              onClick={() => openModal(STATISTICS_MODAL)}
+            />
+          ),
+          [openModal]
+        )}
+        recordModifier={useMemo(
+          () => (
+            <RecordModifier
+              record={times[times.length - 1]}
+              changeToDNF={() => changeToDNF(times.length - 1)}
+              imposePenalty={() => imposePenalty(times.length - 1)}
+              undoDNF={() => undoDNF(times.length - 1)}
+              undoPenalty={() => undoPenalty(times.length - 1)}
+              deleteRecord={() => {
+                const deletedRecord = deleteRecord(times.length - 1);
+                openToast({
+                  title: formatMessage({
+                    id: 'nWPbmS',
+                    description:
+                      'トースト。タイムを削除するときに出すメッセージ。',
+                    defaultMessage: '削除しました',
+                  }),
+                  buttonLabel: formatMessage({
+                    id: 'MyF1FU',
+                    description:
+                      'トースト。タイムを削除したあと元に戻すためのボタン。',
+                    defaultMessage: '元に戻す',
+                  }),
+                  callback: () => {
+                    insertRecord(times.length - 1, deletedRecord);
+                    closeToast();
+                  },
+                  timeout: 10 * 1000,
+                });
+              }}
+            />
+          ),
+          [
+            changeToDNF,
+            closeToast,
+            deleteRecord,
+            formatMessage,
+            imposePenalty,
+            insertRecord,
+            openToast,
+            times,
+            undoDNF,
+            undoPenalty,
+          ]
+        )}
+      />
       <Session
         times={times}
         sessionIndex={sessionIndex}
@@ -404,19 +486,30 @@ export const TimerPage: VFC = () => {
         sessions={sessions}
         addSession={addSession}
         deleteSession={deleteSession}
-        recordListComponent={
-          <div tw="pt-12">
-            <Times
-              times={times}
-              changeToDNF={changeToDNF}
-              imposePenalty={imposePenalty}
-              undoDNF={undoDNF}
-              undoPenalty={undoPenalty}
-              deleteRecord={deleteRecord}
-              insertRecord={insertRecord}
-            />
-          </div>
-        }
+        recordListComponent={useMemo(
+          () => (
+            <div tw="pt-12">
+              <Times
+                times={times}
+                changeToDNF={changeToDNF}
+                imposePenalty={imposePenalty}
+                undoDNF={undoDNF}
+                undoPenalty={undoPenalty}
+                deleteRecord={deleteRecord}
+                insertRecord={insertRecord}
+              />
+            </div>
+          ),
+          [
+            changeToDNF,
+            deleteRecord,
+            imposePenalty,
+            insertRecord,
+            times,
+            undoDNF,
+            undoPenalty,
+          ]
+        )}
       />
       <Toast {...toastProps} />
 
