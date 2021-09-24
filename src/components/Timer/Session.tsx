@@ -10,6 +10,7 @@ import {
 import {
   Dispatch,
   lazy,
+  memo,
   ReactNode,
   SetStateAction,
   Suspense,
@@ -45,7 +46,7 @@ const SessionToolbar = tw.div`w-full h-12 bg-white dark:bg-gray-800 flex justify
 const RecordListWrapper = tw.div`w-full relative bottom-0 flex flex-col z-10`;
 const RecordList = tw.div`absolute bg-white dark:bg-gray-800 w-full max-h-1/2-screen h-96 mb-12`;
 
-export const Session = ({
+const SessionRaw = ({
   times,
 
   sessionIndex,
@@ -278,3 +279,4 @@ export const Session = ({
     </>
   );
 };
+export const Session = memo(SessionRaw);

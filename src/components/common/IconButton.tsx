@@ -1,8 +1,8 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, memo } from 'react';
 
-export const IconButton = ({
+const IconButtonRaw = ({
   icon,
   ...props
 }: { icon: IconProp } & ButtonHTMLAttributes<HTMLButtonElement>) => (
@@ -10,3 +10,5 @@ export const IconButton = ({
     <FontAwesomeIcon icon={icon} />
   </button>
 );
+
+export const IconButton = memo(IconButtonRaw);

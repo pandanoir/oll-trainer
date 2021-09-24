@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, memo } from 'react';
 import { createPortal } from 'react-dom';
 import tw from 'twin.macro';
 import { usePortalRoot } from '../../utils/hooks/usePortalRoot';
@@ -13,7 +13,7 @@ type Props = {
 };
 // 横スワイプで削除できるトースト
 // 消えるときは右へスライドしながら消える
-export const Toast = ({ title, onClose, label, onClick, shows }: Props) => {
+const ToastRaw = ({ title, onClose, label, onClick, shows }: Props) => {
   const $el = usePortalRoot();
   const [hidden, setHidden] = useState(true);
   useEffect(() => {
@@ -117,6 +117,7 @@ export const Toast = ({ title, onClose, label, onClick, shows }: Props) => {
     $el.current
   );
 };
+export const Toast = memo(ToastRaw);
 
 export const useToast = () => {
   const [shows, setShows] = useState(false);
