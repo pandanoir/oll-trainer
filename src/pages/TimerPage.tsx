@@ -574,7 +574,6 @@ export const TimerPage: VFC = () => {
                         updateUserDefinedVariation((draft) =>
                           draft.filter((item) => item.name !== variation.name)
                         );
-                        setVariation(defaultVariations[0]);
                       }
                     }}
                   />

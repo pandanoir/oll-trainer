@@ -239,6 +239,9 @@ export const useSessions = (
         }
       }
     });
+    if (variationName === variation.name) {
+      setVariationName(defaultVariation.name);
+    }
   };
 
   return {

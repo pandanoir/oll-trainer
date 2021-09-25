@@ -491,4 +491,140 @@ describe('useSessions', () => {
       { name: '4:session5', times: [] },
     ]);
   });
+  test('deleteAllSessionsByVariation() deletes current session', () => {
+    const { result } = renderHook(() =>
+      useSessions([
+        {
+          variation: { name: '3x3', scramble: '3x3' },
+          sessions: [{ name: '3:session1', times: [] }],
+          selectedSessionIndex: 0,
+        },
+        {
+          variation: { name: '2x2', scramble: '2x2' },
+          sessions: [
+            { name: '2:session1', times: [] },
+            { name: '2:session2', times: [] },
+          ],
+          selectedSessionIndex: 1,
+        },
+        {
+          variation: { name: 'user defined session', scramble: '4x4' },
+          sessions: [
+            { name: '4:session1', times: [] },
+            { name: '4:session2', times: [] },
+            { name: '4:session3', times: [] },
+            { name: '4:session4', times: [] },
+            { name: '4:session5', times: [] },
+          ],
+          selectedSessionIndex: 3,
+        },
+      ])
+    );
+    act(() => {
+      result.current.setVariation({
+        name: 'user defined session',
+        scramble: '4x4',
+      });
+    });
+    act(() => {
+      result.current.deleteAllSessionsByVariation({
+        name: 'user defined session',
+        scramble: '4x4',
+      });
+    });
+    expect(result.current.sessionIndex).toBe(0);
+    expect(result.current.currentSessionCollection.variation.name).toBe('3x3');
+    expect(result.current.sessions).toEqual([
+      {
+        variation: { name: '3x3', scramble: '3x3' },
+        sessions: [{ name: '3:session1', times: [] }],
+        selectedSessionIndex: 0,
+      },
+      {
+        variation: { name: '2x2', scramble: '2x2' },
+        sessions: [
+          { name: '2:session1', times: [] },
+          { name: '2:session2', times: [] },
+        ],
+        selectedSessionIndex: 1,
+      },
+    ]);
+  });
+  test('deleteAllSessionsByVariation() deletes session that is not current one', () => {
+    const { result } = renderHook(() =>
+      useSessions([
+        {
+          variation: { name: '3x3', scramble: '3x3' },
+          sessions: [{ name: '3:session1', times: [] }],
+          selectedSessionIndex: 0,
+        },
+        {
+          variation: { name: '2x2', scramble: '2x2' },
+          sessions: [
+            { name: '2:session1', times: [] },
+            { name: '2:session2', times: [] },
+          ],
+          selectedSessionIndex: 1,
+        },
+        {
+          variation: { name: 'user defined session', scramble: '4x4' },
+          sessions: [
+            { name: '4:session1', times: [] },
+            { name: '4:session2', times: [] },
+            { name: '4:session3', times: [] },
+          ],
+          selectedSessionIndex: 3,
+        },
+        {
+          variation: { name: 'user defined session 2', scramble: '4x4' },
+          sessions: [
+            { name: 'session1', times: [] },
+            { name: 'session2', times: [] },
+            { name: 'session3', times: [] },
+          ],
+          selectedSessionIndex: 3,
+        },
+      ])
+    );
+    act(() => {
+      result.current.setVariation({
+        name: 'user defined session 2',
+        scramble: '4x4',
+      });
+    });
+    act(() => {
+      result.current.deleteAllSessionsByVariation({
+        name: 'user defined session',
+        scramble: '4x4',
+      });
+    });
+    expect(result.current.sessionIndex).toBe(3);
+    expect(result.current.currentSessionCollection.variation.name).toBe(
+      'user defined session 2'
+    );
+    expect(result.current.sessions).toEqual([
+      {
+        variation: { name: '3x3', scramble: '3x3' },
+        sessions: [{ name: '3:session1', times: [] }],
+        selectedSessionIndex: 0,
+      },
+      {
+        variation: { name: '2x2', scramble: '2x2' },
+        sessions: [
+          { name: '2:session1', times: [] },
+          { name: '2:session2', times: [] },
+        ],
+        selectedSessionIndex: 1,
+      },
+      {
+        variation: { name: 'user defined session 2', scramble: '4x4' },
+        sessions: [
+          { name: 'session1', times: [] },
+          { name: 'session2', times: [] },
+          { name: 'session3', times: [] },
+        ],
+        selectedSessionIndex: 3,
+      },
+    ]);
+  });
 });
