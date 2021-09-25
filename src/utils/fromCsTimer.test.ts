@@ -2,11 +2,11 @@ import { defaultVariation } from '../data/variations';
 import { fromCsTimer } from './fromCsTimer';
 
 describe('fromCsTimer', () => {
-  it('throws error if given argument is not object', () => {
+  it('throws error if given argument is not valid structure', () => {
     expect(() => fromCsTimer(3)).toThrow();
     expect(() => fromCsTimer('hoge')).toThrow();
     expect(() => fromCsTimer(null)).toThrow();
-    expect(() => fromCsTimer({})).not.toThrow();
+    expect(() => fromCsTimer({})).toThrow();
   });
   it('throws error if given object is invalid', () => {
     expect(() =>

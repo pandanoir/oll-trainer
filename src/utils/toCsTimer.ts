@@ -1,13 +1,7 @@
 import { SessionCollection } from '../components/Timer/timeData';
+import { CsTimerSessionData } from '../types/CsTimerSessionData';
 import { findIndexOfMax } from './findIndexOfMax';
 import { findIndexOfMin } from './findIndexOfMin';
-
-type CsTimerSessionData = {
-  name: string;
-  rank: number;
-  date?: [number, number];
-  opt: { scrType?: string };
-};
 
 const toSessionData = (
   sessions: SessionCollection

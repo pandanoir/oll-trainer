@@ -1,4 +1,5 @@
 import { SessionData, SessionCollection } from '../components/Timer/timeData';
+import { isCsTimerSessionData } from '../types/CsTimerSessionData.guard';
 import { isUnknownObject } from './isUnknownObject';
 
 const excludeSessionData = (json: unknown) => {
@@ -20,6 +21,9 @@ export const fromCsTimer = (json: unknown): SessionCollection => {
     throw new Error('invalid JSON given');
   }
   const sessionDataList = JSON.parse(excludeSessionData(json) || 'null');
+  if (!isUnknownObject(sessionDataList)) {
+    throw new Error('invalid JSON given');
+  }
   const res: (SessionData & { scramble: string })[] = [];
 
   for (const key of Object.keys(json)) {
@@ -31,7 +35,11 @@ export const fromCsTimer = (json: unknown): SessionCollection => {
       throw new Error('invalid JSON given');
     }
 
-    const sessionData = sessionDataList[key.replace(/^session/, '')];
+    const sessionData =
+      sessionDataList[parseInt(key.replace(/^session/, ''), 10)];
+    if (!isCsTimerSessionData(sessionData)) {
+      throw new Error('invalid JSON given');
+    }
     res[sessionData.rank - 1] = {
       times: arr.map((item: unknown) => {
         if (!Array.isArray(item)) {

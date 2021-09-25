@@ -3,7 +3,7 @@ import { Updater } from 'use-immer';
 import { noop } from '../utils/noop';
 
 // name は unique とする
-export type Scramble = '3x3';
+export type Scramble = '3x3' | '2x2' | '4x4';
 export const availableScrambles: Scramble[] = ['3x3'];
 export type Variation = { name: string; scramble: Scramble };
 export const defaultVariation = { name: '3x3', scramble: '3x3' } as const;
