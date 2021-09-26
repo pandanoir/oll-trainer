@@ -239,7 +239,5 @@ export const calculateScramble = (solve: string): string => {
   return [...rotations, ...scramble].join(' ');
 };
 
-export const nextIndex = (index: number, size: number): number =>
-    (index + 1) % size,
-  prevIndex = (index: number, size: number): number =>
-    (index - 1 + size) % size;
+export const clamp = (n: number, lo: number, hi: number): number =>
+  Math.min(Math.max(lo, n), hi);
