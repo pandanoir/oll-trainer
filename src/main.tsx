@@ -1,6 +1,6 @@
 import { faCog, faMoon } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useMemo, VFC } from 'react';
+import { VFC } from 'react';
 import { render } from 'react-dom';
 import { MessageFormatElement, IntlProvider } from 'react-intl';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
