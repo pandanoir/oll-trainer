@@ -151,7 +151,7 @@ export const groups: Record<string, number[]> = {
   'M. 変な形のもの': [29, 30, 41, 42],
 };
 
-export const rotate = (arr: CubeFace): CubeFace => {
+export const rotate = (arr: Readonly<CubeFace>): CubeFace => {
   return [
     arr[2],
     arr[5],
@@ -164,7 +164,34 @@ export const rotate = (arr: CubeFace): CubeFace => {
     arr[6],
   ];
 };
+
+type NormalizedRotation = { rotation: string; turnCount: number };
+const normalizeRotation = (rot: string): NormalizedRotation => {
+  return {
+    rotation: rot.replace(/['2]/g, ''),
+    turnCount: rot.includes('2') ? 2 : rot.includes(`'`) ? 3 : 1,
+  };
+};
+const fromNormalizedRotation = ({
+  turnCount,
+  rotation,
+}: NormalizedRotation): string => {
+  if (turnCount === 2) {
+    return `${rotation}2`;
+  }
+  if (turnCount === 3) {
+    return `${rotation}'`;
+  }
+  return rotation;
+};
+/**
+ * セットアップするための逆手順を生成する。ここでいう逆手順とは、「F緑U白で入力された手順を開始できる状態にする手順」を指す
+ * solve で入力される手順は、x,y,z,RLUDFB,MSE,w系を含む。また、(U)などAUF手順も含む。
+ * @param solve 行う手順
+ * @returns F緑U白で手順が開始できる状態にする手順
+ */
 export const calculateScramble = (solve: string): string => {
+  // 単純に solve を逆にした手順を生成
   const scramble = solve
     .split(' ')
     .map((direction) => {
@@ -176,67 +203,74 @@ export const calculateScramble = (solve: string): string => {
       return `${direction}'`;
     })
     .reverse();
-  const _rotations = solve
+
+  // 手順を行うと持ち替えが起きることがある(MSE、wを含む)
+  // 手順を最後まで行ったときにどう持っているのか計算し、これを逆手順の前に行う
+  const turnToLastPosition = solve
     .split(' ')
-    .filter((direction) => {
-      return /[xyzMESw]/.test(direction);
-    })
-    .flatMap((direction) => {
-      const isTwiceRotation = direction.includes('2');
-      if (isTwiceRotation) {
-        direction = direction.replace(/'/, '').replace(/2/, '');
+    .filter((direction) => /[xyzMESw]/.test(direction))
+    .map((direction) => {
+      const { turnCount, rotation } = normalizeRotation(direction);
+      switch (rotation) {
+        case 'M':
+          return fromNormalizedRotation({
+            rotation: 'x',
+            turnCount: 4 - turnCount,
+          });
+        case 'E':
+          return fromNormalizedRotation({
+            rotation: 'y',
+            turnCount: 4 - turnCount,
+          });
+        case 'S':
+          return fromNormalizedRotation({ rotation: 'z', turnCount });
+        case 'Rw':
+          return fromNormalizedRotation({ rotation: 'x', turnCount });
+        case 'Lw':
+          return fromNormalizedRotation({
+            rotation: 'x',
+            turnCount: 4 - turnCount,
+          });
+        case 'Uw':
+          return fromNormalizedRotation({ rotation: 'y', turnCount });
+        case 'Dw':
+          return fromNormalizedRotation({
+            rotation: 'y',
+            turnCount: 4 - turnCount,
+          });
+        case 'Fw':
+          return fromNormalizedRotation({ rotation: 'z', turnCount });
+        case 'Bw':
+          return fromNormalizedRotation({
+            rotation: 'z',
+            turnCount: 4 - turnCount,
+          });
+        default:
+          return direction;
       }
-      let rot = direction;
-
-      if (direction === 'M') rot = "x'";
-      else if (direction === "M'") rot = 'x';
-      else if (direction === 'E') rot = "y'";
-      else if (direction === "E'") rot = 'y';
-      else if (direction === 'S') rot = 'z';
-      else if (direction === "S'") rot = "z'";
-      else if (direction === 'Rw') rot = 'x';
-      else if (direction === "Rw'") rot = "x'";
-      else if (direction === 'Lw') rot = "x'";
-      else if (direction === "Lw'") rot = 'x';
-      else if (direction === 'Uw') rot = 'y';
-      else if (direction === "Uw'") rot = "y'";
-      else if (direction === 'Dw') rot = "y'";
-      else if (direction === "Dw'") rot = 'y';
-      else if (direction === 'Fw') rot = 'z';
-      else if (direction === "Fw'") rot = "z'";
-      else if (direction === 'Bw') rot = "z'";
-      else if (direction === "Bw'") rot = 'z';
-
-      if (isTwiceRotation) return [rot, rot];
-      return rot;
     });
-  const rotations: string[] = [];
-  for (const rot of _rotations) {
-    if (rotations.length === 0) {
-      rotations.push(rot);
-      continue;
-    }
-    const before = rotations[rotations.length - 1];
-    if (
-      rot.includes("'") !== before.includes("'") &&
-      rot.replace(/'/, '') === before.replace(/'/, '')
-    ) {
-      rotations.pop();
-      continue;
-    }
-    rotations.push(rot);
-    if (rotations.length >= 4) {
-      let isSame = true;
-      const last = rotations.length - 1;
-      for (let i = 0; i < 4; ++i) {
-        if (rotations[last] !== rotations[last - i]) isSame = false;
+
+  return [...turnToLastPosition, ...scramble]
+    .reduce<string[]>((acc, rot) => {
+      const last = acc.pop();
+      if (typeof last === 'undefined') {
+        return [rot];
       }
-      if (isSame) {
-        for (let i = 0; i < 4; ++i) rotations.pop();
+      const normalizedLast = normalizeRotation(last);
+      const normalizedRot = normalizeRotation(rot);
+      if (normalizedLast.rotation !== normalizedRot.rotation) {
+        return [...acc, last, rot];
       }
-    }
-  }
-  return [...rotations, ...scramble].join(' ');
+      if ((normalizedLast.turnCount + normalizedRot.turnCount) % 4 === 0) {
+        return acc;
+      }
+      const newRot = fromNormalizedRotation({
+        rotation: normalizedRot.rotation,
+        turnCount: (normalizedLast.turnCount + normalizedRot.turnCount) % 4,
+      });
+      return [...acc, newRot];
+    }, [])
+    .join(' ');
 };
 
 export const clamp = (n: number, lo: number, hi: number): number =>
