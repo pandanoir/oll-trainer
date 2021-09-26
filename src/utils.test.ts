@@ -1,9 +1,11 @@
-import { calculateScramble, clamp, rotate } from './utils';
-describe('clamp()', () => {
-  it('clamps a value between an upper and lower bound', () => {
-    expect(clamp(4, 2, 13)).toBe(4);
-    expect(clamp(-1, 2, 13)).toBe(2);
-    expect(clamp(21, 2, 13)).toBe(13);
+import { calculateScramble, modulo, rotate } from './utils';
+describe('modulo()', () => {
+  it('obtains a modulo', () => {
+    expect(modulo(-2, 5)).toBe(3);
+    expect(modulo(0, 5)).toBe(0);
+    expect(modulo(7, 5)).toBe(2);
+    expect(modulo(-21, 5)).toBe(4);
+    expect(modulo(101, 5)).toBe(1);
   });
 });
 describe('rotate()', () => {

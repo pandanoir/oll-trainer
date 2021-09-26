@@ -273,5 +273,4 @@ export const calculateScramble = (solve: string): string => {
     .join(' ');
 };
 
-export const clamp = (n: number, lo: number, hi: number): number =>
-  Math.min(Math.max(lo, n), hi);
+export const modulo = (a: number, n: number): number => ((a % n) + n) % n;

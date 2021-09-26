@@ -7,7 +7,7 @@ import { SecondaryButton } from '../components/common/SecondaryButton';
 import { ListModal } from '../components/ListModal';
 import { Solve } from '../components/Solve';
 
-import { clamp } from '../utils';
+import { modulo } from '../utils';
 import { CheckContext } from '../utils/hooks/useCheck';
 import { useTitle } from '../utils/hooks/useTitle';
 
@@ -18,11 +18,11 @@ export const LearningPage: VFC = () => {
 
   const [index, setIndex] = useState(0); // まだチェックがついていない要素のうち、左からいくつか
   const next = useCallback(
-      () => setIndex((index) => clamp(index + 1, 0, size - 1)),
+      () => setIndex((index) => modulo(index + 1, size)),
       [size]
     ),
     prev = useCallback(
-      () => setIndex((index) => clamp(index - 1, 0, size - 1)),
+      () => setIndex((index) => modulo(index - 1, size)),
       [size]
     );
   useEffect(() => {
