@@ -8,7 +8,7 @@ import { TimerPage } from './pages/TimerPage';
 
 export const RouteList = [
   { path: '/timer', component: <TimerPage />, name: 'Hi-Timer' },
-  { path: '/', component: <OllPage />, name: 'oll' },
+  { path: '/oll', component: <OllPage />, name: 'oll' },
   { path: '/learn', component: <LearningPage />, name: 'learn' },
   { path: '/scramble', component: <ScramblePage />, name: 'scramble' },
   { path: '/inspection', component: <InspectionPage />, name: 'inspection' },
