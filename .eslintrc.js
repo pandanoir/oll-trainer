@@ -47,5 +47,11 @@ module.exports = {
         'formatjs/enforce-id': 'error',
       },
     },
+    {
+      files: ['*.tsx'],
+      rules: {
+        '@typescript-eslint/no-unnecessary-type-constraint': 'off',
+      },
+    },
   ],
 };
