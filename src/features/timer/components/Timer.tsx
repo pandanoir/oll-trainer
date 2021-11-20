@@ -41,7 +41,6 @@ interface Props {
   }) => void;
   onTypingTimerInput: (time: number) => void;
   times: TimeData[];
-  volume: number;
   variationChooseButton: ReactNode;
   statisticsButton: ReactNode;
   recordModifier: ReactNode;
@@ -52,7 +51,6 @@ export const Timer: VFC<Props> = ({
   onFinish,
   onTypingTimerInput,
   times,
-  volume,
   variationChooseButton: yesButton,
   statisticsButton: awesomeButton,
   recordModifier,
@@ -70,7 +68,7 @@ export const Timer: VFC<Props> = ({
     onFinish,
   });
   const inspectionTimeInteger = Math.ceil(inspectionTime / 1000);
-  const { playAudio } = useAudio();
+  const { volume, playAudio } = useAudio();
   useEffect(() => {
     (async () => {
       if (timerState === STEADY || timerState === INSPECTION_STEADY) {

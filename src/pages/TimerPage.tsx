@@ -191,7 +191,6 @@ export const TimerPage: VFC = () => {
         usesInspection={usesInspection}
         inputsTimeManually={inputsTimeManually}
         times={times}
-        volume={volume}
         onFinish={useCallback(
           (data) => {
             addTime({

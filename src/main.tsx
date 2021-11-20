@@ -42,7 +42,6 @@ const selectMessages = (
 };
 
 const App: VFC = () => {
-  const { checkList, check, reset } = useCheck();
   const { darkMode, setLightMode, setDarkMode } = useDarkMode();
   const [locale, setLocale] = useStoragedState(
     withPrefix('locale'),
@@ -50,73 +49,71 @@ const App: VFC = () => {
   );
   const { showsModal, openModal, closeModal } = useModal();
 
+  const app = (
+    <Router basename="/oll">
+      <Header
+        right={
+          <span tw="flex space-x-2">
+            <IconButton
+              tw="w-8 h-8 rounded-full bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-white"
+              icon={faCog}
+              onClick={openModal}
+            />
+            <span tw="flex items-center flex-nowrap">
+              <SwitchButton
+                value={darkMode ? 'right' : 'left'}
+                onChange={(value) => {
+                  if (value === 'left') setLightMode();
+                  else setDarkMode();
+                }}
+              />
+              <FontAwesomeIcon icon={faMoon} />
+            </span>
+          </span>
+        }
+      />
+      <Routes>
+        <Route path="/" element={<TopPage />} />
+        {RouteList.map(({ path, component }) => (
+          <Route path={path} key={path} element={component} />
+        ))}
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+      {showsModal && (
+        <Modal onClose={closeModal}>
+          <ModalCloseButton onClick={closeModal} />
+          <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
+            <div tw="text-lg">Settings</div>
+            <LanguageSettingSelect locale={locale} setLocale={setLocale} />
+          </div>
+        </Modal>
+      )}
+    </Router>
+  );
+
   return (
-    <IntlProvider
-      locale={locale}
-      defaultLocale="en"
-      messages={selectMessages(locale)}
+    <UserDefinedVariationContext.Provider
+      value={useStoragedImmerState<Variation[]>(
+        withPrefix('user-defined-variations'),
+        []
+      )}
     >
-      <UserDefinedVariationContext.Provider
-        value={useStoragedImmerState<Variation[]>(
-          withPrefix('user-defined-variations'),
-          []
-        )}
+      <IntlProvider
+        locale={locale}
+        defaultLocale="en"
+        messages={selectMessages(locale)}
       >
         <VolumeContext.Provider
           value={useStoragedState(withPrefix('volume'), 1)}
         >
           <DarkModeContext.Provider value={darkMode}>
-            <CheckContext.Provider value={{ checkList, check, reset }}>
-              <Router basename="/oll">
-                <Header
-                  right={
-                    <span tw="flex space-x-2">
-                      <IconButton
-                        tw="w-8 h-8 rounded-full bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-white"
-                        icon={faCog}
-                        onClick={openModal}
-                      />
-                      <span tw="flex items-center flex-nowrap">
-                        <SwitchButton
-                          value={darkMode ? 'right' : 'left'}
-                          onChange={(value) => {
-                            if (value === 'left') {
-                              setLightMode();
-                            } else {
-                              setDarkMode();
-                            }
-                          }}
-                        />
-                        <FontAwesomeIcon icon={faMoon} />
-                      </span>
-                    </span>
-                  }
-                />
-                <Routes>
-                  <Route path="/" element={<TopPage />} />
-                  {RouteList.map(({ path, component }) => (
-                    <Route path={path} key={path} element={component} />
-                  ))}
-                  <Route path="*" element={<NotFoundPage />} />
-                </Routes>
-                {showsModal && (
-                  <Modal onClose={closeModal}>
-                    <ModalCloseButton onClick={closeModal} />
-                    <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
-                      <div tw="text-lg">Settings</div>
-                      <LanguageSettingSelect
-                        locale={locale}
-                        setLocale={setLocale}
-                      />
-                    </div>
-                  </Modal>
-                )}
-              </Router>
+            <CheckContext.Provider value={useCheck()}>
+              {app}
             </CheckContext.Provider>
           </DarkModeContext.Provider>
         </VolumeContext.Provider>
-      </UserDefinedVariationContext.Provider>
-    </IntlProvider>
+      </IntlProvider>
+    </UserDefinedVariationContext.Provider>
   );
 };
 render(<App />, document.querySelector('#app'));
