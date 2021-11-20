@@ -23,7 +23,7 @@ import tw from 'twin.macro';
 
 import { calcAo } from '../../utils/calcAo';
 const pick =
-  <T,>(name: keyof T) =>
+  <T extends unknown>(name: keyof T) =>
   (items: T) => ({
     default: items[name],
   });
