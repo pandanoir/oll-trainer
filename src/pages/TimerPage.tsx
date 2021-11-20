@@ -252,6 +252,7 @@ export const TimerPage: VFC = () => {
         recordModifier={useMemo(
           () => (
             <RecordModifier
+              tw="lg:text-lg"
               record={times[times.length - 1]}
               changeToDNF={() => changeToDNF(times.length - 1)}
               imposePenalty={() => imposePenalty(times.length - 1)}
