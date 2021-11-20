@@ -1,9 +1,6 @@
 import { ReactNode, VFC, useEffect, useMemo } from 'react';
 import tw from 'twin.macro';
 import { PrimaryButton } from '../../../components/common/PrimaryButton';
-import { RecordItem } from '../../../components/Timer/RecordItem';
-import { TimerCover } from '../../../components/Timer/TimerCover';
-import { TypingTimer } from '../../../components/Timer/TypingTimer';
 import steadySoundUrl from '../../../sound/steady.mp3';
 import { calcAo } from '../../../utils/calcAo';
 import { useAudio } from '../../../utils/hooks/useAudio';
@@ -24,8 +21,11 @@ import {
 } from '../data/timerState';
 import { useCubeTimer } from '../hooks/useCubeTimer';
 import { useWarningSound } from '../hooks/useWarningSound';
+import { RecordItem } from './RecordItem';
 import { TapTimer } from './TapTimer';
 import { TimerArea } from './TimerArea';
+import { TimerCover } from './TimerCover';
+import { TypingTimer } from './TypingTimer';
 
 const steadySound = fetch(steadySoundUrl).then((response) =>
   response.arrayBuffer()

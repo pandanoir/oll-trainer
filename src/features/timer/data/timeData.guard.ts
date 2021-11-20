@@ -2,7 +2,7 @@
  * Generated type guards for "timeData.ts".
  * WARNING: Do not manually change this file.
  */
-import { SessionCollection } from '../../features/timer/data/timeData';
+import { SessionCollection } from './timeData';
 
 export function isSessionCollection(
   obj: any,
