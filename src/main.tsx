@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { VFC } from 'react';
 import { render } from 'react-dom';
 import { MessageFormatElement, IntlProvider } from 'react-intl';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import 'twin.macro';
 
 import en from '../compiled-lang/en.json';
@@ -92,19 +92,13 @@ const App: VFC = () => {
                     </span>
                   }
                 />
-                <Switch>
-                  <Route path="/" exact>
-                    <TopPage />
-                  </Route>
+                <Routes>
+                  <Route path="/" element={<TopPage />} />
                   {RouteList.map(({ path, component }) => (
-                    <Route path={path} exact key={path}>
-                      {component}
-                    </Route>
+                    <Route path={path} key={path} element={component} />
                   ))}
-                  <Route>
-                    <NotFoundPage />
-                  </Route>
-                </Switch>
+                  <Route path="*" element={<NotFoundPage />} />
+                </Routes>
                 {showsModal && (
                   <Modal onClose={closeModal}>
                     <ModalCloseButton onClick={closeModal} />
