@@ -8,10 +8,7 @@ export const ExportButton = ({
   const buttonRef = useRef<HTMLAnchorElement>(null);
   const handleDownload = () => {
     const blob = new Blob([getContent()], { type: 'text/plain' });
-    if (navigator.msSaveBlob) {
-      navigator.msSaveBlob(blob, fileName);
-      navigator.msSaveOrOpenBlob(blob, fileName);
-    } else if (buttonRef.current) {
+    if (buttonRef.current) {
       buttonRef.current.href = URL.createObjectURL(blob);
     }
   };
