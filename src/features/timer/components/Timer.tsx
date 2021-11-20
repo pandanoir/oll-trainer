@@ -51,8 +51,8 @@ export const Timer: VFC<Props> = ({
   onFinish,
   onTypingTimerInput,
   times,
-  variationChooseButton: yesButton,
-  statisticsButton: awesomeButton,
+  variationChooseButton,
+  statisticsButton,
   recordModifier,
 }) => {
   const {
@@ -124,8 +124,8 @@ export const Timer: VFC<Props> = ({
         [inputsTimeManually, onPointerDown, onPointerUp, timerState, volume]
       )}
     >
-      {yesButton}
-      {awesomeButton}
+      {variationChooseButton}
+      {statisticsButton}
       {inputsTimeManually ? (
         <TypingTimer
           tw="z-20"
