@@ -55,6 +55,15 @@ export const TypingTimer: VFC<{
         if (event.key !== 'Enter') {
           return;
         }
+        if (value.includes('.')) {
+          const input = parseFloat(value);
+          if (isNaN(input)) {
+            return;
+          }
+          onInput(input);
+          return;
+        }
+
         const input = parseInt(value, 10);
         if (isNaN(input)) {
           return;
