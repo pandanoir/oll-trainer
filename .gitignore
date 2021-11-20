@@ -8,3 +8,6 @@ src/data/**/*.d.ts
 src/components/**/*.d.ts
 src/worker/**/*.d.ts
 *.tsbuildinfo
+# 手元にだけあるファイル
+deploy.*
+docker-compose.yml
