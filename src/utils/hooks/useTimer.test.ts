@@ -7,7 +7,7 @@ import {
   READY,
   STEADY,
   WORKING,
-} from '../../components/Timer/timerState';
+} from '../../features/timer/data/timerState';
 import { useTimer } from './useTimer';
 
 jest.useFakeTimers();

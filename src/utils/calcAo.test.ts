@@ -1,4 +1,4 @@
-import { DNF } from '../components/Timer/timeData';
+import { DNF } from '../features/timer/data/timeData';
 import { calcAo } from './calcAo';
 
 describe('calcAo', () => {
