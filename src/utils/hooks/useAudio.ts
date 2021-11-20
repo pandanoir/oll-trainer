@@ -17,7 +17,8 @@ export const useAudio = () => {
     volume,
     setVolume,
     playAudio: useCallback(
-      (audioData: ArrayBuffer) => playAudio(audioData, { volume }),
+      (audioData: ArrayBuffer, { signal }: { signal?: AbortSignal } = {}) =>
+        playAudio(audioData, { volume, signal }),
       [volume]
     ),
   } as const;

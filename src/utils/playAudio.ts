@@ -17,7 +17,7 @@ const getAudioContext = () => {
 };
 export const playAudio = async (
   audioData: ArrayBuffer,
-  { volume = 1 } = { volume: 1 }
+  { volume = 1, signal }: { volume?: number; signal?: AbortSignal } = {}
 ) => {
   if (volume === 0) {
     return;
@@ -34,6 +34,13 @@ export const playAudio = async (
   source.connect(gainNode);
   gainNode.connect(audioCtx.destination);
   source.start();
+
+  const abortHandler = () => {
+    source.stop();
+    source.disconnect();
+    signal?.removeEventListener('abort', abortHandler);
+  };
+  signal?.addEventListener('abort', abortHandler);
 };
 
 /**
