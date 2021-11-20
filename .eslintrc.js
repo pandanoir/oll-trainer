@@ -44,6 +44,7 @@ module.exports = {
             },
           },
         ],
+        'import/no-unresolved': 'off',
         'formatjs/enforce-id': 'error',
       },
     },
