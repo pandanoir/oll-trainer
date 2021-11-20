@@ -1,13 +1,12 @@
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { VFC } from 'react';
+import { useTitle } from 'react-use';
 import tw from 'twin.macro';
-
 import { PrimaryButton } from '../components/common/PrimaryButton';
 import { Solve } from '../components/Solve';
 import { faces, rotate, CubeFace as CubeFaceType } from '../utils';
 import { useFace } from '../utils/hooks/useFace';
-import { useTitle } from '../utils/hooks/useTitle';
 import '../index.css';
 
 const CubeFace: VFC<{

@@ -10,11 +10,11 @@ import {
   useMemo,
 } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { useTitle } from 'react-use';
 import tw, { css } from 'twin.macro';
 import { SecondaryButton } from '../components/common/SecondaryButton';
 import { ToggleButton } from '../components/common/ToggleButton';
 import { useInput } from '../utils/hooks/useInput';
-import { useTitle } from '../utils/hooks/useTitle';
 import { noop } from '../utils/noop';
 
 const Face: VFC<

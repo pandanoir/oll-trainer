@@ -19,6 +19,7 @@ import {
 } from 'react';
 import 'twin.macro';
 import { useIntl } from 'react-intl';
+import { useTitle } from 'react-use';
 import Scrambo from 'scrambo';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -44,7 +45,6 @@ import { exhaustiveCheck } from '../utils/exhaustiveCheck';
 import { useAudio } from '../utils/hooks/useAudio';
 import { useStoragedState } from '../utils/hooks/useLocalStorage';
 import { useSessions } from '../utils/hooks/useSessions';
-import { useTitle } from '../utils/hooks/useTitle';
 import { isAwayFromBeginningElement } from '../utils/isAwayFromBeginningElement';
 import { withPrefix } from '../utils/withPrefix';
 import { withStopPropagation } from '../utils/withStopPropagation';

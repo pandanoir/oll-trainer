@@ -1,15 +1,13 @@
 import { VFC, useContext, useEffect, useState, useCallback } from 'react';
 import 'twin.macro';
-
+import { useTitle } from 'react-use';
 import { DangerButton } from '../components/common/DangerButton';
 import { PrimaryButton } from '../components/common/PrimaryButton';
 import { SecondaryButton } from '../components/common/SecondaryButton';
 import { ListModal } from '../components/ListModal';
 import { Solve } from '../components/Solve';
-
 import { modulo } from '../utils';
 import { CheckContext } from '../utils/hooks/useCheck';
-import { useTitle } from '../utils/hooks/useTitle';
 
 export const LearningPage: VFC = () => {
   useTitle('Learn OLL');

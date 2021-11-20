@@ -1,31 +1,13 @@
-import {
-  useState,
-  useEffect,
-  useCallback,
-  useContext,
-  createContext,
-} from 'react';
+import { useEffect, useCallback, useContext, createContext } from 'react';
+import { useLocalStorage } from 'react-use';
 import { withPrefix } from '../withPrefix';
 
 const STORAGE_KEY = withPrefix('theme');
 export const useDarkMode = () => {
-  const [darkMode, setDarkMode] = useState(false);
-
-  useEffect(() => {
-    // localStorage に設定があればそれを使用、なければ環境設定を使用
-    setDarkMode(window.matchMedia('(prefers-color-scheme: dark)').matches);
-    try {
-      const json = localStorage.getItem(STORAGE_KEY);
-      if (json === null) {
-        return;
-      }
-      const item: unknown = JSON.parse(json);
-      if (typeof item === 'boolean') {
-        setDarkMode(item);
-      }
-    } catch {}
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const [darkMode, setDarkMode] = useLocalStorage(
+    STORAGE_KEY,
+    window.matchMedia('(prefers-color-scheme: dark)').matches
+  );
 
   useEffect(() => {
     if (darkMode) {
@@ -40,10 +22,10 @@ export const useDarkMode = () => {
     darkMode,
     setLightMode: useCallback(() => {
       setDarkMode(false);
-    }, []),
+    }, [setDarkMode]),
     setDarkMode: useCallback(() => {
       setDarkMode(true);
-    }, []),
+    }, [setDarkMode]),
   };
 };
 

@@ -1,9 +1,9 @@
 import { useEffect, useState, VFC } from 'react';
+import { useTitle } from 'react-use';
 import Scrambo from 'scrambo';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'twin.macro';
-import { useTitle } from '../utils/hooks/useTitle';
 
 SwiperCore.use([Navigation, Keyboard]);
 
