@@ -4,14 +4,30 @@ import {
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import clsx from 'clsx';
 import { useState, VFC } from 'react';
 import { createPortal } from 'react-dom';
-import { NavLink } from 'react-router-dom';
+import { Link, LinkProps, useMatch, useResolvedPath } from 'react-router-dom';
 import tw from 'twin.macro';
 
 import { RouteList } from '../route';
 import { usePortalRoot } from '../utils/hooks/usePortalRoot';
 import { IconButton } from './common/IconButton';
+
+const CustomNavLink = ({ children, to, className, ...props }: LinkProps) => {
+  const resolved = useResolvedPath(to);
+  const isActive = useMatch({ path: resolved.pathname, end: true });
+
+  return (
+    <Link
+      to={to}
+      className={clsx(className, { 'font-bold': isActive })}
+      {...props}
+    >
+      {children}
+    </Link>
+  );
+};
 
 const SideMenu: VFC<{ hidden?: boolean; onClose: () => void }> = ({
   hidden = false,
@@ -45,15 +61,9 @@ const SideMenu: VFC<{ hidden?: boolean; onClose: () => void }> = ({
         <ul tw="flex flex-col space-y-1">
           {RouteList.map(({ path, name }) => (
             <li key={path}>
-              <NavLink
-                to={path}
-                exact
-                css={linkStyle}
-                activeClassName="font-bold"
-                onClick={onClose}
-              >
+              <CustomNavLink to={path} css={linkStyle} onClick={onClose}>
                 {name}
-              </NavLink>
+              </CustomNavLink>
             </li>
           ))}
           <li>
@@ -90,14 +100,9 @@ export const Header: VFC<{ right: JSX.Element }> = ({ right }) => {
           <ul tw="m-0 p-0 list-none hidden md:flex md:flex-row md:space-x-3">
             {RouteList.map(({ path, name }) => (
               <li key={path}>
-                <NavLink
-                  to={path}
-                  exact
-                  css={linkStyle}
-                  activeClassName="font-bold"
-                >
+                <CustomNavLink to={path} css={linkStyle}>
                   {name}
-                </NavLink>
+                </CustomNavLink>
               </li>
             ))}
             <li>
