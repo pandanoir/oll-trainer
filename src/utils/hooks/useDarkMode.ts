@@ -1,4 +1,11 @@
-import { useEffect, useCallback, useContext, createContext } from 'react';
+import {
+  useEffect,
+  useCallback,
+  useContext,
+  createContext,
+  Dispatch,
+  SetStateAction,
+} from 'react';
 import { useLocalStorage } from 'react-use';
 import { withPrefix } from '../withPrefix';
 
@@ -7,7 +14,7 @@ export const useDarkMode = () => {
   const [darkMode, setDarkMode] = useLocalStorage(
     STORAGE_KEY,
     window.matchMedia('(prefers-color-scheme: dark)').matches
-  );
+  ) as [boolean, Dispatch<SetStateAction<boolean>>, () => void];
 
   useEffect(() => {
     if (darkMode) {
