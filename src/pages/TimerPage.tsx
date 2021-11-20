@@ -33,7 +33,6 @@ import { ExportModal } from '../components/Timer/ExportModal';
 import { ImportModal } from '../components/Timer/ImportModal';
 import { RecordItem } from '../components/Timer/RecordItem';
 import { RecordModifier } from '../components/Timer/RecordModifier';
-import { Session } from '../components/Timer/Session';
 import { StatisticsModal } from '../components/Timer/StatisticsModal';
 import { TapTimer } from '../components/Timer/TapTimer';
 import { TimeData } from '../components/Timer/timeData';
@@ -55,6 +54,7 @@ import {
   defaultVariations,
   UserDefinedVariationContext,
 } from '../data/variations';
+import { Session } from '../features/sessionList/components/SessionToolbar';
 import eightSecondsSoundUrl from '../sound/eightSeconds.mp3';
 import steadySoundUrl from '../sound/steady.mp3';
 import twelveSecondsSoundUrl from '../sound/twelveSeconds.mp3';

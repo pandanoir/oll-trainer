@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import {
   ResponsiveContainer,
   LineChart,
@@ -8,25 +9,32 @@ import {
   Tooltip,
   Line,
 } from 'recharts';
-import { useDarkModeState } from '../../utils/hooks/useDarkMode';
+import { TimeData } from '../../../components/Timer/timeData';
+import { calcAo } from '../../../utils/calcAo';
+import { useDarkModeState } from '../../../utils/hooks/useDarkMode';
+import { zip3 } from '../../../utils/zip3';
 
-export const TimeGraph = ({
-  times,
-}: {
-  times: {
-    name: number;
-    time: null | number;
-    ao5: null | number;
-    ao12: null | number;
-  }[];
-}) => {
+export const TimeGraph = ({ times }: { times: TimeData[] }) => {
+  const graphData = useMemo(
+    () =>
+      zip3(times, calcAo(5, times), calcAo(12, times)).map(
+        ([{ time, isDNF, penalty }, ao5, ao12], index) => ({
+          name: index + 1,
+          time: isDNF ? null : Math.floor(time) / 1000 + (penalty ? 2 : 0),
+          ao5: typeof ao5 === 'number' ? Math.floor(ao5) / 1000 : null,
+          ao12: typeof ao12 === 'number' ? Math.floor(ao12) / 1000 : null,
+        })
+      ),
+    [times]
+  );
+
   const darkMode = useDarkModeState();
   return (
     <ResponsiveContainer width="100%" height="100%">
       <LineChart
         width={500}
         height={300}
-        data={times}
+        data={graphData}
         margin={{
           top: 5,
           right: 30,

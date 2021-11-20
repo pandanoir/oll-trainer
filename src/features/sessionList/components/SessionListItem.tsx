@@ -3,12 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { VFC } from 'react';
 import 'twin.macro';
 
-import { calcAverage } from '../../utils/calcAverage';
-import { calcRecord } from '../../utils/calcRecord';
-import { findIndexOfMin } from '../../utils/findIndexOfMin';
-import { showTime } from '../../utils/showTime';
-import { IconButton } from '../common/IconButton';
-import { SessionData, DNF } from './timeData';
+import { IconButton } from '../../../components/common/IconButton';
+import { SessionData, DNF } from '../../../components/Timer/timeData';
+import { calcAverage } from '../../../utils/calcAverage';
+import { calcRecord } from '../../../utils/calcRecord';
+import { findIndexOfMin } from '../../../utils/findIndexOfMin';
+import { showTime } from '../../../utils/showTime';
 
 export const SessionListItem: VFC<{
   session: SessionData;

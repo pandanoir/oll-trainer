@@ -21,7 +21,6 @@ import {
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 
-import { calcAo } from '../../utils/calcAo';
 const pick =
   <T extends unknown>(name: keyof T) =>
   (items: T) => ({
@@ -29,15 +28,18 @@ const pick =
   });
 const TimeGraph = lazy(() => import('./TimeGraph').then(pick('TimeGraph')));
 
-import { useStoragedState } from '../../utils/hooks/useLocalStorage';
-import { withPrefix } from '../../utils/withPrefix';
-import { IconButton } from '../common/IconButton';
-import { LoadingIndicator } from '../common/LoadingIndicator';
-import { Modal, useModal } from '../common/Modal';
+import { IconButton } from '../../../components/common/IconButton';
+import { LoadingIndicator } from '../../../components/common/LoadingIndicator';
+import { Modal, useModal } from '../../../components/common/Modal';
 
-import { ModalCloseButton } from '../common/ModalCloseButton';
+import { ModalCloseButton } from '../../../components/common/ModalCloseButton';
+import {
+  TimeData,
+  SessionCollection,
+} from '../../../components/Timer/timeData';
+import { useStoragedState } from '../../../utils/hooks/useLocalStorage';
+import { withPrefix } from '../../../utils/withPrefix';
 import { SessionListItem } from './SessionListItem';
-import { TimeData, SessionCollection } from './timeData';
 
 const SESSION_LIST_MODAL = 'SESSION_LIST_MODAL';
 type ModalType = typeof SESSION_LIST_MODAL;
@@ -72,8 +74,7 @@ const SessionRaw = ({
   const { formatMessage } = useIntl();
   const recordListRef = useRef<HTMLDivElement>(null);
   const [opensRecordList, setOpensRecordList] = useState(false);
-  const ao5List = useMemo(() => calcAo(5, times), [times]);
-  const ao12List = useMemo(() => calcAo(12, times), [times]);
+
   const currentSessions = useMemo(() => {
     const currentSessions = sessions.find(
       ({ variation }) => variation.name === currentVariation
@@ -153,22 +154,7 @@ const SessionRaw = ({
                 </div>
               }
             >
-              <TimeGraph
-                times={times.map(({ time, isDNF, penalty }, index) => {
-                  const ao5 = ao5List[index],
-                    ao12 = ao12List[index];
-                  return {
-                    name: index + 1,
-                    time: isDNF
-                      ? null
-                      : Math.floor(time) / 1000 + (penalty ? 2 : 0),
-                    ao5:
-                      typeof ao5 === 'number' ? Math.floor(ao5) / 1000 : null,
-                    ao12:
-                      typeof ao12 === 'number' ? Math.floor(ao12) / 1000 : null,
-                  };
-                })}
-              />
+              <TimeGraph times={times} />
             </Suspense>
           ) : (
             recordListComponent
