@@ -18,6 +18,7 @@ const touchEnd = (cb: () => void) => (event: TouchEvent<HTMLButtonElement>) => {
 };
 export const RecordModifier = ({
   record,
+  className,
   changeToDNF,
   undoDNF,
   imposePenalty,
@@ -25,6 +26,7 @@ export const RecordModifier = ({
   deleteRecord,
 }: {
   record: TimeData;
+  className?: string;
   changeToDNF: () => void;
   undoDNF: () => void;
   imposePenalty: () => void;
@@ -33,7 +35,7 @@ export const RecordModifier = ({
 }) => {
   if (record.isDNF) {
     return (
-      <ButtonWrapper>
+      <ButtonWrapper className={className}>
         <SecondaryButton
           onClick={withStopPropagation(undoDNF)}
           onTouchEnd={touchEnd(undoDNF)}
@@ -51,7 +53,7 @@ export const RecordModifier = ({
   }
   if (record.penalty) {
     return (
-      <ButtonWrapper>
+      <ButtonWrapper className={className}>
         <SecondaryButton
           onClick={withStopPropagation(undoPenalty)}
           onTouchEnd={touchEnd(undoPenalty)}
@@ -74,7 +76,7 @@ export const RecordModifier = ({
     );
   }
   return (
-    <ButtonWrapper>
+    <ButtonWrapper className={className}>
       <SecondaryButton
         onClick={withStopPropagation(imposePenalty)}
         onTouchEnd={touchEnd(imposePenalty)}

@@ -17,6 +17,7 @@ import {
   useMemo,
   useRef,
   useState,
+  VFC,
 } from 'react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
@@ -30,13 +31,12 @@ const TimeGraph = lazy(() => import('./TimeGraph').then(pick('TimeGraph')));
 
 import { IconButton } from '../../../components/common/IconButton';
 import { LoadingIndicator } from '../../../components/common/LoadingIndicator';
-import { Modal, useModal } from '../../../components/common/Modal';
-
-import { ModalCloseButton } from '../../../components/common/ModalCloseButton';
+import { useModal } from '../../../components/common/Modal';
 import { useStoragedState } from '../../../utils/hooks/useLocalStorage';
 import { withPrefix } from '../../../utils/withPrefix';
 import { TimeData, SessionCollection } from '../../timer/data/timeData';
 import { SessionListItem } from './SessionListItem';
+import { SessionListModal } from './SessionListModal';
 
 const SESSION_LIST_MODAL = 'SESSION_LIST_MODAL';
 type ModalType = typeof SESSION_LIST_MODAL;
@@ -45,20 +45,8 @@ const SessionToolbar = tw.div`w-full h-12 bg-white dark:bg-gray-800 flex justify
 const RecordListWrapper = tw.div`w-full relative bottom-0 flex flex-col z-10`;
 const RecordList = tw.div`absolute bg-white dark:bg-gray-800 w-full max-h-1/2-screen h-96 mb-12`;
 
-const SessionRaw = ({
-  times,
-
-  sessionIndex,
-  setSessionIndex,
-  changeSessionName,
-  sessions,
-  currentVariation,
-  addSession,
-  deleteSession,
-  recordListComponent,
-}: {
+interface Props {
   times: TimeData[];
-
   sessionIndex: number;
   setSessionIndex: Dispatch<SetStateAction<number>>;
   changeSessionName: (name: string) => void;
@@ -67,6 +55,17 @@ const SessionRaw = ({
   addSession: () => void;
   deleteSession: (index: number) => void;
   recordListComponent: ReactNode;
+}
+const SessionRaw: VFC<Props> = ({
+  times,
+  sessionIndex,
+  setSessionIndex,
+  changeSessionName,
+  sessions,
+  currentVariation,
+  addSession,
+  deleteSession,
+  recordListComponent,
 }) => {
   const { formatMessage } = useIntl();
   const recordListRef = useRef<HTMLDivElement>(null);
@@ -215,49 +214,38 @@ const SessionRaw = ({
       </RecordListWrapper>
 
       {modalType === SESSION_LIST_MODAL ? (
-        <Modal tw="lg:inset-x-1/4 lg:w-1/2" onClose={closeModal}>
-          <ModalCloseButton onClick={closeModal} />
-          <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
-            <div tw="flex space-x-2">
-              <span tw="text-3xl">Sessions</span>
-              <IconButton
-                icon={faPlus}
-                tw="px-2.5 my-1.5 text-lg text-white bg-gray-700 rounded"
-                onClick={() => {
-                  addSession();
-                  if (sessionIndex === currentSessions.length - 1) {
-                    setSessionIndex(currentSessions.length);
-                  }
-                }}
-              />
-            </div>
-            <ul tw="flex-1 overflow-y-auto">
-              {currentSessions.map((session, index) => (
-                <SessionListItem
-                  key={`${index}--${session.name}`}
-                  session={session}
-                  selected={sessionIndex === index}
-                  onClick={() => {
-                    setSessionIndex(index);
-                    closeModal();
-                  }}
-                  onDeleteButtonClick={() =>
-                    confirm(
-                      formatMessage(
-                        {
-                          id: '4HvXVf',
-                          description: 'アラート。セッション削除時に確認する',
-                          defaultMessage: `セッション {session} を削除しますか?この操作は取り消せません`,
-                        },
-                        { session: session.name }
-                      )
-                    ) && deleteSession(index)
-                  }
-                />
-              ))}
-            </ul>
-          </div>
-        </Modal>
+        <SessionListModal
+          onClose={closeModal}
+          onAddButtonClick={() => {
+            addSession();
+            if (sessionIndex === currentSessions.length - 1) {
+              setSessionIndex(currentSessions.length);
+            }
+          }}
+          sessions={currentSessions.map((session, index) => (
+            <SessionListItem
+              key={`${index}--${session.name}`}
+              session={session}
+              selected={sessionIndex === index}
+              onClick={() => {
+                setSessionIndex(index);
+                closeModal();
+              }}
+              onDeleteButtonClick={() =>
+                confirm(
+                  formatMessage(
+                    {
+                      id: '4HvXVf',
+                      description: 'アラート。セッション削除時に確認する',
+                      defaultMessage: `セッション {session} を削除しますか?この操作は取り消せません`,
+                    },
+                    { session: session.name }
+                  )
+                ) && deleteSession(index)
+              }
+            />
+          ))}
+        />
       ) : null}
     </>
   );
