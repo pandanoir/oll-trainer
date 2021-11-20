@@ -1,4 +1,4 @@
-import { DNF, TimeData } from '../components/Timer/timeData';
+import { DNF, TimeData } from '../features/timer/data/timeData';
 
 export const calcRecord = ({
   time,

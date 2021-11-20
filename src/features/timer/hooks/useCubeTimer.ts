@@ -7,7 +7,9 @@ import {
   MouseEvent as ReactMouseEvent,
 } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { DNF } from '../../components/Timer/timeData';
+import { exhaustiveCheck } from '../../../utils/exhaustiveCheck';
+import { useTimer } from '../../../utils/hooks/useTimer';
+import { DNF } from '../data/timeData';
 import {
   READY,
   STEADY,
@@ -16,9 +18,7 @@ import {
   INSPECTION_STEADY,
   IDOLING,
   WORKING,
-} from '../../components/Timer/timerState';
-import { exhaustiveCheck } from '../exhaustiveCheck';
-import { useTimer } from './useTimer';
+} from '../data/timerState';
 
 /**
  * useTimer はキューブタイマー用のロジックだけ書いてあり、キーボードやマウスと接続する部分が書かれていない。

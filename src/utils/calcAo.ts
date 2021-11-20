@@ -1,4 +1,4 @@
-import { Average, DNF, TimeData } from '../components/Timer/timeData';
+import { Average, DNF, TimeData } from '../features/timer/data/timeData';
 import { calcRecord } from './calcRecord';
 import { PrioritySumStructure } from './prioritySumStructure';
 

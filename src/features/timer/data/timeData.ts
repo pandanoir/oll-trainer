@@ -1,4 +1,4 @@
-import { Variation } from '../../data/variations';
+import { Variation } from '../../../data/variations';
 
 /**
  * +2 の状態で DNF を押して undo した際に情報が失われないようにpenalty と isDNF は分けて管理する

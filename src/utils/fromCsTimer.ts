@@ -1,4 +1,7 @@
-import { SessionData, SessionCollection } from '../components/Timer/timeData';
+import {
+  SessionData,
+  SessionCollection,
+} from '../features/timer/data/timeData';
 import { isCsTimerSessionData } from '../types/CsTimerSessionData.guard';
 import { isUnknownObject } from './isUnknownObject';
 

@@ -1,4 +1,4 @@
-import { Average, DNF } from '../components/Timer/timeData';
+import { Average, DNF } from '../features/timer/data/timeData';
 import { showTime } from './showTime';
 
 export const showAverage = (avg: Average, defaultValue = '') => {

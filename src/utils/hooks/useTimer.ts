@@ -8,7 +8,7 @@ import {
   INSPECTION,
   INSPECTION_STEADY,
   STEADY,
-} from '../../components/Timer/timerState';
+} from '../../features/timer/data/timerState';
 import { exhaustiveCheck } from '../exhaustiveCheck';
 
 /**

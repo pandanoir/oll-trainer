@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { PropsWithChildren, HTMLAttributes, memo, VFC } from 'react';
 
-import { exhaustiveCheck } from '../../utils/exhaustiveCheck';
+import { exhaustiveCheck } from '../../../utils/exhaustiveCheck';
 import {
   TimerState,
   STEADY,
@@ -11,7 +11,7 @@ import {
   INSPECTION_STEADY,
   INSPECTION_READY,
   INSPECTION,
-} from './timerState';
+} from '../data/timerState';
 import './Timer.css';
 
 type Props = {

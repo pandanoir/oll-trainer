@@ -3,6 +3,7 @@ import { VFC, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 
+import { DNF, TimeData } from '../../features/timer/data/timeData';
 import { calcAo } from '../../utils/calcAo';
 import { exhaustiveCheck } from '../../utils/exhaustiveCheck';
 import { findIndexOfMax } from '../../utils/findIndexOfMax';
@@ -19,7 +20,6 @@ import { ToggleButton } from '../common/ToggleButton';
 import { TweetButton } from '../TweetButton';
 import { BigRecord } from './BigRecord';
 import { RecordModifier } from './RecordModifier';
-import { DNF, TimeData } from './timeData';
 
 export const Times: VFC<{
   times: TimeData[];

@@ -1,6 +1,9 @@
 import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
-import { SessionCollection, TimeData } from '../../components/Timer/timeData';
 import { defaultVariation, Variation } from '../../data/variations';
+import {
+  SessionCollection,
+  TimeData,
+} from '../../features/timer/data/timeData';
 import { isUnknownObject } from '../isUnknownObject';
 import { withPrefix } from '../withPrefix';
 import { zerofill } from '../zerofill';

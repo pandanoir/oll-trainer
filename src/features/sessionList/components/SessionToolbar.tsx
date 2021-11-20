@@ -33,12 +33,9 @@ import { LoadingIndicator } from '../../../components/common/LoadingIndicator';
 import { Modal, useModal } from '../../../components/common/Modal';
 
 import { ModalCloseButton } from '../../../components/common/ModalCloseButton';
-import {
-  TimeData,
-  SessionCollection,
-} from '../../../components/Timer/timeData';
 import { useStoragedState } from '../../../utils/hooks/useLocalStorage';
 import { withPrefix } from '../../../utils/withPrefix';
+import { TimeData, SessionCollection } from '../../timer/data/timeData';
 import { SessionListItem } from './SessionListItem';
 
 const SESSION_LIST_MODAL = 'SESSION_LIST_MODAL';

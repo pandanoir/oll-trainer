@@ -5,13 +5,13 @@ import {
   UserDefinedVariationContext,
   Variation,
 } from '../../data/variations';
+import { SessionCollection } from '../../features/timer/data/timeData';
 import { isHiTimerDataJSON } from '../../types/HiTimerDataJSON.guard';
 import { fromCsTimer } from '../../utils/fromCsTimer';
 import { Modal } from '../common/Modal';
 import { ModalCloseButton } from '../common/ModalCloseButton';
 import { SecondaryButton } from '../common/SecondaryButton';
 import { FileInput } from './FileInput';
-import { SessionCollection } from './timeData';
 import 'twin.macro';
 
 export const ImportModal: VFC<{

@@ -1,6 +1,6 @@
 import { VFC, DetailedHTMLProps, HTMLAttributes } from 'react';
+import { TimeData } from '../../features/timer/data/timeData';
 import { showTime } from '../../utils/showTime';
-import { TimeData } from './timeData';
 
 export const RecordItem: VFC<
   {

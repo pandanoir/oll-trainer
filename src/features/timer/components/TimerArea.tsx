@@ -1,7 +1,7 @@
 import { memo, PropsWithChildren, ReactNode, VFC } from 'react';
 import tw from 'twin.macro';
 
-import { usePreventDefault } from '../../utils/hooks/usePreventDefault';
+import { usePreventDefault } from '../../../utils/hooks/usePreventDefault';
 
 const TimerAreaRaw: VFC<
   PropsWithChildren<{

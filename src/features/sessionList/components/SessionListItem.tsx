@@ -4,11 +4,11 @@ import { VFC } from 'react';
 import 'twin.macro';
 
 import { IconButton } from '../../../components/common/IconButton';
-import { SessionData, DNF } from '../../../components/Timer/timeData';
 import { calcAverage } from '../../../utils/calcAverage';
 import { calcRecord } from '../../../utils/calcRecord';
 import { findIndexOfMin } from '../../../utils/findIndexOfMin';
 import { showTime } from '../../../utils/showTime';
+import { SessionData, DNF } from '../../timer/data/timeData';
 
 export const SessionListItem: VFC<{
   session: SessionData;

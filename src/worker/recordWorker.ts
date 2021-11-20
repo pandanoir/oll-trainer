@@ -3,7 +3,7 @@ import {
   DNF,
   SessionCollection,
   TimeData,
-} from '../components/Timer/timeData';
+} from '../features/timer/data/timeData';
 import { calcAo } from '../utils/calcAo';
 import { calcAverage } from '../utils/calcAverage';
 import { calcBestAo as _calcBestAo } from '../utils/calcBestAo';

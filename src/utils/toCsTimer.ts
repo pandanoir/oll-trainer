@@ -1,4 +1,4 @@
-import { SessionCollection } from '../components/Timer/timeData';
+import { SessionCollection } from '../features/timer/data/timeData';
 import { CsTimerSessionData } from '../types/CsTimerSessionData';
 import { findIndexOfMax } from './findIndexOfMax';
 import { findIndexOfMin } from './findIndexOfMin';

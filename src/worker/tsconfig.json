@@ -15,7 +15,7 @@
   },
   "include": [
     "./",
-    "../components/Timer/timeData.ts",
+    "../features/timer/data/timeData.ts",
     "../data/variations.ts",
     "../utils/calcAo.ts",
     "../utils/calcBestAo.ts",

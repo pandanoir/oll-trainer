@@ -4,6 +4,7 @@ import {
   UserDefinedVariationContext,
   defaultVariations,
 } from '../../data/variations';
+import { SessionCollection } from '../../features/timer/data/timeData';
 import { useInput } from '../../utils/hooks/useInput';
 import { analyzeSessionCollection } from '../../utils/recordWorkerClient';
 import { showAverage } from '../../utils/showAverage';
@@ -12,7 +13,6 @@ import { Awaited } from '../../utils/typeUtils';
 import { LoadingIndicator } from '../common/LoadingIndicator';
 import { Modal } from '../common/Modal';
 import { ModalCloseButton } from '../common/ModalCloseButton';
-import { SessionCollection } from './timeData';
 import './StatisticsModal.css';
 
 const Tab = <T extends readonly string[]>({

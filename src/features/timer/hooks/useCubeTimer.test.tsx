@@ -11,7 +11,7 @@ import {
   READY,
   STEADY,
   WORKING,
-} from '../../components/Timer/timerState';
+} from '../data/timerState';
 import { useCubeTimer } from './useCubeTimer';
 
 jest.useFakeTimers();

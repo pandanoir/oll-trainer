@@ -1,11 +1,11 @@
 import { TouchEvent } from 'react';
 import tw from 'twin.macro';
 
+import { TimeData } from '../../features/timer/data/timeData';
 import { isAwayFromBeginningElement } from '../../utils/isAwayFromBeginningElement';
 import { withStopPropagation } from '../../utils/withStopPropagation';
 import { SecondaryButton } from '../common/SecondaryButton';
 import { SecondaryDangerButton } from '../common/SecondaryDangerButton';
-import { TimeData } from './timeData';
 
 const ButtonWrapper = tw.div`flex justify-center space-x-2 flex-wrap pointer-events-none`;
 const touchEnd = (cb: () => void) => (event: TouchEvent<HTMLButtonElement>) => {

@@ -8,10 +8,10 @@ import {
 } from 'react';
 import { useIntl } from 'react-intl';
 import 'twin.macro';
+import { TimeData } from '../../features/timer/data/timeData';
 import { noop } from '../../utils/noop';
 import { showRecord } from '../../utils/showRecord';
 import { withStopPropagation } from '../../utils/withStopPropagation';
-import { TimeData } from './timeData';
 
 export const TypingTimer: VFC<{
   prevTime?: TimeData;

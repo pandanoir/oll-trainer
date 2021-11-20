@@ -1,4 +1,4 @@
-import { SessionCollection } from '../components/Timer/timeData';
+import { SessionCollection } from '../features/timer/data/timeData';
 import { WorkerResult } from '../worker/recordWorker';
 // eslint-disable-next-line import/no-unresolved
 import Worker from '../worker/recordWorker?worker';

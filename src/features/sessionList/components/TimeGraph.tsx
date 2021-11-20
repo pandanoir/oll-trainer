@@ -9,10 +9,10 @@ import {
   Tooltip,
   Line,
 } from 'recharts';
-import { TimeData } from '../../../components/Timer/timeData';
 import { calcAo } from '../../../utils/calcAo';
 import { useDarkModeState } from '../../../utils/hooks/useDarkMode';
 import { zip3 } from '../../../utils/zip3';
+import { TimeData } from '../../timer/data/timeData';
 
 export const TimeGraph = ({ times }: { times: TimeData[] }) => {
   const graphData = useMemo(
