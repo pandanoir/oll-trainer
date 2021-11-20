@@ -1,7 +1,7 @@
 import { faSadTear } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import 'twin.macro';
-import { useTitle } from 'react-use';
+import useTitle from 'react-use/lib/useTitle';
 import { PrimaryLinkButton } from '../components/common/PrimaryLinkButton';
 
 export const NotFoundPage = () => {

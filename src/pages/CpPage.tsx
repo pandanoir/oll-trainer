@@ -1,6 +1,6 @@
 import { useEffect, useState, VFC } from 'react';
 import 'twin.macro';
-import { useTitle } from 'react-use';
+import useTitle from 'react-use/lib/useTitle';
 import { TopFace, Color, cpList } from '../data/cpList';
 import { calculateScramble } from '../utils';
 import {

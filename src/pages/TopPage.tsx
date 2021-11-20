@@ -10,7 +10,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink } from 'react-router-dom';
 import 'twin.macro';
-import { useTitle } from 'react-use';
+import useTitle from 'react-use/lib/useTitle';
 
 const RouteList = [
   { path: '/timer', name: 'Hi-Timer', icon: faStopwatch },

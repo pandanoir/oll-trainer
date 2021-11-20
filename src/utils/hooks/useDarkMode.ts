@@ -6,7 +6,7 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react';
-import { useLocalStorage } from 'react-use';
+import useLocalStorage from 'react-use/lib/useLocalStorage';
 import { withPrefix } from '../withPrefix';
 
 const STORAGE_KEY = withPrefix('theme');

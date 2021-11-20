@@ -10,7 +10,7 @@ import {
   useMemo,
 } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { useTitle } from 'react-use';
+import useTitle from 'react-use/lib/useTitle';
 import tw, { css } from 'twin.macro';
 import { SecondaryButton } from '../components/common/SecondaryButton';
 import { ToggleButton } from '../components/common/ToggleButton';

@@ -1,6 +1,6 @@
 import { VFC, useContext, useEffect, useState, useCallback } from 'react';
 import 'twin.macro';
-import { useTitle } from 'react-use';
+import useTitle from 'react-use/lib/useTitle';
 import { DangerButton } from '../components/common/DangerButton';
 import { PrimaryButton } from '../components/common/PrimaryButton';
 import { SecondaryButton } from '../components/common/SecondaryButton';

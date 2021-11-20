@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import 'twin.macro';
-import { useTitle } from 'react-use';
+import useTitle from 'react-use/lib/useTitle';
 import eightSecondsSoundUrl from '../sound/eightSeconds.mp3';
 import twelveSecondsSoundUrl from '../sound/twelveSeconds.mp3';
 import timeoutSoundUrl from '../sound/警告音1.mp3';

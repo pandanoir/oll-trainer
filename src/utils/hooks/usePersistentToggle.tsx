@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { useLocalStorage, useToggle } from 'react-use';
+import useLocalStorage from 'react-use/lib/useLocalStorage';
+import useToggle from 'react-use/lib/useToggle';
 
 export const usePersistentToggle = (key: string, init: boolean) => {
   const [savedValue, updateLocalStorage] = useLocalStorage(key, init);

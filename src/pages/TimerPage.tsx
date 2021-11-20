@@ -19,7 +19,7 @@ import {
 } from 'react';
 import 'twin.macro';
 import { useIntl } from 'react-intl';
-import { useTitle } from 'react-use';
+import useTitle from 'react-use/lib/useTitle';
 import Scrambo from 'scrambo';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';

@@ -1,7 +1,7 @@
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { VFC } from 'react';
-import { useTitle } from 'react-use';
+import useTitle from 'react-use/lib/useTitle';
 import tw from 'twin.macro';
 import { PrimaryButton } from '../components/common/PrimaryButton';
 import { Solve } from '../components/Solve';
