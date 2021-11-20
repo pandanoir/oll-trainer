@@ -19,7 +19,6 @@ module.exports = {
         'plugin:react-hooks/recommended',
         'prettier',
       ],
-      plugins: ['formatjs'],
       env: {
         browser: true,
         node: false,
@@ -45,7 +44,6 @@ module.exports = {
           },
         ],
         'import/no-unresolved': 'off',
-        'formatjs/enforce-id': 'error',
       },
     },
     {
