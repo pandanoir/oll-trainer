@@ -1,6 +1,8 @@
 import {
   faBars,
+  faCog,
   faExternalLinkAlt,
+  faMoon,
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,8 +13,10 @@ import { Link, LinkProps, useMatch, useResolvedPath } from 'react-router-dom';
 import tw from 'twin.macro';
 
 import { RouteList } from '../route';
+import { useDarkModeState } from '../utils/hooks/useDarkMode';
 import { usePortalRoot } from '../utils/hooks/usePortalRoot';
 import { IconButton } from './common/IconButton';
+import { SwitchButton } from './common/SwitchButton';
 
 const CustomNavLink = ({ children, to, className, ...props }: LinkProps) => {
   const resolved = useResolvedPath(to);
@@ -84,9 +88,13 @@ const SideMenu: VFC<{ hidden?: boolean; onClose: () => void }> = ({
   );
 };
 
-export const Header: VFC<{ right: JSX.Element }> = ({ right }) => {
+export const Header: VFC<{
+  onSettingButtonClick: () => void;
+  onDarkModeToggle: () => void;
+}> = ({ onSettingButtonClick, onDarkModeToggle }) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const linkStyle = tw`no-underline text-gray-600 dark:text-gray-300 hover:text-hover hover:dark:text-hover-dark hover:underline`;
+  const darkMode = useDarkModeState();
 
   return (
     <header tw="px-3 pt-5 pb-3 bg-white dark:bg-gray-800">
@@ -118,7 +126,20 @@ export const Header: VFC<{ right: JSX.Element }> = ({ right }) => {
             </li>
           </ul>
         </span>
-        {right}
+        <span tw="flex space-x-2">
+          <IconButton
+            tw="w-8 h-8 rounded-full bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-white"
+            icon={faCog}
+            onClick={onSettingButtonClick}
+          />
+          <span tw="flex items-center flex-nowrap">
+            <SwitchButton
+              value={darkMode ? 'right' : 'left'}
+              onChange={onDarkModeToggle}
+            />
+            <FontAwesomeIcon icon={faMoon} />
+          </span>
+        </span>
       </nav>
       <SideMenu
         hidden={!isMenuVisible}
