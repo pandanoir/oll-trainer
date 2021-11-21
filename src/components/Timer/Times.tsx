@@ -1,4 +1,4 @@
-import { Temporal } from 'proposal-temporal';
+import { Temporal } from '@js-temporal/polyfill';
 import { VFC, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';

@@ -8,7 +8,7 @@ import {
   faVolumeUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Temporal } from 'proposal-temporal';
+import { Temporal } from '@js-temporal/polyfill';
 import {
   useCallback,
   useContext,
@@ -196,7 +196,7 @@ export const TimerPage: VFC = () => {
             addTime({
               ...data,
               scramble: scrambles[index],
-              date: Temporal.now.instant().epochMilliseconds,
+              date: Temporal.Now.instant().epochMilliseconds,
             });
             swiper?.slideNext();
           },
@@ -207,7 +207,7 @@ export const TimerPage: VFC = () => {
             addTime({
               time: secTime * 1000,
               scramble: scrambles[index],
-              date: Temporal.now.instant().epochMilliseconds,
+              date: Temporal.Now.instant().epochMilliseconds,
             });
             swiper?.slideNext();
           },
