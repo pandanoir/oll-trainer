@@ -2,6 +2,7 @@
 FROM node:lts-alpine as build-stage
 WORKDIR /app
 COPY package*.json ./
+COPY patches/ /app/patches/
 RUN npm ci --only=production --unsafe-perm
 COPY . .
 RUN npm run build
