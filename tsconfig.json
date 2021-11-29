@@ -4,12 +4,12 @@
     "module": "esnext",
     "moduleResolution": "node",
     "lib": [
-      "esnext",
       "esnext.asynciterable",
       "dom",
-      "esnext.intl",
+      "es2020",
       "es2017.intl",
-      "es2018.intl"
+      "es2018.intl",
+      "esnext.intl",
     ],
     "esModuleInterop": true,
     "sourceMap": true,
