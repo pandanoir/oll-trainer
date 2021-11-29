@@ -1,8 +1,6 @@
 import {
   useCallback,
-  useEffect,
   useRef,
-  useState,
   TouchEvent,
   MouseEvent as ReactMouseEvent,
 } from 'react';
@@ -40,7 +38,7 @@ export const useCubeTimer = ({
   }) => void;
   now?: () => number;
 }) => {
-  const [penalty, setPenalty] = useState<null | '+2' | typeof DNF>(null);
+  const penalty = useRef<null | '+2' | typeof DNF>(null);
   const {
     time,
     inspectionTime,
@@ -57,12 +55,12 @@ export const useCubeTimer = ({
     now,
     onFinishTimer: useCallback(
       (time) => {
-        if (penalty === '+2') {
+        if (penalty.current === '+2') {
           onFinish({
             time,
             penalty: true,
           });
-        } else if (penalty === DNF) {
+        } else if (penalty.current === DNF) {
           onFinish({
             time,
             isDNF: true,
@@ -74,17 +72,12 @@ export const useCubeTimer = ({
       [penalty, onFinish]
     ),
   });
-
-  useEffect(() => {
-    if (timerState === IDOLING) {
-      setPenalty(null);
-    }
-  }, [timerState]);
+  if (timerState === IDOLING) {
+    penalty.current = null;
+  }
 
   const inspectionTimeRef = useRef(inspectionTime);
-  useEffect(() => {
-    inspectionTimeRef.current = inspectionTime;
-  }, [inspectionTime]);
+  inspectionTimeRef.current = inspectionTime;
 
   const onPointerDown = useCallback(
     (
@@ -156,10 +149,10 @@ export const useCubeTimer = ({
             // 問題なし
           } else if (inspectionTimeRef.current >= -2000) {
             // +2
-            setPenalty('+2');
+            penalty.current = '+2';
           } else {
             // DNF
-            setPenalty(DNF);
+            penalty.current = DNF;
           }
         }
         startTimer();

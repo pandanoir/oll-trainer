@@ -69,7 +69,6 @@ export const useTimer = ({
   useEffect(() => {
     if (timerState === IDOLING) {
       timerStartAt.current = 0;
-      78;
       setTime(0);
       return;
     }
