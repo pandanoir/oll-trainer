@@ -2,8 +2,8 @@
  * @jest-environment jsdom
  */
 import { act, renderHook } from '@testing-library/react-hooks';
-import { withPrefix } from '../withPrefix';
-import { zerofill } from '../zerofill';
+import { withPrefix } from '../../../utils/withPrefix';
+import { zerofill } from '../../../utils/zerofill';
 import { migration, useSessions } from './useSessions';
 
 describe('migration', () => {

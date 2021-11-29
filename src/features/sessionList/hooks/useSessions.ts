@@ -1,13 +1,13 @@
 import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
-import { defaultVariation, Variation } from '../../data/variations';
+import { defaultVariation, Variation } from '../../../data/variations';
 import {
-  SessionCollection,
-  TimeData,
-} from '../../features/timer/data/timeData';
-import { isUnknownObject } from '../isUnknownObject';
-import { withPrefix } from '../withPrefix';
-import { zerofill } from '../zerofill';
-import { useVersionedImmerState, useStoragedState } from './useLocalStorage';
+  useVersionedImmerState,
+  useStoragedState,
+} from '../../../utils/hooks/useLocalStorage';
+import { isUnknownObject } from '../../../utils/isUnknownObject';
+import { withPrefix } from '../../../utils/withPrefix';
+import { zerofill } from '../../../utils/zerofill';
+import { SessionCollection, TimeData } from '../../timer/data/timeData';
 
 const version = 2;
 const createNewSession = (num = 1) => {

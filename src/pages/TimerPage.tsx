@@ -40,11 +40,11 @@ import {
   UserDefinedVariationContext,
 } from '../data/variations';
 import { Session } from '../features/sessionList/components/SessionToolbar';
+import { useSessions } from '../features/sessionList/hooks/useSessions';
 import { Timer } from '../features/timer/components/Timer';
 import { exhaustiveCheck } from '../utils/exhaustiveCheck';
 import { useAudio } from '../utils/hooks/useAudio';
 import { useStoragedState } from '../utils/hooks/useLocalStorage';
-import { useSessions } from '../utils/hooks/useSessions';
 import { isAwayFromBeginningElement } from '../utils/isAwayFromBeginningElement';
 import { withPrefix } from '../utils/withPrefix';
 import { withStopPropagation } from '../utils/withStopPropagation';
