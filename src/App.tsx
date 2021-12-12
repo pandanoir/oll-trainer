@@ -101,4 +101,3 @@ export const App: VFC = () => {
     </UserDefinedVariationContext.Provider>
   );
 };
-render(<App />, document.querySelector('#app'));
