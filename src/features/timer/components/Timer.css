@@ -1,32 +1,36 @@
-.default {
-  @apply font-mono text-6xl lg:text-8xl select-none;
-  text-shadow: currentColor 1px 0px 0px, currentColor 0.540302px 0.841471px 0px,
-    currentColor -0.416147px 0.909297px 0px,
-    currentColor -0.989992px 0.14112px 0px,
-    currentColor -0.653644px -0.756802px 0px,
-    currentColor 0.283662px -0.958924px 0px,
-    currentColor 0.96017px -0.279415px 0px;
-}
-.steady {
-  @apply text-green-400;
-  @apply default;
-}
-.dark .steady {
-  @apply text-green-600;
-}
+@tailwind components;
+@layer components {
+  .default {
+    @apply font-mono text-6xl lg:text-8xl select-none;
+    text-shadow: currentColor 1px 0px 0px,
+      currentColor 0.540302px 0.841471px 0px,
+      currentColor -0.416147px 0.909297px 0px,
+      currentColor -0.989992px 0.14112px 0px,
+      currentColor -0.653644px -0.756802px 0px,
+      currentColor 0.283662px -0.958924px 0px,
+      currentColor 0.96017px -0.279415px 0px;
+  }
+  .steady {
+    @apply text-green-400;
+    @apply default;
+  }
+  .dark .steady {
+    @apply text-green-600;
+  }
 
-.ready {
-  @apply text-red-500;
-  @apply default;
-}
-.dark .ready {
-  @apply text-red-700;
-}
+  .ready {
+    @apply text-red-500;
+    @apply default;
+  }
+  .dark .ready {
+    @apply text-red-700;
+  }
 
-.timer {
-  @apply text-blue-900;
-  @apply default;
-}
-.dark .timer {
-  @apply text-blue-600;
+  .timer {
+    @apply text-blue-900;
+    @apply default;
+  }
+  .dark .timer {
+    @apply text-blue-600;
+  }
 }

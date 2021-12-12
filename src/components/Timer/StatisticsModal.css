@@ -1,11 +1,15 @@
-.tab--base {
-  @apply flex-1 text-center cursor-pointer;
-}
-.tab {
-  @apply tab--base;
-  @apply text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-600;
-}
-.tab--selected {
-  @apply tab--base;
-  @apply font-bold border-b border-blue-300 dark:border-blue-600;
+@tailwind components;
+
+@layer components {
+  .tab--base {
+    @apply flex-1 text-center cursor-pointer;
+  }
+  .tab {
+    @apply tab--base;
+    @apply text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-600;
+  }
+  .tab--selected {
+    @apply tab--base;
+    @apply font-bold border-b border-blue-300 dark:border-blue-600;
+  }
 }
