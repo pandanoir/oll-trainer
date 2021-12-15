@@ -1,8 +1,7 @@
 import { useCallback, VFC } from 'react';
-import { render } from 'react-dom';
 import { MessageFormatElement, IntlProvider } from 'react-intl';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import 'twin.macro';
+import { GlobalStyles } from 'twin.macro';
 
 import en from '../compiled-lang/en.json';
 import ja from '../compiled-lang/ja.json';
@@ -93,6 +92,7 @@ export const App: VFC = () => {
         >
           <DarkModeContext.Provider value={darkMode}>
             <CheckContext.Provider value={useCheck()}>
+              <GlobalStyles />
               {app}
             </CheckContext.Provider>
           </DarkModeContext.Provider>
