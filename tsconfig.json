@@ -9,7 +9,7 @@
       "es2020",
       "es2017.intl",
       "es2018.intl",
-      "esnext.intl",
+      "esnext.intl"
     ],
     "esModuleInterop": true,
     "sourceMap": true,
@@ -26,6 +26,7 @@
   },
   "include": [
     "./src",
-    "./src/types"
+    "./src/types",
+    "./jest.setup.ts"
   ]
 }

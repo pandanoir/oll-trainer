@@ -12,11 +12,13 @@ const TimerCoverRaw: VFC<{
   ) => void;
   disabled?: boolean;
   transparent?: boolean;
+  pressed: boolean;
 }> = ({
   onPointerDown,
   onPointerUp,
   disabled = false,
   transparent = false,
+  pressed,
 }) => (
   <div
     onTouchStart={withStopPropagation(onPointerDown)}
@@ -26,6 +28,9 @@ const TimerCoverRaw: VFC<{
     onMouseUp={withStopPropagation(onPointerUp)}
     ref={usePreventDefault('touchstart', !disabled)}
     className={transparent ? 'cover-transparent' : 'cover'}
+    role="button"
+    aria-label="timer"
+    aria-pressed={pressed}
   />
 );
 export const TimerCover = memo(TimerCoverRaw);

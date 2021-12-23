@@ -37,6 +37,7 @@ const TapTimerRaw: VFC<PropsWithChildren<Props>> = ({
         : exhaustiveCheck(timerState),
       className
     )}
+    role="main"
     {...props}
   >
     {children}

@@ -119,6 +119,12 @@ export const Timer: VFC<Props> = ({
             onPointerUp={onPointerUp}
             disabled={inputsTimeManually}
             transparent={timerState === IDOLING}
+            pressed={
+              timerState === READY ||
+              timerState === STEADY ||
+              timerState === INSPECTION_READY ||
+              timerState === INSPECTION_STEADY
+            }
           />
         ),
         [inputsTimeManually, onPointerDown, onPointerUp, timerState, volume]

@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import macrosPlugin from 'vite-plugin-babel-macros';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -8,9 +7,9 @@ export default defineConfig({
     react({
       babel: {
         plugins: [
-          'babel-plugin-macros',
+          'macros',
           [
-            'babel-plugin-styled-components',
+            'styled-components',
             {
               displayName: true,
               fileName: false,

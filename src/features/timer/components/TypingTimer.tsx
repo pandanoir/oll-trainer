@@ -76,6 +76,7 @@ export const TypingTimer: VFC<{
           Math.floor(((input / 100) % 100) / 60);
         onInput(min * 60 + sec + centisec / 100);
       }}
+      role="main"
     />
   );
 };
