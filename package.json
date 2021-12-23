@@ -39,7 +39,7 @@
     "@vitejs/plugin-react": "^1.1.1",
     "autoprefixer": "^10.0.0",
     "babel-jest": "^27.4.5",
-    "babel-plugin-macros": "^2.8.0",
+    "babel-plugin-macros": "^3.0.0",
     "babel-plugin-styled-components": "^2.0.2",
     "clsx": "^1.1.1",
     "immer": "^9.0.2",
