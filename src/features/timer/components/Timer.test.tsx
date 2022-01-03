@@ -2,12 +2,7 @@
  * @jest-environment jsdom
  */
 
-import {
-  render,
-  fireEvent,
-  cleanup,
-  createEvent,
-} from '@testing-library/react';
+import { render, fireEvent, cleanup } from '@testing-library/react';
 import { ComponentProps } from 'react';
 import { act } from 'react-dom/test-utils';
 import { TimeData } from '../data/timeData';
