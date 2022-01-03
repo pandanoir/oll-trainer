@@ -1,5 +1,6 @@
 import { produce } from 'immer';
 import { useCallback, useRef, useState } from 'react';
+import { RecoilState, useRecoilState, useSetRecoilState } from 'recoil';
 import { useImmer } from 'use-immer';
 const stateInitializer =
   <T>(storageKey: string, initialValue: T | (() => T)) =>
@@ -33,27 +34,6 @@ export const useStoragedState = <T>(
   return [state, setState] as const;
 };
 
-export const useStoragedImmerState = <T>(
-  storageKey: string,
-  initialValue: T | (() => T)
-) => {
-  const [state, updateStateRaw] = useImmer<T>(
-    stateInitializer(storageKey, initialValue)
-  );
-  const stateRef = useRef(state);
-  const setState: typeof updateStateRaw = useCallback(
-    (action) => {
-      const newValue =
-        action instanceof Function ? produce(stateRef.current, action) : action;
-      stateRef.current = newValue;
-      updateStateRaw(newValue);
-      localStorage.setItem(storageKey, JSON.stringify(newValue));
-    },
-    [updateStateRaw, storageKey]
-  );
-  return [state, setState] as const;
-};
-
 // マイグレーションありのuseStoragedImmerState
 export const useVersionedImmerState = <T>(
   storageKey: string,
@@ -61,7 +41,7 @@ export const useVersionedImmerState = <T>(
   latestVersion: number,
   migrate: (old: unknown) => { data: T; version: number }
 ) => {
-  const [state, updateStateRaw] = useImmer<T>(() => {
+  const [state, updateStateRaw] = useState<T>(() => {
     try {
       const item = localStorage.getItem(storageKey);
       if (item !== null) {
@@ -86,3 +66,12 @@ export const useVersionedImmerState = <T>(
   );
   return [state, setState] as const;
 };
+
+export const useStoragedImmerState = <T>(
+  storageKey: string,
+  initialValue: T | (() => T)
+) =>
+  useVersionedImmerState<T>(storageKey, initialValue, 0, (data) => ({
+    data: data as T,
+    version: 0,
+  }));
