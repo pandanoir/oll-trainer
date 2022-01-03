@@ -69,7 +69,9 @@ export const migration = (
   throw new Error('unexpected version');
 };
 export const useSessions = (
-  initialSessions = getDefaultSessionCollection()
+  initialSessions:
+    | SessionCollection
+    | (() => SessionCollection) = getDefaultSessionCollection
 ) => {
   const [sessions, updateSessions] = useVersionedImmerState(
     withPrefix('sessions'),
