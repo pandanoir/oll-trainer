@@ -170,6 +170,7 @@ const SessionRaw: VFC<Props> = ({
               icon={faAngleLeft}
             />
             <input
+              title="session name"
               value={currentSessions[sessionIndex].name}
               tw="w-36 bg-transparent"
               onChange={({ target: { value } }) => changeSessionName(value)}
