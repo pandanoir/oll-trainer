@@ -1,10 +1,10 @@
 import {
   faPlus,
-  faSortNumericDown,
-  faSortNumericUpAlt,
+  faSortNumericDownAlt,
+  faSortNumericUp,
 } from '@fortawesome/free-solid-svg-icons';
-import { VFC, ReactNode } from 'react';
-import tw from 'twin.macro';
+import { VFC, useMemo } from 'react';
+import 'twin.macro';
 import { IconButton } from '../../../components/common/IconButton';
 import { Modal } from '../../../components/common/Modal';
 import { ModalCloseButton } from '../../../components/common/ModalCloseButton';
@@ -14,17 +14,21 @@ import { withPrefix } from '../../../utils/withPrefix';
 interface Props {
   onClose: () => void;
   onAddButtonClick: () => void;
-  sessions: ReactNode;
+  sessions: JSX.Element[];
 }
 export const SessionListModal: VFC<Props> = ({
   onClose,
   onAddButtonClick,
   sessions,
 }) => {
-  const [isAscendingOrder, toggleOrder] = usePersistentToggle(
+  const [sortsByOldest, toggleOrder] = usePersistentToggle(
     withPrefix('session-list-order'),
     true
   );
+
+  const sortedSessions = useMemo(() => {
+    return sortsByOldest ? sessions : sessions.concat().reverse();
+  }, [sessions, sortsByOldest]);
   return (
     <Modal tw="lg:inset-x-1/4 lg:w-1/2" onClose={onClose}>
       <ModalCloseButton onClick={onClose} />
@@ -38,16 +42,12 @@ export const SessionListModal: VFC<Props> = ({
           />
         </div>
         <IconButton
+          title={sortsByOldest ? 'sort by latest' : 'sort by oldest'}
           tw="w-max px-2.5 my-1.5 text-xl"
-          icon={isAscendingOrder ? faSortNumericDown : faSortNumericUpAlt}
+          icon={sortsByOldest ? faSortNumericUp : faSortNumericDownAlt}
           onClick={toggleOrder}
         />
-        <ul
-          tw="flex flex-col flex-1 overflow-y-auto"
-          css={[isAscendingOrder ? '' : tw`flex-col-reverse justify-end`]}
-        >
-          {sessions}
-        </ul>
+        <ul tw="flex flex-col flex-1 overflow-y-auto">{sortedSessions}</ul>
       </div>
     </Modal>
   );
