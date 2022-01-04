@@ -2,6 +2,7 @@ import { memo, MouseEvent, TouchEvent, VFC } from 'react';
 import { usePreventDefault } from '../../../utils/hooks/usePreventDefault';
 import { noop } from '../../../utils/noop';
 import { withStopPropagation } from '../../../utils/withStopPropagation';
+import 'twin.macro';
 
 const TimerCoverRaw: VFC<{
   onPointerDown: (
@@ -28,6 +29,7 @@ const TimerCoverRaw: VFC<{
     onMouseUp={withStopPropagation(onPointerUp)}
     ref={usePreventDefault('touchstart', !disabled)}
     className={transparent ? 'cover-transparent' : 'cover'}
+    tw="cursor-default"
     role="button"
     aria-label="timer"
     aria-pressed={pressed}
