@@ -21,6 +21,9 @@ import { TweetButton } from '../TweetButton';
 import { BigRecord } from './BigRecord';
 import { RecordModifier } from './RecordModifier';
 
+const BestRecordListItem = tw.button`text-left py-1 hover:text-hover hover:dark:text-hover-dark`;
+const SessionRecordListItem = tw.button`text-left border-b border-gray-200 dark:border-gray-700 hover:text-hover hover:dark:text-hover-dark`;
+
 export const Times: VFC<{
   times: TimeData[];
   changeToDNF: (index: number) => void;
@@ -89,56 +92,36 @@ export const Times: VFC<{
   return (
     <>
       <div tw="flex flex-col space-y-5">
-        <ul tw="flex flex-col-reverse px-3">
+        <ul tw="flex flex-col-reverse px-3" aria-label="best records">
           <li tw="grid grid-cols-3 border-b border-gray-300 order-1">
             <span>best time</span>
             <span>best ao5</span>
             <span>best ao12</span>
           </li>
           <li tw="grid grid-cols-3">
-            <span
-              onClick={() => openModal(bestRecordIndex)}
-              tw="cursor-pointer py-1 hover:text-hover hover:dark:text-hover-dark"
-            >
+            <BestRecordListItem onClick={() => openModal(bestRecordIndex)}>
               {bestRecordIndex === -1
                 ? '-'
                 : showRecord(times[bestRecordIndex])}
-            </span>
-            <span
-              onClick={
-                bestAo5Index !== -1 && ao5[bestAo5Index]
-                  ? () => openAo5Modal(bestAo5Index)
-                  : noop
-              }
-              css={[
-                bestAo5Index !== -1 && ao5[bestAo5Index]
-                  ? tw`cursor-pointer`
-                  : '',
-                tw`py-1 hover:text-hover hover:dark:text-hover-dark`,
-              ]}
+            </BestRecordListItem>
+            <BestRecordListItem
+              onClick={() => openAo5Modal(bestAo5Index)}
+              disabled={bestAo5Index === -1 || !ao5[bestAo5Index]}
             >
               {bestAo5Index !== -1 && showAverage(ao5[bestAo5Index], '-')}
-            </span>
-            <span
-              onClick={
-                bestAo12Index !== -1 && ao12[bestAo12Index]
-                  ? () => openAo12Modal(bestAo12Index)
-                  : noop
-              }
-              css={[
-                bestAo12Index !== -1 && ao12[bestAo12Index]
-                  ? tw`cursor-pointer`
-                  : '',
-                tw`py-1 hover:text-hover hover:dark:text-hover-dark`,
-              ]}
+            </BestRecordListItem>
+            <BestRecordListItem
+              onClick={() => openAo12Modal(bestAo12Index)}
+              disabled={bestAo12Index === -1 || !ao12[bestAo12Index]}
             >
               {bestAo12Index !== -1 && showAverage(ao12[bestAo12Index], '-')}
-            </span>
+            </BestRecordListItem>
           </li>
         </ul>
         <ul
           tw="grid px-3 gap-y-1"
           css="grid-template-columns: max-content repeat(3, minmax(0, 1fr))"
+          aria-label="session record"
         >
           <li tw="contents order-1">
             <span tw="pr-2 border-b border-gray-300">No.</span>
@@ -152,30 +135,21 @@ export const Times: VFC<{
                 <span tw="border-b border-gray-200 dark:border-gray-700 pr-2">
                   {index + 1}
                 </span>
-                <span
-                  onClick={() => openModal(index)}
-                  tw="cursor-pointer border-b border-gray-200 dark:border-gray-700 hover:text-hover hover:dark:text-hover-dark"
-                >
+                <SessionRecordListItem onClick={() => openModal(index)}>
                   {showRecord(time)}
-                </span>
-                <span
-                  onClick={ao5[index] ? () => openAo5Modal(index) : noop}
-                  css={[
-                    ao5[index] ? tw`cursor-pointer` : '',
-                    tw`border-b border-gray-200 dark:border-gray-700 hover:text-hover hover:dark:text-hover-dark`,
-                  ]}
+                </SessionRecordListItem>
+                <SessionRecordListItem
+                  onClick={() => openAo5Modal(index)}
+                  disabled={!ao5[index]}
                 >
                   {showAverage(ao5[index], '-')}
-                </span>
-                <span
-                  onClick={ao12[index] ? () => openAo12Modal(index) : noop}
-                  css={[
-                    ao12[index] ? tw`cursor-pointer` : '',
-                    tw`border-b border-gray-200 dark:border-gray-700 hover:text-hover hover:dark:text-hover-dark`,
-                  ]}
+                </SessionRecordListItem>
+                <SessionRecordListItem
+                  onClick={() => openAo12Modal(index)}
+                  disabled={!ao12[index]}
                 >
                   {showAverage(ao12[index], '-')}
-                </span>
+                </SessionRecordListItem>
               </li>
             ))
             .reverse()}

@@ -28,15 +28,15 @@ export const SessionListItem: VFC<{
     timesWithoutDNF.length > 0 ? showTime(calcAverage(timesWithoutDNF)) : '-';
   return (
     <li tw="px-3 pb-1 pt-3 lg:mr-6 text-lg flex justify-between items-center border-b space-x-3">
-      <span
-        tw="flex-1 overflow-hidden whitespace-nowrap cursor-pointer hover:text-hover hover:dark:text-hover-dark"
+      <button
+        tw="text-left flex-1 overflow-hidden whitespace-nowrap cursor-pointer hover:text-hover hover:dark:text-hover-dark"
         onClick={onClick}
       >
         <span tw="w-3 inline-block">
           {selected && <FontAwesomeIcon icon={faAngleRight} />}
         </span>
         {name}
-      </span>
+      </button>
       <span tw="grid grid-rows-3 md:flex md:space-x-2 text-sm md:text-base">
         <span>
           {times.length} <span tw="text-sm">SOLVES</span>
