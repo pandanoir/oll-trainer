@@ -47,7 +47,9 @@ export const SessionListModal: VFC<Props> = ({
           icon={sortsByOldest ? faSortNumericUp : faSortNumericDownAlt}
           onClick={toggleOrder}
         />
-        <ul tw="flex flex-col flex-1 overflow-y-auto">{sortedSessions}</ul>
+        <ul tw="flex flex-col flex-1 overflow-y-auto" aria-label="session list">
+          {sortedSessions}
+        </ul>
       </div>
     </Modal>
   );

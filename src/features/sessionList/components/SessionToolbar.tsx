@@ -109,6 +109,7 @@ const SessionRaw: VFC<Props> = ({
     setModalType(SESSION_LIST_MODAL);
     openModal();
   };
+  const recordListId = 'record-list';
   return (
     <>
       {opensRecordList && (
@@ -117,6 +118,8 @@ const SessionRaw: VFC<Props> = ({
 
       <RecordListWrapper ref={recordListRef}>
         <RecordList
+          id={recordListId}
+          data-testid={recordListId}
           css={[
             opensRecordList
               ? [tw`bottom-0 border-t-2 border-gray-200`]
@@ -124,6 +127,7 @@ const SessionRaw: VFC<Props> = ({
             showsGraph ? '' : tw`overflow-x-hidden overflow-y-auto`,
             tw`transition-position duration-300`,
           ]}
+          aria-hidden={!opensRecordList}
         >
           {!showsGraph && (
             <div tw="fixed left-0 z-10 w-max bg-white dark:bg-gray-800">
@@ -203,6 +207,8 @@ const SessionRaw: VFC<Props> = ({
             <IconButton
               icon={faAngleUp}
               title={opensRecordList ? 'close record list' : 'open record list'}
+              aria-expanded={opensRecordList}
+              aria-controls={recordListId}
               css={[
                 tw`px-4 py-2 text-lg`,
                 tw`transform transition-all duration-300`,

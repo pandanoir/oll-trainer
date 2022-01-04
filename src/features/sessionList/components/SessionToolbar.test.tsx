@@ -2,11 +2,18 @@
  * @jest-environment jsdom
  */
 import '@testing-library/jest-dom';
-import { render, cleanup } from '@testing-library/react';
+import {
+  render,
+  cleanup,
+  fireEvent,
+  within,
+  act,
+} from '@testing-library/react';
 import { useMemo } from 'react';
 import { IntlProvider, MessageFormatElement } from 'react-intl';
 import en from '../../../../compiled-lang/en.json';
 import ja from '../../../../compiled-lang/ja.json';
+import { Times } from '../../../components/Timer/Times';
 import { withPrefix } from '../../../utils/withPrefix';
 import { zerofill } from '../../../utils/zerofill';
 import { SessionCollection } from '../../timer/data/timeData';
@@ -28,9 +35,15 @@ const selectMessages = (
 
 Element.prototype.scrollTo = () => void 0;
 
+jest.mock('../../../components/common/ToggleButton.css', () => '');
+
 jest.useFakeTimers();
 describe('SessionToolbar', () => {
+  const currentSession: { current: null | SessionCollection } = {
+    current: null,
+  };
   beforeEach(() => {
+    currentSession.current = null;
     localStorage.clear();
   });
   afterEach(() => {
@@ -46,7 +59,15 @@ describe('SessionToolbar', () => {
       changeSessionName,
       addSession,
       deleteSession,
+
+      changeToDNF,
+      imposePenalty,
+      undoDNF,
+      undoPenalty,
+      deleteRecord,
+      insertRecord,
     } = useSessions();
+    currentSession.current = sessions;
     const { times } = currentSessionCollection.sessions[sessionIndex];
 
     return (
@@ -66,16 +87,27 @@ describe('SessionToolbar', () => {
           deleteSession={deleteSession}
           recordListComponent={useMemo(
             () => (
-              <div />
+              <div tw="pt-12">
+                <Times
+                  times={times}
+                  changeToDNF={changeToDNF}
+                  imposePenalty={imposePenalty}
+                  undoDNF={undoDNF}
+                  undoPenalty={undoPenalty}
+                  deleteRecord={deleteRecord}
+                  insertRecord={insertRecord}
+                />
+              </div>
             ),
             []
           )}
         />
+        <div id="portal_root" />
       </IntlProvider>
     );
   };
   test('initial state', () => {
-    const { getByRole } = render(<TestComponent />);
+    const { getByRole, getByTestId } = render(<TestComponent />);
     const session1 = `${zerofill(new Date().getMonth() + 1, 2)}-${zerofill(
       new Date().getDate(),
       2
@@ -86,6 +118,7 @@ describe('SessionToolbar', () => {
     );
     expect(getByRole('button', { name: 'prev session' })).toBeDisabled();
     expect(getByRole('button', { name: 'next session' })).toBeDisabled();
+    expect(getByTestId('record-list')).toHaveAttribute('aria-hidden', 'true');
   });
   test('initial state with localStorage', () => {
     const data: SessionCollection = [
@@ -105,12 +138,15 @@ describe('SessionToolbar', () => {
     );
     localStorage.setItem(withPrefix('variation'), '3x3');
 
-    const { getByRole } = render(<TestComponent />);
+    const { getByRole, queryByRole, getByTestId } = render(<TestComponent />);
     expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
       'second'
     );
     expect(getByRole('button', { name: 'prev session' })).not.toBeDisabled();
     expect(getByRole('button', { name: 'next session' })).not.toBeDisabled();
+    expect(getByTestId('record-list')).toHaveAttribute('aria-hidden', 'true');
+    expect(queryByRole('button', { name: 'open record list' })).not.toBeNull();
+    expect(queryByRole('button', { name: 'close record list' })).toBeNull();
   });
   describe('add new session', () => {
     // カレントセッションが末尾のときにボタンを押すと、追加されたセッションがカレントセッションになる
@@ -161,6 +197,71 @@ describe('SessionToolbar', () => {
       expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
         session1
       );
+    });
+  });
+  test('toggle record list', () => {
+    const { getByRole, queryByRole, getByTestId } = render(<TestComponent />);
+
+    getByRole('button', { name: 'open record list' }).click();
+    expect(getByTestId('record-list')).toHaveAttribute('aria-hidden', 'false');
+    expect(queryByRole('button', { name: 'close record list' })).not.toBeNull();
+    expect(queryByRole('button', { name: 'open record list' })).toBeNull();
+
+    getByRole('button', { name: 'close record list' }).click();
+    expect(getByTestId('record-list')).toHaveAttribute('aria-hidden', 'true');
+    expect(queryByRole('button', { name: 'open record list' })).not.toBeNull();
+    expect(queryByRole('button', { name: 'close record list' })).toBeNull();
+  });
+  test('change session name', () => {
+    const { getByRole } = render(<TestComponent />);
+
+    fireEvent.change(getByRole('textbox', { name: 'session name' }), {
+      target: { value: 'replaced' },
+    });
+    expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
+      'replaced'
+    );
+    expect(currentSession.current[0].sessions[0].name).toBe('replaced');
+  });
+  describe('session list modal', () => {
+    test('toggle sort order', () => {
+      const data: SessionCollection = [
+        {
+          sessions: [
+            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'first' },
+            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'second' },
+            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'third' },
+          ],
+          selectedSessionIndex: 0,
+          variation: { name: '3x3', scramble: '3x3' },
+        },
+      ];
+      localStorage.setItem(
+        withPrefix('sessions'),
+        JSON.stringify({ data, version: 2 })
+      );
+      localStorage.setItem(withPrefix('variation'), '3x3');
+
+      const { getByRole } = render(<TestComponent />);
+      getByRole('button', { name: 'open record list' }).click();
+      act(() => {
+        getByRole('button', { name: 'session list' }).click();
+      });
+
+      const list = within(
+        getByRole('list', { name: 'session list' })
+      ).getAllByRole('listitem');
+      expect(list[0]).toHaveTextContent('first');
+      expect(list[1]).toHaveTextContent('second');
+      expect(list[2]).toHaveTextContent('third');
+
+      getByRole('button', { name: 'sort by latest' }).click();
+      const list2 = within(
+        getByRole('list', { name: 'session list' })
+      ).getAllByRole('listitem');
+      expect(list2[0]).toHaveTextContent('third');
+      expect(list2[1]).toHaveTextContent('second');
+      expect(list2[2]).toHaveTextContent('first');
     });
   });
 });
