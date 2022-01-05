@@ -29,7 +29,7 @@ const TimerCoverRaw: VFC<{
     onMouseUp={withStopPropagation(onPointerUp)}
     ref={usePreventDefault('touchstart', !disabled)}
     className={transparent ? 'cover-transparent' : 'cover'}
-    tw="cursor-default"
+    tw="cursor-default!"
     role="button"
     aria-label="timer"
     aria-pressed={pressed}
