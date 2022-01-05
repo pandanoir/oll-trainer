@@ -14,6 +14,7 @@ import {
   ReactNode,
   SetStateAction,
   Suspense,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -110,6 +111,32 @@ const SessionRaw: VFC<Props> = ({
     openModal();
   };
   const recordListId = 'record-list';
+  const [recordListAnimationState, setRecordListAnimationState] = useState<
+    'enter' | 'enter-active' | 'leave' | 'leave-active' | 'none'
+  >('none');
+  const prevOpensRecordList = useRef(opensRecordList);
+
+  if (prevOpensRecordList.current !== opensRecordList) {
+    if (opensRecordList) {
+      setRecordListAnimationState('enter');
+    } else {
+      setRecordListAnimationState('leave');
+    }
+  }
+  prevOpensRecordList.current = opensRecordList;
+
+  useEffect(() => {
+    if (recordListAnimationState === 'enter') {
+      // setTimeout がないとenterになった直後にenter-activeになってしまってアニメーションがうまく動かない
+      setTimeout(() => {
+        setRecordListAnimationState('enter-active');
+      }, 0);
+    }
+    if (recordListAnimationState === 'leave') {
+      setRecordListAnimationState('leave-active');
+    }
+  }, [recordListAnimationState]);
+
   return (
     <>
       {opensRecordList && (
@@ -117,49 +144,54 @@ const SessionRaw: VFC<Props> = ({
       )}
 
       <RecordListWrapper ref={recordListRef}>
-        <RecordList
-          id={recordListId}
-          data-testid={recordListId}
-          css={[
-            opensRecordList
-              ? [tw`bottom-0 border-t-2 border-gray-200`]
-              : tw`-bottom-96`,
-            showsGraph ? '' : tw`overflow-x-hidden overflow-y-auto`,
-            tw`transition-position duration-300`,
-          ]}
-          aria-hidden={!opensRecordList}
-        >
-          {!showsGraph && (
-            <div tw="fixed left-0 z-10 w-max bg-white dark:bg-gray-800">
-              <IconButton
-                icon={faList}
-                title="session list"
-                tw="px-4 py-2 text-lg"
-                onClick={openSessionListModal}
-              />
-            </div>
-          )}
-          <IconButton
-            icon={showsGraph ? faServer : faChartLine}
-            title={showsGraph ? 'show record' : 'show graph'}
-            tw="fixed right-0 px-4 py-2 text-lg z-10 bg-white dark:bg-gray-800"
-            onClick={() => setShowsGraph((v) => !v)}
-          />
+        {(opensRecordList || recordListAnimationState !== 'none') && (
+          <RecordList
+            id={recordListId}
+            data-testid={recordListId}
+            css={[
+              opensRecordList && recordListAnimationState !== 'enter'
+                ? [tw`bottom-0 border-t-2 border-gray-200`]
+                : tw`-bottom-96`,
+              showsGraph ? '' : tw`overflow-x-hidden overflow-y-auto`,
+              tw`transition-position duration-300`,
+            ]}
+            onTransitionEnd={() => {
+              setRecordListAnimationState('none');
+            }}
+            aria-hidden={!opensRecordList}
+          >
+            {!showsGraph && (
+              <div tw="fixed left-0 z-10 w-max bg-white dark:bg-gray-800">
+                <IconButton
+                  icon={faList}
+                  title="session list"
+                  tw="px-4 py-2 text-lg"
+                  onClick={openSessionListModal}
+                />
+              </div>
+            )}
+            <IconButton
+              icon={showsGraph ? faServer : faChartLine}
+              title={showsGraph ? 'show record' : 'show graph'}
+              tw="fixed right-0 px-4 py-2 text-lg z-10 bg-white dark:bg-gray-800"
+              onClick={() => setShowsGraph((v) => !v)}
+            />
 
-          {showsGraph ? (
-            <Suspense
-              fallback={
-                <div tw="w-full h-full text-4xl grid place-items-center">
-                  <LoadingIndicator />
-                </div>
-              }
-            >
-              <TimeGraph times={times} />
-            </Suspense>
-          ) : (
-            recordListComponent
-          )}
-        </RecordList>
+            {showsGraph ? (
+              <Suspense
+                fallback={
+                  <div tw="w-full h-full text-4xl grid place-items-center">
+                    <LoadingIndicator />
+                  </div>
+                }
+              >
+                <TimeGraph times={times} />
+              </Suspense>
+            ) : (
+              recordListComponent
+            )}
+          </RecordList>
+        )}
 
         <SessionToolbar>
           <div tw="flex content-center">

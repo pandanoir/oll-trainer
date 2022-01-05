@@ -107,7 +107,7 @@ describe('SessionToolbar', () => {
     );
   };
   test('initial state', () => {
-    const { getByRole, getByTestId } = render(<TestComponent />);
+    const { getByRole, queryByTestId } = render(<TestComponent />);
     const session1 = `${zerofill(new Date().getMonth() + 1, 2)}-${zerofill(
       new Date().getDate(),
       2
@@ -118,7 +118,7 @@ describe('SessionToolbar', () => {
     );
     expect(getByRole('button', { name: 'prev session' })).toBeDisabled();
     expect(getByRole('button', { name: 'next session' })).toBeDisabled();
-    expect(getByTestId('record-list')).toHaveAttribute('aria-hidden', 'true');
+    expect(queryByTestId('record-list')).toBeNull();
   });
   test('initial state with localStorage', () => {
     const data: SessionCollection = [
@@ -138,13 +138,13 @@ describe('SessionToolbar', () => {
     );
     localStorage.setItem(withPrefix('variation'), '3x3');
 
-    const { getByRole, queryByRole, getByTestId } = render(<TestComponent />);
+    const { getByRole, queryByRole, queryByTestId } = render(<TestComponent />);
     expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
       'second'
     );
     expect(getByRole('button', { name: 'prev session' })).not.toBeDisabled();
     expect(getByRole('button', { name: 'next session' })).not.toBeDisabled();
-    expect(getByTestId('record-list')).toHaveAttribute('aria-hidden', 'true');
+    expect(queryByTestId('record-list')).toBeNull();
     expect(queryByRole('button', { name: 'open record list' })).not.toBeNull();
     expect(queryByRole('button', { name: 'close record list' })).toBeNull();
   });
