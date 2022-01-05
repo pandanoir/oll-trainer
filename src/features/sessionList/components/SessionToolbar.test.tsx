@@ -8,6 +8,7 @@ import {
   fireEvent,
   within,
   act,
+  waitFor,
 } from '@testing-library/react';
 import { useMemo } from 'react';
 import { IntlProvider, MessageFormatElement } from 'react-intl';
@@ -263,5 +264,44 @@ describe('SessionToolbar', () => {
       expect(list2[1]).toHaveTextContent('second');
       expect(list2[2]).toHaveTextContent('first');
     });
+  });
+  test('graph', async () => {
+    const data: SessionCollection = [
+      {
+        sessions: [
+          { times: [{ time: 1234, scramble: '', date: 0 }], name: 'first' },
+          { times: [{ time: 1234, scramble: '', date: 0 }], name: 'second' },
+          { times: [{ time: 1234, scramble: '', date: 0 }], name: 'third' },
+        ],
+        selectedSessionIndex: 0,
+        variation: { name: '3x3', scramble: '3x3' },
+      },
+    ];
+    localStorage.setItem(
+      withPrefix('sessions'),
+      JSON.stringify({ data, version: 2 })
+    );
+
+    const { getByRole, container } = render(<TestComponent />);
+    const originalWarn = console.warn;
+    console.warn = jest.fn(); // Recharts の ResponsiveContainer が width/height 関連で warning 吐くんだけど、
+    // 実際の環境ではちゃんと動いているし、そこまでテストで見る必要ないと思う。なので単にログを無効化することにした
+
+    getByRole('button', { name: 'open record list' }).click();
+    getByRole('button', { name: 'show graph' }).click();
+    expect(
+      container.querySelector('.recharts-responsive-container')
+    ).not.toBeInTheDocument();
+    await waitFor(() =>
+      expect(
+        container.querySelector('.recharts-responsive-container')
+      ).toBeInTheDocument()
+    );
+    getByRole('button', { name: 'close record list' }).click();
+    getByRole('button', { name: 'open record list' }).click();
+    expect(
+      container.querySelector('.recharts-responsive-container')
+    ).toBeInTheDocument();
+    console.warn = originalWarn;
   });
 });
