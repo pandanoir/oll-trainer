@@ -37,30 +37,57 @@ jest.mock('../../../utils/playAudio.ts', () => ({
 
 jest.useFakeTimers();
 describe('Timer', () => {
+  beforeEach(() => {
+    timesRef.current = [];
+    localStorage.clear();
+  });
   afterEach(() => {
     cleanup();
   });
 
   const now = 1609426800000;
-  test('in normal case', () => {
-    const onFinish: ComponentProps<typeof Timer>['onFinish'] = jest
-      .fn()
-      .mockImplementation((data) => {
-        times.push({ ...data, scramble: '', date: now });
-      });
-    const onTypingTimerInput = jest.fn();
-    const times: TimeData[] = [];
-    const { getByRole } = render(
+  const timesRef: { current: TimeData[] } = { current: [] };
+  const TestComponent = ({
+    usesInspection = false,
+    onFinish,
+    onTypingTimerInput,
+  }: Pick<ComponentProps<typeof Timer>, 'onFinish' | 'onTypingTimerInput'> & {
+    usesInspection?: boolean;
+  }) => {
+    const { currentSessionCollection, sessionIndex, addTime } = useSessions();
+    const { times } = currentSessionCollection.sessions[sessionIndex];
+    timesRef.current = times;
+    return (
       <Timer
-        usesInspection={false}
+        usesInspection={usesInspection}
         inputsTimeManually={false}
         times={times}
-        onFinish={onFinish}
-        onTypingTimerInput={onTypingTimerInput}
+        onFinish={(data) => {
+          addTime({
+            ...data,
+            scramble: '',
+            date: now,
+          });
+          onFinish(data);
+        }}
+        onTypingTimerInput={(secTime) => {
+          addTime({
+            time: secTime * 1000,
+            scramble: '',
+            date: now,
+          });
+          onTypingTimerInput(secTime);
+        }}
         variationChooseButton={<button />}
         statisticsButton={<div />}
         recordModifier={<div />}
       />
+    );
+  };
+  test('in normal case', () => {
+    const onFinish = jest.fn();
+    const { getByRole } = render(
+      <TestComponent onFinish={onFinish} onTypingTimerInput={jest.fn()} />
     );
     expect(getByRole('main')).toHaveTextContent('0.000');
 
@@ -95,23 +122,12 @@ describe('Timer', () => {
   });
 
   test('in case of using inspection', () => {
-    const onFinish: ComponentProps<typeof Timer>['onFinish'] = jest
-      .fn()
-      .mockImplementation((data) => {
-        times.push({ ...data, scramble: '', date: now });
-      });
-    const onTypingTimerInput = jest.fn();
-    const times: TimeData[] = [];
+    const onFinish = jest.fn();
     const { getByRole } = render(
-      <Timer
-        usesInspection={true}
-        inputsTimeManually={false}
-        times={times}
+      <TestComponent
+        usesInspection
         onFinish={onFinish}
-        onTypingTimerInput={onTypingTimerInput}
-        variationChooseButton={<button />}
-        statisticsButton={<div />}
-        recordModifier={<div />}
+        onTypingTimerInput={jest.fn()}
       />
     );
     expect(getByRole('main')).toHaveTextContent('0.000');
@@ -160,23 +176,12 @@ describe('Timer', () => {
   });
 
   test('with penalty', () => {
-    const onFinish: ComponentProps<typeof Timer>['onFinish'] = jest
-      .fn()
-      .mockImplementation((data) => {
-        times.push({ ...data, scramble: '', date: now });
-      });
-    const onTypingTimerInput = jest.fn();
-    const times: TimeData[] = [];
+    const onFinish = jest.fn();
     const { getByRole } = render(
-      <Timer
-        usesInspection={true}
-        inputsTimeManually={false}
-        times={times}
+      <TestComponent
+        usesInspection
         onFinish={onFinish}
-        onTypingTimerInput={onTypingTimerInput}
-        variationChooseButton={<button />}
-        statisticsButton={<div />}
-        recordModifier={<div />}
+        onTypingTimerInput={jest.fn()}
       />
     );
     expect(getByRole('main')).toHaveTextContent('0.000');
@@ -219,7 +224,7 @@ describe('Timer', () => {
     fireEvent.touchStart(getByRole('button', { name: 'timer' }));
     expect(onFinish).toHaveBeenCalledTimes(1);
     expect(onFinish).toHaveBeenLastCalledWith({ time: 1000, penalty: true });
-    expect(times).toEqual([
+    expect(timesRef.current).toEqual([
       {
         date: now,
         penalty: true,
@@ -233,23 +238,12 @@ describe('Timer', () => {
   });
 
   test('DNF', () => {
-    const onFinish: ComponentProps<typeof Timer>['onFinish'] = jest
-      .fn()
-      .mockImplementation((data) => {
-        times.push({ ...data, scramble: '', date: now });
-      });
-    const onTypingTimerInput = jest.fn();
-    const times: TimeData[] = [];
+    const onFinish = jest.fn();
     const { getByRole } = render(
-      <Timer
-        usesInspection={true}
-        inputsTimeManually={false}
-        times={times}
+      <TestComponent
+        usesInspection
         onFinish={onFinish}
-        onTypingTimerInput={onTypingTimerInput}
-        variationChooseButton={<button />}
-        statisticsButton={<div />}
-        recordModifier={<div />}
+        onTypingTimerInput={jest.fn()}
       />
     );
     expect(getByRole('main')).toHaveTextContent('0.000');
@@ -292,7 +286,7 @@ describe('Timer', () => {
     fireEvent.touchStart(getByRole('button', { name: 'timer' }));
     expect(onFinish).toHaveBeenCalledTimes(1);
     expect(onFinish).toHaveBeenLastCalledWith({ time: 1000, isDNF: true });
-    expect(times).toEqual([
+    expect(timesRef.current).toEqual([
       {
         date: now,
         isDNF: true,
@@ -306,24 +300,9 @@ describe('Timer', () => {
   });
 
   test('user needs to keep tapping for 300ms to start timer', () => {
-    const onFinish: ComponentProps<typeof Timer>['onFinish'] = jest
-      .fn()
-      .mockImplementation((data) => {
-        times.push({ ...data, scramble: '', date: now });
-      });
-    const onTypingTimerInput = jest.fn();
-    const times: TimeData[] = [];
+    const onFinish = jest.fn();
     const { getByRole } = render(
-      <Timer
-        usesInspection={false}
-        inputsTimeManually={false}
-        times={times}
-        onFinish={onFinish}
-        onTypingTimerInput={onTypingTimerInput}
-        variationChooseButton={<button />}
-        statisticsButton={<div />}
-        recordModifier={<div />}
-      />
+      <TestComponent onFinish={onFinish} onTypingTimerInput={jest.fn()} />
     );
     expect(getByRole('main')).toHaveTextContent('0.000');
 
@@ -349,17 +328,11 @@ describe('Timer', () => {
 
   test('user can cancel inspection with cancel button', () => {
     const onFinish = jest.fn();
-    const onTypingTimerInput = jest.fn();
     const { getByRole } = render(
-      <Timer
-        usesInspection={true}
-        inputsTimeManually={false}
-        times={[]}
+      <TestComponent
+        usesInspection
         onFinish={onFinish}
-        onTypingTimerInput={onTypingTimerInput}
-        variationChooseButton={<button />}
-        statisticsButton={<div />}
-        recordModifier={<div />}
+        onTypingTimerInput={jest.fn()}
       />
     );
     expect(getByRole('main')).toHaveTextContent('0.000');
