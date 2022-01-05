@@ -180,6 +180,10 @@ export const useCubeTimer = ({
     '*',
     (event) => {
       const { type, code } = event;
+      if (event.target !== document.querySelector('body')) {
+        // ボタンにフォーカスした状態でスペースを押したときなどに、タイマーをスタートさせないようにする
+        return;
+      }
       if (inputsTimeManually) {
         return;
       }
