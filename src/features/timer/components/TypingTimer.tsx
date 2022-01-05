@@ -45,6 +45,7 @@ export const TypingTimer: VFC<{
   return (
     <input
       tw="w-full font-bold font-mono text-6xl lg:text-8xl text-center bg-transparent"
+      aria-label="input your time"
       className={className}
       placeholder={placeholder}
       value={value}
@@ -76,7 +77,6 @@ export const TypingTimer: VFC<{
           Math.floor(((input / 100) % 100) / 60);
         onInput(min * 60 + sec + centisec / 100);
       }}
-      role="main"
     />
   );
 };
