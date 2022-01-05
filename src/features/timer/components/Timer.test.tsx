@@ -5,9 +5,26 @@
 import { render, fireEvent, cleanup } from '@testing-library/react';
 import { ComponentProps } from 'react';
 import { act } from 'react-dom/test-utils';
+import { IntlProvider, MessageFormatElement } from 'react-intl';
+import en from '../../../../compiled-lang/en.json';
+import ja from '../../../../compiled-lang/ja.json';
+import { useSessions } from '../../sessionList/hooks/useSessions';
 import { TimeData } from '../data/timeData';
 import { Timer } from './Timer';
 import '@testing-library/jest-dom';
+
+const selectMessages = (
+  locale: string
+): Record<string, string> | Record<string, MessageFormatElement[]> => {
+  switch (locale) {
+    case 'en':
+      return en;
+    case 'ja':
+      return ja;
+    default:
+      return en;
+  }
+};
 
 jest.mock('../../../sound/steady.mp3', () => '');
 jest.mock('../../../sound/eightSeconds.mp3', () => '');
@@ -355,5 +372,122 @@ describe('Timer', () => {
     getByRole('button', { name: 'cancel' }).click();
     expect(onFinish).not.toBeCalled();
     expect(getByRole('main')).toHaveTextContent('0.000');
+  });
+});
+describe('TypingTimer', () => {
+  beforeEach(() => {
+    timesRef.current = [];
+    localStorage.clear();
+  });
+  afterEach(() => {
+    cleanup();
+  });
+
+  const now = 1609426800000;
+  const timesRef: { current: TimeData[] } = { current: [] };
+  const TestComponent = ({
+    onFinish,
+    onTypingTimerInput,
+  }: Pick<ComponentProps<typeof Timer>, 'onFinish' | 'onTypingTimerInput'>) => {
+    const { currentSessionCollection, sessionIndex, addTime } = useSessions();
+    const { times } = currentSessionCollection.sessions[sessionIndex];
+    timesRef.current = times;
+    return (
+      <IntlProvider
+        locale="ja"
+        defaultLocale="en"
+        messages={selectMessages('ja')}
+      >
+        <Timer
+          usesInspection={false}
+          inputsTimeManually={true}
+          times={times}
+          onFinish={(data) => {
+            addTime({
+              ...data,
+              scramble: '',
+              date: now,
+            });
+            onFinish(data);
+          }}
+          onTypingTimerInput={(secTime) => {
+            addTime({
+              time: secTime * 1000,
+              scramble: '',
+              date: now,
+            });
+            onTypingTimerInput(secTime);
+          }}
+          variationChooseButton={<button />}
+          statisticsButton={<div />}
+          recordModifier={<div />}
+        />
+      </IntlProvider>
+    );
+  };
+  test('in normal case', () => {
+    const onFinish = jest.fn();
+    const onTypingTimerInput = jest.fn();
+    const { getByRole } = render(
+      <TestComponent
+        onFinish={onFinish}
+        onTypingTimerInput={onTypingTimerInput}
+      />
+    );
+    expect(getByRole('textbox', { name: 'input your time' })).toHaveValue('');
+
+    act(() => {
+      fireEvent.change(getByRole('textbox', { name: 'input your time' }), {
+        target: { value: '1234' },
+      });
+    });
+    act(() => {
+      fireEvent.keyDown(getByRole('textbox', { name: 'input your time' }), {
+        key: 'Enter',
+        code: 'Enter',
+        charCode: 13,
+      });
+    });
+
+    expect(onTypingTimerInput).toHaveBeenCalledTimes(1);
+    expect(onTypingTimerInput).toHaveBeenLastCalledWith(12.34);
+    expect(getByRole('textbox', { name: 'input your time' })).toHaveValue('');
+    expect(timesRef.current).toEqual([
+      {
+        date: now,
+        scramble: '',
+        time: 12340,
+      },
+    ]);
+  });
+  test('TapTimer accepts decimal number', () => {
+    const onTypingTimerInput = jest.fn();
+    const { getByRole } = render(
+      <TestComponent
+        onFinish={jest.fn()}
+        onTypingTimerInput={onTypingTimerInput}
+      />
+    );
+    expect(getByRole('textbox', { name: 'input your time' })).toHaveValue('');
+
+    fireEvent.change(getByRole('textbox', { name: 'input your time' }), {
+      target: { value: '1.234' },
+    });
+    fireEvent.keyDown(getByRole('textbox', { name: 'input your time' }), {
+      key: 'Enter',
+      code: 'Enter',
+      charCode: 13,
+    });
+
+    expect(onTypingTimerInput).toHaveBeenCalledTimes(1);
+    expect(onTypingTimerInput).toHaveBeenLastCalledWith(1.234);
+    expect(getByRole('textbox', { name: 'input your time' })).toHaveValue('');
+    expect(timesRef.current).toEqual([
+      {
+        date: now,
+        scramble: '',
+        time: 1234,
+      },
+    ]);
   });
 });
