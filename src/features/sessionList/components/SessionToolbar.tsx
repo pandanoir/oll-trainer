@@ -76,6 +76,7 @@ const SessionRaw: VFC<Props> = ({
     const currentSessions = sessions.find(
       ({ variation }) => variation.name === currentVariation
     );
+    /* istanbul ignore next */
     if (!currentSessions) {
       throw new Error('unexpected error');
     }
@@ -128,9 +129,10 @@ const SessionRaw: VFC<Props> = ({
   useEffect(() => {
     if (recordListAnimationState === 'enter') {
       // setTimeout がないとenterになった直後にenter-activeになってしまってアニメーションがうまく動かない
-      setTimeout(() => {
+      const id = setTimeout(() => {
         setRecordListAnimationState('enter-active');
       }, 0);
+      return () => clearTimeout(id);
     }
     if (recordListAnimationState === 'leave') {
       setRecordListAnimationState('leave-active');
