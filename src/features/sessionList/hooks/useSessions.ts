@@ -66,6 +66,7 @@ export const migration = (
       version: number;
     }; // ホントは検証しないといけないけど、まあよいでしょう…
   }
+  /* istanbul ignore next */
   throw new Error('unexpected version');
 };
 export const useSessions = (
@@ -100,6 +101,7 @@ export const useSessions = (
           return val.sessions[val.selectedSessionIndex];
         }
       }
+      /* istanbul ignore next */
       throw new Error('unexpected error');
     },
     [variationName]
@@ -111,6 +113,7 @@ export const useSessions = (
           return val;
         }
       }
+      /* istanbul ignore next */
       throw new Error('unexpected error');
     },
     [variationName]

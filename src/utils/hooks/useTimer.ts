@@ -92,7 +92,8 @@ export const useTimer = ({
       // nothing to do
       return;
     }
-    exhaustiveCheck(timerState); // timerState のパターンすべてを網羅できているかチェック
+    /* istanbul ignore next */
+    exhaustiveCheck(timerState);
   }, [now, timerState]);
 
   /** ready -> steady の管理 */

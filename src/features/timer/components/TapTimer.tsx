@@ -34,7 +34,8 @@ const TapTimerRaw: VFC<PropsWithChildren<Props>> = ({
           timerState === IDOLING ||
           timerState === INSPECTION
         ? 'timer'
-        : exhaustiveCheck(timerState),
+        : /* istanbul ignore next */
+          exhaustiveCheck(timerState),
       className
     )}
     role="main"

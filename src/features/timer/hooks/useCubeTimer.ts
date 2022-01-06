@@ -114,6 +114,7 @@ export const useCubeTimer = ({
           finishTimer();
           break;
         default:
+          /* istanbul ignore next */
           exhaustiveCheck(timerState);
       }
     },
@@ -158,6 +159,7 @@ export const useCubeTimer = ({
         startTimer();
         break;
       default:
+        /* istanbul ignore next */
         exhaustiveCheck(timerState);
     }
   }, [

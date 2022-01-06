@@ -416,6 +416,7 @@ export const TimerPage: VFC = () => {
           })}
         />
       ) : modalType == null ? null : (
+        /* istanbul ignore next */
         exhaustiveCheck(modalType)
       )}
     </div>

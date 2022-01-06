@@ -9,7 +9,6 @@ import { exhaustiveCheck } from '../../utils/exhaustiveCheck';
 import { findIndexOfMax } from '../../utils/findIndexOfMax';
 import { findIndexOfMin } from '../../utils/findIndexOfMin';
 import { getTimezoneStr } from '../../utils/getTimezoneStr';
-import { noop } from '../../utils/noop';
 import { showAverage } from '../../utils/showAverage';
 import { showRecord } from '../../utils/showRecord';
 
