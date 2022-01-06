@@ -41,7 +41,7 @@ export const useVersionedImmerState = <T>(
   latestVersion: number,
   migrate: (old: unknown) => { data: T; version: number }
 ) => {
-  const [state, updateStateRaw] = useState<T>(() => {
+  const [state, updateStateRaw] = useImmer<T>(() => {
     try {
       const item = localStorage.getItem(storageKey);
       if (item !== null) {
