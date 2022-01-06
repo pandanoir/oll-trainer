@@ -64,7 +64,7 @@ export const App: VFC = () => {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       {showsModal && (
-        <Modal onClose={closeModal}>
+        <Modal onClose={closeModal} ariaLabel="setting">
           <ModalCloseButton onClick={closeModal} />
           <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
             <div tw="text-lg">Settings</div>
