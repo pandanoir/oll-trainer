@@ -41,6 +41,7 @@ export const SessionListModal: VFC<Props> = ({
           <span tw="text-3xl">Sessions</span>
           <IconButton
             icon={faPlus}
+            title="add session"
             tw="px-2.5 my-1.5 text-lg text-white bg-gray-700 rounded"
             onClick={onAddButtonClick}
           />
