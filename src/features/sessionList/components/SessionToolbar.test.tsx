@@ -258,6 +258,84 @@ describe('SessionToolbar', () => {
       expect(list2[1]).toHaveTextContent('second');
       expect(list2[2]).toHaveTextContent('first');
     });
+    test('change current session', () => {
+      const data: SessionCollection = [
+        {
+          sessions: [
+            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'first' },
+            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'second' },
+            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'third' },
+          ],
+          selectedSessionIndex: 0,
+          variation: { name: '3x3', scramble: '3x3' },
+        },
+      ];
+      localStorage.setItem(
+        withPrefix('sessions'),
+        JSON.stringify({ data, version: 2 })
+      );
+
+      const { getByRole, queryByRole } = render(<TestComponent />);
+      getByRole('button', { name: 'open record list' }).click();
+      act(() => {
+        getByRole('button', { name: 'session list' }).click();
+      });
+
+      within(getByRole('dialog'))
+        .getByRole('button', { name: 'second' })
+        .click();
+
+      expect(queryByRole('dialog')).toBeNull();
+      expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
+        'second'
+      );
+    });
+    // カレントセッションが末尾のときにボタンを押すと、追加されたセッションがカレントセッションになる
+    test('if user adds session when current session is at end, added session becomes current', () => {
+      const { getByRole } = render(<TestComponent />);
+      getByRole('button', { name: 'open record list' }).click();
+      act(() => {
+        getByRole('button', { name: 'session list' }).click();
+      });
+
+      within(getByRole('dialog'))
+        .getByRole('button', { name: 'add session' })
+        .click();
+      const session2 = `${zerofill(new Date().getMonth() + 1, 2)}-${zerofill(
+        new Date().getDate(),
+        2
+      )} session2`;
+
+      expect(getByRole('button', { name: 'prev session' })).not.toBeDisabled();
+      expect(getByRole('button', { name: 'next session' })).toBeDisabled();
+      expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
+        session2
+      );
+    });
+    test(`if user adds session when current session is not at end, current session doesn't change`, () => {
+      const { getByRole } = render(<TestComponent />);
+      getByRole('button', { name: 'open record list' }).click();
+      act(() => {
+        getByRole('button', { name: 'session list' }).click();
+      });
+      const session1 = `${zerofill(new Date().getMonth() + 1, 2)}-${zerofill(
+        new Date().getDate(),
+        2
+      )} session1`;
+
+      within(getByRole('dialog'))
+        .getByRole('button', { name: 'add session' })
+        .click();
+      getByRole('button', { name: 'prev session' }).click();
+      within(getByRole('dialog'))
+        .getByRole('button', { name: 'add session' })
+        .click();
+      expect(getByRole('button', { name: 'prev session' })).toBeDisabled();
+      expect(getByRole('button', { name: 'next session' })).not.toBeDisabled();
+      expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
+        session1
+      );
+    });
   });
   test('graph', async () => {
     const data: SessionCollection = [
