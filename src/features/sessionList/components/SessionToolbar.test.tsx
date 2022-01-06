@@ -176,20 +176,6 @@ describe('SessionToolbar', () => {
       expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
         session2
       );
-
-      getByRole('button', { name: 'prev session' }).click();
-      expect(getByRole('button', { name: 'prev session' })).toBeDisabled();
-      expect(getByRole('button', { name: 'next session' })).not.toBeDisabled();
-      expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
-        session1
-      );
-
-      getByRole('button', { name: 'add session' }).click();
-      expect(getByRole('button', { name: 'prev session' })).toBeDisabled();
-      expect(getByRole('button', { name: 'next session' })).not.toBeDisabled();
-      expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
-        session1
-      );
     });
     test(`if user adds session when current session is not at end, current session doesn't change`, () => {
       const { getByRole } = render(<TestComponent />);
