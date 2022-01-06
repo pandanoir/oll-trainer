@@ -162,10 +162,6 @@ describe('SessionToolbar', () => {
     test('if user adds session when current session is at end, added session becomes current', () => {
       const { getByRole } = render(<TestComponent />);
       getByRole('button', { name: 'add session' }).click();
-      const session1 = `${zerofill(new Date().getMonth() + 1, 2)}-${zerofill(
-        new Date().getDate(),
-        2
-      )} session1`;
       const session2 = `${zerofill(new Date().getMonth() + 1, 2)}-${zerofill(
         new Date().getDate(),
         2
