@@ -164,7 +164,7 @@ export const Times: VFC<{
         (() => {
           if (modalType === 'time') {
             return (
-              <Modal onClose={closeModal}>
+              <Modal onClose={closeModal} ariaLabel="single record">
                 <ModalCloseButton onClick={closeModal} />
                 <div tw="relative flex flex-col space-y-8 p-6 h-full">
                   <BigRecord
@@ -262,7 +262,7 @@ ${selectedTimes.reduce((acc, time, index) => {
 `;
 }, '')}`.trimEnd();
             return (
-              <Modal onClose={closeModal}>
+              <Modal onClose={closeModal} ariaLabel={`ao${averageSize} record`}>
                 <ModalCloseButton onClick={closeModal} />
                 <div tw="relative flex flex-col space-y-6 p-6 h-full">
                   <span tw="bg-blue-200 dark:bg-blue-800 w-max px-3 rounded text-lg font-bold dark:font-normal">

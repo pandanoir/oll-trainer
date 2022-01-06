@@ -163,7 +163,11 @@ export const StatisticsModal: VFC<{
   );
 
   return (
-    <Modal tw="lg:inset-x-1/4 lg:w-1/2" onClose={onClose}>
+    <Modal
+      tw="lg:inset-x-1/4 lg:w-1/2"
+      onClose={onClose}
+      ariaLabel="statistics"
+    >
       <ModalCloseButton onClick={onClose} />
       <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
         <div tw="flex space-x-2">

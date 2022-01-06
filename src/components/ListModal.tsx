@@ -14,7 +14,7 @@ export const ListModal: VFC<{
   const [showsChecked, onChange] = useCheckbox();
 
   return (
-    <Modal onClose={onClose}>
+    <Modal onClose={onClose} ariaLabel="check list of OLL">
       <ModalCloseButton onClick={onClose} />
       <div
         css={[

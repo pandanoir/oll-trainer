@@ -64,42 +64,47 @@ const AddForm: VFC<{ onAddClick: (arg: Variation) => void }> = ({
     </li>
   );
 };
-export const VariationModal: VFC<PropsWithChildren<{ onClose: () => void }>> =
-  ({ onClose, children }) => {
-    const [showsAddForm, setShowsAddForm] = useState(false);
-    const [, updateUserDefinedVariation] = useContext(
-      UserDefinedVariationContext
-    );
+export const VariationModal: VFC<
+  PropsWithChildren<{ onClose: () => void }>
+> = ({ onClose, children }) => {
+  const [showsAddForm, setShowsAddForm] = useState(false);
+  const [, updateUserDefinedVariation] = useContext(
+    UserDefinedVariationContext
+  );
 
-    return (
-      <Modal tw="lg:inset-x-1/4 lg:w-1/2" onClose={onClose}>
-        <ModalCloseButton onClick={onClose} />
-        <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
-          <div tw="flex space-x-2">
-            <span tw="text-3xl">Variation</span>
-            <IconButton
-              icon={faPlus}
-              title="add variation"
-              tw="px-2.5 my-1.5 text-lg text-white bg-gray-700 rounded"
-              onClick={() => setShowsAddForm(true)}
-            />
-          </div>
-          <div>
-            {showsAddForm && (
-              <ul>
-                <AddForm
-                  onAddClick={(newVariation) => {
-                    updateUserDefinedVariation((arr) => {
-                      arr.push(newVariation);
-                    });
-                    setShowsAddForm(false);
-                  }}
-                />
-              </ul>
-            )}
-            {children}
-          </div>
+  return (
+    <Modal
+      tw="lg:inset-x-1/4 lg:w-1/2"
+      onClose={onClose}
+      ariaLabel="variation list of event"
+    >
+      <ModalCloseButton onClick={onClose} />
+      <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
+        <div tw="flex space-x-2">
+          <span tw="text-3xl">Variation of event</span>
+          <IconButton
+            icon={faPlus}
+            title="add variation"
+            tw="px-2.5 my-1.5 text-lg text-white bg-gray-700 rounded"
+            onClick={() => setShowsAddForm(true)}
+          />
         </div>
-      </Modal>
-    );
-  };
+        <div>
+          {showsAddForm && (
+            <ul>
+              <AddForm
+                onAddClick={(newVariation) => {
+                  updateUserDefinedVariation((arr) => {
+                    arr.push(newVariation);
+                  });
+                  setShowsAddForm(false);
+                }}
+              />
+            </ul>
+          )}
+          {children}
+        </div>
+      </div>
+    </Modal>
+  );
+};

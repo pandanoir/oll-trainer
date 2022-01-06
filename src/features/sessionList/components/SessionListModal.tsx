@@ -30,7 +30,11 @@ export const SessionListModal: VFC<Props> = ({
     return sortsByOldest ? sessions : sessions.concat().reverse();
   }, [sessions, sortsByOldest]);
   return (
-    <Modal tw="lg:inset-x-1/4 lg:w-1/2" onClose={onClose}>
+    <Modal
+      tw="lg:inset-x-1/4 lg:w-1/2"
+      onClose={onClose}
+      ariaLabel="session list"
+    >
       <ModalCloseButton onClick={onClose} />
       <div tw="flex flex-col px-3.5 py-5 space-y-2 h-full">
         <div tw="flex space-x-2">

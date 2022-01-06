@@ -11,7 +11,7 @@ export const ExportModal: VFC<{
   onClose: () => void;
   getSetting: () => HiTimerDataJSON;
 }> = ({ onClose, getSetting }) => (
-  <Modal onClose={onClose}>
+  <Modal onClose={onClose} ariaLabel="export data">
     <ModalCloseButton onClick={onClose} />
     <div tw="p-10">
       <span tw="flex space-x-0 space-y-2 flex-col justify-center items-center sm:flex-row sm:space-x-3 sm:space-y-0">
