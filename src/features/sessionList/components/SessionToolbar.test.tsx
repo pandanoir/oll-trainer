@@ -100,7 +100,15 @@ describe('SessionToolbar', () => {
                 />
               </div>
             ),
-            []
+            [
+              changeToDNF,
+              deleteRecord,
+              imposePenalty,
+              insertRecord,
+              times,
+              undoDNF,
+              undoPenalty,
+            ]
           )}
         />
         <div id="portal_root" />
