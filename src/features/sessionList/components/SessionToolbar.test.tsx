@@ -194,18 +194,121 @@ describe('SessionToolbar', () => {
       );
     });
   });
-  test('toggle record list', () => {
-    const { getByRole, queryByRole, getByTestId } = render(<TestComponent />);
+  describe('record list', () => {
+    test('toggle record list', () => {
+      const { getByRole, queryByRole, getByTestId } = render(<TestComponent />);
 
-    getByRole('button', { name: 'open record list' }).click();
-    expect(getByTestId('record-list')).toHaveAttribute('aria-hidden', 'false');
-    expect(queryByRole('button', { name: 'close record list' })).not.toBeNull();
-    expect(queryByRole('button', { name: 'open record list' })).toBeNull();
+      getByRole('button', { name: 'open record list' }).click();
+      expect(getByTestId('record-list')).toHaveAttribute(
+        'aria-hidden',
+        'false'
+      );
+      expect(
+        queryByRole('button', { name: 'close record list' })
+      ).not.toBeNull();
+      expect(queryByRole('button', { name: 'open record list' })).toBeNull();
 
-    getByRole('button', { name: 'close record list' }).click();
-    expect(getByTestId('record-list')).toHaveAttribute('aria-hidden', 'true');
-    expect(queryByRole('button', { name: 'open record list' })).not.toBeNull();
-    expect(queryByRole('button', { name: 'close record list' })).toBeNull();
+      getByRole('button', { name: 'close record list' }).click();
+      expect(getByTestId('record-list')).toHaveAttribute('aria-hidden', 'true');
+      expect(
+        queryByRole('button', { name: 'open record list' })
+      ).not.toBeNull();
+      expect(queryByRole('button', { name: 'close record list' })).toBeNull();
+    });
+    test('record modal can impose penalty on record', () => {
+      const data: SessionCollection = [
+        {
+          sessions: [
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'first',
+            },
+          ],
+          selectedSessionIndex: 0,
+          variation: { name: '3x3', scramble: '3x3' },
+        },
+      ];
+      localStorage.setItem(
+        withPrefix('sessions'),
+        JSON.stringify({ data, version: 2 })
+      );
+      const { getByRole } = render(<TestComponent />);
+
+      getByRole('button', { name: 'open record list' }).click();
+      act(() => {
+        within(getByRole('list', { name: 'session record' }))
+          .getByRole('button', { name: '1.234' })
+          .click();
+      });
+      within(getByRole('dialog')).getByRole('button', { name: '+2' }).click();
+
+      expect(
+        within(getByRole('dialog')).queryByRole('button', { name: '+2' })
+      ).toBeNull();
+      expect(
+        within(getByRole('dialog')).queryByRole('button', { name: 'undo +2' })
+      ).not.toBeNull();
+      expect(getByRole('dialog')).toHaveTextContent('1.234 + 2');
+
+      within(getByRole('dialog'))
+        .getByRole('button', { name: 'undo +2' })
+        .click();
+
+      expect(
+        within(getByRole('dialog')).queryByRole('button', { name: '+2' })
+      ).not.toBeNull();
+      expect(
+        within(getByRole('dialog')).queryByRole('button', { name: 'undo +2' })
+      ).toBeNull();
+      expect(getByRole('dialog')).not.toHaveTextContent('1.234 + 2');
+    });
+    test('record modal can change record to DNF', () => {
+      const data: SessionCollection = [
+        {
+          sessions: [
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'first',
+            },
+          ],
+          selectedSessionIndex: 0,
+          variation: { name: '3x3', scramble: '3x3' },
+        },
+      ];
+      localStorage.setItem(
+        withPrefix('sessions'),
+        JSON.stringify({ data, version: 2 })
+      );
+      const { getByRole } = render(<TestComponent />);
+
+      getByRole('button', { name: 'open record list' }).click();
+      act(() => {
+        within(getByRole('list', { name: 'session record' }))
+          .getByRole('button', { name: '1.234' })
+          .click();
+      });
+      within(getByRole('dialog')).getByRole('button', { name: 'DNF' }).click();
+
+      expect(
+        within(getByRole('dialog')).queryByRole('button', { name: 'DNF' })
+      ).toBeNull();
+      expect(
+        within(getByRole('dialog')).queryByRole('button', { name: 'undo DNF' })
+      ).not.toBeNull();
+      expect(getByRole('dialog')).toHaveTextContent('DNF(1.234)');
+
+      within(getByRole('dialog'))
+        .getByRole('button', { name: 'undo DNF' })
+        .click();
+
+      expect(
+        within(getByRole('dialog')).queryByRole('button', { name: 'DNF' })
+      ).not.toBeNull();
+      expect(
+        within(getByRole('dialog')).queryByRole('button', { name: 'undo DNF' })
+      ).toBeNull();
+      expect(getByRole('dialog')).not.toHaveTextContent('DNF(1.234)');
+    });
   });
   test('change session name', () => {
     const { getByRole } = render(<TestComponent />);
