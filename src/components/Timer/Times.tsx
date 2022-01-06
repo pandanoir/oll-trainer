@@ -99,22 +99,27 @@ export const Times: VFC<{
             <span>best ao12</span>
           </li>
           <li tw="grid grid-cols-3">
-            <BestRecordListItem onClick={() => openModal(bestRecordIndex)}>
-              {bestRecordIndex === -1
-                ? '-'
-                : showRecord(times[bestRecordIndex])}
+            <BestRecordListItem
+              onClick={() => openModal(bestRecordIndex)}
+              disabled={bestRecordIndex === -1}
+            >
+              {bestRecordIndex !== -1
+                ? showRecord(times[bestRecordIndex])
+                : '-'}
             </BestRecordListItem>
             <BestRecordListItem
               onClick={() => openAo5Modal(bestAo5Index)}
               disabled={bestAo5Index === -1 || !ao5[bestAo5Index]}
             >
-              {bestAo5Index !== -1 && showAverage(ao5[bestAo5Index], '-')}
+              {bestAo5Index !== -1 ? showAverage(ao5[bestAo5Index], '-') : '-'}
             </BestRecordListItem>
             <BestRecordListItem
               onClick={() => openAo12Modal(bestAo12Index)}
               disabled={bestAo12Index === -1 || !ao12[bestAo12Index]}
             >
-              {bestAo12Index !== -1 && showAverage(ao12[bestAo12Index], '-')}
+              {bestAo12Index !== -1
+                ? showAverage(ao12[bestAo12Index], '-')
+                : '-'}
             </BestRecordListItem>
           </li>
         </ul>
