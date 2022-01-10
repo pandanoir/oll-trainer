@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { Temporal } from '@js-temporal/polyfill';
 import '@testing-library/jest-dom';
 import {
   render,

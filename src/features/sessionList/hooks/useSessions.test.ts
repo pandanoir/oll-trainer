@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { Temporal } from '@js-temporal/polyfill';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { withPrefix } from '../../../utils/withPrefix';
 import { zerofill } from '../../../utils/zerofill';
