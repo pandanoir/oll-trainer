@@ -99,11 +99,11 @@ const SessionRaw: VFC<Props> = ({
       recordListRef.current.scrollTo(0, 0);
     }
   };
-  const next = () => {
+  const prev = () => {
     setSessionIndex((index) => index - 1);
     resetScroll();
   };
-  const prev = () => {
+  const next = () => {
     setSessionIndex((index) => index + 1);
     resetScroll();
   };
@@ -204,7 +204,7 @@ const SessionRaw: VFC<Props> = ({
               ]}
               title="prev session"
               disabled={sessionIndex <= 0}
-              onClick={next}
+              onClick={prev}
               icon={faAngleLeft}
             />
             <input
@@ -223,7 +223,7 @@ const SessionRaw: VFC<Props> = ({
                   : '',
               ]}
               disabled={sessionIndex + 1 >= currentSessions.length}
-              onClick={prev}
+              onClick={next}
             />
             <IconButton
               icon={faPlus}
