@@ -377,6 +377,102 @@ describe('SessionToolbar', () => {
         'second'
       );
     });
+    test('delete session', () => {
+      const data: SessionCollection = [
+        {
+          sessions: [
+            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'first' },
+            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'second' },
+            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'third' },
+          ],
+          selectedSessionIndex: 0,
+          variation: { name: '3x3', scramble: '3x3' },
+        },
+      ];
+      localStorage.setItem(
+        withPrefix('sessions'),
+        JSON.stringify({ data, version: 2 })
+      );
+
+      const { getByRole } = render(<TestComponent />);
+      getByRole('button', { name: 'open record list' }).click();
+      act(() => {
+        getByRole('button', { name: 'session list' }).click();
+      });
+
+      // confirm でキャンセルを押したら削除しない
+      const confirmSpy = jest.spyOn(window, 'confirm');
+      confirmSpy.mockImplementation(jest.fn(() => false));
+
+      within(within(getByRole('dialog')).getAllByRole('listitem')[0])
+        .getByRole('button', { name: 'delete session' })
+        .click();
+
+      expect(within(getByRole('dialog')).getAllByRole('listitem')).toHaveLength(
+        3
+      );
+
+      // confirm でokを押したら削除する
+      confirmSpy.mockImplementation(jest.fn(() => true));
+      within(within(getByRole('dialog')).getAllByRole('listitem')[0])
+        .getByRole('button', { name: 'delete session' })
+        .click();
+
+      expect(within(getByRole('dialog')).getAllByRole('listitem')).toHaveLength(
+        2
+      );
+      expect(getByRole('dialog')).not.toHaveTextContent('first');
+      expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
+        'second'
+      );
+
+      confirmSpy.mockRestore();
+    });
+    test('delete all sessions', () => {
+      const data: SessionCollection = [
+        {
+          sessions: [
+            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'first' },
+            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'second' },
+            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'third' },
+          ],
+          selectedSessionIndex: 0,
+          variation: { name: '3x3', scramble: '3x3' },
+        },
+      ];
+      localStorage.setItem(
+        withPrefix('sessions'),
+        JSON.stringify({ data, version: 2 })
+      );
+
+      const { getByRole } = render(<TestComponent />);
+      getByRole('button', { name: 'open record list' }).click();
+      act(() => {
+        getByRole('button', { name: 'session list' }).click();
+      });
+
+      const confirmSpy = jest.spyOn(window, 'confirm');
+      confirmSpy.mockImplementation(jest.fn(() => true));
+      within(within(getByRole('dialog')).getAllByRole('listitem')[0])
+        .getByRole('button', { name: 'delete session' })
+        .click();
+      within(within(getByRole('dialog')).getAllByRole('listitem')[0])
+        .getByRole('button', { name: 'delete session' })
+        .click();
+      within(within(getByRole('dialog')).getAllByRole('listitem')[0])
+        .getByRole('button', { name: 'delete session' })
+        .click();
+
+      expect(within(getByRole('dialog')).getAllByRole('listitem')).toHaveLength(
+        1
+      );
+      expect(getByRole('dialog')).toHaveTextContent('09-30 session1');
+      expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
+        '09-30 session1'
+      );
+
+      confirmSpy.mockRestore();
+    });
     // カレントセッションが末尾のときにボタンを押すと、追加されたセッションがカレントセッションになる
     test('if user adds session when current session is at end, added session becomes current', () => {
       const { getByRole } = render(<TestComponent />);

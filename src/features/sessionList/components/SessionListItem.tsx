@@ -51,7 +51,11 @@ export const SessionListItem: VFC<{
         </span>
       </span>
       <span>
-        <IconButton icon={faTimes} onClick={onDeleteButtonClick} />
+        <IconButton
+          title="delete session"
+          icon={faTimes}
+          onClick={onDeleteButtonClick}
+        />
       </span>
     </li>
   );
