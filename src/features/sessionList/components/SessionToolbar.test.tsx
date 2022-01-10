@@ -430,6 +430,35 @@ describe('SessionToolbar', () => {
         'first'
       );
     });
+    it('closes when backdrop is clicked', () => {
+      const data: SessionCollection = [
+        {
+          sessions: [
+            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'first' },
+            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'second' },
+            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'third' },
+          ],
+          selectedSessionIndex: 0,
+          variation: { name: '3x3', scramble: '3x3' },
+        },
+      ];
+      localStorage.setItem(
+        withPrefix('sessions'),
+        JSON.stringify({ data, version: 2 })
+      );
+
+      const { getByRole, getByTestId, queryByRole } = render(<TestComponent />);
+      getByRole('button', { name: 'open record list' }).click();
+      act(() => {
+        getByRole('button', { name: 'session list' }).click();
+      });
+
+      expect(queryByRole('dialog')).not.toBeNull();
+      act(() => {
+        getByTestId('backdrop').click();
+      });
+      expect(queryByRole('dialog')).toBeNull();
+    });
   });
   test('graph', async () => {
     const data: SessionCollection = [

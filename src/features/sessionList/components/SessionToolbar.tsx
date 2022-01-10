@@ -142,7 +142,10 @@ const SessionRaw: VFC<Props> = ({
   return (
     <>
       {opensRecordList && (
-        <Backdrop onClick={() => setOpensRecordList(false)} />
+        <Backdrop
+          data-testid="backdrop"
+          onClick={() => setOpensRecordList(false)}
+        />
       )}
 
       <RecordListWrapper ref={recordListRef}>
