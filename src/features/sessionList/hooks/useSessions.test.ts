@@ -1,11 +1,13 @@
 /**
  * @jest-environment jsdom
  */
+import { Temporal } from '@js-temporal/polyfill';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { withPrefix } from '../../../utils/withPrefix';
 import { zerofill } from '../../../utils/zerofill';
 import { migration, useSessions } from './useSessions';
 
+const today = Temporal.Now.zonedDateTimeISO();
 describe('migration', () => {
   beforeEach(() => {
     localStorage.clear();
@@ -18,8 +20,8 @@ describe('migration', () => {
           sessions: [
             {
               times: [],
-              name: `${zerofill(new Date().getMonth() + 1, 2)}-${zerofill(
-                new Date().getDate(),
+              name: `${zerofill(today.month, 2)}-${zerofill(
+                today.day,
                 2
               )} session1`,
             },
@@ -36,8 +38,8 @@ describe('migration', () => {
         sessions: [
           {
             times: [],
-            name: `${zerofill(new Date().getMonth() + 1, 2)}-${zerofill(
-              new Date().getDate(),
+            name: `${zerofill(today.month, 2)}-${zerofill(
+              today.day,
               2
             )} session1`,
           },

@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { Temporal } from '@js-temporal/polyfill';
 import '@testing-library/jest-dom';
 import {
   render,
@@ -39,6 +40,7 @@ Element.prototype.scrollTo = () => void 0;
 jest.mock('../../../components/common/ToggleButton.css', () => '');
 
 jest.useFakeTimers();
+const today = Temporal.Now.zonedDateTimeISO();
 describe('SessionToolbar', () => {
   const currentSession: { current: null | SessionCollection } = {
     current: null,
@@ -117,8 +119,8 @@ describe('SessionToolbar', () => {
   };
   test('initial state', () => {
     const { getByRole, queryByTestId } = render(<TestComponent />);
-    const session1 = `${zerofill(new Date().getMonth() + 1, 2)}-${zerofill(
-      new Date().getDate(),
+    const session1 = `${zerofill(today.month, 2)}-${zerofill(
+      today.day,
       2
     )} session1`;
 
@@ -162,8 +164,8 @@ describe('SessionToolbar', () => {
     test('if user adds session when current session is at end, added session becomes current', () => {
       const { getByRole } = render(<TestComponent />);
       getByRole('button', { name: 'add session' }).click();
-      const session2 = `${zerofill(new Date().getMonth() + 1, 2)}-${zerofill(
-        new Date().getDate(),
+      const session2 = `${zerofill(today.month, 2)}-${zerofill(
+        today.day,
         2
       )} session2`;
 
@@ -175,8 +177,8 @@ describe('SessionToolbar', () => {
     });
     test(`if user adds session when current session is not at end, current session doesn't change`, () => {
       const { getByRole } = render(<TestComponent />);
-      const session1 = `${zerofill(new Date().getMonth() + 1, 2)}-${zerofill(
-        new Date().getDate(),
+      const session1 = `${zerofill(today.month, 2)}-${zerofill(
+        today.day,
         2
       )} session1`;
 
@@ -400,8 +402,8 @@ describe('SessionToolbar', () => {
       within(getByRole('dialog'))
         .getByRole('button', { name: 'add session' })
         .click();
-      const session2 = `${zerofill(new Date().getMonth() + 1, 2)}-${zerofill(
-        new Date().getDate(),
+      const session2 = `${zerofill(today.month, 2)}-${zerofill(
+        today.day,
         2
       )} session2`;
 

@@ -8,7 +8,6 @@ import { calcAo } from '../../utils/calcAo';
 import { exhaustiveCheck } from '../../utils/exhaustiveCheck';
 import { findIndexOfMax } from '../../utils/findIndexOfMax';
 import { findIndexOfMin } from '../../utils/findIndexOfMin';
-import { getTimezoneStr } from '../../utils/getTimezoneStr';
 import { showAverage } from '../../utils/showAverage';
 import { showRecord } from '../../utils/showRecord';
 
@@ -206,9 +205,7 @@ export const Times: VFC<{
                   >
                     <span>date:</span>
                     <span>
-                      {new Temporal.TimeZone(
-                        getTimezoneStr(new Date().getTimezoneOffset())
-                      )
+                      {Temporal.Now.timeZone()
                         .getPlainDateTimeFor(
                           Temporal.Instant.fromEpochMilliseconds(
                             times[selectedIndex].date

@@ -1,3 +1,4 @@
+import { Temporal } from '@js-temporal/polyfill';
 import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
 import { defaultVariation, Variation } from '../../../data/variations';
 import {
@@ -11,13 +12,10 @@ import { SessionCollection, TimeData } from '../../timer/data/timeData';
 
 const version = 2;
 const createNewSession = (num = 1) => {
-  const today = new Date();
+  const today = Temporal.Now.zonedDateTimeISO();
   return {
     times: [],
-    name: `${zerofill(today.getMonth() + 1, 2)}-${zerofill(
-      today.getDate(),
-      2
-    )} session${num}`,
+    name: `${zerofill(today.month, 2)}-${zerofill(today.day, 2)} session${num}`,
   };
 };
 const getDefaultSessionCollection = (): SessionCollection => {
