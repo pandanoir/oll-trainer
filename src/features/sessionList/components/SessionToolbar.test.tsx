@@ -39,8 +39,7 @@ Element.prototype.scrollTo = () => void 0;
 
 jest.mock('../../../components/common/ToggleButton.css', () => '');
 
-jest.useFakeTimers();
-const today = Temporal.Now.zonedDateTimeISO();
+jest.useFakeTimers().setSystemTime(new Date('2020-09-30').getTime());
 describe('SessionToolbar', () => {
   const currentSession: { current: null | SessionCollection } = {
     current: null,
@@ -119,10 +118,7 @@ describe('SessionToolbar', () => {
   };
   test('initial state', () => {
     const { getByRole, queryByTestId } = render(<TestComponent />);
-    const session1 = `${zerofill(today.month, 2)}-${zerofill(
-      today.day,
-      2
-    )} session1`;
+    const session1 = `${zerofill(9, 2)}-${zerofill(30, 2)} session1`;
 
     expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
       session1
@@ -164,10 +160,7 @@ describe('SessionToolbar', () => {
     test('if user adds session when current session is at end, added session becomes current', () => {
       const { getByRole } = render(<TestComponent />);
       getByRole('button', { name: 'add session' }).click();
-      const session2 = `${zerofill(today.month, 2)}-${zerofill(
-        today.day,
-        2
-      )} session2`;
+      const session2 = `${zerofill(9, 2)}-${zerofill(30, 2)} session2`;
 
       expect(getByRole('button', { name: 'prev session' })).not.toBeDisabled();
       expect(getByRole('button', { name: 'next session' })).toBeDisabled();
@@ -177,10 +170,7 @@ describe('SessionToolbar', () => {
     });
     test(`if user adds session when current session is not at end, current session doesn't change`, () => {
       const { getByRole } = render(<TestComponent />);
-      const session1 = `${zerofill(today.month, 2)}-${zerofill(
-        today.day,
-        2
-      )} session1`;
+      const session1 = `${zerofill(9, 2)}-${zerofill(30, 2)} session1`;
 
       getByRole('button', { name: 'add session' }).click();
       getByRole('button', { name: 'prev session' }).click();
@@ -402,10 +392,7 @@ describe('SessionToolbar', () => {
       within(getByRole('dialog'))
         .getByRole('button', { name: 'add session' })
         .click();
-      const session2 = `${zerofill(today.month, 2)}-${zerofill(
-        today.day,
-        2
-      )} session2`;
+      const session2 = `${zerofill(9, 2)}-${zerofill(30, 2)} session2`;
 
       expect(getByRole('button', { name: 'prev session' })).not.toBeDisabled();
       expect(getByRole('button', { name: 'next session' })).toBeDisabled();

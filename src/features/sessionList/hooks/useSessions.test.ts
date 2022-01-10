@@ -7,7 +7,7 @@ import { withPrefix } from '../../../utils/withPrefix';
 import { zerofill } from '../../../utils/zerofill';
 import { migration, useSessions } from './useSessions';
 
-const today = Temporal.Now.zonedDateTimeISO();
+jest.useFakeTimers().setSystemTime(new Date('2020-09-30').getTime());
 describe('migration', () => {
   beforeEach(() => {
     localStorage.clear();
@@ -20,10 +20,7 @@ describe('migration', () => {
           sessions: [
             {
               times: [],
-              name: `${zerofill(today.month, 2)}-${zerofill(
-                today.day,
-                2
-              )} session1`,
+              name: `${zerofill(9, 2)}-${zerofill(30, 2)} session1`,
             },
           ],
           selectedSessionIndex: 0,
@@ -38,10 +35,7 @@ describe('migration', () => {
         sessions: [
           {
             times: [],
-            name: `${zerofill(today.month, 2)}-${zerofill(
-              today.day,
-              2
-            )} session1`,
+            name: `${zerofill(9, 2)}-${zerofill(30, 2)} session1`,
           },
         ],
         selectedSessionIndex: 0,
