@@ -19,7 +19,7 @@ describe('migration', () => {
           sessions: [
             {
               times: [],
-              name: `${zerofill(9, 2)}-${zerofill(30, 2)} session1`,
+              name: '09-30 session1',
             },
           ],
           selectedSessionIndex: 0,
@@ -34,7 +34,7 @@ describe('migration', () => {
         sessions: [
           {
             times: [],
-            name: `${zerofill(9, 2)}-${zerofill(30, 2)} session1`,
+            name: '09-30 session1',
           },
         ],
         selectedSessionIndex: 0,

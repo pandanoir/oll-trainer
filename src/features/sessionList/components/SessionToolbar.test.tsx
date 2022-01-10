@@ -117,10 +117,9 @@ describe('SessionToolbar', () => {
   };
   test('initial state', () => {
     const { getByRole, queryByTestId } = render(<TestComponent />);
-    const session1 = `${zerofill(9, 2)}-${zerofill(30, 2)} session1`;
 
     expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
-      session1
+      '09-30 session1'
     );
     expect(getByRole('button', { name: 'prev session' })).toBeDisabled();
     expect(getByRole('button', { name: 'next session' })).toBeDisabled();
@@ -159,17 +158,15 @@ describe('SessionToolbar', () => {
     test('if user adds session when current session is at end, added session becomes current', () => {
       const { getByRole } = render(<TestComponent />);
       getByRole('button', { name: 'add session' }).click();
-      const session2 = `${zerofill(9, 2)}-${zerofill(30, 2)} session2`;
 
       expect(getByRole('button', { name: 'prev session' })).not.toBeDisabled();
       expect(getByRole('button', { name: 'next session' })).toBeDisabled();
       expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
-        session2
+        '09-30 session2'
       );
     });
     test(`if user adds session when current session is not at end, current session doesn't change`, () => {
       const { getByRole } = render(<TestComponent />);
-      const session1 = `${zerofill(9, 2)}-${zerofill(30, 2)} session1`;
 
       getByRole('button', { name: 'add session' }).click();
       getByRole('button', { name: 'prev session' }).click();
@@ -177,7 +174,7 @@ describe('SessionToolbar', () => {
       expect(getByRole('button', { name: 'prev session' })).toBeDisabled();
       expect(getByRole('button', { name: 'next session' })).not.toBeDisabled();
       expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
-        session1
+        '09-30 session1'
       );
     });
   });
@@ -391,12 +388,11 @@ describe('SessionToolbar', () => {
       within(getByRole('dialog'))
         .getByRole('button', { name: 'add session' })
         .click();
-      const session2 = `${zerofill(9, 2)}-${zerofill(30, 2)} session2`;
 
       expect(getByRole('button', { name: 'prev session' })).not.toBeDisabled();
       expect(getByRole('button', { name: 'next session' })).toBeDisabled();
       expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
-        session2
+        '09-30 session2'
       );
     });
     test(`if user adds session when current session is not at end, current session doesn't change`, () => {
