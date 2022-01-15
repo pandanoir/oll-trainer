@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@formatjs/cli": "4.7.1",
-    "@testing-library/dom": "8.11.1",
+    "@testing-library/dom": "8.11.2",
     "@testing-library/react": "12.1.2",
     "@testing-library/react-hooks": "7.0.2",
     "@typescript-eslint/eslint-plugin": "5.9.1",
