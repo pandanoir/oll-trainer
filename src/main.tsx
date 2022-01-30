@@ -1,4 +1,10 @@
+import { StrictMode } from 'react';
 import { render } from 'react-dom';
 import { App } from './App';
 
-render(<App />, document.querySelector('#app'));
+render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+  document.querySelector('#app')
+);
