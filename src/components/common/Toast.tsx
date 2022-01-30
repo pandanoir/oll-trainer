@@ -29,7 +29,7 @@ const ToastRaw = ({ title, onClose, label, onClick, shows }: Props) => {
   const ref = usePreventDefault<HTMLDivElement>('touchend', cursorX !== null);
 
   return createPortal(
-    hidden ? null : (
+    !hidden && (
       <div
         css={[
           tw`flex fixed justify-between w-72 right-0 bottom-3`,
@@ -108,7 +108,7 @@ const ToastRaw = ({ title, onClose, label, onClick, shows }: Props) => {
         {label && (
           <button
             onClick={onClick}
-            tw="border-l border-white my-3 px-4 bg-transparent text-blue-500 dark:text-blue-300 font-bold focus:outline-none"
+            tw="border-l border-white my-3 px-4 bg-transparent text-blue-500 dark:text-blue-300 font-bold"
           >
             {label}
           </button>
