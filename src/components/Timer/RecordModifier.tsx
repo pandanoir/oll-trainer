@@ -39,12 +39,14 @@ export const RecordModifier = ({
         <SecondaryButton
           onClick={withStopPropagation(undoDNF)}
           onTouchEnd={touchEnd(undoDNF)}
+          key="dnf"
         >
           undo DNF
         </SecondaryButton>
         <SecondaryDangerButton
           onClick={withStopPropagation(deleteRecord)}
           onTouchEnd={touchEnd(deleteRecord)}
+          key="delete"
         >
           delete
         </SecondaryDangerButton>
@@ -57,18 +59,21 @@ export const RecordModifier = ({
         <SecondaryButton
           onClick={withStopPropagation(undoPenalty)}
           onTouchEnd={touchEnd(undoPenalty)}
+          key="+2"
         >
           undo +2
         </SecondaryButton>
         <SecondaryButton
           onClick={withStopPropagation(changeToDNF)}
           onTouchEnd={touchEnd(changeToDNF)}
+          key="dnf"
         >
           DNF
         </SecondaryButton>
         <SecondaryDangerButton
           onClick={withStopPropagation(deleteRecord)}
           onTouchEnd={touchEnd(deleteRecord)}
+          key="delete"
         >
           delete
         </SecondaryDangerButton>
@@ -80,18 +85,21 @@ export const RecordModifier = ({
       <SecondaryButton
         onClick={withStopPropagation(imposePenalty)}
         onTouchEnd={touchEnd(imposePenalty)}
+        key="+2"
       >
         +2
       </SecondaryButton>
       <SecondaryButton
         onClick={withStopPropagation(changeToDNF)}
         onTouchEnd={touchEnd(changeToDNF)}
+        key="dnf"
       >
         DNF
       </SecondaryButton>
       <SecondaryDangerButton
         onClick={withStopPropagation(deleteRecord)}
         onTouchEnd={touchEnd(deleteRecord)}
+        key="delete"
       >
         delete
       </SecondaryDangerButton>
