@@ -64,7 +64,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {
-    "@formatjs/cli": "4.8.1",
+    "@formatjs/cli": "4.8.2",
     "@testing-library/dom": "8.11.3",
     "@testing-library/react": "12.1.2",
     "@testing-library/react-hooks": "7.0.2",
