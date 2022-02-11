@@ -33,4 +33,11 @@
   .dark .timer {
     @apply text-blue-600;
   }
+
+  .disabled {
+    @apply text-gray-300;
+  }
+  .dark .disabled {
+    @apply text-gray-500;
+  }
 }

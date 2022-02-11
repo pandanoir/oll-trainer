@@ -14,16 +14,14 @@ import {
 } from '../data/timerState';
 import './Timer.css';
 
-type Props = {
-  timerState: TimerState;
-} & HTMLAttributes<HTMLDivElement>;
-
-const TapTimerRaw: VFC<PropsWithChildren<Props>> = ({
-  timerState,
-  className = '',
-  children,
-  ...props
-}) => (
+export const TapTimer: VFC<
+  PropsWithChildren<
+    {
+      timerState: TimerState;
+      disabled: boolean;
+    } & HTMLAttributes<HTMLDivElement>
+  >
+> = ({ timerState, disabled, className = '', children, ...props }) => (
   <div
     className={clsx(
       timerState === STEADY || timerState === INSPECTION_STEADY
@@ -36,6 +34,7 @@ const TapTimerRaw: VFC<PropsWithChildren<Props>> = ({
         ? 'timer'
         : /* istanbul ignore next */
           exhaustiveCheck(timerState),
+      disabled && 'disabled',
       className
     )}
     role="main"
@@ -44,4 +43,3 @@ const TapTimerRaw: VFC<PropsWithChildren<Props>> = ({
     {children}
   </div>
 );
-export const TapTimer = memo(TapTimerRaw);

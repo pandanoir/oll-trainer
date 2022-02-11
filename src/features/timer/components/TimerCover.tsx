@@ -20,19 +20,21 @@ const TimerCoverRaw: VFC<{
   disabled = false,
   transparent = false,
   pressed,
-}) => (
-  <div
-    onTouchStart={withStopPropagation(onPointerDown)}
-    onTouchMove={withStopPropagation(noop)}
-    onTouchEnd={withStopPropagation(onPointerUp)}
-    onMouseDown={withStopPropagation(onPointerDown)}
-    onMouseUp={withStopPropagation(onPointerUp)}
-    ref={usePreventDefault('touchstart', !disabled)}
-    className={transparent ? 'cover-transparent' : 'cover'}
-    tw="cursor-default!"
-    role="button"
-    aria-label="timer"
-    aria-pressed={pressed}
-  />
-);
+}) => {
+  return (
+    <div
+      onTouchStart={disabled ? undefined : withStopPropagation(onPointerDown)}
+      onTouchMove={disabled ? undefined : withStopPropagation(noop)}
+      onTouchEnd={disabled ? undefined : withStopPropagation(onPointerUp)}
+      onMouseDown={disabled ? undefined : withStopPropagation(onPointerDown)}
+      onMouseUp={disabled ? undefined : withStopPropagation(onPointerUp)}
+      ref={usePreventDefault('touchstart', !disabled)}
+      className={transparent ? 'cover-transparent' : 'cover'}
+      tw="cursor-default!"
+      role="button"
+      aria-label="timer"
+      aria-pressed={pressed}
+    />
+  );
+};
 export const TimerCover = memo(TimerCoverRaw);

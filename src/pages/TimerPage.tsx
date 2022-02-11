@@ -99,11 +99,13 @@ export const TimerPage: VFC = () => {
     addSession,
     deleteSession,
     deleteAllSessionsByVariation,
+    lockSession,
+    unlockSession,
   } = useSessions();
   const [, updateUserDefinedVariation] = useContext(
     UserDefinedVariationContext
   );
-  const { times } = currentSessionCollection.sessions[sessionIndex];
+  const { times, isLocked } = currentSessionCollection.sessions[sessionIndex];
   const { volume, setVolume } = useAudio();
 
   useEffect(() => {
@@ -188,6 +190,7 @@ export const TimerPage: VFC = () => {
         )}
       </Swiper>
       <Timer
+        disabled={isLocked}
         usesInspection={usesInspection}
         inputsTimeManually={inputsTimeManually}
         times={times}
@@ -253,6 +256,7 @@ export const TimerPage: VFC = () => {
           () => (
             <RecordModifier
               tw="lg:text-lg"
+              disabled={isLocked}
               record={times[times.length - 1]}
               changeToDNF={() => changeToDNF(times.length - 1)}
               imposePenalty={() => imposePenalty(times.length - 1)}
@@ -289,6 +293,7 @@ export const TimerPage: VFC = () => {
             formatMessage,
             imposePenalty,
             insertRecord,
+            isLocked,
             openToast,
             times,
             undoDNF,
@@ -305,6 +310,14 @@ export const TimerPage: VFC = () => {
         sessions={sessions}
         addSession={addSession}
         deleteSession={deleteSession}
+        lockSession={useCallback(
+          () => lockSession(sessionIndex),
+          [lockSession, sessionIndex]
+        )}
+        unlockSession={useCallback(
+          () => unlockSession(sessionIndex),
+          [unlockSession, sessionIndex]
+        )}
         recordListComponent={useMemo(
           () => (
             <div tw="pt-12">

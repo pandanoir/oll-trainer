@@ -44,6 +44,7 @@ interface Props {
   variationChooseButton: ReactNode;
   statisticsButton: ReactNode;
   recordModifier: ReactNode;
+  disabled: boolean;
 }
 export const Timer: VFC<Props> = ({
   usesInspection,
@@ -54,6 +55,7 @@ export const Timer: VFC<Props> = ({
   variationChooseButton,
   statisticsButton,
   recordModifier,
+  disabled,
 }) => {
   const {
     onPointerDown,
@@ -105,7 +107,7 @@ export const Timer: VFC<Props> = ({
 
   return (
     <TimerArea
-      disabled={inputsTimeManually}
+      disabled={inputsTimeManually || disabled}
       overlappingScreen={timerState !== IDOLING}
       cover={useMemo(
         () => (
@@ -117,7 +119,7 @@ export const Timer: VFC<Props> = ({
               onPointerDown();
             }}
             onPointerUp={onPointerUp}
-            disabled={inputsTimeManually}
+            disabled={inputsTimeManually || disabled}
             transparent={timerState === IDOLING}
             pressed={
               timerState === READY ||
@@ -127,7 +129,14 @@ export const Timer: VFC<Props> = ({
             }
           />
         ),
-        [inputsTimeManually, onPointerDown, onPointerUp, timerState, volume]
+        [
+          disabled,
+          inputsTimeManually,
+          onPointerDown,
+          onPointerUp,
+          timerState,
+          volume,
+        ]
       )}
     >
       {variationChooseButton}
@@ -139,7 +148,11 @@ export const Timer: VFC<Props> = ({
           onInput={onTypingTimerInput}
         />
       ) : (
-        <TapTimer tw="z-20 pointer-events-none" timerState={timerState}>
+        <TapTimer
+          disabled={disabled}
+          tw="z-20 pointer-events-none"
+          timerState={timerState}
+        >
           {timerStr}
         </TapTimer>
       )}

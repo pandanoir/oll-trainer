@@ -6,6 +6,8 @@ import {
   faAngleUp,
   faServer,
   faList,
+  faUnlock,
+  faLock,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   Dispatch,
@@ -55,6 +57,8 @@ interface Props {
   currentVariation: string;
   addSession: () => void;
   deleteSession: (index: number) => void;
+  lockSession: () => void;
+  unlockSession: () => void;
   recordListComponent: ReactNode;
 }
 const SessionRaw: VFC<Props> = ({
@@ -66,6 +70,8 @@ const SessionRaw: VFC<Props> = ({
   currentVariation,
   addSession,
   deleteSession,
+  lockSession,
+  unlockSession,
   recordListComponent,
 }) => {
   const { formatMessage } = useIntl();
@@ -199,7 +205,7 @@ const SessionRaw: VFC<Props> = ({
         )}
 
         <SessionToolbar>
-          <div tw="flex content-center">
+          <div tw="flex content-center items-center">
             <IconButton
               css={[
                 tw`px-4 py-2 text-lg`,
@@ -210,6 +216,21 @@ const SessionRaw: VFC<Props> = ({
               onClick={prev}
               icon={faAngleLeft}
             />
+            {currentSessions[sessionIndex].isLocked ? (
+              <IconButton
+                icon={faLock}
+                tw="px-1"
+                title="unlock session"
+                onClick={unlockSession}
+              />
+            ) : (
+              <IconButton
+                icon={faUnlock}
+                tw="px-1"
+                title="lock session"
+                onClick={lockSession}
+              />
+            )}
             <input
               title="session name"
               value={currentSessions[sessionIndex].name}
