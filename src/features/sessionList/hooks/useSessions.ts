@@ -1,4 +1,5 @@
 import { Temporal } from '@js-temporal/polyfill';
+import immer from 'immer';
 import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
 import { defaultVariation, Variation } from '../../../data/variations';
 import {
@@ -8,14 +9,19 @@ import {
 import { isUnknownObject } from '../../../utils/isUnknownObject';
 import { withPrefix } from '../../../utils/withPrefix';
 import { zerofill } from '../../../utils/zerofill';
-import { SessionCollection, TimeData } from '../../timer/data/timeData';
+import {
+  SessionCollection,
+  SessionCollectionV2,
+  TimeData,
+} from '../../timer/data/timeData';
 
-const version = 2;
+const version = 3;
 const createNewSession = (num = 1) => {
   const today = Temporal.Now.zonedDateTimeISO();
   return {
     times: [],
     name: `${zerofill(today.month, 2)}-${zerofill(today.day, 2)} session${num}`,
+    isLocked: false,
   };
 };
 const getDefaultSessionCollection = (): SessionCollection => {
@@ -56,6 +62,34 @@ export const migration = (
         },
       ],
       version: 2,
+    });
+  }
+  if (old.version === 2) {
+    // ver2
+    // type SessionCollectionV2 = {
+    //   sessions: {
+    //     times: {
+    //       time: number;
+    //       penalty?: boolean;
+    //       isDNF?: boolean;
+    //       scramble: string;
+    //       date: number; // millisec
+    //     }[];
+    //     name: string;
+    //   }[];
+    //   selectedSessionIndex: number;
+    //   variation: { name: string; scramble: '3x3' | '2x2' | '4x4' };
+    // }[];
+
+    return migration({
+      data: immer(old.data as unknown as SessionCollectionV2, (draft) => {
+        for (const variation of draft) {
+          for (const session of variation.sessions) {
+            (session as unknown as any).isLocked = false;
+          }
+        }
+      }),
+      version: 3,
     });
   }
   if (old.version === version) {
@@ -249,6 +283,22 @@ export const useSessions = (
       setVariationName(defaultVariation.name);
     }
   };
+  const lockSession = useCallback(
+    (index: number) => {
+      updateSessions((draft) => {
+        findCurrentSessionCollection(draft).sessions[index].isLocked = true;
+      });
+    },
+    [findCurrentSessionCollection, updateSessions]
+  );
+  const unlockSession = useCallback(
+    (index: number) => {
+      updateSessions((draft) => {
+        findCurrentSessionCollection(draft).sessions[index].isLocked = false;
+      });
+    },
+    [findCurrentSessionCollection, updateSessions]
+  );
 
   return {
     sessions,
@@ -289,5 +339,7 @@ export const useSessions = (
     deleteSession,
     addSessionGroup,
     deleteAllSessionsByVariation,
+    lockSession,
+    unlockSession,
   } as const;
 };
