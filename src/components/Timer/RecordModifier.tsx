@@ -24,6 +24,7 @@ export const RecordModifier = ({
   imposePenalty,
   undoPenalty,
   deleteRecord,
+  disabled = false,
 }: {
   record: TimeData;
   className?: string;
@@ -32,6 +33,7 @@ export const RecordModifier = ({
   imposePenalty: () => void;
   undoPenalty: () => void;
   deleteRecord: () => void;
+  disabled?: boolean;
 }) => {
   if (record.isDNF) {
     return (
@@ -39,6 +41,7 @@ export const RecordModifier = ({
         <SecondaryButton
           onClick={withStopPropagation(undoDNF)}
           onTouchEnd={touchEnd(undoDNF)}
+          disabled={disabled}
           key="dnf"
         >
           undo DNF
@@ -46,6 +49,7 @@ export const RecordModifier = ({
         <SecondaryDangerButton
           onClick={withStopPropagation(deleteRecord)}
           onTouchEnd={touchEnd(deleteRecord)}
+          disabled={disabled}
           key="delete"
         >
           delete
@@ -59,6 +63,7 @@ export const RecordModifier = ({
         <SecondaryButton
           onClick={withStopPropagation(undoPenalty)}
           onTouchEnd={touchEnd(undoPenalty)}
+          disabled={disabled}
           key="+2"
         >
           undo +2
@@ -66,6 +71,7 @@ export const RecordModifier = ({
         <SecondaryButton
           onClick={withStopPropagation(changeToDNF)}
           onTouchEnd={touchEnd(changeToDNF)}
+          disabled={disabled}
           key="dnf"
         >
           DNF
@@ -73,6 +79,7 @@ export const RecordModifier = ({
         <SecondaryDangerButton
           onClick={withStopPropagation(deleteRecord)}
           onTouchEnd={touchEnd(deleteRecord)}
+          disabled={disabled}
           key="delete"
         >
           delete
@@ -85,6 +92,7 @@ export const RecordModifier = ({
       <SecondaryButton
         onClick={withStopPropagation(imposePenalty)}
         onTouchEnd={touchEnd(imposePenalty)}
+        disabled={disabled}
         key="+2"
       >
         +2
@@ -92,6 +100,7 @@ export const RecordModifier = ({
       <SecondaryButton
         onClick={withStopPropagation(changeToDNF)}
         onTouchEnd={touchEnd(changeToDNF)}
+        disabled={disabled}
         key="dnf"
       >
         DNF
@@ -99,6 +108,7 @@ export const RecordModifier = ({
       <SecondaryDangerButton
         onClick={withStopPropagation(deleteRecord)}
         onTouchEnd={touchEnd(deleteRecord)}
+        disabled={disabled}
         key="delete"
       >
         delete
