@@ -22,7 +22,7 @@ import {
 import { useCubeTimer } from '../hooks/useCubeTimer';
 import { useWarningSound } from '../hooks/useWarningSound';
 import { RecordItem } from './RecordItem';
-import { TapTimer } from './TapTimer';
+import { TapTimerDisplay } from './TapTimerDisplay';
 import { TimerArea } from './TimerArea';
 import { TimerCover } from './TimerCover';
 import { TypingTimer } from './TypingTimer';
@@ -148,13 +148,13 @@ export const Timer: VFC<Props> = ({
           onInput={onTypingTimerInput}
         />
       ) : (
-        <TapTimer
+        <TapTimerDisplay
           disabled={disabled}
           tw="z-20 pointer-events-none"
           timerState={timerState}
         >
           {timerStr}
-        </TapTimer>
+        </TapTimerDisplay>
       )}
       <div>ao5: {showAverage(ao5, '-')}</div>
       <div>ao12: {showAverage(ao12, '-')}</div>

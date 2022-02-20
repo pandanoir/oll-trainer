@@ -14,7 +14,7 @@ import {
 } from '../data/timerState';
 import './Timer.css';
 
-export const TapTimer: VFC<
+export const TapTimerDisplay: VFC<
   PropsWithChildren<
     {
       timerState: TimerState;
