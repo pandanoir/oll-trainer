@@ -61,6 +61,7 @@ export const fromCsTimer = (json: unknown): SessionCollection => {
         'scrType' in sessionData.opt
           ? (sessionData.opt.scrType as string)
           : 'default',
+      isLocked: true,
     };
   }
 

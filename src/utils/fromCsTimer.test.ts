@@ -104,6 +104,7 @@ describe('fromCsTimer', () => {
                 date: 1623582801000,
               },
             ],
+            isLocked: true,
           },
         ],
         selectedSessionIndex: 0,
