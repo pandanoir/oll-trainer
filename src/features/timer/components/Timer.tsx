@@ -119,6 +119,7 @@ export const Timer: VFC<Props> = ({
               onPointerDown();
             }}
             onPointerUp={onPointerUp}
+            onPointerCancel={cancelTimer}
             disabled={inputsTimeManually || disabled}
             transparent={timerState === IDOLING}
             pressed={
@@ -130,6 +131,7 @@ export const Timer: VFC<Props> = ({
           />
         ),
         [
+          cancelTimer,
           disabled,
           inputsTimeManually,
           onPointerDown,
