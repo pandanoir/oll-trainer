@@ -263,6 +263,12 @@ const SessionRaw: VFC<Props> = ({
           </div>
           <div tw="flex content-center">
             <IconButton
+              icon={faList}
+              title="session list"
+              tw="px-4 py-2 text-lg hidden sm:block"
+              onClick={openSessionListModal}
+            />
+            <IconButton
               icon={faAngleUp}
               title={opensRecordList ? 'close record list' : 'open record list'}
               aria-expanded={opensRecordList}
