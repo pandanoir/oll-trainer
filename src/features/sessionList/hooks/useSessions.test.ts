@@ -1,13 +1,21 @@
 /**
  * @jest-environment jsdom
  */
-import { act, renderHook } from '@testing-library/react-hooks';
-import { withPrefix } from '../../../utils/withPrefix';
-import { zerofill } from '../../../utils/zerofill';
-import { migration, useSessions } from './useSessions';
-
 jest.useFakeTimers().setSystemTime(new Date('2020-09-30').getTime());
+
+import { renderHook } from '@testing-library/react-hooks';
+import { RecoilRoot } from 'recoil';
+import { withPrefix } from '../../../utils/withPrefix';
+
 describe('migration', () => {
+  // useFakeTimers() より先に import '../hooks/useSessions' が実行されるらしくてうまくいかないので、苦肉の策として dynamic import を使ったハックをしている
+  let useSessions: typeof import('../hooks/useSessions').useSessions;
+  let migration: typeof import('../hooks/useSessions').migration;
+  beforeAll(async () => {
+    useSessions = (await import('../hooks/useSessions')).useSessions;
+    migration = (await import('../hooks/useSessions')).migration;
+  });
+
   beforeEach(() => {
     localStorage.clear();
   });
@@ -28,7 +36,7 @@ describe('migration', () => {
       ],
       version: 3,
     });
-    const { result } = renderHook(() => useSessions());
+    const { result } = renderHook(() => useSessions(), { wrapper: RecoilRoot });
     expect(result.current.sessions).toEqual([
       {
         variation: { name: '3x3', scramble: '3x3' },
@@ -335,7 +343,7 @@ describe('migration', () => {
       },
     ];
     localStorage.setItem(withPrefix('sessions'), JSON.stringify(sessionData));
-    const { result } = renderHook(() => useSessions());
+    const { result } = renderHook(() => useSessions(), { wrapper: RecoilRoot });
     expect(result.current.sessions).toEqual([
       {
         variation: { name: '3x3', scramble: '3x3' },
@@ -452,334 +460,6 @@ describe('migration', () => {
           },
         ],
         selectedSessionIndex: 0,
-      },
-    ]);
-  });
-});
-describe('useSessions', () => {
-  beforeEach(() => {
-    localStorage.clear();
-  });
-  it('', () => {
-    const { result } = renderHook(() => useSessions());
-    act(() => {
-      result.current.setSessionIndex(100);
-    });
-    expect(result.current.sessionIndex).toBe(100);
-    act(() => {
-      result.current.setSessionIndex((n) => n + 1);
-    });
-    expect(result.current.sessionIndex).toBe(101);
-  });
-  test('addSession()', () => {
-    const { result } = renderHook(() => useSessions());
-    expect(result.current.currentSessionCollection.sessions.length).toBe(1);
-    act(() => result.current.addSession());
-    expect(result.current.currentSessionCollection.sessions.length).toBe(2);
-  });
-  test('deleteSession()', () => {
-    const { result } = renderHook(() => useSessions());
-    expect(result.current.currentSessionCollection.sessions.length).toBe(1);
-    act(() => result.current.deleteSession(0));
-    expect(result.current.currentSessionCollection.sessions.length).toBe(1);
-  });
-
-  test('deleteSession() 2', () => {
-    const { result } = renderHook(() =>
-      useSessions([
-        {
-          variation: { name: '3x3', scramble: '3x3' },
-          sessions: [
-            { name: '3:session1', times: [] },
-            { name: '3:session2', times: [] },
-            { name: '3:session3', times: [] },
-          ],
-          selectedSessionIndex: 2,
-        },
-      ])
-    );
-    expect(result.current.currentSessionCollection.sessions).toEqual([
-      { name: '3:session1', times: [] },
-      { name: '3:session2', times: [] },
-      { name: '3:session3', times: [] },
-    ]);
-    act(() => result.current.deleteSession(2));
-    expect(result.current.currentSessionCollection.sessions).toEqual([
-      { name: '3:session1', times: [] },
-      { name: '3:session2', times: [] },
-    ]);
-    expect(result.current.sessionIndex).toBe(1);
-  });
-  test('deleteSession() 3', () => {
-    const { result } = renderHook(() =>
-      useSessions([
-        {
-          variation: { name: '3x3', scramble: '3x3' },
-          sessions: [
-            { name: '3:session1', times: [] },
-            { name: '3:session2', times: [] },
-            { name: '3:session3', times: [] },
-          ],
-          selectedSessionIndex: 0,
-        },
-      ])
-    );
-    expect(result.current.currentSessionCollection.sessions).toEqual([
-      { name: '3:session1', times: [] },
-      { name: '3:session2', times: [] },
-      { name: '3:session3', times: [] },
-    ]);
-    act(() => result.current.deleteSession(1));
-    expect(result.current.currentSessionCollection.sessions).toEqual([
-      { name: '3:session1', times: [] },
-      { name: '3:session3', times: [] },
-    ]);
-    expect(result.current.sessionIndex).toBe(0);
-  });
-  test('setVariation()', () => {
-    const { result } = renderHook(() =>
-      useSessions([
-        {
-          variation: { name: '3x3', scramble: '3x3' },
-          sessions: [{ name: '3:session1', times: [] }],
-          selectedSessionIndex: 0,
-        },
-        {
-          variation: { name: '2x2', scramble: '2x2' },
-          sessions: [
-            { name: '2:session1', times: [] },
-            { name: '2:session2', times: [] },
-          ],
-          selectedSessionIndex: 1,
-        },
-        {
-          variation: { name: '4x4', scramble: '4x4' },
-          sessions: [
-            { name: '4:session1', times: [] },
-            { name: '4:session2', times: [] },
-            { name: '4:session3', times: [] },
-            { name: '4:session4', times: [] },
-            { name: '4:session5', times: [] },
-          ],
-          selectedSessionIndex: 3,
-        },
-      ])
-    );
-    expect(result.current.sessionIndex).toBe(0);
-    expect(
-      result.current.currentSessionCollection.sessions[
-        result.current.sessionIndex
-      ].name
-    ).toBe('3:session1');
-    expect(result.current.currentSessionCollection.variation.name).toBe('3x3');
-    act(() => {
-      result.current.setVariation({ name: '2x2', scramble: '2x2' });
-    });
-    expect(result.current.sessionIndex).toBe(1);
-    expect(
-      result.current.currentSessionCollection.sessions[
-        result.current.sessionIndex
-      ].name
-    ).toBe('2:session2');
-    expect(result.current.currentSessionCollection.variation.name).toBe('2x2');
-    act(() => {
-      result.current.setVariation({ name: '4x4', scramble: '4x4' });
-    });
-    expect(result.current.sessionIndex).toBe(3);
-    expect(
-      result.current.currentSessionCollection.sessions[
-        result.current.sessionIndex
-      ].name
-    ).toBe('4:session4');
-    expect(result.current.currentSessionCollection.variation.name).toBe('4x4');
-    act(() => {
-      result.current.setVariation({ name: '3x3', scramble: '3x3' });
-    });
-    expect(result.current.sessionIndex).toBe(0);
-    expect(
-      result.current.currentSessionCollection.sessions[
-        result.current.sessionIndex
-      ].name
-    ).toBe('3:session1');
-    expect(result.current.currentSessionCollection.variation.name).toBe('3x3');
-  });
-  test('changeSessionName()', () => {
-    const { result } = renderHook(() =>
-      useSessions([
-        {
-          variation: { name: '3x3', scramble: '3x3' },
-          sessions: [{ name: '3:session1', times: [] }],
-          selectedSessionIndex: 0,
-        },
-        {
-          variation: { name: '2x2', scramble: '2x2' },
-          sessions: [
-            { name: '2:session1', times: [] },
-            { name: '2:session2', times: [] },
-          ],
-          selectedSessionIndex: 1,
-        },
-        {
-          variation: { name: '4x4', scramble: '4x4' },
-          sessions: [
-            { name: '4:session1', times: [] },
-            { name: '4:session2', times: [] },
-            { name: '4:session3', times: [] },
-            { name: '4:session4', times: [] },
-            { name: '4:session5', times: [] },
-          ],
-          selectedSessionIndex: 3,
-        },
-      ])
-    );
-    act(() => {
-      result.current.setVariation({ name: '4x4', scramble: '4x4' });
-    });
-    act(() => {
-      result.current.changeSessionName('4:renamed-session');
-    });
-    expect(result.current.sessionIndex).toBe(3);
-    expect(result.current.currentSessionCollection.sessions).toEqual([
-      { name: '4:session1', times: [] },
-      { name: '4:session2', times: [] },
-      { name: '4:session3', times: [] },
-      { name: '4:renamed-session', times: [] },
-      { name: '4:session5', times: [] },
-    ]);
-  });
-  test('deleteAllSessionsByVariation() deletes current session', () => {
-    const { result } = renderHook(() =>
-      useSessions([
-        {
-          variation: { name: '3x3', scramble: '3x3' },
-          sessions: [{ name: '3:session1', times: [] }],
-          selectedSessionIndex: 0,
-        },
-        {
-          variation: { name: '2x2', scramble: '2x2' },
-          sessions: [
-            { name: '2:session1', times: [] },
-            { name: '2:session2', times: [] },
-          ],
-          selectedSessionIndex: 1,
-        },
-        {
-          variation: { name: 'user defined session', scramble: '4x4' },
-          sessions: [
-            { name: '4:session1', times: [] },
-            { name: '4:session2', times: [] },
-            { name: '4:session3', times: [] },
-            { name: '4:session4', times: [] },
-            { name: '4:session5', times: [] },
-          ],
-          selectedSessionIndex: 3,
-        },
-      ])
-    );
-    act(() => {
-      result.current.setVariation({
-        name: 'user defined session',
-        scramble: '4x4',
-      });
-    });
-    act(() => {
-      result.current.deleteAllSessionsByVariation({
-        name: 'user defined session',
-        scramble: '4x4',
-      });
-    });
-    expect(result.current.sessionIndex).toBe(0);
-    expect(result.current.currentSessionCollection.variation.name).toBe('3x3');
-    expect(result.current.sessions).toEqual([
-      {
-        variation: { name: '3x3', scramble: '3x3' },
-        sessions: [{ name: '3:session1', times: [] }],
-        selectedSessionIndex: 0,
-      },
-      {
-        variation: { name: '2x2', scramble: '2x2' },
-        sessions: [
-          { name: '2:session1', times: [] },
-          { name: '2:session2', times: [] },
-        ],
-        selectedSessionIndex: 1,
-      },
-    ]);
-  });
-  test('deleteAllSessionsByVariation() deletes session that is not current one', () => {
-    const { result } = renderHook(() =>
-      useSessions([
-        {
-          variation: { name: '3x3', scramble: '3x3' },
-          sessions: [{ name: '3:session1', times: [] }],
-          selectedSessionIndex: 0,
-        },
-        {
-          variation: { name: '2x2', scramble: '2x2' },
-          sessions: [
-            { name: '2:session1', times: [] },
-            { name: '2:session2', times: [] },
-          ],
-          selectedSessionIndex: 1,
-        },
-        {
-          variation: { name: 'user defined session', scramble: '4x4' },
-          sessions: [
-            { name: '4:session1', times: [] },
-            { name: '4:session2', times: [] },
-            { name: '4:session3', times: [] },
-          ],
-          selectedSessionIndex: 3,
-        },
-        {
-          variation: { name: 'user defined session 2', scramble: '4x4' },
-          sessions: [
-            { name: 'session1', times: [] },
-            { name: 'session2', times: [] },
-            { name: 'session3', times: [] },
-          ],
-          selectedSessionIndex: 3,
-        },
-      ])
-    );
-    act(() => {
-      result.current.setVariation({
-        name: 'user defined session 2',
-        scramble: '4x4',
-      });
-    });
-    act(() => {
-      result.current.deleteAllSessionsByVariation({
-        name: 'user defined session',
-        scramble: '4x4',
-      });
-    });
-    expect(result.current.sessionIndex).toBe(3);
-    expect(result.current.currentSessionCollection.variation.name).toBe(
-      'user defined session 2'
-    );
-    expect(result.current.sessions).toEqual([
-      {
-        variation: { name: '3x3', scramble: '3x3' },
-        sessions: [{ name: '3:session1', times: [] }],
-        selectedSessionIndex: 0,
-      },
-      {
-        variation: { name: '2x2', scramble: '2x2' },
-        sessions: [
-          { name: '2:session1', times: [] },
-          { name: '2:session2', times: [] },
-        ],
-        selectedSessionIndex: 1,
-      },
-      {
-        variation: { name: 'user defined session 2', scramble: '4x4' },
-        sessions: [
-          { name: 'session1', times: [] },
-          { name: 'session2', times: [] },
-          { name: 'session3', times: [] },
-        ],
-        selectedSessionIndex: 3,
       },
     ]);
   });

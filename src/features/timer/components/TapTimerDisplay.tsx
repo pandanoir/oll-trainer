@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { PropsWithChildren, HTMLAttributes, memo, VFC } from 'react';
+import { PropsWithChildren, HTMLAttributes, VFC } from 'react';
 
 import { exhaustiveCheck } from '../../../utils/exhaustiveCheck';
 import {
