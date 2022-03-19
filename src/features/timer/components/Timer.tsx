@@ -44,7 +44,7 @@ interface Props {
   variationChooseButton: ReactNode;
   statisticsButton: ReactNode;
   recordModifier: ReactNode;
-  disabled: boolean;
+  disabled?: boolean;
 }
 export const Timer: VFC<Props> = ({
   usesInspection,
@@ -55,7 +55,7 @@ export const Timer: VFC<Props> = ({
   variationChooseButton,
   statisticsButton,
   recordModifier,
-  disabled,
+  disabled = false,
 }) => {
   const {
     onPointerDown,

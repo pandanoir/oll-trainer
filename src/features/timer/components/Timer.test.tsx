@@ -6,6 +6,7 @@ import { render, fireEvent, cleanup } from '@testing-library/react';
 import { ComponentProps } from 'react';
 import { act } from 'react-dom/test-utils';
 import { IntlProvider, MessageFormatElement } from 'react-intl';
+import { RecoilRoot } from 'recoil';
 import en from '../../../../compiled-lang/en.json';
 import ja from '../../../../compiled-lang/ja.json';
 import { useSessions } from '../../sessionList/hooks/useSessions';
@@ -47,7 +48,7 @@ describe('Timer', () => {
 
   const now = 1609426800000;
   const timesRef: { current: TimeData[] } = { current: [] };
-  const TestComponent = ({
+  const TestComponent_ = ({
     usesInspection = false,
     onFinish,
     onTypingTimerInput,
@@ -82,6 +83,13 @@ describe('Timer', () => {
         statisticsButton={<div />}
         recordModifier={<div />}
       />
+    );
+  };
+  const TestComponent: typeof TestComponent_ = (props) => {
+    return (
+      <RecoilRoot>
+        <TestComponent_ {...props} />
+      </RecoilRoot>
     );
   };
   test('in normal case', () => {
@@ -358,7 +366,7 @@ describe('TypingTimer', () => {
 
   const now = 1609426800000;
   const timesRef: { current: TimeData[] } = { current: [] };
-  const TestComponent = ({
+  const TestComponent_ = ({
     onFinish,
     onTypingTimerInput,
   }: Pick<ComponentProps<typeof Timer>, 'onFinish' | 'onTypingTimerInput'>) => {
@@ -396,6 +404,13 @@ describe('TypingTimer', () => {
           recordModifier={<div />}
         />
       </IntlProvider>
+    );
+  };
+  const TestComponent: typeof TestComponent_ = (props) => {
+    return (
+      <RecoilRoot>
+        <TestComponent_ {...props} />
+      </RecoilRoot>
     );
   };
   test('in normal case', () => {

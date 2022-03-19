@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+jest.useFakeTimers().setSystemTime(new Date('2020-09-30').getTime());
+
 import '@testing-library/jest-dom';
 import {
   render,
@@ -12,13 +14,12 @@ import {
 } from '@testing-library/react';
 import { useMemo } from 'react';
 import { IntlProvider, MessageFormatElement } from 'react-intl';
+import { RecoilRoot } from 'recoil';
 import en from '../../../../compiled-lang/en.json';
 import ja from '../../../../compiled-lang/ja.json';
 import { Times } from '../../../components/Timer/Times';
 import { withPrefix } from '../../../utils/withPrefix';
-import { zerofill } from '../../../utils/zerofill';
 import { SessionCollection } from '../../timer/data/timeData';
-import { useSessions } from '../hooks/useSessions';
 import { Session } from './SessionToolbar';
 
 const selectMessages = (
@@ -38,8 +39,13 @@ Element.prototype.scrollTo = () => void 0;
 
 jest.mock('../../../components/common/ToggleButton.css', () => '');
 
-jest.useFakeTimers().setSystemTime(new Date('2020-09-30').getTime());
 describe('SessionToolbar', () => {
+  // useFakeTimers() より先に import '../hooks/useSessions' が実行されるらしくてうまくいかないので、苦肉の策として dynamic import を使ったハックをしている
+  let useSessions: typeof import('../hooks/useSessions').useSessions;
+  beforeAll(async () => {
+    useSessions = (await import('../hooks/useSessions')).useSessions;
+  });
+
   const currentSession: { current: null | SessionCollection } = {
     current: null,
   };
@@ -50,7 +56,7 @@ describe('SessionToolbar', () => {
   afterEach(() => {
     cleanup();
   });
-  const TestComponent = () => {
+  const TestComponent_ = () => {
     const {
       sessions,
       currentSessionCollection,
@@ -67,6 +73,8 @@ describe('SessionToolbar', () => {
       undoPenalty,
       deleteRecord,
       insertRecord,
+      lockSession,
+      unlockSession,
     } = useSessions();
     currentSession.current = sessions;
     const { times } = currentSessionCollection.sessions[sessionIndex];
@@ -86,6 +94,8 @@ describe('SessionToolbar', () => {
           sessions={sessions}
           addSession={addSession}
           deleteSession={deleteSession}
+          lockSession={() => lockSession(sessionIndex)}
+          unlockSession={() => unlockSession(sessionIndex)}
           recordListComponent={useMemo(
             () => (
               <div tw="pt-12">
@@ -115,6 +125,13 @@ describe('SessionToolbar', () => {
       </IntlProvider>
     );
   };
+  const TestComponent = () => {
+    return (
+      <RecoilRoot>
+        <TestComponent_ />
+      </RecoilRoot>
+    );
+  };
   test('initial state', () => {
     const { getByRole, queryByTestId } = render(<TestComponent />);
 
@@ -129,9 +146,9 @@ describe('SessionToolbar', () => {
     const data: SessionCollection = [
       {
         sessions: [
-          { times: [], name: 'first' },
-          { times: [], name: 'second' },
-          { times: [], name: 'third' },
+          { times: [], name: 'first', isLocked: false },
+          { times: [], name: 'second', isLocked: false },
+          { times: [], name: 'third', isLocked: false },
         ],
         selectedSessionIndex: 1,
         variation: { name: '3x3', scramble: '3x3' },
@@ -167,6 +184,12 @@ describe('SessionToolbar', () => {
     });
     test(`if user adds session when current session is not at end, current session doesn't change`, () => {
       const { getByRole } = render(<TestComponent />);
+
+      expect(new Date().getFullYear()).toBe(2020);
+      expect(new Date().getMonth() + 1).toBe(9);
+
+      expect(new Date().getFullYear()).toBe(2020);
+      expect(new Date().getMonth() + 1).toBe(9);
 
       getByRole('button', { name: 'add session' }).click();
       getByRole('button', { name: 'prev session' }).click();
@@ -206,6 +229,7 @@ describe('SessionToolbar', () => {
             {
               times: [{ time: 1234, scramble: '', date: 0 }],
               name: 'first',
+              isLocked: false,
             },
           ],
           selectedSessionIndex: 0,
@@ -253,6 +277,7 @@ describe('SessionToolbar', () => {
             {
               times: [{ time: 1234, scramble: '', date: 0 }],
               name: 'first',
+              isLocked: false,
             },
           ],
           selectedSessionIndex: 0,
@@ -310,9 +335,21 @@ describe('SessionToolbar', () => {
       const data: SessionCollection = [
         {
           sessions: [
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'first' },
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'second' },
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'third' },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'first',
+              isLocked: false,
+            },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'second',
+              isLocked: false,
+            },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'third',
+              isLocked: false,
+            },
           ],
           selectedSessionIndex: 0,
           variation: { name: '3x3', scramble: '3x3' },
@@ -349,9 +386,21 @@ describe('SessionToolbar', () => {
       const data: SessionCollection = [
         {
           sessions: [
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'first' },
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'second' },
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'third' },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'first',
+              isLocked: false,
+            },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'second',
+              isLocked: false,
+            },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'third',
+              isLocked: false,
+            },
           ],
           selectedSessionIndex: 0,
           variation: { name: '3x3', scramble: '3x3' },
@@ -381,9 +430,21 @@ describe('SessionToolbar', () => {
       const data: SessionCollection = [
         {
           sessions: [
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'first' },
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'second' },
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'third' },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'first',
+              isLocked: false,
+            },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'second',
+              isLocked: false,
+            },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'third',
+              isLocked: false,
+            },
           ],
           selectedSessionIndex: 0,
           variation: { name: '3x3', scramble: '3x3' },
@@ -432,9 +493,21 @@ describe('SessionToolbar', () => {
       const data: SessionCollection = [
         {
           sessions: [
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'first' },
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'second' },
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'third' },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'first',
+              isLocked: false,
+            },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'second',
+              isLocked: false,
+            },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'third',
+              isLocked: false,
+            },
           ],
           selectedSessionIndex: 0,
           variation: { name: '3x3', scramble: '3x3' },
@@ -495,9 +568,21 @@ describe('SessionToolbar', () => {
       const data: SessionCollection = [
         {
           sessions: [
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'first' },
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'second' },
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'third' },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'first',
+              isLocked: false,
+            },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'second',
+              isLocked: false,
+            },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'third',
+              isLocked: false,
+            },
           ],
           selectedSessionIndex: 0,
           variation: { name: '3x3', scramble: '3x3' },
@@ -526,9 +611,21 @@ describe('SessionToolbar', () => {
       const data: SessionCollection = [
         {
           sessions: [
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'first' },
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'second' },
-            { times: [{ time: 1234, scramble: '', date: 0 }], name: 'third' },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'first',
+              isLocked: false,
+            },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'second',
+              isLocked: false,
+            },
+            {
+              times: [{ time: 1234, scramble: '', date: 0 }],
+              name: 'third',
+              isLocked: false,
+            },
           ],
           selectedSessionIndex: 0,
           variation: { name: '3x3', scramble: '3x3' },
@@ -556,9 +653,21 @@ describe('SessionToolbar', () => {
     const data: SessionCollection = [
       {
         sessions: [
-          { times: [{ time: 1234, scramble: '', date: 0 }], name: 'first' },
-          { times: [{ time: 1234, scramble: '', date: 0 }], name: 'second' },
-          { times: [{ time: 1234, scramble: '', date: 0 }], name: 'third' },
+          {
+            times: [{ time: 1234, scramble: '', date: 0 }],
+            name: 'first',
+            isLocked: false,
+          },
+          {
+            times: [{ time: 1234, scramble: '', date: 0 }],
+            name: 'second',
+            isLocked: false,
+          },
+          {
+            times: [{ time: 1234, scramble: '', date: 0 }],
+            name: 'third',
+            isLocked: false,
+          },
         ],
         selectedSessionIndex: 0,
         variation: { name: '3x3', scramble: '3x3' },

@@ -1,11 +1,14 @@
 import { Temporal } from '@js-temporal/polyfill';
 import immer from 'immer';
 import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
-import { defaultVariation, Variation } from '../../../data/variations';
 import {
-  useVersionedImmerState,
-  useStoragedState,
-} from '../../../utils/hooks/useLocalStorage';
+  atom,
+  SetterOrUpdater,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from 'recoil';
+import { defaultVariation, Variation } from '../../../data/variations';
 import { isUnknownObject } from '../../../utils/isUnknownObject';
 import { withPrefix } from '../../../utils/withPrefix';
 import { zerofill } from '../../../utils/zerofill';
@@ -101,160 +104,237 @@ export const migration = (
   /* istanbul ignore next */
   throw new Error('unexpected version');
 };
-export const useSessions = (
-  initialSessions:
-    | SessionCollection
-    | (() => SessionCollection) = getDefaultSessionCollection
-) => {
-  const [sessions, updateSessions] = useVersionedImmerState(
-    withPrefix('sessions'),
-    initialSessions,
-    version,
-    migration
-  );
 
-  const [variationName, setVariationName] = useStoragedState<string>(
-    withPrefix('variation'),
-    defaultVariation.name
-  );
-  const setVariation = (variation: Variation) => {
-    if (sessions.every(({ variation: { name } }) => name !== variation.name)) {
-      addSessionGroup(variation);
-    }
-    setVariationName(variation.name);
+const sessionsAtom = atom<{ data: SessionCollection; version: number }>({
+  key: withPrefix('sessions'),
+  default: { data: getDefaultSessionCollection(), version },
+  effects: [
+    ({ setSelf, onSet }) => {
+      const storageKey = withPrefix('sessions');
+      const item = localStorage.getItem(storageKey);
+      try {
+        if (item !== null) {
+          setSelf(migration(JSON.parse(item)));
+        }
+      } catch {}
+      onSet((newValue) => {
+        localStorage.setItem(storageKey, JSON.stringify(newValue));
+      });
+    },
+  ],
+});
+const useSetSessionsAtom = (): SetterOrUpdater<SessionCollection> => {
+  const setter = useSetRecoilState(sessionsAtom);
+  return (value) => {
+    setter(({ data }) => ({
+      data: typeof value === 'function' ? value(data) : value,
+      version,
+    }));
   };
-  const findCurrentSession = useCallback(
-    (data: SessionCollection) => {
-      for (const val of data) {
-        if (val.variation.name === variationName) {
-          if (val.selectedSessionIndex >= val.sessions.length) {
-            return val.sessions[0];
-          }
-          return val.sessions[val.selectedSessionIndex];
-        }
-      }
-      /* istanbul ignore next */
-      throw new Error('unexpected error');
-    },
-    [variationName]
-  );
-  const findCurrentSessionCollection = useCallback(
-    (data: SessionCollection) => {
-      for (const val of data) {
-        if (val.variation.name === variationName) {
-          return val;
-        }
-      }
-      /* istanbul ignore next */
-      throw new Error('unexpected error');
-    },
-    [variationName]
-  );
+};
 
-  const changeSessionName = useCallback(
-    (name: string): void =>
-      updateSessions((draft) => {
-        findCurrentSession(draft).name = name;
-      }),
-    [updateSessions, findCurrentSession]
-  );
-  const changeToDNF = useCallback(
-    (index: number): void =>
-      updateSessions((draft) => {
-        const time = findCurrentSession(draft).times[index];
+const variationNameAtom = atom<string>({
+  key: withPrefix('variation'),
+  default: defaultVariation.name,
+  effects: [
+    ({ setSelf, onSet }) => {
+      const storageKey = withPrefix('variation');
+      const item = localStorage.getItem(storageKey);
+      try {
+        if (item !== null) {
+          setSelf(JSON.parse(item));
+        }
+      } catch {}
+      onSet((newValue) => {
+        localStorage.setItem(storageKey, JSON.stringify(newValue));
+      });
+    },
+  ],
+});
+
+const getCurrentSessionCollection = (
+  data: SessionCollection,
+  variationName: string
+) => {
+  for (const val of data) {
+    if (val.variation.name !== variationName) {
+      continue;
+    }
+    return val;
+  }
+  /* istanbul ignore next */
+  throw new Error('unexpected error');
+};
+
+const getCurrentSession = (data: SessionCollection, variationName: string) => {
+  for (const val of data) {
+    if (val.variation.name !== variationName) {
+      continue;
+    }
+    if (val.selectedSessionIndex >= val.sessions.length) {
+      return val.sessions[0];
+    }
+    return val.sessions[val.selectedSessionIndex];
+  }
+  /* istanbul ignore next */
+  throw new Error('unexpected error');
+};
+const useChangeSessionName = () => {
+  const setSessions = useSetSessionsAtom();
+  const variationName = useRecoilValue(variationNameAtom);
+  return (name: string): void => {
+    setSessions(
+      immer((draft) => {
+        getCurrentSession(draft, variationName).name = name;
+      })
+    );
+  };
+};
+const useChangeToDNF = () => {
+  const setSessions = useSetSessionsAtom();
+  const variationName = useRecoilValue(variationNameAtom);
+  return (index: number): void =>
+    setSessions(
+      immer((draft) => {
+        const time = getCurrentSession(draft, variationName).times[index];
         if (time) {
           time.isDNF = true;
         }
-      }),
-    [updateSessions, findCurrentSession]
-  );
-  const undoDNF = useCallback(
-    (index: number): void =>
-      updateSessions((draft) => {
-        const time = findCurrentSession(draft).times[index];
+      })
+    );
+};
+const useUndoDNF = () => {
+  const setSessions = useSetSessionsAtom(),
+    variationName = useRecoilValue(variationNameAtom);
+  return (index: number): void =>
+    setSessions(
+      immer((draft) => {
+        const time = getCurrentSession(draft, variationName).times[index];
         if (time) {
           time.isDNF = false;
         }
-      }),
-    [updateSessions, findCurrentSession]
-  );
-  const imposePenalty = useCallback(
-    (index: number): void =>
-      updateSessions((draft) => {
-        const time = findCurrentSession(draft).times[index];
+      })
+    );
+};
+const useImposePenalty = () => {
+  const setSessions = useSetSessionsAtom(),
+    variationName = useRecoilValue(variationNameAtom);
+  return (index: number): void =>
+    setSessions(
+      immer((draft) => {
+        const time = getCurrentSession(draft, variationName).times[index];
         if (time) {
           time.penalty = true;
         }
-      }),
-    [updateSessions, findCurrentSession]
-  );
-  const undoPenalty = useCallback(
-    (index: number): void =>
-      updateSessions((draft) => {
-        const time = findCurrentSession(draft).times[index];
+      })
+    );
+};
+const useUndoPenalty = () => {
+  const setSessions = useSetSessionsAtom(),
+    variationName = useRecoilValue(variationNameAtom);
+  return (index: number): void =>
+    setSessions(
+      immer((draft) => {
+        const time = getCurrentSession(draft, variationName).times[index];
         if (time) {
           time.penalty = false;
         }
-      }),
-    [updateSessions, findCurrentSession]
-  );
-  const deleteRecord = useCallback(
-    (index: number): TimeData => {
-      const removedValue = findCurrentSession(sessions).times[index];
-      if (!removedValue) {
-        throw new Error('out of bounds');
-      }
-      updateSessions((draft) => {
-        findCurrentSession(draft).times.splice(index, 1);
-      });
-      return removedValue;
-    },
-    [findCurrentSession, sessions, updateSessions]
-  );
-  const insertRecord = useCallback(
-    (index: number, record: TimeData) => {
-      updateSessions((draft) => {
-        findCurrentSession(draft).times.splice(index, 0, record);
-      });
-    },
-    [findCurrentSession, updateSessions]
-  );
-  const addTime = useCallback(
-    (time: TimeData) => {
-      updateSessions((draft) => {
-        findCurrentSession(draft).times.push(time);
-      });
-    },
-    [findCurrentSession, updateSessions]
-  );
-  const addSession = useCallback(() => {
-    updateSessions((draft) => {
-      const { sessions } = findCurrentSessionCollection(draft);
-      sessions.push(createNewSession(sessions.length + 1));
-    });
-  }, [findCurrentSessionCollection, updateSessions]);
-  const deleteSession = useCallback(
-    (index: number) => {
-      updateSessions((draft) => {
-        findCurrentSessionCollection(draft).sessions.splice(index, 1);
-      });
-      const sessionCollection = findCurrentSessionCollection(sessions);
-      if (sessionCollection.sessions.length === 1) {
-        addSession();
-      } else if (
-        sessionCollection.selectedSessionIndex ===
-        sessionCollection.sessions.length - 1
-      ) {
-        updateSessions((draft) => {
-          findCurrentSessionCollection(draft).selectedSessionIndex -= 1;
-        });
-      }
-    },
-    [addSession, findCurrentSessionCollection, sessions, updateSessions]
-  );
-  const addSessionGroup = useCallback(
-    (variation: Variation) => {
-      updateSessions((draft) => {
+      })
+    );
+};
+const useDeleteRecord = () => {
+  const { data: sessions } = useRecoilValue(sessionsAtom),
+    setSessions = useSetSessionsAtom(),
+    variationName = useRecoilValue(variationNameAtom);
+  return (index: number): TimeData => {
+    const removedValue = getCurrentSession(sessions, variationName).times[
+      index
+    ];
+    if (!removedValue) {
+      throw new Error('out of bounds');
+    }
+    setSessions(
+      immer((draft) => {
+        getCurrentSession(draft, variationName).times.splice(index, 1);
+      })
+    );
+    return removedValue;
+  };
+};
+const useInsertRecord = () => {
+  const setSessions = useSetSessionsAtom(),
+    variationName = useRecoilValue(variationNameAtom);
+  return (index: number, record: TimeData) => {
+    setSessions(
+      immer((draft) => {
+        getCurrentSession(draft, variationName).times.splice(index, 0, record);
+      })
+    );
+  };
+};
+const useAddTime = () => {
+  const setSessions = useSetSessionsAtom(),
+    variationName = useRecoilValue(variationNameAtom);
+  return (time: TimeData) => {
+    setSessions(
+      immer((draft) => {
+        getCurrentSession(draft, variationName).times.push(time);
+      })
+    );
+  };
+};
+const useAddSession = () => {
+  const setSessions = useSetSessionsAtom(),
+    variationName = useRecoilValue(variationNameAtom);
+  return () => {
+    setSessions(
+      immer((draft) => {
+        const { sessions } = getCurrentSessionCollection(draft, variationName);
+        sessions.push(createNewSession(sessions.length + 1));
+      })
+    );
+  };
+};
+const useDeleteSession = () => {
+  const setSessions = useSetSessionsAtom(),
+    variationName = useRecoilValue(variationNameAtom);
+  const { data: sessions } = useRecoilValue(sessionsAtom);
+  const addSession = useAddSession();
+  return (index: number) => {
+    setSessions(
+      immer((draft) => {
+        getCurrentSessionCollection(draft, variationName).sessions.splice(
+          index,
+          1
+        );
+      })
+    );
+    const sessionCollection = getCurrentSessionCollection(
+      sessions,
+      variationName
+    );
+    if (sessionCollection.sessions.length === 1) {
+      addSession();
+    } else if (
+      sessionCollection.selectedSessionIndex ===
+      sessionCollection.sessions.length - 1
+    ) {
+      setSessions(
+        immer((draft) => {
+          getCurrentSessionCollection(
+            draft,
+            variationName
+          ).selectedSessionIndex -= 1;
+        })
+      );
+    }
+  };
+};
+const useAddSessionGroup = () => {
+  const setSessions = useSetSessionsAtom();
+  return (variation: Variation) => {
+    setSessions(
+      immer((draft) => {
         if (draft.some(({ variation: { name } }) => variation.name === name)) {
           return;
         }
@@ -263,67 +343,146 @@ export const useSessions = (
           sessions: [createNewSession()],
           selectedSessionIndex: 0,
         });
-      });
-    },
-    [updateSessions]
-  );
-  const importFromUserData = (data: SessionCollection) => {
-    updateSessions(data);
+      })
+    );
   };
-  const deleteAllSessionsByVariation = (variation: Variation) => {
-    updateSessions((draft) => {
-      for (let i = 0; i < draft.length; i++) {
-        if (draft[i].variation.name === variation.name) {
-          draft.splice(i, 1);
-          return;
+};
+const useImportFromUserData = () => {
+  const setSessions = useSetSessionsAtom();
+  return (data: SessionCollection) => setSessions(data);
+};
+const useDeleteAllSessionsByVariation = () => {
+  const setSessions = useSetSessionsAtom(),
+    variationName = useRecoilValue(variationNameAtom);
+  const setVariationName = useSetRecoilState(variationNameAtom);
+  return (variation: Variation) => {
+    setSessions(
+      immer((draft) => {
+        for (let i = 0; i < draft.length; i++) {
+          if (draft[i].variation.name === variation.name) {
+            draft.splice(i, 1);
+            return;
+          }
         }
-      }
-    });
+      })
+    );
     if (variationName === variation.name) {
       setVariationName(defaultVariation.name);
     }
   };
-  const lockSession = useCallback(
-    (index: number) => {
-      updateSessions((draft) => {
-        findCurrentSessionCollection(draft).sessions[index].isLocked = true;
-      });
-    },
-    [findCurrentSessionCollection, updateSessions]
-  );
-  const unlockSession = useCallback(
-    (index: number) => {
-      updateSessions((draft) => {
-        findCurrentSessionCollection(draft).sessions[index].isLocked = false;
-      });
-    },
-    [findCurrentSessionCollection, updateSessions]
-  );
+};
+const useLockSession = () => {
+  const setSessions = useSetSessionsAtom(),
+    variationName = useRecoilValue(variationNameAtom);
+  return (index: number) => {
+    setSessions(
+      immer((draft) => {
+        getCurrentSessionCollection(draft, variationName).sessions[
+          index
+        ].isLocked = true;
+      })
+    );
+  };
+};
+const useUnlockSession = () => {
+  const setSessions = useSetSessionsAtom(),
+    variationName = useRecoilValue(variationNameAtom);
+  return (index: number) => {
+    setSessions(
+      immer((draft) => {
+        getCurrentSessionCollection(draft, variationName).sessions[
+          index
+        ].isLocked = false;
+      })
+    );
+  };
+};
+
+export const useSessions = (): {
+  readonly sessions: SessionCollection;
+  readonly currentSessionCollection: {
+    sessions: import('/home/pandanoir/Documents/docker/oll/src/features/timer/data/timeData').SessionData[];
+    selectedSessionIndex: number;
+    variation: Variation;
+  };
+  readonly variationName: string;
+  readonly sessionIndex: number;
+  readonly setSessionIndex: Dispatch<SetStateAction<number>>;
+  readonly setVariation: (variation: Variation) => void;
+  readonly changeSessionName: (name: string) => void;
+  readonly importFromUserData: (data: SessionCollection) => void;
+  readonly changeToDNF: (index: number) => void;
+  readonly undoDNF: (index: number) => void;
+  readonly imposePenalty: (index: number) => void;
+  readonly undoPenalty: (index: number) => void;
+  readonly deleteRecord: (index: number) => TimeData;
+  readonly insertRecord: (index: number, record: TimeData) => void;
+  readonly addTime: (time: TimeData) => void;
+  readonly addSession: () => void;
+  readonly deleteSession: (index: number) => void;
+  readonly addSessionGroup: (variation: Variation) => void;
+  readonly deleteAllSessionsByVariation: (variation: Variation) => void;
+  readonly lockSession: (index: number) => void;
+  readonly unlockSession: (index: number) => void;
+} => {
+  const { data: sessions } = useRecoilValue(sessionsAtom);
+  const setSessions = useSetSessionsAtom();
+  const [variationName, setVariationName] = useRecoilState(variationNameAtom);
+  const setVariation = (variation: Variation) => {
+    if (sessions.every(({ variation: { name } }) => name !== variation.name)) {
+      addSessionGroup(variation);
+    }
+    setVariationName(variation.name);
+  };
+
+  const changeSessionName = useChangeSessionName();
+
+  const changeToDNF = useChangeToDNF();
+  const undoDNF = useUndoDNF();
+  const imposePenalty = useImposePenalty();
+  const undoPenalty = useUndoPenalty();
+  const deleteRecord = useDeleteRecord();
+  const insertRecord = useInsertRecord();
+  const addTime = useAddTime();
+  const addSession = useAddSession();
+  const deleteSession = useDeleteSession();
+  const addSessionGroup = useAddSessionGroup();
+  const importFromUserData = useImportFromUserData();
+  const deleteAllSessionsByVariation = useDeleteAllSessionsByVariation();
+  const lockSession = useLockSession();
+  const unlockSession = useUnlockSession();
 
   return {
     sessions,
     currentSessionCollection: useMemo(
-      () => findCurrentSessionCollection(sessions),
-      [findCurrentSessionCollection, sessions]
+      () => getCurrentSessionCollection(sessions, variationName),
+      [sessions, variationName]
     ),
     variationName,
     sessionIndex: useMemo(
-      () => findCurrentSessionCollection(sessions).selectedSessionIndex,
-      [findCurrentSessionCollection, sessions]
+      () =>
+        getCurrentSessionCollection(sessions, variationName)
+          .selectedSessionIndex,
+      [sessions, variationName]
     ),
     setSessionIndex: useCallback<Dispatch<SetStateAction<number>>>(
       (action) =>
-        updateSessions((draft) => {
-          const sessionCollection = findCurrentSessionCollection(draft);
-          if (typeof action === 'function') {
-            sessionCollection.selectedSessionIndex = action(
-              sessionCollection.selectedSessionIndex
+        setSessions(
+          immer((draft) => {
+            const sessionCollection = getCurrentSessionCollection(
+              draft,
+              variationName
             );
-          } else {
-            sessionCollection.selectedSessionIndex = action;
-          }
-        }),
-      [findCurrentSessionCollection, updateSessions]
+            if (typeof action === 'function') {
+              sessionCollection.selectedSessionIndex = action(
+                sessionCollection.selectedSessionIndex
+              );
+            } else {
+              sessionCollection.selectedSessionIndex = action;
+            }
+          })
+        ),
+      [setSessions, variationName]
     ),
     setVariation,
     changeSessionName,

@@ -1,6 +1,7 @@
 import { useCallback, VFC } from 'react';
 import { MessageFormatElement, IntlProvider } from 'react-intl';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
 import { GlobalStyles } from 'twin.macro';
 
 import en from '../compiled-lang/en.json';
@@ -76,28 +77,30 @@ export const App: VFC = () => {
   );
 
   return (
-    <UserDefinedVariationContext.Provider
-      value={useStoragedImmerState<Variation[]>(
-        withPrefix('user-defined-variations'),
-        []
-      )}
-    >
-      <IntlProvider
-        locale={locale}
-        defaultLocale="en"
-        messages={selectMessages(locale)}
+    <RecoilRoot>
+      <UserDefinedVariationContext.Provider
+        value={useStoragedImmerState<Variation[]>(
+          withPrefix('user-defined-variations'),
+          []
+        )}
       >
-        <VolumeContext.Provider
-          value={useStoragedState(withPrefix('volume'), 1)}
+        <IntlProvider
+          locale={locale}
+          defaultLocale="en"
+          messages={selectMessages(locale)}
         >
-          <DarkModeContext.Provider value={darkMode}>
-            <CheckContext.Provider value={useCheck()}>
-              <GlobalStyles />
-              {app}
-            </CheckContext.Provider>
-          </DarkModeContext.Provider>
-        </VolumeContext.Provider>
-      </IntlProvider>
-    </UserDefinedVariationContext.Provider>
+          <VolumeContext.Provider
+            value={useStoragedState(withPrefix('volume'), 1)}
+          >
+            <DarkModeContext.Provider value={darkMode}>
+              <CheckContext.Provider value={useCheck()}>
+                <GlobalStyles />
+                {app}
+              </CheckContext.Provider>
+            </DarkModeContext.Provider>
+          </VolumeContext.Provider>
+        </IntlProvider>
+      </UserDefinedVariationContext.Provider>
+    </RecoilRoot>
   );
 };
