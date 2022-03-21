@@ -88,6 +88,7 @@ export const migration = (
       data: immer(old.data as unknown as SessionCollectionV2, (draft) => {
         for (const variation of draft) {
           for (const session of variation.sessions) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (session as unknown as any).isLocked = false;
           }
         }
