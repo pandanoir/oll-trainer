@@ -35,8 +35,8 @@ jest.mock('../../../utils/playAudio.ts', () => ({
   playAudio: jest.fn(),
   playSilence: jest.fn(),
 }));
+jest.setTimeout(30000);
 
-jest.useFakeTimers();
 describe('Timer', () => {
   beforeEach(() => {
     timesRef.current = [];

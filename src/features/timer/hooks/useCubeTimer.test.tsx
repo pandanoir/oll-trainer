@@ -13,8 +13,8 @@ import {
   WORKING,
 } from '../data/timerState';
 import { useCubeTimer } from './useCubeTimer';
+jest.setTimeout(1e3 * 300);
 
-jest.useFakeTimers();
 describe('useCubeTimer', () => {
   const value: { current: ReturnType<typeof useCubeTimer> | null } = {
     current: null,

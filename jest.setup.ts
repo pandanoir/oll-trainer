@@ -5,3 +5,5 @@ global.fetch = fetchPolyfill.fetch;
 global.Request = fetchPolyfill.Request;
 global.Response = fetchPolyfill.Response;
 global.Headers = fetchPolyfill.Headers;
+
+jest.useFakeTimers().setSystemTime(new Date('2020-09-30').getTime());

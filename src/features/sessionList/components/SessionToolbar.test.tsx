@@ -20,6 +20,7 @@ import ja from '../../../../compiled-lang/ja.json';
 import { Times } from '../../../components/Timer/Times';
 import { withPrefix } from '../../../utils/withPrefix';
 import { SessionCollection } from '../../timer/data/timeData';
+import { useSessions } from '../hooks/useSessions';
 import { Session } from './SessionToolbar';
 
 const selectMessages = (
@@ -40,12 +41,6 @@ Element.prototype.scrollTo = () => void 0;
 jest.mock('../../../components/common/ToggleButton.css', () => '');
 
 describe('SessionToolbar', () => {
-  // useFakeTimers() より先に import '../hooks/useSessions' が実行されるらしくてうまくいかないので、苦肉の策として dynamic import を使ったハックをしている
-  let useSessions: typeof import('../hooks/useSessions').useSessions;
-  beforeAll(async () => {
-    useSessions = (await import('../hooks/useSessions')).useSessions;
-  });
-
   const currentSession: { current: null | SessionCollection } = {
     current: null,
   };
@@ -328,7 +323,7 @@ describe('SessionToolbar', () => {
     expect(getByRole('textbox', { name: 'session name' })).toHaveValue(
       'replaced'
     );
-    expect(currentSession.current[0].sessions[0].name).toBe('replaced');
+    expect(currentSession.current?.[0].sessions[0].name).toBe('replaced');
   });
   describe('session list modal', () => {
     test('toggle sort order', () => {

@@ -6,16 +6,9 @@ jest.useFakeTimers().setSystemTime(new Date('2020-09-30').getTime());
 import { renderHook } from '@testing-library/react-hooks';
 import { RecoilRoot } from 'recoil';
 import { withPrefix } from '../../../utils/withPrefix';
+import { migration, useSessions } from './useSessions';
 
 describe('migration', () => {
-  // useFakeTimers() より先に import '../hooks/useSessions' が実行されるらしくてうまくいかないので、苦肉の策として dynamic import を使ったハックをしている
-  let useSessions: typeof import('../hooks/useSessions').useSessions;
-  let migration: typeof import('../hooks/useSessions').migration;
-  beforeAll(async () => {
-    useSessions = (await import('../hooks/useSessions')).useSessions;
-    migration = (await import('../hooks/useSessions')).migration;
-  });
-
   beforeEach(() => {
     localStorage.clear();
   });
