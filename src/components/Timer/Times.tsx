@@ -172,10 +172,7 @@ export const Times: VFC<{
                   />
                   <RecordModifier
                     record={times[selectedIndex]}
-                    changeToDNF={() => changeToDNF(selectedIndex)}
-                    undoDNF={() => undoDNF(selectedIndex)}
-                    imposePenalty={() => imposePenalty(selectedIndex)}
-                    undoPenalty={() => undoPenalty(selectedIndex)}
+                    timeIndex={selectedIndex}
                     deleteRecord={() => {
                       const deletedRecord = deleteRecord(selectedIndex);
                       closeModal();

@@ -1,5 +1,11 @@
 import { TouchEvent } from 'react';
 import tw from 'twin.macro';
+import {
+  useChangeToDNF,
+  useUndoDNF,
+  useImposePenalty,
+  useUndoPenalty,
+} from '../../features/sessionList/hooks/useSessions';
 
 import { TimeData } from '../../features/timer/data/timeData';
 import { isAwayFromBeginningElement } from '../../utils/isAwayFromBeginningElement';
@@ -19,28 +25,27 @@ const touchEnd = (cb: () => void) => (event: TouchEvent<HTMLButtonElement>) => {
 export const RecordModifier = ({
   record,
   className,
-  changeToDNF,
-  undoDNF,
-  imposePenalty,
-  undoPenalty,
-  deleteRecord,
+  timeIndex,
   disabled = false,
+  deleteRecord,
 }: {
   record: TimeData;
   className?: string;
-  changeToDNF: () => void;
-  undoDNF: () => void;
-  imposePenalty: () => void;
-  undoPenalty: () => void;
+  timeIndex: number;
   deleteRecord: () => void;
   disabled?: boolean;
 }) => {
+  const changeToDNF = useChangeToDNF(),
+    undoDNF = useUndoDNF(),
+    imposePenalty = useImposePenalty(),
+    undoPenalty = useUndoPenalty();
+
   if (record.isDNF) {
     return (
       <ButtonWrapper className={className}>
         <SecondaryButton
-          onClick={withStopPropagation(undoDNF)}
-          onTouchEnd={touchEnd(undoDNF)}
+          onClick={withStopPropagation(() => undoDNF(timeIndex))}
+          onTouchEnd={touchEnd(() => undoDNF(timeIndex))}
           disabled={disabled}
           key="dnf"
         >
@@ -61,16 +66,16 @@ export const RecordModifier = ({
     return (
       <ButtonWrapper className={className}>
         <SecondaryButton
-          onClick={withStopPropagation(undoPenalty)}
-          onTouchEnd={touchEnd(undoPenalty)}
+          onClick={withStopPropagation(() => undoPenalty(timeIndex))}
+          onTouchEnd={touchEnd(() => undoPenalty(timeIndex))}
           disabled={disabled}
           key="+2"
         >
           undo +2
         </SecondaryButton>
         <SecondaryButton
-          onClick={withStopPropagation(changeToDNF)}
-          onTouchEnd={touchEnd(changeToDNF)}
+          onClick={withStopPropagation(() => changeToDNF(timeIndex))}
+          onTouchEnd={touchEnd(() => changeToDNF(timeIndex))}
           disabled={disabled}
           key="dnf"
         >
@@ -90,16 +95,16 @@ export const RecordModifier = ({
   return (
     <ButtonWrapper className={className}>
       <SecondaryButton
-        onClick={withStopPropagation(imposePenalty)}
-        onTouchEnd={touchEnd(imposePenalty)}
+        onClick={withStopPropagation(() => imposePenalty(timeIndex))}
+        onTouchEnd={touchEnd(() => imposePenalty(timeIndex))}
         disabled={disabled}
         key="+2"
       >
         +2
       </SecondaryButton>
       <SecondaryButton
-        onClick={withStopPropagation(changeToDNF)}
-        onTouchEnd={touchEnd(changeToDNF)}
+        onClick={withStopPropagation(() => changeToDNF(timeIndex))}
+        onTouchEnd={touchEnd(() => changeToDNF(timeIndex))}
         disabled={disabled}
         key="dnf"
       >

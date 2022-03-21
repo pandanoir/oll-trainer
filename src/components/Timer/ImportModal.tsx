@@ -5,7 +5,7 @@ import {
   UserDefinedVariationContext,
   Variation,
 } from '../../data/variations';
-import { SessionCollection } from '../../features/timer/data/timeData';
+import { useImportFromUserData } from '../../features/sessionList/hooks/useSessions';
 import { isHiTimerDataJSON } from '../../types/HiTimerDataJSON.guard';
 import { fromCsTimer } from '../../utils/fromCsTimer';
 import { Modal } from '../common/Modal';
@@ -16,9 +16,9 @@ import 'twin.macro';
 
 export const ImportModal: VFC<{
   onClose: () => void;
-  importSessionCollection: (data: SessionCollection) => void;
   setVariation: (variation: Variation) => void;
-}> = ({ onClose, importSessionCollection, setVariation }) => {
+}> = ({ onClose, setVariation }) => {
+  const importSessionCollection = useImportFromUserData();
   const { formatMessage } = useIntl();
   const [, updateUserDefinedVariation] = useContext(
     UserDefinedVariationContext

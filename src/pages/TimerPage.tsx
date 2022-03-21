@@ -87,11 +87,6 @@ export const TimerPage: VFC = () => {
     variationName,
     setSessionIndex,
     setVariation,
-    importFromUserData,
-    changeToDNF,
-    undoDNF,
-    imposePenalty,
-    undoPenalty,
     deleteRecord,
     insertRecord,
     addTime,
@@ -253,10 +248,7 @@ export const TimerPage: VFC = () => {
               tw="lg:text-lg"
               disabled={isLocked}
               record={times[times.length - 1]}
-              changeToDNF={() => changeToDNF(times.length - 1)}
-              imposePenalty={() => imposePenalty(times.length - 1)}
-              undoDNF={() => undoDNF(times.length - 1)}
-              undoPenalty={() => undoPenalty(times.length - 1)}
+              timeIndex={times.length - 1}
               deleteRecord={() => {
                 const deletedRecord = deleteRecord(times.length - 1);
                 openToast({
@@ -282,17 +274,13 @@ export const TimerPage: VFC = () => {
             />
           ),
           [
-            changeToDNF,
             closeToast,
             deleteRecord,
             formatMessage,
-            imposePenalty,
             insertRecord,
             isLocked,
             openToast,
             times,
-            undoDNF,
-            undoPenalty,
           ]
         )}
       />
@@ -379,11 +367,7 @@ export const TimerPage: VFC = () => {
       ) : modalType === STATISTICS_MODAL ? (
         <StatisticsModal sessions={sessions} onClose={closeModal} />
       ) : modalType === IMPORT_MODAL ? (
-        <ImportModal
-          onClose={closeModal}
-          importSessionCollection={importFromUserData}
-          setVariation={setVariation}
-        />
+        <ImportModal onClose={closeModal} setVariation={setVariation} />
       ) : modalType === EXPORT_MODAL ? (
         <ExportModal
           onClose={closeModal}
