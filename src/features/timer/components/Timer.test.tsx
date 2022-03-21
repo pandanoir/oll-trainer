@@ -9,7 +9,11 @@ import { IntlProvider, MessageFormatElement } from 'react-intl';
 import { RecoilRoot } from 'recoil';
 import en from '../../../../compiled-lang/en.json';
 import ja from '../../../../compiled-lang/ja.json';
-import { useSessions } from '../../sessionList/hooks/useSessions';
+import {
+  useAddTime,
+  useCurrentSessionCollection,
+  useSessionIndex,
+} from '../../sessionList/hooks/useSessions';
 import { TimeData } from '../data/timeData';
 import { Timer } from './Timer';
 import '@testing-library/jest-dom';
@@ -55,7 +59,9 @@ describe('Timer', () => {
   }: Pick<ComponentProps<typeof Timer>, 'onFinish' | 'onTypingTimerInput'> & {
     usesInspection?: boolean;
   }) => {
-    const { currentSessionCollection, sessionIndex, addTime } = useSessions();
+    const currentSessionCollection = useCurrentSessionCollection(),
+      sessionIndex = useSessionIndex(),
+      addTime = useAddTime();
     const { times } = currentSessionCollection.sessions[sessionIndex];
     timesRef.current = times;
     return (
@@ -370,7 +376,9 @@ describe('TypingTimer', () => {
     onFinish,
     onTypingTimerInput,
   }: Pick<ComponentProps<typeof Timer>, 'onFinish' | 'onTypingTimerInput'>) => {
-    const { currentSessionCollection, sessionIndex, addTime } = useSessions();
+    const currentSessionCollection = useCurrentSessionCollection(),
+      sessionIndex = useSessionIndex(),
+      addTime = useAddTime();
     const { times } = currentSessionCollection.sessions[sessionIndex];
     timesRef.current = times;
     return (

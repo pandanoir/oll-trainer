@@ -30,7 +30,7 @@ describe('migration', () => {
       version: 3,
     });
     const { result } = renderHook(() => useSessions(), { wrapper: RecoilRoot });
-    expect(result.current.sessions).toEqual([
+    expect(result.current).toEqual([
       {
         variation: { name: '3x3', scramble: '3x3' },
         sessions: [
@@ -337,7 +337,7 @@ describe('migration', () => {
     ];
     localStorage.setItem(withPrefix('sessions'), JSON.stringify(sessionData));
     const { result } = renderHook(() => useSessions(), { wrapper: RecoilRoot });
-    expect(result.current.sessions).toEqual([
+    expect(result.current).toEqual([
       {
         variation: { name: '3x3', scramble: '3x3' },
         sessions: [

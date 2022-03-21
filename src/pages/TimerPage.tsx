@@ -40,7 +40,18 @@ import {
   UserDefinedVariationContext,
 } from '../data/variations';
 import { Session } from '../features/sessionList/components/SessionToolbar';
-import { useSessions } from '../features/sessionList/hooks/useSessions';
+import {
+  useAddTime,
+  useCurrentSessionCollection,
+  useDeleteAllSessionsByVariation,
+  useDeleteRecord,
+  useInsertRecord,
+  useSessionIndex,
+  useSessions,
+  useSetSessionIndex,
+  useSetVariation,
+  useVariationName,
+} from '../features/sessionList/hooks/useSessions';
 import { Timer } from '../features/timer/components/Timer';
 import { exhaustiveCheck } from '../utils/exhaustiveCheck';
 import { useAudio } from '../utils/hooks/useAudio';
@@ -80,18 +91,18 @@ export const TimerPage: VFC = () => {
   );
   const [userDefinedVariation] = useContext(UserDefinedVariationContext);
 
-  const {
-    sessions,
-    currentSessionCollection,
-    sessionIndex,
-    variationName,
-    setSessionIndex,
-    setVariation,
-    deleteRecord,
-    insertRecord,
-    addTime,
-    deleteAllSessionsByVariation,
-  } = useSessions();
+  const sessions = useSessions(),
+    currentSessionCollection = useCurrentSessionCollection(),
+    sessionIndex = useSessionIndex(),
+    variationName = useVariationName();
+
+  const setVariation = useSetVariation(),
+    setSessionIndex = useSetSessionIndex(),
+    deleteRecord = useDeleteRecord(),
+    insertRecord = useInsertRecord(),
+    addTime = useAddTime(),
+    deleteAllSessionsByVariation = useDeleteAllSessionsByVariation();
+
   const [, updateUserDefinedVariation] = useContext(
     UserDefinedVariationContext
   );

@@ -1,8 +1,9 @@
 import { Temporal } from '@js-temporal/polyfill';
 import immer from 'immer';
-import { Dispatch, SetStateAction, useCallback, useMemo } from 'react';
+import { Dispatch, SetStateAction, useCallback } from 'react';
 import {
   atom,
+  selector,
   SetterOrUpdater,
   useRecoilState,
   useRecoilValue,
@@ -400,107 +401,56 @@ export const useUnlockSession = () => {
   };
 };
 
-export const useSessions = (): {
-  readonly sessions: SessionCollection;
-  readonly currentSessionCollection: {
-    sessions: import('/home/pandanoir/Documents/docker/oll/src/features/timer/data/timeData').SessionData[];
-    selectedSessionIndex: number;
-    variation: Variation;
-  };
-  readonly variationName: string;
-  readonly sessionIndex: number;
-  readonly setSessionIndex: Dispatch<SetStateAction<number>>;
-  readonly setVariation: (variation: Variation) => void;
-  readonly changeSessionName: (name: string) => void;
-  readonly importFromUserData: (data: SessionCollection) => void;
-  readonly changeToDNF: (index: number) => void;
-  readonly undoDNF: (index: number) => void;
-  readonly imposePenalty: (index: number) => void;
-  readonly undoPenalty: (index: number) => void;
-  readonly deleteRecord: (index: number) => TimeData;
-  readonly insertRecord: (index: number, record: TimeData) => void;
-  readonly addTime: (time: TimeData) => void;
-  readonly addSession: () => void;
-  readonly deleteSession: (index: number) => void;
-  readonly addSessionGroup: (variation: Variation) => void;
-  readonly deleteAllSessionsByVariation: (variation: Variation) => void;
-  readonly lockSession: (index: number) => void;
-  readonly unlockSession: (index: number) => void;
-} => {
+export const useSetVariation = () => {
   const { data: sessions } = useRecoilValue(sessionsAtom);
-  const setSessions = useSetSessionsAtom();
-  const [variationName, setVariationName] = useRecoilState(variationNameAtom);
-  const setVariation = (variation: Variation) => {
-    if (sessions.every(({ variation: { name } }) => name !== variation.name)) {
-      addSessionGroup(variation);
-    }
-    setVariationName(variation.name);
-  };
-
-  const changeSessionName = useChangeSessionName();
-
-  const changeToDNF = useChangeToDNF();
-  const undoDNF = useUndoDNF();
-  const imposePenalty = useImposePenalty();
-  const undoPenalty = useUndoPenalty();
-  const deleteRecord = useDeleteRecord();
-  const insertRecord = useInsertRecord();
-  const addTime = useAddTime();
-  const addSession = useAddSession();
-  const deleteSession = useDeleteSession();
+  const [, setVariationName] = useRecoilState(variationNameAtom);
   const addSessionGroup = useAddSessionGroup();
-  const importFromUserData = useImportFromUserData();
-  const deleteAllSessionsByVariation = useDeleteAllSessionsByVariation();
-  const lockSession = useLockSession();
-  const unlockSession = useUnlockSession();
 
-  return {
-    sessions,
-    currentSessionCollection: useMemo(
-      () => getCurrentSessionCollection(sessions, variationName),
-      [sessions, variationName]
-    ),
-    variationName,
-    sessionIndex: useMemo(
-      () =>
-        getCurrentSessionCollection(sessions, variationName)
-          .selectedSessionIndex,
-      [sessions, variationName]
-    ),
-    setSessionIndex: useCallback<Dispatch<SetStateAction<number>>>(
-      (action) =>
-        setSessions(
-          immer((draft) => {
-            const sessionCollection = getCurrentSessionCollection(
-              draft,
-              variationName
-            );
-            if (typeof action === 'function') {
-              sessionCollection.selectedSessionIndex = action(
-                sessionCollection.selectedSessionIndex
-              );
-            } else {
-              sessionCollection.selectedSessionIndex = action;
-            }
-          })
-        ),
-      [setSessions, variationName]
-    ),
-    setVariation,
-    changeSessionName,
-    importFromUserData,
-    changeToDNF,
-    undoDNF,
-    imposePenalty,
-    undoPenalty,
-    deleteRecord,
-    insertRecord,
-    addTime,
-    addSession,
-    deleteSession,
-    addSessionGroup,
-    deleteAllSessionsByVariation,
-    lockSession,
-    unlockSession,
-  } as const;
+  return useCallback(
+    (variation: Variation) => {
+      if (
+        sessions.every(({ variation: { name } }) => name !== variation.name)
+      ) {
+        addSessionGroup(variation);
+      }
+      setVariationName(variation.name);
+    },
+    [addSessionGroup, sessions, setVariationName]
+  );
 };
+
+export const useSetSessionIndex = () => {
+  const setSessions = useSetSessionsAtom();
+  const variationName = useRecoilValue(variationNameAtom);
+  return useCallback<Dispatch<SetStateAction<number>>>(
+    (action) =>
+      setSessions(
+        immer((draft) => {
+          const sessionCollection = getCurrentSessionCollection(
+            draft,
+            variationName
+          );
+          sessionCollection.selectedSessionIndex =
+            typeof action === 'function'
+              ? action(sessionCollection.selectedSessionIndex)
+              : action;
+        })
+      ),
+    [setSessions, variationName]
+  );
+};
+export const useSessions = () => useRecoilValue(sessionsAtom).data;
+
+const currentSessionCollection = selector({
+  key: 'currentSessionCollection',
+  get: ({ get }) =>
+    getCurrentSessionCollection(get(sessionsAtom).data, get(variationNameAtom)),
+});
+const sessionIndex = selector({
+  key: 'sessionIndex',
+  get: ({ get }) => get(currentSessionCollection).selectedSessionIndex,
+});
+
+export const useCurrentSessionCollection = () =>
+  useRecoilValue(currentSessionCollection);
+export const useSessionIndex = () => useRecoilValue(sessionIndex);

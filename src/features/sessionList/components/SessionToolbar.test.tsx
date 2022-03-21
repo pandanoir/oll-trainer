@@ -20,7 +20,12 @@ import ja from '../../../../compiled-lang/ja.json';
 import { Times } from '../../../components/Timer/Times';
 import { withPrefix } from '../../../utils/withPrefix';
 import { SessionCollection } from '../../timer/data/timeData';
-import { useSessions } from '../hooks/useSessions';
+import {
+  useCurrentSessionCollection,
+  useSessionIndex,
+  useSessions,
+  useSetSessionIndex,
+} from '../hooks/useSessions';
 import { Session } from './SessionToolbar';
 
 const selectMessages = (
@@ -52,25 +57,10 @@ describe('SessionToolbar', () => {
     cleanup();
   });
   const TestComponent_ = () => {
-    const {
-      sessions,
-      currentSessionCollection,
-      sessionIndex,
-      variationName,
-      setSessionIndex,
-      changeSessionName,
-      addSession,
-      deleteSession,
-
-      changeToDNF,
-      imposePenalty,
-      undoDNF,
-      undoPenalty,
-      deleteRecord,
-      insertRecord,
-      lockSession,
-      unlockSession,
-    } = useSessions();
+    const sessions = useSessions(),
+      currentSessionCollection = useCurrentSessionCollection(),
+      sessionIndex = useSessionIndex(),
+      setSessionIndex = useSetSessionIndex();
     currentSession.current = sessions;
     const { times } = currentSessionCollection.sessions[sessionIndex];
 
@@ -84,36 +74,14 @@ describe('SessionToolbar', () => {
           times={times}
           sessionIndex={sessionIndex}
           setSessionIndex={setSessionIndex}
-          currentVariation={variationName}
-          changeSessionName={changeSessionName}
           sessions={sessions}
-          addSession={addSession}
-          deleteSession={deleteSession}
-          lockSession={() => lockSession(sessionIndex)}
-          unlockSession={() => unlockSession(sessionIndex)}
           recordListComponent={useMemo(
             () => (
               <div tw="pt-12">
-                <Times
-                  times={times}
-                  changeToDNF={changeToDNF}
-                  imposePenalty={imposePenalty}
-                  undoDNF={undoDNF}
-                  undoPenalty={undoPenalty}
-                  deleteRecord={deleteRecord}
-                  insertRecord={insertRecord}
-                />
+                <Times times={times} />
               </div>
             ),
-            [
-              changeToDNF,
-              deleteRecord,
-              imposePenalty,
-              insertRecord,
-              times,
-              undoDNF,
-              undoPenalty,
-            ]
+            [times]
           )}
         />
         <div id="portal_root" />
