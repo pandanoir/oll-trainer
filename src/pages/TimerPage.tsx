@@ -88,7 +88,6 @@ export const TimerPage: VFC = () => {
     setSessionIndex,
     setVariation,
     importFromUserData,
-    changeSessionName,
     changeToDNF,
     undoDNF,
     imposePenalty,
@@ -96,11 +95,7 @@ export const TimerPage: VFC = () => {
     deleteRecord,
     insertRecord,
     addTime,
-    addSession,
-    deleteSession,
     deleteAllSessionsByVariation,
-    lockSession,
-    unlockSession,
   } = useSessions();
   const [, updateUserDefinedVariation] = useContext(
     UserDefinedVariationContext
@@ -305,19 +300,7 @@ export const TimerPage: VFC = () => {
         times={times}
         sessionIndex={sessionIndex}
         setSessionIndex={setSessionIndex}
-        currentVariation={variationName}
-        changeSessionName={changeSessionName}
         sessions={sessions}
-        addSession={addSession}
-        deleteSession={deleteSession}
-        lockSession={useCallback(
-          () => lockSession(sessionIndex),
-          [lockSession, sessionIndex]
-        )}
-        unlockSession={useCallback(
-          () => unlockSession(sessionIndex),
-          [unlockSession, sessionIndex]
-        )}
         recordListComponent={useMemo(
           () => (
             <div tw="pt-12">

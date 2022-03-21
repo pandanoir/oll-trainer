@@ -151,6 +151,7 @@ const variationNameAtom = atom<string>({
     },
   ],
 });
+export const useVariationName = () => useRecoilValue(variationNameAtom);
 
 const getCurrentSessionCollection = (
   data: SessionCollection,
@@ -179,7 +180,7 @@ const getCurrentSession = (data: SessionCollection, variationName: string) => {
   /* istanbul ignore next */
   throw new Error('unexpected error');
 };
-const useChangeSessionName = () => {
+export const useChangeSessionName = () => {
   const setSessions = useSetSessionsAtom();
   const variationName = useRecoilValue(variationNameAtom);
   return (name: string): void => {
@@ -190,7 +191,7 @@ const useChangeSessionName = () => {
     );
   };
 };
-const useChangeToDNF = () => {
+export const useChangeToDNF = () => {
   const setSessions = useSetSessionsAtom();
   const variationName = useRecoilValue(variationNameAtom);
   return (index: number): void =>
@@ -203,7 +204,7 @@ const useChangeToDNF = () => {
       })
     );
 };
-const useUndoDNF = () => {
+export const useUndoDNF = () => {
   const setSessions = useSetSessionsAtom(),
     variationName = useRecoilValue(variationNameAtom);
   return (index: number): void =>
@@ -216,7 +217,7 @@ const useUndoDNF = () => {
       })
     );
 };
-const useImposePenalty = () => {
+export const useImposePenalty = () => {
   const setSessions = useSetSessionsAtom(),
     variationName = useRecoilValue(variationNameAtom);
   return (index: number): void =>
@@ -229,7 +230,7 @@ const useImposePenalty = () => {
       })
     );
 };
-const useUndoPenalty = () => {
+export const useUndoPenalty = () => {
   const setSessions = useSetSessionsAtom(),
     variationName = useRecoilValue(variationNameAtom);
   return (index: number): void =>
@@ -242,7 +243,7 @@ const useUndoPenalty = () => {
       })
     );
 };
-const useDeleteRecord = () => {
+export const useDeleteRecord = () => {
   const { data: sessions } = useRecoilValue(sessionsAtom),
     setSessions = useSetSessionsAtom(),
     variationName = useRecoilValue(variationNameAtom);
@@ -261,7 +262,7 @@ const useDeleteRecord = () => {
     return removedValue;
   };
 };
-const useInsertRecord = () => {
+export const useInsertRecord = () => {
   const setSessions = useSetSessionsAtom(),
     variationName = useRecoilValue(variationNameAtom);
   return (index: number, record: TimeData) => {
@@ -272,7 +273,7 @@ const useInsertRecord = () => {
     );
   };
 };
-const useAddTime = () => {
+export const useAddTime = () => {
   const setSessions = useSetSessionsAtom(),
     variationName = useRecoilValue(variationNameAtom);
   return (time: TimeData) => {
@@ -283,7 +284,7 @@ const useAddTime = () => {
     );
   };
 };
-const useAddSession = () => {
+export const useAddSession = () => {
   const setSessions = useSetSessionsAtom(),
     variationName = useRecoilValue(variationNameAtom);
   return () => {
@@ -295,7 +296,7 @@ const useAddSession = () => {
     );
   };
 };
-const useDeleteSession = () => {
+export const useDeleteSession = () => {
   const setSessions = useSetSessionsAtom(),
     variationName = useRecoilValue(variationNameAtom);
   const { data: sessions } = useRecoilValue(sessionsAtom);
@@ -330,7 +331,7 @@ const useDeleteSession = () => {
     }
   };
 };
-const useAddSessionGroup = () => {
+export const useAddSessionGroup = () => {
   const setSessions = useSetSessionsAtom();
   return (variation: Variation) => {
     setSessions(
@@ -347,11 +348,11 @@ const useAddSessionGroup = () => {
     );
   };
 };
-const useImportFromUserData = () => {
+export const useImportFromUserData = () => {
   const setSessions = useSetSessionsAtom();
   return (data: SessionCollection) => setSessions(data);
 };
-const useDeleteAllSessionsByVariation = () => {
+export const useDeleteAllSessionsByVariation = () => {
   const setSessions = useSetSessionsAtom(),
     variationName = useRecoilValue(variationNameAtom);
   const setVariationName = useSetRecoilState(variationNameAtom);
@@ -371,7 +372,7 @@ const useDeleteAllSessionsByVariation = () => {
     }
   };
 };
-const useLockSession = () => {
+export const useLockSession = () => {
   const setSessions = useSetSessionsAtom(),
     variationName = useRecoilValue(variationNameAtom);
   return (index: number) => {
@@ -384,7 +385,7 @@ const useLockSession = () => {
     );
   };
 };
-const useUnlockSession = () => {
+export const useUnlockSession = () => {
   const setSessions = useSetSessionsAtom(),
     variationName = useRecoilValue(variationNameAtom);
   return (index: number) => {

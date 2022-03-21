@@ -38,6 +38,14 @@ import { useModal } from '../../../components/common/Modal';
 import { useStoragedState } from '../../../utils/hooks/useLocalStorage';
 import { withPrefix } from '../../../utils/withPrefix';
 import { TimeData, SessionCollection } from '../../timer/data/timeData';
+import {
+  useAddSession,
+  useChangeSessionName,
+  useDeleteSession,
+  useLockSession,
+  useUnlockSession,
+  useVariationName,
+} from '../hooks/useSessions';
 import { SessionListItem } from './SessionListItem';
 import { SessionListModal } from './SessionListModal';
 
@@ -52,31 +60,20 @@ interface Props {
   times: TimeData[];
   sessionIndex: number;
   setSessionIndex: Dispatch<SetStateAction<number>>;
-  changeSessionName: (name: string) => void;
   sessions: SessionCollection;
-  currentVariation: string;
-  addSession: () => void;
-  deleteSession: (index: number) => void;
-  lockSession: () => void;
-  unlockSession: () => void;
   recordListComponent: ReactNode;
 }
 const SessionRaw: VFC<Props> = ({
   times,
   sessionIndex,
   setSessionIndex,
-  changeSessionName,
   sessions,
-  currentVariation,
-  addSession,
-  deleteSession,
-  lockSession,
-  unlockSession,
   recordListComponent,
 }) => {
   const { formatMessage } = useIntl();
   const recordListRef = useRef<HTMLDivElement>(null);
   const [opensRecordList, setOpensRecordList] = useState(false);
+  const currentVariation = useVariationName();
 
   const currentSessions = useMemo(() => {
     const currentSessions = sessions.find(
@@ -99,6 +96,12 @@ const SessionRaw: VFC<Props> = ({
     withPrefix('shows-graph'),
     false
   );
+
+  const addSession = useAddSession(),
+    deleteSession = useDeleteSession(),
+    changeSessionName = useChangeSessionName(),
+    lockSession = useLockSession(),
+    unlockSession = useUnlockSession();
 
   const resetScroll = () => {
     if (recordListRef.current) {
@@ -221,14 +224,14 @@ const SessionRaw: VFC<Props> = ({
                 icon={faLock}
                 tw="px-1"
                 title="unlock session"
-                onClick={unlockSession}
+                onClick={() => unlockSession(sessionIndex)}
               />
             ) : (
               <IconButton
                 icon={faUnlock}
                 tw="px-1"
                 title="lock session"
-                onClick={lockSession}
+                onClick={() => lockSession(sessionIndex)}
               />
             )}
             <input
