@@ -304,26 +304,10 @@ export const TimerPage: VFC = () => {
         recordListComponent={useMemo(
           () => (
             <div tw="pt-12">
-              <Times
-                times={times}
-                changeToDNF={changeToDNF}
-                imposePenalty={imposePenalty}
-                undoDNF={undoDNF}
-                undoPenalty={undoPenalty}
-                deleteRecord={deleteRecord}
-                insertRecord={insertRecord}
-              />
+              <Times times={times} />
             </div>
           ),
-          [
-            changeToDNF,
-            deleteRecord,
-            imposePenalty,
-            insertRecord,
-            times,
-            undoDNF,
-            undoPenalty,
-          ]
+          [times]
         )}
       />
       <Toast {...toastProps} />

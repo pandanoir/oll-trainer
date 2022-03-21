@@ -2,6 +2,14 @@ import { Temporal } from '@js-temporal/polyfill';
 import { VFC, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
+import {
+  useImposePenalty,
+  useUndoPenalty,
+  useDeleteRecord,
+  useInsertRecord,
+  useChangeToDNF,
+  useUndoDNF,
+} from '../../features/sessionList/hooks/useSessions';
 
 import { DNF, TimeData } from '../../features/timer/data/timeData';
 import { calcAo } from '../../utils/calcAo';
@@ -24,21 +32,7 @@ const SessionRecordListItem = tw.button`text-left border-b border-gray-200 dark:
 
 export const Times: VFC<{
   times: TimeData[];
-  changeToDNF: (index: number) => void;
-  undoDNF: (index: number) => void;
-  imposePenalty: (index: number) => void;
-  undoPenalty: (index: number) => void;
-  deleteRecord: (index: number) => TimeData;
-  insertRecord: (index: number, record: TimeData) => void;
-}> = ({
-  times,
-  changeToDNF,
-  undoDNF,
-  imposePenalty,
-  undoPenalty,
-  deleteRecord,
-  insertRecord,
-}) => {
+}> = ({ times }) => {
   const { formatMessage } = useIntl();
   const ao5 = useMemo(() => calcAo(5, times), [times]);
   const ao12 = useMemo(() => calcAo(12, times), [times]);
@@ -47,6 +41,13 @@ export const Times: VFC<{
   const { showsModal, openModal: openModalRaw, closeModal } = useModal();
   const { openToast, closeToast, ...toastProps } = useToast();
   const [modalType, setModalType] = useState<'time' | 'ao5' | 'ao12'>('time');
+
+  const changeToDNF = useChangeToDNF(),
+    undoDNF = useUndoDNF(),
+    imposePenalty = useImposePenalty(),
+    undoPenalty = useUndoPenalty(),
+    deleteRecord = useDeleteRecord(),
+    insertRecord = useInsertRecord();
 
   const bestRecordIndex = useMemo(
     () =>
