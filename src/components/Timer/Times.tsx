@@ -3,12 +3,8 @@ import { VFC, useMemo, useState } from 'react';
 import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 import {
-  useImposePenalty,
-  useUndoPenalty,
   useDeleteRecord,
   useInsertRecord,
-  useChangeToDNF,
-  useUndoDNF,
 } from '../../features/sessionList/hooks/useSessions';
 
 import { DNF, TimeData } from '../../features/timer/data/timeData';
@@ -21,7 +17,7 @@ import { showRecord } from '../../utils/showRecord';
 
 import { Modal, useModal } from '../common/Modal';
 import { ModalCloseButton } from '../common/ModalCloseButton';
-import { Toast, useToast } from '../common/Toast';
+import { useToast } from '../common/Toast';
 import { ToggleButton } from '../common/ToggleButton';
 import { TweetButton } from '../TweetButton';
 import { BigRecord } from './BigRecord';
@@ -39,14 +35,10 @@ export const Times: VFC<{
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const { showsModal, openModal: openModalRaw, closeModal } = useModal();
-  const { openToast, closeToast, ...toastProps } = useToast();
+  const { openToast, closeToast, Toast } = useToast();
   const [modalType, setModalType] = useState<'time' | 'ao5' | 'ao12'>('time');
 
-  const changeToDNF = useChangeToDNF(),
-    undoDNF = useUndoDNF(),
-    imposePenalty = useImposePenalty(),
-    undoPenalty = useUndoPenalty(),
-    deleteRecord = useDeleteRecord(),
+  const deleteRecord = useDeleteRecord(),
     insertRecord = useInsertRecord();
 
   const bestRecordIndex = useMemo(
@@ -312,7 +304,7 @@ ${selectedTimes.reduce((acc, time, index) => {
 
           exhaustiveCheck(modalType);
         })()}
-      <Toast {...toastProps} />
+      {Toast}
     </>
   );
 };

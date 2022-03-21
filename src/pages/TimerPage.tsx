@@ -27,7 +27,7 @@ import { IconButton } from '../components/common/IconButton';
 import { useModal } from '../components/common/Modal';
 import { PrimaryButton } from '../components/common/PrimaryButton';
 import { SecondaryButton } from '../components/common/SecondaryButton';
-import { Toast, useToast } from '../components/common/Toast';
+import { useToast } from '../components/common/Toast';
 import { ToggleButton } from '../components/common/ToggleButton';
 import { ExportModal } from '../components/Timer/ExportModal';
 import { ImportModal } from '../components/Timer/ImportModal';
@@ -107,7 +107,7 @@ export const TimerPage: VFC = () => {
     }
   }, [index, scrambles]);
 
-  const { openToast, closeToast, ...toastProps } = useToast();
+  const { openToast, closeToast, Toast } = useToast();
   const [modalType, setModalType] = useState<ModalType | null>(null);
   const { openModal: _openModal, closeModal: _closeModal } = useModal();
   const openModal = useCallback(
@@ -298,7 +298,7 @@ export const TimerPage: VFC = () => {
           [times]
         )}
       />
-      <Toast {...toastProps} />
+      {Toast}
 
       {modalType === VARIATION_MODAL ? (
         <VariationModal onClose={closeModal}>

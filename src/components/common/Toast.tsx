@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, memo } from 'react';
+import { useRef, useEffect, useState, memo, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import tw, { css } from 'twin.macro';
 import { usePortalRoot } from '../../utils/hooks/usePortalRoot';
@@ -118,7 +118,7 @@ const ToastRaw = ({ title, onClose, label, onClick, shows }: Props) => {
     $el.current
   );
 };
-export const Toast = memo(ToastRaw);
+const Toast = memo(ToastRaw);
 
 export const useToast = () => {
   const [shows, setShows] = useState(false);
@@ -164,5 +164,13 @@ export const useToast = () => {
   const closeToast = () => {
     setShows(false);
   };
-  return { shows, ...toastProps, openToast, closeToast } as const;
+  return {
+    shows,
+    Toast: useMemo(
+      () => <Toast shows={shows} {...toastProps} />,
+      [shows, toastProps]
+    ),
+    openToast,
+    closeToast,
+  } as const;
 };
