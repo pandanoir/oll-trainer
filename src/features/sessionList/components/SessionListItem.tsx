@@ -1,4 +1,9 @@
-import { faAngleRight, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+  faAngleRight,
+  faLock,
+  faTimes,
+  faUnlock,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { VFC } from 'react';
 import 'twin.macro';
@@ -9,16 +14,26 @@ import { calcRecord } from '../../../utils/calcRecord';
 import { findIndexOfMin } from '../../../utils/findIndexOfMin';
 import { showTime } from '../../../utils/showTime';
 import { SessionData, DNF } from '../../timer/data/timeData';
+import { useLockSession, useUnlockSession } from '../hooks/useSessions';
 
 export const SessionListItem: VFC<{
   session: SessionData;
   onDeleteButtonClick: () => void;
+  sessionIndex: number;
   onClick: () => void;
   selected: boolean;
-}> = ({ session: { times, name }, onDeleteButtonClick, onClick, selected }) => {
+}> = ({
+  session: { times, name, isLocked },
+  sessionIndex,
+  onDeleteButtonClick,
+  onClick,
+  selected,
+}) => {
   const timesWithoutDNF = times
     .map(calcRecord)
     .filter((x): x is Exclude<typeof x, typeof DNF> => x !== DNF);
+  const lockSession = useLockSession(),
+    unlockSession = useUnlockSession();
 
   const bestTime =
     timesWithoutDNF.length > 0
@@ -37,7 +52,22 @@ export const SessionListItem: VFC<{
         </span>
         {name}
       </button>
-      <span tw="grid grid-rows-3 md:flex md:space-x-2 text-sm md:text-base">
+      <span tw="grid grid-rows-4 md:flex md:space-x-2 text-sm md:text-base">
+        {isLocked ? (
+          <IconButton
+            icon={faLock}
+            tw="px-1"
+            title="unlock session"
+            onClick={() => unlockSession(sessionIndex)}
+          />
+        ) : (
+          <IconButton
+            icon={faUnlock}
+            tw="px-1"
+            title="lock session"
+            onClick={() => lockSession(sessionIndex)}
+          />
+        )}
         <span>
           {times.length} <span tw="text-sm">SOLVES</span>
         </span>

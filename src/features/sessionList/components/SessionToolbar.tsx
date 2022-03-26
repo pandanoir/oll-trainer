@@ -300,6 +300,7 @@ const SessionRaw: VFC<Props> = ({
             <SessionListItem
               key={`${index}--${session.name}`}
               session={session}
+              sessionIndex={index}
               selected={sessionIndex === index}
               onClick={() => {
                 setSessionIndex(index);
