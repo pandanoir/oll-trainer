@@ -1,0 +1,222 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header snapshot 1`] = `
+<DocumentFragment>
+  <div>
+    <h1>
+      CP(Corner PLL)判断用
+    </h1>
+    <p>
+      OLL の手順を入力するとそれに対応するCPを表示します。
+    </p>
+    <div
+      class="_StyledDiv-sc-8uknjy-0 kzwVCR"
+    >
+      <input
+        class="_StyledInput-sc-8uknjy-1 fLHGEY"
+        type="text"
+        value=""
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Header snapshot 2`] = `
+<DocumentFragment>
+  <div>
+    <h1>
+      CP(Corner PLL)判断用
+    </h1>
+    <p>
+      OLL の手順を入力するとそれに対応するCPを表示します。
+    </p>
+    <div
+      class="_StyledDiv-sc-8uknjy-0 kzwVCR"
+    >
+      <input
+        class="_StyledInput-sc-8uknjy-1 fLHGEY"
+        type="text"
+        value="F R U R' U' F'"
+      />
+    </div>
+    逆手順: F U R U' R' F'
+    <br />
+    無交換(Skip,U,H,Z-perm): UCase diagonal
+    <div>
+      <div
+        style="width: 150px; display: flex; justify-content: center;"
+      >
+        <div
+          style="width: 30px; height: 30px; background: yellow;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: rgb(51, 51, 51);"
+        />
+        <div
+          style="width: 30px; height: 30px; background: yellow;"
+        />
+      </div>
+      <div
+        style="width: 150px; display: flex; justify-content: center;"
+      >
+        <div
+          style="width: 30px; height: 30px; background: green;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: orange;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: rgb(51, 51, 51);"
+        />
+        <div
+          style="width: 30px; height: 30px; background: orange;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: blue;"
+        />
+      </div>
+      <div
+        style="width: 150px; display: flex; justify-content: center;"
+      >
+        <div
+          style="width: 30px; height: 30px; background: rgb(51, 51, 51);"
+        />
+        <div
+          style="width: 30px; height: 30px; background: rgb(51, 51, 51);"
+        />
+        <div
+          style="width: 30px; height: 30px; background: yellow;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: rgb(51, 51, 51);"
+        />
+        <div
+          style="width: 30px; height: 30px; background: rgb(51, 51, 51);"
+        />
+      </div>
+      <div
+        style="width: 150px; display: flex; justify-content: center;"
+      >
+        <div
+          style="width: 30px; height: 30px; background: red;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: yellow;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: rgb(51, 51, 51);"
+        />
+        <div
+          style="width: 30px; height: 30px; background: yellow;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: red;"
+        />
+      </div>
+      <div
+        style="width: 150px; display: flex; justify-content: center;"
+      >
+        <div
+          style="width: 30px; height: 30px; background: green;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: rgb(51, 51, 51);"
+        />
+        <div
+          style="width: 30px; height: 30px; background: blue;"
+        />
+      </div>
+    </div>
+    <br />
+    対角交換(E,N,V,Y-perm): UCase no-swap
+    <div>
+      <div
+        style="width: 150px; display: flex; justify-content: center;"
+      >
+        <div
+          style="width: 30px; height: 30px; background: yellow;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: rgb(51, 51, 51);"
+        />
+        <div
+          style="width: 30px; height: 30px; background: yellow;"
+        />
+      </div>
+      <div
+        style="width: 150px; display: flex; justify-content: center;"
+      >
+        <div
+          style="width: 30px; height: 30px; background: green;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: orange;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: rgb(51, 51, 51);"
+        />
+        <div
+          style="width: 30px; height: 30px; background: red;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: green;"
+        />
+      </div>
+      <div
+        style="width: 150px; display: flex; justify-content: center;"
+      >
+        <div
+          style="width: 30px; height: 30px; background: rgb(51, 51, 51);"
+        />
+        <div
+          style="width: 30px; height: 30px; background: rgb(51, 51, 51);"
+        />
+        <div
+          style="width: 30px; height: 30px; background: yellow;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: rgb(51, 51, 51);"
+        />
+        <div
+          style="width: 30px; height: 30px; background: rgb(51, 51, 51);"
+        />
+      </div>
+      <div
+        style="width: 150px; display: flex; justify-content: center;"
+      >
+        <div
+          style="width: 30px; height: 30px; background: orange;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: yellow;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: rgb(51, 51, 51);"
+        />
+        <div
+          style="width: 30px; height: 30px; background: yellow;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: red;"
+        />
+      </div>
+      <div
+        style="width: 150px; display: flex; justify-content: center;"
+      >
+        <div
+          style="width: 30px; height: 30px; background: blue;"
+        />
+        <div
+          style="width: 30px; height: 30px; background: rgb(51, 51, 51);"
+        />
+        <div
+          style="width: 30px; height: 30px; background: blue;"
+        />
+      </div>
+    </div>
+    <br />
+    隣接交換(A,F,G,J,R,T-perm): その他
+  </div>
+</DocumentFragment>
+`;

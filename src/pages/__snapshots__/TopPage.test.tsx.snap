@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="_StyledDiv-sc-1x0n8gl-0 iAWYld"
+  >
+    <div
+      class="_StyledDiv2-sc-1x0n8gl-1 cruSiy"
+    >
+      <a
+        class="_StyledNavLink-sc-1x0n8gl-2 gPGIel"
+        href="/timer"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-stopwatch "
+          data-icon="stopwatch"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 448 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M272 0C289.7 0 304 14.33 304 32C304 49.67 289.7 64 272 64H256V98.45C293.5 104.2 327.7 120 355.7 143L377.4 121.4C389.9 108.9 410.1 108.9 422.6 121.4C435.1 133.9 435.1 154.1 422.6 166.6L398.5 190.8C419.7 223.3 432 262.2 432 304C432 418.9 338.9 512 224 512C109.1 512 16 418.9 16 304C16 200 92.32 113.8 192 98.45V64H176C158.3 64 144 49.67 144 32C144 14.33 158.3 0 176 0L272 0zM248 192C248 178.7 237.3 168 224 168C210.7 168 200 178.7 200 192V320C200 333.3 210.7 344 224 344C237.3 344 248 333.3 248 320V192z"
+            fill="currentColor"
+          />
+        </svg>
+      </a>
+      Hi-Timer
+    </div>
+    <div
+      class="_StyledDiv2-sc-1x0n8gl-1 cruSiy"
+    >
+      <a
+        class="_StyledNavLink-sc-1x0n8gl-2 gPGIel"
+        href="/oll"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-cube "
+          data-icon="cube"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 512 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M234.5 5.709C248.4 .7377 263.6 .7377 277.5 5.709L469.5 74.28C494.1 83.38 512 107.5 512 134.6V377.4C512 404.5 494.1 428.6 469.5 437.7L277.5 506.3C263.6 511.3 248.4 511.3 234.5 506.3L42.47 437.7C17 428.6 0 404.5 0 377.4V134.6C0 107.5 17 83.38 42.47 74.28L234.5 5.709zM256 65.98L82.34 128L256 190L429.7 128L256 65.98zM288 434.6L448 377.4V189.4L288 246.6V434.6z"
+            fill="currentColor"
+          />
+        </svg>
+      </a>
+      oll
+    </div>
+    <div
+      class="_StyledDiv2-sc-1x0n8gl-1 cruSiy"
+    >
+      <a
+        class="_StyledNavLink-sc-1x0n8gl-2 gPGIel"
+        href="/quiz"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-quora "
+          data-icon="quora"
+          data-prefix="fab"
+          focusable="false"
+          role="img"
+          viewBox="0 0 448 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M440.5 386.7h-29.3c-1.5 13.5-10.5 30.8-33 30.8-20.5 0-35.3-14.2-49.5-35.8 44.2-34.2 74.7-87.5 74.7-153C403.5 111.2 306.8 32 205 32 105.3 32 7.3 111.7 7.3 228.7c0 134.1 131.3 221.6 249 189C276 451.3 302 480 351.5 480c81.8 0 90.8-75.3 89-93.3zM297 329.2C277.5 300 253.3 277 205.5 277c-30.5 0-54.3 10-69 22.8l12.2 24.3c6.2-3 13-4 19.8-4 35.5 0 53.7 30.8 69.2 61.3-10 3-20.7 4.2-32.7 4.2-75 0-107.5-53-107.5-156.7C97.5 124.5 130 71 205 71c76.2 0 108.7 53.5 108.7 157.7 .1 41.8-5.4 75.6-16.7 100.5z"
+            fill="currentColor"
+          />
+        </svg>
+      </a>
+      quiz
+    </div>
+    <div
+      class="_StyledDiv2-sc-1x0n8gl-1 cruSiy"
+    >
+      <a
+        class="_StyledNavLink-sc-1x0n8gl-2 gPGIel"
+        href="/scramble"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-shuffle "
+          data-icon="shuffle"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 512 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M424.1 287c-15.13-15.12-40.1-4.426-40.1 16.97V352H336L153.6 108.8C147.6 100.8 138.1 96 128 96H32C14.31 96 0 110.3 0 128s14.31 32 32 32h80l182.4 243.2C300.4 411.3 309.9 416 320 416h63.97v47.94c0 21.39 25.86 32.12 40.99 17l79.1-79.98c9.387-9.387 9.387-24.59 0-33.97L424.1 287zM336 160h47.97v48.03c0 21.39 25.87 32.09 40.1 16.97l79.1-79.98c9.387-9.391 9.385-24.59-.0013-33.97l-79.1-79.98c-15.13-15.12-40.99-4.391-40.99 17V96H320c-10.06 0-19.56 4.75-25.59 12.81L254 162.7L293.1 216L336 160zM112 352H32c-17.69 0-32 14.31-32 32s14.31 32 32 32h96c10.06 0 19.56-4.75 25.59-12.81l40.4-53.87L154 296L112 352z"
+            fill="currentColor"
+          />
+        </svg>
+      </a>
+      scramble
+    </div>
+    <div
+      class="_StyledDiv2-sc-1x0n8gl-1 cruSiy"
+    >
+      <a
+        class="_StyledNavLink-sc-1x0n8gl-2 gPGIel"
+        href="/inspection"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-hourglass-start "
+          data-icon="hourglass-start"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 384 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M352 0C369.7 0 384 14.33 384 32C384 49.67 369.7 64 352 64V74.98C352 117.4 335.1 158.1 305.1 188.1L237.3 256L305.1 323.9C335.1 353.9 352 394.6 352 437V448C369.7 448 384 462.3 384 480C384 497.7 369.7 512 352 512H32C14.33 512 0 497.7 0 480C0 462.3 14.33 448 32 448V437C32 394.6 48.86 353.9 78.86 323.9L146.7 256L78.86 188.1C48.86 158.1 32 117.4 32 74.98V64C14.33 64 0 49.67 0 32C0 14.33 14.33 0 32 0H352zM259.9 369.1L192 301.3L124.1 369.1C106.1 387.1 96 411.6 96 437V448H288V437C288 411.6 277.9 387.1 259.9 369.1V369.1z"
+            fill="currentColor"
+          />
+        </svg>
+      </a>
+      inspection
+    </div>
+    <div
+      class="_StyledDiv2-sc-1x0n8gl-1 cruSiy"
+    >
+      <a
+        class="_StyledNavLink-sc-1x0n8gl-2 gPGIel"
+        href="/learn"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-pen "
+          data-icon="pen"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 512 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M362.7 19.32C387.7-5.678 428.3-5.678 453.3 19.32L492.7 58.75C517.7 83.74 517.7 124.3 492.7 149.3L444.3 197.7L314.3 67.72L362.7 19.32zM421.7 220.3L188.5 453.4C178.1 463.8 165.2 471.5 151.1 475.6L30.77 511C22.35 513.5 13.24 511.2 7.03 504.1C.8198 498.8-1.502 489.7 .976 481.2L36.37 360.9C40.53 346.8 48.16 333.9 58.57 323.5L291.7 90.34L421.7 220.3z"
+            fill="currentColor"
+          />
+        </svg>
+      </a>
+      learn
+    </div>
+  </div>
+</DocumentFragment>
+`;
