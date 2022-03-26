@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: '14'
       - run: npm ci
-      - run: mkdir src/sound && touch src/sound/{steady,{eight,twelve}Seconds,警告音1}.mp3
+      - run: mkdir src/sound && touch src/sound/{steady,{eight,twelve}Seconds,警告音1,警告音2}.mp3
       - run: npm run build
   test:
     runs-on: ubuntu-latest
@@ -25,5 +25,5 @@ jobs:
         with:
           node-version: '14'
       - run: npm ci
-      - run: mkdir src/sound && touch src/sound/{steady,{eight,twelve}Seconds,警告音1}.mp3
+      - run: mkdir src/sound && touch src/sound/{steady,{eight,twelve}Seconds,警告音1,警告音2}.mp3
       - run: npm test
