@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Header snapshot 1`] = `
+exports[`CpPage snapshot 1`] = `
 <DocumentFragment>
   <div>
     <h1>
@@ -22,7 +22,7 @@ exports[`Header snapshot 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Header snapshot 2`] = `
+exports[`CpPage snapshot 2`] = `
 <DocumentFragment>
   <div>
     <h1>

@@ -5,7 +5,7 @@ import { fireEvent, render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { CpPage } from './CpPage';
 
-describe('Header', () => {
+describe('CpPage', () => {
   it('snapshot', () => {
     const { asFragment, getByRole } = render(
       <BrowserRouter>

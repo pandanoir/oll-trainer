@@ -18,7 +18,7 @@ export const ScramblePage: VFC = () => {
       }, 1000 / 60);
       return () => clearTimeout(id);
     }
-  });
+  }, [index, scrambles]);
   return (
     <div tw="w-screen">
       <div tw="font-bold text-3xl text-center">#{index + 1}</div>

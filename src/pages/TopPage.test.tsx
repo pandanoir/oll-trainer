@@ -5,7 +5,7 @@ import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { TopPage } from './TopPage';
 
-describe('Header', () => {
+describe('TopPage', () => {
   it('snapshot', () => {
     const { asFragment } = render(
       <BrowserRouter>

@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ScramblePage snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="_StyledDiv-sc-1wlb5fx-0 fpjcVC"
+  >
+    <div
+      class="_StyledDiv2-sc-1wlb5fx-1 flEBRo"
+    >
+      #1
+    </div>
+    <div
+      class="swiper swiper-initialized swiper-horizontal swiper-pointer-events"
+    >
+      <div
+        class="swiper-button-prev"
+      />
+      <div
+        class="swiper-button-next"
+      />
+      <div
+        class="swiper-wrapper"
+        style="transition-duration: 0ms; transform: translate3d(NaNpx, 0px, 0px);"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`ScramblePage snapshot 2`] = `
+<DocumentFragment>
+  <div
+    class="_StyledDiv-sc-1wlb5fx-0 fpjcVC"
+  >
+    <div
+      class="_StyledDiv2-sc-1wlb5fx-1 flEBRo"
+    >
+      #1
+    </div>
+    <div
+      class="swiper swiper-initialized swiper-horizontal swiper-pointer-events"
+    >
+      <div
+        class="swiper-button-prev"
+      />
+      <div
+        class="swiper-button-next"
+      />
+      <div
+        class="swiper-wrapper"
+        style="transition-duration: 0ms; transform: translate3d(NaNpx, 0px, 0px);"
+      >
+        <div
+          class="swiper-slide"
+        >
+          F L' D' F R2 B' D' F2 R2 B' R D2 L' D L' D2 L B2 U' F
+        </div>
+        <div
+          class="swiper-slide"
+        >
+          R' B2 D2 F R2 F2 U' R B2 D' L U2 B2 R2 B R' D' B' D' B'
+        </div>
+        <div
+          class="swiper-slide"
+        >
+          B' U L U' B2 D2 R D' L' D L' F L2 U2 F2 D F' R U' B2
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Header snapshot 1`] = `
+exports[`TopPage snapshot 1`] = `
 <DocumentFragment>
   <div
     class="_StyledDiv-sc-1x0n8gl-0 iAWYld"
