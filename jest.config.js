@@ -5,4 +5,8 @@ module.exports = {
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest',
   },
+  moduleNameMapper: {
+    'swiper/react': 'swiper/react/swiper-react.js',
+  },
+  transformIgnorePatterns: ['node_modules/(?!swiper|ssr-window|dom7)'],
 };
