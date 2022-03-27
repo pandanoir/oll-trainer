@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InspectionPage snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="_StyledDiv-sc-1hem0f1-0 kkHgeD"
+  >
+    <h1
+      class="_StyledH-sc-1hem0f1-1 dUMIYo"
+    >
+      inspection
+    </h1>
+    <div
+      class="_StyledDiv2-sc-1hem0f1-2 TXdDb"
+    >
+      <span
+        class="_StyledSpan-sc-1hem0f1-3 jxPfvm"
+      >
+        press space or tap to start inspection.
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`InspectionPage snapshot 2`] = `
+<DocumentFragment>
+  <div
+    class="_StyledDiv-sc-1hem0f1-0 kkHgeD"
+  >
+    <h1
+      class="_StyledH-sc-1hem0f1-1 dUMIYo"
+    >
+      inspection
+    </h1>
+    <div
+      class="_StyledDiv2-sc-1hem0f1-2 TXdDb"
+    >
+      <div
+        class="_StyledDiv3-sc-1hem0f1-4 fNrAjv"
+      >
+        <span
+          class="_StyledSpan2-sc-1hem0f1-5 bKnFds"
+        >
+          15 seconds
+        </span>
+        <span
+          class="_StyledSpan3-sc-1hem0f1-6 bFyvHq"
+        >
+          esc or tap to reset inspection.
+        </span>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
