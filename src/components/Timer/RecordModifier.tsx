@@ -40,7 +40,7 @@ export const RecordModifier = ({
     imposePenalty = useImposePenalty(),
     undoPenalty = useUndoPenalty();
 
-  if (record.isDNF) {
+  if (record.isDNF === true) {
     return (
       <ButtonWrapper className={className}>
         <SecondaryButton
@@ -62,7 +62,7 @@ export const RecordModifier = ({
       </ButtonWrapper>
     );
   }
-  if (record.penalty) {
+  if (record.penalty === true) {
     return (
       <ButtonWrapper className={className}>
         <SecondaryButton

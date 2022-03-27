@@ -45,7 +45,7 @@ export const Times: VFC<{
     () =>
       findIndexOfMin(
         times.map(({ isDNF, penalty, time }) =>
-          isDNF ? Infinity : time + (penalty ? 2000 : 0)
+          isDNF === true ? Infinity : time + (penalty === true ? 2000 : 0)
         )
       ),
     [times]
@@ -100,13 +100,13 @@ export const Times: VFC<{
             </BestRecordListItem>
             <BestRecordListItem
               onClick={() => openAo5Modal(bestAo5Index)}
-              disabled={bestAo5Index === -1 || !ao5[bestAo5Index]}
+              disabled={bestAo5Index === -1 || ao5[bestAo5Index] === null}
             >
               {bestAo5Index !== -1 ? showAverage(ao5[bestAo5Index], '-') : '-'}
             </BestRecordListItem>
             <BestRecordListItem
               onClick={() => openAo12Modal(bestAo12Index)}
-              disabled={bestAo12Index === -1 || !ao12[bestAo12Index]}
+              disabled={bestAo12Index === -1 || ao12[bestAo12Index] === null}
             >
               {bestAo12Index !== -1
                 ? showAverage(ao12[bestAo12Index], '-')
@@ -136,13 +136,13 @@ export const Times: VFC<{
                 </SessionRecordListItem>
                 <SessionRecordListItem
                   onClick={() => openAo5Modal(index)}
-                  disabled={!ao5[index]}
+                  disabled={ao5[index] === null}
                 >
                   {showAverage(ao5[index], '-')}
                 </SessionRecordListItem>
                 <SessionRecordListItem
                   onClick={() => openAo12Modal(index)}
-                  disabled={!ao12[index]}
+                  disabled={ao12[index] === null}
                 >
                   {showAverage(ao12[index], '-')}
                 </SessionRecordListItem>
@@ -233,7 +233,7 @@ export const Times: VFC<{
             const selectedTimes = times.slice(startIndex, selectedIndex + 1);
             const selectedRecords = selectedTimes.map(
               ({ isDNF, penalty, time }) =>
-                isDNF ? Infinity : time + (penalty ? 2000 : 0)
+                isDNF === true ? Infinity : time + (penalty === true ? 2000 : 0)
             );
             const maxIndex = findIndexOfMax(selectedRecords);
             const minIndex = findIndexOfMin(selectedRecords);

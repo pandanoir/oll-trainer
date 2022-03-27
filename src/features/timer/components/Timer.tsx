@@ -81,11 +81,14 @@ export const Timer: VFC<Props> = ({
 
   useWarningSound(inspectionTime);
 
-  const ao5 = useMemo(() => calcAo(5, times.slice(-5)).pop() || null, [times]);
-  const ao12 = useMemo(
-    () => calcAo(12, times.slice(-12)).pop() || null,
-    [times]
-  );
+  const ao5 = useMemo(() => {
+    const res = calcAo(5, times.slice(-5)).pop();
+    return typeof res !== 'undefined' ? res : null;
+  }, [times]);
+  const ao12 = useMemo(() => {
+    const res = calcAo(12, times.slice(-12)).pop();
+    return typeof res !== 'undefined' ? res : null;
+  }, [times]);
 
   const timerStr = useMemo(() => {
     if (

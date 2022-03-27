@@ -20,7 +20,10 @@ export const TimeGraph = ({ times }: { times: TimeData[] }) => {
       zip3(times, calcAo(5, times), calcAo(12, times)).map(
         ([{ time, isDNF, penalty }, ao5, ao12], index) => ({
           name: index + 1,
-          time: isDNF ? null : Math.floor(time) / 1000 + (penalty ? 2 : 0),
+          time:
+            isDNF === true
+              ? null
+              : Math.floor(time) / 1000 + (penalty === true ? 2 : 0),
           ao5: typeof ao5 === 'number' ? Math.floor(ao5) / 1000 : null,
           ao12: typeof ao12 === 'number' ? Math.floor(ao12) / 1000 : null,
         })

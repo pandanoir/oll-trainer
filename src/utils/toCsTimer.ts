@@ -53,7 +53,7 @@ export const toCsTimer = (sessionGroup: SessionCollection) => {
     for (const session of sessions) {
       csTimerSessions.push(
         session.times.map(({ penalty, isDNF, scramble, date, time }) => [
-          [isDNF ? -1 : penalty ? 2000 : 0, time] as const,
+          [isDNF === true ? -1 : penalty === true ? 2000 : 0, time] as const,
           scramble,
           '',
           date / 1000,

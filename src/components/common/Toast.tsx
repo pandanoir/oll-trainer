@@ -105,7 +105,7 @@ const ToastRaw = ({ title, onClose, label, onClick, shows }: Props) => {
         }}
       >
         <span tw="pl-6 py-3">{title}</span>
-        {label && (
+        {typeof label !== 'undefined' && (
           <button
             onClick={onClick}
             tw="border-l border-white my-3 px-4 bg-transparent text-blue-500 dark:text-blue-300 font-bold"

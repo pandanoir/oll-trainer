@@ -23,7 +23,9 @@ export const fromCsTimer = (json: unknown): SessionCollection => {
   if (!isUnknownObject(json)) {
     throw new Error('invalid JSON given');
   }
-  const sessionDataList = JSON.parse(excludeSessionData(json) || 'null');
+  const sessionDataList = JSON.parse(
+    ((x: string | null) => (x !== null ? x : 'null'))(excludeSessionData(json))
+  );
   if (!isUnknownObject(sessionDataList)) {
     throw new Error('invalid JSON given');
   }

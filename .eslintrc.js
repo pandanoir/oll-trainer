@@ -44,6 +44,7 @@ module.exports = {
           },
         ],
         'import/no-unresolved': 'off',
+        '@typescript-eslint/strict-boolean-expressions': 'error',
       },
     },
     {

@@ -11,6 +11,8 @@ const getAudioContext = () => {
   if (audioCtx) {
     return audioCtx;
   }
+  // AudioContext がなかった場合に備えたいので disable している
+  // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
   const AudioContext = window.AudioContext || window.webkitAudioContext;
   audioCtx = new AudioContext();
   return audioCtx;

@@ -57,7 +57,7 @@ export const migration = (
           selectedSessionIndex: (() => {
             try {
               const json = localStorage.getItem(withPrefix('sessionIndex'));
-              if (!json) return 0;
+              if (json === null) return 0;
               return JSON.parse(json);
             } catch {
               return 0;
@@ -200,7 +200,7 @@ export const useChangeToDNF = () => {
     setSessions(
       immer((draft) => {
         const time = getCurrentSession(draft, variationName).times[index];
-        if (time) {
+        if (typeof time !== 'undefined') {
           time.isDNF = true;
         }
       })
@@ -213,7 +213,7 @@ export const useUndoDNF = () => {
     setSessions(
       immer((draft) => {
         const time = getCurrentSession(draft, variationName).times[index];
-        if (time) {
+        if (typeof time !== 'undefined') {
           time.isDNF = false;
         }
       })
@@ -226,7 +226,7 @@ export const useImposePenalty = () => {
     setSessions(
       immer((draft) => {
         const time = getCurrentSession(draft, variationName).times[index];
-        if (time) {
+        if (typeof time !== 'undefined') {
           time.penalty = true;
         }
       })
@@ -239,7 +239,7 @@ export const useUndoPenalty = () => {
     setSessions(
       immer((draft) => {
         const time = getCurrentSession(draft, variationName).times[index];
-        if (time) {
+        if (typeof time !== 'undefined') {
           time.penalty = false;
         }
       })
@@ -253,7 +253,7 @@ export const useDeleteRecord = () => {
     const removedValue = getCurrentSession(sessions, variationName).times[
       index
     ];
-    if (!removedValue) {
+    if (typeof removedValue === 'undefined') {
       throw new Error('out of bounds');
     }
     setSessions(

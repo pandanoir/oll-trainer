@@ -104,13 +104,23 @@ export const StatisticsModal: VFC<{
             <div key={sessionIndex}>
               <h1 tw="bg-blue-200 dark:bg-blue-900">{name}</h1>
               <ul>
-                {ao5 && <li>ao5: {showAverage(ao5)}</li>}
-                {ao12 && <li>ao12: {showAverage(ao12)}</li>}
-                {ao25 && <li>ao25: {showAverage(ao25)}</li>}
-                {ao50 && <li>ao50: {showAverage(ao50)}</li>}
-                {ao100 && <li>ao100: {showAverage(ao100)}</li>}
-                {average && <li>average: {showAverage(average)}</li>}
-                {standardDeviation && (
+                {typeof ao5 !== 'undefined' && <li>ao5: {showAverage(ao5)}</li>}
+                {typeof ao12 !== 'undefined' && (
+                  <li>ao12: {showAverage(ao12)}</li>
+                )}
+                {typeof ao25 !== 'undefined' && (
+                  <li>ao25: {showAverage(ao25)}</li>
+                )}
+                {typeof ao50 !== 'undefined' && (
+                  <li>ao50: {showAverage(ao50)}</li>
+                )}
+                {typeof ao100 !== 'undefined' && (
+                  <li>ao100: {showAverage(ao100)}</li>
+                )}
+                {typeof average !== 'undefined' && (
+                  <li>average: {showAverage(average)}</li>
+                )}
+                {typeof standardDeviation !== 'undefined' && (
                   <li>standardDeviation: {standardDeviation}</li>
                 )}
               </ul>
@@ -138,15 +148,17 @@ export const StatisticsModal: VFC<{
                           <span css={style}>{showRecord(time)}</span>
                           <span css={style}>
                             {showAverage(
-                              sessionAverage?.[sessionIndex].ao5List[index] ||
-                                null,
+                              sessionAverage !== null
+                                ? sessionAverage[sessionIndex].ao5List[index]
+                                : null,
                               '-'
                             )}
                           </span>
                           <span css={style}>
                             {showAverage(
-                              sessionAverage?.[sessionIndex].ao12List[index] ||
-                                null,
+                              sessionAverage !== null
+                                ? sessionAverage[sessionIndex].ao12List[index]
+                                : null,
                               '-'
                             )}
                           </span>
@@ -202,33 +214,70 @@ export const StatisticsModal: VFC<{
                     <ul tw="flex flex-col space-y-5">
                       <li>
                         <ul>
-                          <li>best time: {best ? showAverage(best) : '-'}</li>
                           <li>
-                            best ao5: {bestAo5 ? showAverage(bestAo5) : '-'}
+                            best time:{' '}
+                            {typeof best !== 'undefined'
+                              ? showAverage(best)
+                              : '-'}
                           </li>
                           <li>
-                            best ao12: {bestAo12 ? showAverage(bestAo12) : '-'}
+                            best ao5:{' '}
+                            {typeof bestAo5 !== 'undefined'
+                              ? showAverage(bestAo5)
+                              : '-'}
                           </li>
                           <li>
-                            best ao25: {bestAo25 ? showAverage(bestAo25) : '-'}
+                            best ao12:{' '}
+                            {typeof bestAo12 !== 'undefined'
+                              ? showAverage(bestAo12)
+                              : '-'}
                           </li>
                           <li>
-                            best ao50: {bestAo50 ? showAverage(bestAo50) : '-'}
+                            best ao25:{' '}
+                            {typeof bestAo25 !== 'undefined'
+                              ? showAverage(bestAo25)
+                              : '-'}
+                          </li>
+                          <li>
+                            best ao50:{' '}
+                            {typeof bestAo50 !== 'undefined'
+                              ? showAverage(bestAo50)
+                              : '-'}
                           </li>
                           <li>
                             best ao100:{' '}
-                            {bestAo100 ? showAverage(bestAo100) : '-'}
+                            {typeof bestAo100 !== 'undefined'
+                              ? showAverage(bestAo100)
+                              : '-'}
                           </li>
                           <li>
-                            average: {average ? showAverage(average) : '-'}
+                            average:{' '}
+                            {typeof average !== 'undefined'
+                              ? showAverage(average)
+                              : '-'}
                           </li>
                         </ul>
-                        1/5/12/25/50/100 ={best ? showAverage(best) : '-'}/
-                        {bestAo5 ? showAverage(bestAo5) : '-'}/
-                        {bestAo12 ? showAverage(bestAo12) : '-'}/
-                        {bestAo25 ? showAverage(bestAo25) : '-'}/
-                        {bestAo50 ? showAverage(bestAo50) : '-'}/
-                        {bestAo100 ? showAverage(bestAo100) : '-'}
+                        1/5/12/25/50/100 =
+                        {typeof best !== 'undefined' ? showAverage(best) : '-'}/
+                        {typeof bestAo5 !== 'undefined'
+                          ? showAverage(bestAo5)
+                          : '-'}
+                        /
+                        {typeof bestAo12 !== 'undefined'
+                          ? showAverage(bestAo12)
+                          : '-'}
+                        /
+                        {typeof bestAo25 !== 'undefined'
+                          ? showAverage(bestAo25)
+                          : '-'}
+                        /
+                        {typeof bestAo50 !== 'undefined'
+                          ? showAverage(bestAo50)
+                          : '-'}
+                        /
+                        {typeof bestAo100 !== 'undefined'
+                          ? showAverage(bestAo100)
+                          : '-'}
                       </li>
                       <li>推移グラフ</li>
                       <li>日別平均</li>

@@ -49,7 +49,9 @@ const CubeFace: VFC<{ cube: TopFace }> = ({ cube }) => (
 export const CpPage: VFC = () => {
   useTitle('Cp check');
   const query = useQuery();
-  const { value, onChange } = useInput(query.get('solve') || '');
+  const { value, onChange } = useInput(
+    ((x: string | null) => (x !== null ? x : ''))(query.get('solve'))
+  );
   const [topFaceType, setTopFaceType] = useState<null | string>(null);
   const [cpIndex, setCpIndex] = useState(0);
   useEffect(() => {
@@ -76,7 +78,7 @@ export const CpPage: VFC = () => {
           onChange={onChange}
         />
       </div>
-      {topFaceType && (
+      {topFaceType !== null && (
         <>
           逆手順: {calculateScramble(value)}
           <br />
