@@ -70,7 +70,12 @@ export const useStoragedImmerState = <T>(
   storageKey: string,
   initialValue: T | (() => T)
 ) =>
-  useVersionedImmerState<T>(storageKey, initialValue, 0, (data) => ({
-    data: data as T,
-    version: 0,
-  }));
+  useVersionedImmerState<T>(storageKey, initialValue, 0, (data) => {
+    if (typeof data === 'object' && data !== null && 'version' in data) {
+      return data as { data: T; version: 0 };
+    }
+    return {
+      data: data as T,
+      version: 0,
+    };
+  });

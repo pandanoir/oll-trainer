@@ -5,8 +5,16 @@ import {
   UserDefinedVariationContext,
   Variation,
 } from '../../data/variations';
-import { useImportFromUserData } from '../../features/sessionList/hooks/useSessions';
-import { isHiTimerDataJSON } from '../../types/HiTimerDataJSON.guard';
+import {
+  migration,
+  useImportFromUserData,
+} from '../../features/sessionList/hooks/useSessions';
+import { HiTimerDataJSON } from '../../types/HiTimerDataJSON';
+import {
+  isHiTimerDataJSON,
+  isHiTimerDataJSONV1,
+  isHiTimerDataJSONV2,
+} from '../../types/HiTimerDataJSON.guard';
 import { fromCsTimer } from '../../utils/fromCsTimer';
 import { Modal } from '../common/Modal';
 import { ModalCloseButton } from '../common/ModalCloseButton';
@@ -63,17 +71,28 @@ export const ImportModal: VFC<{
           />
           <FileInput
             onChange={(text) => {
-              const data = JSON.parse(text);
-              if (!isHiTimerDataJSON(data)) {
+              const givenJSON = JSON.parse(text);
+              let json: HiTimerDataJSON;
+              if (isHiTimerDataJSON(givenJSON)) {
+                json = givenJSON;
+              } else if (
+                isHiTimerDataJSONV1(givenJSON) ||
+                isHiTimerDataJSONV2(givenJSON)
+              ) {
+                json = {
+                  sessions: migration(givenJSON.sessions).data,
+                  settings: givenJSON.settings,
+                };
+              } else {
                 throw new Error('invalid json');
               }
 
-              importSessionCollection(data.sessions);
-              updateUserDefinedVariation(data.settings.userDefinedVariation);
+              importSessionCollection(json.sessions);
+              updateUserDefinedVariation(json.settings.userDefinedVariation);
               const variation = [
                 ...defaultVariations,
-                ...data.settings.userDefinedVariation,
-              ].find(({ name }) => name === data.settings.variation);
+                ...json.settings.userDefinedVariation,
+              ].find(({ name }) => name === json.settings.variation);
               if (variation) {
                 setVariation(variation);
               }
