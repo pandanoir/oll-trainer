@@ -4,7 +4,7 @@ export const ExportButton = ({
   children,
   getContent,
 }: PropsWithChildren<{ getContent: () => string }>) => {
-  const fileName = 'export';
+  const fileName = 'export.json';
   const buttonRef = useRef<HTMLAnchorElement>(null);
   const handleDownload = () => {
     const blob = new Blob([getContent()], { type: 'application/json' });
