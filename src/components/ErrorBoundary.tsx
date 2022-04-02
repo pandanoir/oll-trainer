@@ -1,5 +1,16 @@
 import { ErrorInfo, PureComponent } from 'react';
 
+const localStorageToString = () => {
+  const localStorageValue: Record<string, string> = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key === null) continue;
+    const item = localStorage.getItem(key);
+    if (item === null) continue;
+    localStorageValue[key] = item;
+  }
+  return JSON.stringify(localStorageValue);
+};
 export class ErrorBoundary extends PureComponent<Record<string, unknown>> {
   state = { hasError: false, errorMessage: '' };
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
@@ -9,6 +20,7 @@ export class ErrorBoundary extends PureComponent<Record<string, unknown>> {
         ...errorInfo,
         message: error.message,
         name: error.name,
+        localStorage: localStorageToString(),
       }),
     });
   }
