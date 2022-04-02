@@ -12,7 +12,8 @@
     "test": "jest --coverage",
     "postinstall": "patch-package",
     "extract": "formatjs extract",
-    "compile": "formatjs compile"
+    "compile": "formatjs compile",
+    "ts-auto-guard": "ts-auto-guard ./src/**/*.ts"
   },
   "keywords": [],
   "author": "Naoto Ikuno <moon_in_france@yahoo.co.jp>",
@@ -57,6 +58,7 @@
     "styled-components": "5.3.5",
     "swiper": "^8.0.0",
     "tailwindcss": "^3.0.5",
+    "ts-auto-guard": "^2.4.1",
     "twin.macro": "^2.8.2",
     "typescript": "^4.5.2",
     "use-immer": "^0.6.0",

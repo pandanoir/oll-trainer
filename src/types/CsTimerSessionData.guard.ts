@@ -13,7 +13,9 @@ export function isCsTimerSessionData(obj: any, _argumentName?: string): obj is C
             typeof obj.name === "number") &&
         typeof obj.rank === "number" &&
         (typeof obj.date === "undefined" ||
-            typeof obj.date === "object") &&
+            Array.isArray(obj.date) &&
+            typeof obj.date[0] === "number" &&
+            typeof obj.date[1] === "number") &&
         (obj.opt !== null &&
             typeof obj.opt === "object" ||
             typeof obj.opt === "function") &&
