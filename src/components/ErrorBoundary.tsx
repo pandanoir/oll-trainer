@@ -33,7 +33,15 @@ export class ErrorBoundary extends PureComponent<Record<string, unknown>> {
             Something went wrong. Please report this to{' '}
             <a href="https://twitter.com/pandanoir9">@pandanoir9</a>.
           </h1>
-          <textarea style={{ width: 300, height: 200 }}>
+          <textarea
+            readOnly
+            style={{
+              width: 300,
+              height: 200,
+              color: 'black',
+              background: 'white',
+            }}
+          >
             {this.state.errorMessage}
           </textarea>
         </div>
