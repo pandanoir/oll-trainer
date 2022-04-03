@@ -1,0 +1,979 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TimerPage snapshot 1`] = `
+<DocumentFragment>
+  <header
+    class="_StyledHeader-sc-fsl829-8 ceERtR"
+  >
+    <nav
+      class="_StyledNav-sc-fsl829-9 dQatxH"
+    >
+      <span>
+        <button
+          class="_StyledIconButton2-sc-fsl829-10 itbLKO"
+        >
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-bars "
+            data-icon="bars"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 448 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+        <ul
+          class="_StyledUl2-sc-fsl829-11 cTvaRg"
+        >
+          <li>
+            <a
+              class="_StyledCustomNavLink2-sc-fsl829-0 bSPkuj font-bold"
+              href="/oll/timer"
+            >
+              Hi-Timer
+            </a>
+          </li>
+          <li>
+            <a
+              class="_StyledCustomNavLink2-sc-fsl829-0 bSPkuj"
+              href="/oll/oll"
+            >
+              oll
+            </a>
+          </li>
+          <li>
+            <a
+              class="_StyledCustomNavLink2-sc-fsl829-0 bSPkuj"
+              href="/oll/learn"
+            >
+              learn
+            </a>
+          </li>
+          <li>
+            <a
+              class="_StyledCustomNavLink2-sc-fsl829-0 bSPkuj"
+              href="/oll/scramble"
+            >
+              scramble
+            </a>
+          </li>
+          <li>
+            <a
+              class="_StyledCustomNavLink2-sc-fsl829-0 bSPkuj"
+              href="/oll/inspection"
+            >
+              inspection
+            </a>
+          </li>
+          <li>
+            <a
+              class="_StyledCustomNavLink2-sc-fsl829-0 bSPkuj"
+              href="/oll/cp"
+            >
+              cp check
+            </a>
+          </li>
+          <li>
+            <a
+              class="_StyledCustomNavLink2-sc-fsl829-0 bSPkuj"
+              href="/oll/quiz"
+            >
+              quiz
+            </a>
+          </li>
+          <li>
+            <a
+              class="_StyledA2-sc-fsl829-12 hpqlLB"
+              href="https://github.com/pandanoir/oll-trainer"
+              rel="noreferrer"
+              target="_blank"
+            >
+              <span>
+                GitHub
+              </span>
+              <svg
+                aria-hidden="true"
+                class="svg-inline--fa fa-up-right-from-square _StyledFontAwesomeIcon2-sc-fsl829-13 eHZezK"
+                data-icon="up-right-from-square"
+                data-prefix="fas"
+                focusable="false"
+                role="img"
+                viewBox="0 0 512 512"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M384 320c-17.67 0-32 14.33-32 32v96H64V160h96c17.67 0 32-14.32 32-32s-14.33-32-32-32L64 96c-35.35 0-64 28.65-64 64V448c0 35.34 28.65 64 64 64h288c35.35 0 64-28.66 64-64v-96C416 334.3 401.7 320 384 320zM488 0H352c-12.94 0-24.62 7.797-29.56 19.75c-4.969 11.97-2.219 25.72 6.938 34.88L370.8 96L169.4 297.4c-12.5 12.5-12.5 32.75 0 45.25C175.6 348.9 183.8 352 192 352s16.38-3.125 22.62-9.375L416 141.3l41.38 41.38c9.156 9.141 22.88 11.84 34.88 6.938C504.2 184.6 512 172.9 512 160V24C512 10.74 501.3 0 488 0z"
+                  fill="currentColor"
+                />
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </span>
+      <span
+        class="_StyledSpan-sc-fsl829-14 fEwigp"
+      >
+        <button
+          class="_StyledIconButton3-sc-fsl829-15 frJWXH"
+        >
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-gear "
+            data-icon="gear"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M495.9 166.6C499.2 175.2 496.4 184.9 489.6 191.2L446.3 230.6C447.4 238.9 448 247.4 448 256C448 264.6 447.4 273.1 446.3 281.4L489.6 320.8C496.4 327.1 499.2 336.8 495.9 345.4C491.5 357.3 486.2 368.8 480.2 379.7L475.5 387.8C468.9 398.8 461.5 409.2 453.4 419.1C447.4 426.2 437.7 428.7 428.9 425.9L373.2 408.1C359.8 418.4 344.1 427 329.2 433.6L316.7 490.7C314.7 499.7 307.7 506.1 298.5 508.5C284.7 510.8 270.5 512 255.1 512C241.5 512 227.3 510.8 213.5 508.5C204.3 506.1 197.3 499.7 195.3 490.7L182.8 433.6C167 427 152.2 418.4 138.8 408.1L83.14 425.9C74.3 428.7 64.55 426.2 58.63 419.1C50.52 409.2 43.12 398.8 36.52 387.8L31.84 379.7C25.77 368.8 20.49 357.3 16.06 345.4C12.82 336.8 15.55 327.1 22.41 320.8L65.67 281.4C64.57 273.1 64 264.6 64 256C64 247.4 64.57 238.9 65.67 230.6L22.41 191.2C15.55 184.9 12.82 175.3 16.06 166.6C20.49 154.7 25.78 143.2 31.84 132.3L36.51 124.2C43.12 113.2 50.52 102.8 58.63 92.95C64.55 85.8 74.3 83.32 83.14 86.14L138.8 103.9C152.2 93.56 167 84.96 182.8 78.43L195.3 21.33C197.3 12.25 204.3 5.04 213.5 3.51C227.3 1.201 241.5 0 256 0C270.5 0 284.7 1.201 298.5 3.51C307.7 5.04 314.7 12.25 316.7 21.33L329.2 78.43C344.1 84.96 359.8 93.56 373.2 103.9L428.9 86.14C437.7 83.32 447.4 85.8 453.4 92.95C461.5 102.8 468.9 113.2 475.5 124.2L480.2 132.3C486.2 143.2 491.5 154.7 495.9 166.6V166.6zM256 336C300.2 336 336 300.2 336 255.1C336 211.8 300.2 175.1 256 175.1C211.8 175.1 176 211.8 176 255.1C176 300.2 211.8 336 256 336z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+        <span
+          class="_StyledSpan2-sc-fsl829-16 cZUbTj"
+        >
+          <button
+            class="_StyledButton-sc-15dm4so-0 cvkjJj"
+          >
+            <div
+              class="_StyledDiv-sc-15dm4so-1 itfcfF"
+            />
+          </button>
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-moon "
+            data-icon="moon"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
+      </span>
+    </nav>
+  </header>
+  <div
+    class="_StyledDiv-sc-170dy2y-0 cbIpbm"
+  >
+    <div
+      class="_StyledDiv2-sc-170dy2y-1 jGUjgK"
+    >
+      <button
+        class="_StyledIconButton-sc-170dy2y-2 fPAzYM"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-volume-high "
+          data-icon="volume-high"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 640 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M412.6 182c-10.28-8.334-25.41-6.867-33.75 3.402c-8.406 10.24-6.906 25.35 3.375 33.74C393.5 228.4 400 241.8 400 255.1c0 14.17-6.5 27.59-17.81 36.83c-10.28 8.396-11.78 23.5-3.375 33.74c4.719 5.806 11.62 8.802 18.56 8.802c5.344 0 10.75-1.779 15.19-5.399C435.1 311.5 448 284.6 448 255.1S435.1 200.4 412.6 182zM473.1 108.2c-10.22-8.334-25.34-6.898-33.78 3.34c-8.406 10.24-6.906 25.35 3.344 33.74C476.6 172.1 496 213.3 496 255.1s-19.44 82.1-53.31 110.7c-10.25 8.396-11.75 23.5-3.344 33.74c4.75 5.775 11.62 8.771 18.56 8.771c5.375 0 10.75-1.779 15.22-5.431C518.2 366.9 544 313 544 255.1S518.2 145 473.1 108.2zM534.4 33.4c-10.22-8.334-25.34-6.867-33.78 3.34c-8.406 10.24-6.906 25.35 3.344 33.74C559.9 116.3 592 183.9 592 255.1s-32.09 139.7-88.06 185.5c-10.25 8.396-11.75 23.5-3.344 33.74C505.3 481 512.2 484 519.2 484c5.375 0 10.75-1.779 15.22-5.431C601.5 423.6 640 342.5 640 255.1S601.5 88.34 534.4 33.4zM301.2 34.98c-11.5-5.181-25.01-3.076-34.43 5.29L131.8 160.1H48c-26.51 0-48 21.48-48 47.96v95.92c0 26.48 21.49 47.96 48 47.96h83.84l134.9 119.8C272.7 477 280.3 479.8 288 479.8c4.438 0 8.959-.9314 13.16-2.835C312.7 471.8 320 460.4 320 447.9V64.12C320 51.55 312.7 40.13 301.2 34.98z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+      <label
+        class="_StyledLabel-sc-i5gb2v-0 GFwcx toggle-btn--checked"
+      >
+        <input
+          checked=""
+          class="_StyledInput-sc-i5gb2v-1 wNxyj"
+          type="checkbox"
+        />
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-check "
+          data-icon="check"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 448 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"
+            fill="currentColor"
+          />
+        </svg>
+        use inspection
+      </label>
+      <label
+        class="_StyledLabel-sc-i5gb2v-0 GFwcx toggle-btn"
+      >
+        <input
+          class="_StyledInput-sc-i5gb2v-1 wNxyj"
+          type="checkbox"
+        />
+        input time by typing
+      </label>
+      <button
+        class="Button-sc-5ehw98-0 SecondaryButtonRaw-sc-ywfbxf-0 iuRQrk jeUEZm"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-download "
+          data-icon="download"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 512 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M480 352h-133.5l-45.25 45.25C289.2 409.3 273.1 416 256 416s-33.16-6.656-45.25-18.75L165.5 352H32c-17.67 0-32 14.33-32 32v96c0 17.67 14.33 32 32 32h448c17.67 0 32-14.33 32-32v-96C512 366.3 497.7 352 480 352zM432 456c-13.2 0-24-10.8-24-24c0-13.2 10.8-24 24-24s24 10.8 24 24C456 445.2 445.2 456 432 456zM233.4 374.6C239.6 380.9 247.8 384 256 384s16.38-3.125 22.62-9.375l128-128c12.49-12.5 12.49-32.75 0-45.25c-12.5-12.5-32.76-12.5-45.25 0L288 274.8V32c0-17.67-14.33-32-32-32C238.3 0 224 14.33 224 32v242.8L150.6 201.4c-12.49-12.5-32.75-12.5-45.25 0c-12.49 12.5-12.49 32.75 0 45.25L233.4 374.6z"
+            fill="currentColor"
+          />
+        </svg>
+         import
+      </button>
+      <button
+        class="Button-sc-5ehw98-0 SecondaryButtonRaw-sc-ywfbxf-0 iuRQrk jeUEZm"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-upload "
+          data-icon="upload"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 512 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M105.4 182.6c12.5 12.49 32.76 12.5 45.25 .001L224 109.3V352c0 17.67 14.33 32 32 32c17.67 0 32-14.33 32-32V109.3l73.38 73.38c12.49 12.49 32.75 12.49 45.25-.001c12.49-12.49 12.49-32.75 0-45.25l-128-128C272.4 3.125 264.2 0 256 0S239.6 3.125 233.4 9.375L105.4 137.4C92.88 149.9 92.88 170.1 105.4 182.6zM480 352h-160c0 35.35-28.65 64-64 64s-64-28.65-64-64H32c-17.67 0-32 14.33-32 32v96c0 17.67 14.33 32 32 32h448c17.67 0 32-14.33 32-32v-96C512 366.3 497.7 352 480 352zM432 456c-13.2 0-24-10.8-24-24c0-13.2 10.8-24 24-24s24 10.8 24 24C456 445.2 445.2 456 432 456z"
+            fill="currentColor"
+          />
+        </svg>
+         export
+      </button>
+    </div>
+    <div
+      class="swiper swiper-initialized swiper-horizontal swiper-pointer-events"
+      style="z-index: 10;"
+    >
+      <div
+        class="swiper-button-prev"
+      />
+      <div
+        class="swiper-button-next"
+      />
+      <div
+        class="swiper-wrapper"
+        style="transition-duration: 0ms; transform: translate3d(NaNpx, 0px, 0px);"
+      />
+    </div>
+    <div
+      class="_StyledDiv-sc-1tvxqky-0 eWlexO"
+    >
+      <div
+        aria-label="timer"
+        aria-pressed="false"
+        class="_StyledDiv-sc-mxoy8u-0 eriPvb cover-transparent"
+        role="button"
+      />
+      <button
+        class="Button-sc-5ehw98-0 PrimaryButton-sc-mwlz5h-0 _StyledPrimaryButton-sc-170dy2y-3 iuRQrk ULDak bAbZGT"
+      >
+        3x3
+      </button>
+      <button
+        class="_StyledIconButton2-sc-170dy2y-4 izTQgq"
+        title="session list"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-circle-info "
+          data-icon="circle-info"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 512 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 128c17.67 0 32 14.33 32 32c0 17.67-14.33 32-32 32S224 177.7 224 160C224 142.3 238.3 128 256 128zM296 384h-80C202.8 384 192 373.3 192 360s10.75-24 24-24h16v-64H224c-13.25 0-24-10.75-24-24S210.8 224 224 224h32c13.25 0 24 10.75 24 24v88h16c13.25 0 24 10.75 24 24S309.3 384 296 384z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+      <div
+        class="timer _StyledTapTimerDisplay-sc-1o47otd-1 khFzrH"
+        role="main"
+      >
+        0.000
+      </div>
+      <div>
+        ao5: -
+      </div>
+      <div>
+        ao12: -
+      </div>
+      <div
+        class="_StyledDiv-sc-1o47otd-2 gZqAEt"
+      />
+    </div>
+    <div
+      class="RecordListWrapper-sc-qpeg56-2 cczzXC"
+    >
+      <div
+        class="SessionToolbar-sc-qpeg56-1 iIbLVN"
+      >
+        <div
+          class="_StyledDiv3-sc-qpeg56-9 fBDqWg"
+        >
+          <button
+            class="_StyledIconButton3-sc-qpeg56-10 iESoDo"
+            disabled=""
+            title="prev session"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-angle-left "
+              data-icon="angle-left"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 256 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M192 448c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L77.25 256l137.4 137.4c12.5 12.5 12.5 32.75 0 45.25C208.4 444.9 200.2 448 192 448z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+          <button
+            class="_StyledIconButton5-sc-qpeg56-12 kiNHMo"
+            title="lock session"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-unlock "
+              data-icon="unlock"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 448 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M144 192H384C419.3 192 448 220.7 448 256V448C448 483.3 419.3 512 384 512H64C28.65 512 0 483.3 0 448V256C0 220.7 28.65 192 64 192H80V144C80 64.47 144.5 0 224 0C281.5 0 331 33.69 354.1 82.27C361.7 98.23 354.9 117.3 338.1 124.9C322.1 132.5 303.9 125.7 296.3 109.7C283.4 82.63 255.9 64 224 64C179.8 64 144 99.82 144 144L144 192z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+          <input
+            class="_StyledInput-sc-qpeg56-13 blaTtM"
+            title="session name"
+            value="09-30 session1"
+          />
+          <button
+            class="_StyledIconButton6-sc-qpeg56-14 fmYQLp"
+            disabled=""
+            title="next session"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-angle-right "
+              data-icon="angle-right"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 256 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M64 448c-8.188 0-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L178.8 256L41.38 118.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l160 160c12.5 12.5 12.5 32.75 0 45.25l-160 160C80.38 444.9 72.19 448 64 448z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+          <button
+            class="_StyledIconButton7-sc-qpeg56-15 cxDmuv"
+            title="add session"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-plus "
+              data-icon="plus"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 448 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="_StyledDiv4-sc-qpeg56-16 bpvqCr"
+        >
+          <button
+            class="_StyledIconButton8-sc-qpeg56-17 fwiIsG"
+            title="session list"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-list "
+              data-icon="list"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M88 48C101.3 48 112 58.75 112 72V120C112 133.3 101.3 144 88 144H40C26.75 144 16 133.3 16 120V72C16 58.75 26.75 48 40 48H88zM480 64C497.7 64 512 78.33 512 96C512 113.7 497.7 128 480 128H192C174.3 128 160 113.7 160 96C160 78.33 174.3 64 192 64H480zM480 224C497.7 224 512 238.3 512 256C512 273.7 497.7 288 480 288H192C174.3 288 160 273.7 160 256C160 238.3 174.3 224 192 224H480zM480 384C497.7 384 512 398.3 512 416C512 433.7 497.7 448 480 448H192C174.3 448 160 433.7 160 416C160 398.3 174.3 384 192 384H480zM16 232C16 218.7 26.75 208 40 208H88C101.3 208 112 218.7 112 232V280C112 293.3 101.3 304 88 304H40C26.75 304 16 293.3 16 280V232zM88 368C101.3 368 112 378.7 112 392V440C112 453.3 101.3 464 88 464H40C26.75 464 16 453.3 16 440V392C16 378.7 26.75 368 40 368H88z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+          <button
+            aria-controls="record-list"
+            aria-expanded="false"
+            class="_StyledIconButton9-sc-qpeg56-18 dHMtkn"
+            title="open record list"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-angle-up "
+              data-icon="angle-up"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 384 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M352 352c-8.188 0-16.38-3.125-22.62-9.375L192 205.3l-137.4 137.4c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0l160 160c12.5 12.5 12.5 32.75 0 45.25C368.4 348.9 360.2 352 352 352z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`TimerPage snapshot 2`] = `
+<DocumentFragment>
+  <header
+    class="_StyledHeader-sc-fsl829-8 ceERtR"
+  >
+    <nav
+      class="_StyledNav-sc-fsl829-9 dQatxH"
+    >
+      <span>
+        <button
+          class="_StyledIconButton2-sc-fsl829-10 itbLKO"
+        >
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-bars "
+            data-icon="bars"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 448 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+        <ul
+          class="_StyledUl2-sc-fsl829-11 cTvaRg"
+        >
+          <li>
+            <a
+              class="_StyledCustomNavLink2-sc-fsl829-0 bSPkuj font-bold"
+              href="/oll/timer"
+            >
+              Hi-Timer
+            </a>
+          </li>
+          <li>
+            <a
+              class="_StyledCustomNavLink2-sc-fsl829-0 bSPkuj"
+              href="/oll/oll"
+            >
+              oll
+            </a>
+          </li>
+          <li>
+            <a
+              class="_StyledCustomNavLink2-sc-fsl829-0 bSPkuj"
+              href="/oll/learn"
+            >
+              learn
+            </a>
+          </li>
+          <li>
+            <a
+              class="_StyledCustomNavLink2-sc-fsl829-0 bSPkuj"
+              href="/oll/scramble"
+            >
+              scramble
+            </a>
+          </li>
+          <li>
+            <a
+              class="_StyledCustomNavLink2-sc-fsl829-0 bSPkuj"
+              href="/oll/inspection"
+            >
+              inspection
+            </a>
+          </li>
+          <li>
+            <a
+              class="_StyledCustomNavLink2-sc-fsl829-0 bSPkuj"
+              href="/oll/cp"
+            >
+              cp check
+            </a>
+          </li>
+          <li>
+            <a
+              class="_StyledCustomNavLink2-sc-fsl829-0 bSPkuj"
+              href="/oll/quiz"
+            >
+              quiz
+            </a>
+          </li>
+          <li>
+            <a
+              class="_StyledA2-sc-fsl829-12 hpqlLB"
+              href="https://github.com/pandanoir/oll-trainer"
+              rel="noreferrer"
+              target="_blank"
+            >
+              <span>
+                GitHub
+              </span>
+              <svg
+                aria-hidden="true"
+                class="svg-inline--fa fa-up-right-from-square _StyledFontAwesomeIcon2-sc-fsl829-13 eHZezK"
+                data-icon="up-right-from-square"
+                data-prefix="fas"
+                focusable="false"
+                role="img"
+                viewBox="0 0 512 512"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M384 320c-17.67 0-32 14.33-32 32v96H64V160h96c17.67 0 32-14.32 32-32s-14.33-32-32-32L64 96c-35.35 0-64 28.65-64 64V448c0 35.34 28.65 64 64 64h288c35.35 0 64-28.66 64-64v-96C416 334.3 401.7 320 384 320zM488 0H352c-12.94 0-24.62 7.797-29.56 19.75c-4.969 11.97-2.219 25.72 6.938 34.88L370.8 96L169.4 297.4c-12.5 12.5-12.5 32.75 0 45.25C175.6 348.9 183.8 352 192 352s16.38-3.125 22.62-9.375L416 141.3l41.38 41.38c9.156 9.141 22.88 11.84 34.88 6.938C504.2 184.6 512 172.9 512 160V24C512 10.74 501.3 0 488 0z"
+                  fill="currentColor"
+                />
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </span>
+      <span
+        class="_StyledSpan-sc-fsl829-14 fEwigp"
+      >
+        <button
+          class="_StyledIconButton3-sc-fsl829-15 frJWXH"
+        >
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-gear "
+            data-icon="gear"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M495.9 166.6C499.2 175.2 496.4 184.9 489.6 191.2L446.3 230.6C447.4 238.9 448 247.4 448 256C448 264.6 447.4 273.1 446.3 281.4L489.6 320.8C496.4 327.1 499.2 336.8 495.9 345.4C491.5 357.3 486.2 368.8 480.2 379.7L475.5 387.8C468.9 398.8 461.5 409.2 453.4 419.1C447.4 426.2 437.7 428.7 428.9 425.9L373.2 408.1C359.8 418.4 344.1 427 329.2 433.6L316.7 490.7C314.7 499.7 307.7 506.1 298.5 508.5C284.7 510.8 270.5 512 255.1 512C241.5 512 227.3 510.8 213.5 508.5C204.3 506.1 197.3 499.7 195.3 490.7L182.8 433.6C167 427 152.2 418.4 138.8 408.1L83.14 425.9C74.3 428.7 64.55 426.2 58.63 419.1C50.52 409.2 43.12 398.8 36.52 387.8L31.84 379.7C25.77 368.8 20.49 357.3 16.06 345.4C12.82 336.8 15.55 327.1 22.41 320.8L65.67 281.4C64.57 273.1 64 264.6 64 256C64 247.4 64.57 238.9 65.67 230.6L22.41 191.2C15.55 184.9 12.82 175.3 16.06 166.6C20.49 154.7 25.78 143.2 31.84 132.3L36.51 124.2C43.12 113.2 50.52 102.8 58.63 92.95C64.55 85.8 74.3 83.32 83.14 86.14L138.8 103.9C152.2 93.56 167 84.96 182.8 78.43L195.3 21.33C197.3 12.25 204.3 5.04 213.5 3.51C227.3 1.201 241.5 0 256 0C270.5 0 284.7 1.201 298.5 3.51C307.7 5.04 314.7 12.25 316.7 21.33L329.2 78.43C344.1 84.96 359.8 93.56 373.2 103.9L428.9 86.14C437.7 83.32 447.4 85.8 453.4 92.95C461.5 102.8 468.9 113.2 475.5 124.2L480.2 132.3C486.2 143.2 491.5 154.7 495.9 166.6V166.6zM256 336C300.2 336 336 300.2 336 255.1C336 211.8 300.2 175.1 256 175.1C211.8 175.1 176 211.8 176 255.1C176 300.2 211.8 336 256 336z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+        <span
+          class="_StyledSpan2-sc-fsl829-16 cZUbTj"
+        >
+          <button
+            class="_StyledButton-sc-15dm4so-0 cvkjJj"
+          >
+            <div
+              class="_StyledDiv-sc-15dm4so-1 itfcfF"
+            />
+          </button>
+          <svg
+            aria-hidden="true"
+            class="svg-inline--fa fa-moon "
+            data-icon="moon"
+            data-prefix="fas"
+            focusable="false"
+            role="img"
+            viewBox="0 0 512 512"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M32 256c0-123.8 100.3-224 223.8-224c11.36 0 29.7 1.668 40.9 3.746c9.616 1.777 11.75 14.63 3.279 19.44C245 86.5 211.2 144.6 211.2 207.8c0 109.7 99.71 193 208.3 172.3c9.561-1.805 16.28 9.324 10.11 16.95C387.9 448.6 324.8 480 255.8 480C132.1 480 32 379.6 32 256z"
+              fill="currentColor"
+            />
+          </svg>
+        </span>
+      </span>
+    </nav>
+  </header>
+  <div
+    class="_StyledDiv-sc-170dy2y-0 cbIpbm"
+  >
+    <div
+      class="_StyledDiv2-sc-170dy2y-1 jGUjgK"
+    >
+      <button
+        class="_StyledIconButton-sc-170dy2y-2 fPAzYM"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-volume-high "
+          data-icon="volume-high"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 640 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M412.6 182c-10.28-8.334-25.41-6.867-33.75 3.402c-8.406 10.24-6.906 25.35 3.375 33.74C393.5 228.4 400 241.8 400 255.1c0 14.17-6.5 27.59-17.81 36.83c-10.28 8.396-11.78 23.5-3.375 33.74c4.719 5.806 11.62 8.802 18.56 8.802c5.344 0 10.75-1.779 15.19-5.399C435.1 311.5 448 284.6 448 255.1S435.1 200.4 412.6 182zM473.1 108.2c-10.22-8.334-25.34-6.898-33.78 3.34c-8.406 10.24-6.906 25.35 3.344 33.74C476.6 172.1 496 213.3 496 255.1s-19.44 82.1-53.31 110.7c-10.25 8.396-11.75 23.5-3.344 33.74c4.75 5.775 11.62 8.771 18.56 8.771c5.375 0 10.75-1.779 15.22-5.431C518.2 366.9 544 313 544 255.1S518.2 145 473.1 108.2zM534.4 33.4c-10.22-8.334-25.34-6.867-33.78 3.34c-8.406 10.24-6.906 25.35 3.344 33.74C559.9 116.3 592 183.9 592 255.1s-32.09 139.7-88.06 185.5c-10.25 8.396-11.75 23.5-3.344 33.74C505.3 481 512.2 484 519.2 484c5.375 0 10.75-1.779 15.22-5.431C601.5 423.6 640 342.5 640 255.1S601.5 88.34 534.4 33.4zM301.2 34.98c-11.5-5.181-25.01-3.076-34.43 5.29L131.8 160.1H48c-26.51 0-48 21.48-48 47.96v95.92c0 26.48 21.49 47.96 48 47.96h83.84l134.9 119.8C272.7 477 280.3 479.8 288 479.8c4.438 0 8.959-.9314 13.16-2.835C312.7 471.8 320 460.4 320 447.9V64.12C320 51.55 312.7 40.13 301.2 34.98z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+      <label
+        class="_StyledLabel-sc-i5gb2v-0 GFwcx toggle-btn--checked"
+      >
+        <input
+          checked=""
+          class="_StyledInput-sc-i5gb2v-1 wNxyj"
+          type="checkbox"
+        />
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-check "
+          data-icon="check"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 448 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M438.6 105.4C451.1 117.9 451.1 138.1 438.6 150.6L182.6 406.6C170.1 419.1 149.9 419.1 137.4 406.6L9.372 278.6C-3.124 266.1-3.124 245.9 9.372 233.4C21.87 220.9 42.13 220.9 54.63 233.4L159.1 338.7L393.4 105.4C405.9 92.88 426.1 92.88 438.6 105.4H438.6z"
+            fill="currentColor"
+          />
+        </svg>
+        use inspection
+      </label>
+      <label
+        class="_StyledLabel-sc-i5gb2v-0 GFwcx toggle-btn"
+      >
+        <input
+          class="_StyledInput-sc-i5gb2v-1 wNxyj"
+          type="checkbox"
+        />
+        input time by typing
+      </label>
+      <button
+        class="Button-sc-5ehw98-0 SecondaryButtonRaw-sc-ywfbxf-0 iuRQrk jeUEZm"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-download "
+          data-icon="download"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 512 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M480 352h-133.5l-45.25 45.25C289.2 409.3 273.1 416 256 416s-33.16-6.656-45.25-18.75L165.5 352H32c-17.67 0-32 14.33-32 32v96c0 17.67 14.33 32 32 32h448c17.67 0 32-14.33 32-32v-96C512 366.3 497.7 352 480 352zM432 456c-13.2 0-24-10.8-24-24c0-13.2 10.8-24 24-24s24 10.8 24 24C456 445.2 445.2 456 432 456zM233.4 374.6C239.6 380.9 247.8 384 256 384s16.38-3.125 22.62-9.375l128-128c12.49-12.5 12.49-32.75 0-45.25c-12.5-12.5-32.76-12.5-45.25 0L288 274.8V32c0-17.67-14.33-32-32-32C238.3 0 224 14.33 224 32v242.8L150.6 201.4c-12.49-12.5-32.75-12.5-45.25 0c-12.49 12.5-12.49 32.75 0 45.25L233.4 374.6z"
+            fill="currentColor"
+          />
+        </svg>
+         import
+      </button>
+      <button
+        class="Button-sc-5ehw98-0 SecondaryButtonRaw-sc-ywfbxf-0 iuRQrk jeUEZm"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-upload "
+          data-icon="upload"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 512 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M105.4 182.6c12.5 12.49 32.76 12.5 45.25 .001L224 109.3V352c0 17.67 14.33 32 32 32c17.67 0 32-14.33 32-32V109.3l73.38 73.38c12.49 12.49 32.75 12.49 45.25-.001c12.49-12.49 12.49-32.75 0-45.25l-128-128C272.4 3.125 264.2 0 256 0S239.6 3.125 233.4 9.375L105.4 137.4C92.88 149.9 92.88 170.1 105.4 182.6zM480 352h-160c0 35.35-28.65 64-64 64s-64-28.65-64-64H32c-17.67 0-32 14.33-32 32v96c0 17.67 14.33 32 32 32h448c17.67 0 32-14.33 32-32v-96C512 366.3 497.7 352 480 352zM432 456c-13.2 0-24-10.8-24-24c0-13.2 10.8-24 24-24s24 10.8 24 24C456 445.2 445.2 456 432 456z"
+            fill="currentColor"
+          />
+        </svg>
+         export
+      </button>
+    </div>
+    <div
+      class="swiper swiper-initialized swiper-horizontal swiper-pointer-events"
+      style="z-index: 10;"
+    >
+      <div
+        class="swiper-button-prev"
+      />
+      <div
+        class="swiper-button-next"
+      />
+      <div
+        class="swiper-wrapper"
+        style="transition-duration: 0ms; transform: translate3d(NaNpx, 0px, 0px);"
+      >
+        <div
+          class="swiper-slide"
+        >
+          B2 D' F' D2 B2 D2 F' U2 R' B D2 L2 B D R F R U2 F U
+        </div>
+        <div
+          class="swiper-slide"
+        >
+          D F' D R2 F2 R2 D R D B2 D2 B' R2 D' L' F R2 U B D'
+        </div>
+        <div
+          class="swiper-slide"
+        >
+          F' R' B D F2 L2 U' L D' L D2 F2 R2 D F L' F' L2 B2 U'
+        </div>
+      </div>
+    </div>
+    <div
+      class="_StyledDiv-sc-1tvxqky-0 eWlexO"
+    >
+      <div
+        aria-label="timer"
+        aria-pressed="false"
+        class="_StyledDiv-sc-mxoy8u-0 eriPvb cover-transparent"
+        role="button"
+      />
+      <button
+        class="Button-sc-5ehw98-0 PrimaryButton-sc-mwlz5h-0 _StyledPrimaryButton-sc-170dy2y-3 iuRQrk ULDak bAbZGT"
+      >
+        3x3
+      </button>
+      <button
+        class="_StyledIconButton2-sc-170dy2y-4 izTQgq"
+        title="session list"
+      >
+        <svg
+          aria-hidden="true"
+          class="svg-inline--fa fa-circle-info "
+          data-icon="circle-info"
+          data-prefix="fas"
+          focusable="false"
+          role="img"
+          viewBox="0 0 512 512"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 128c17.67 0 32 14.33 32 32c0 17.67-14.33 32-32 32S224 177.7 224 160C224 142.3 238.3 128 256 128zM296 384h-80C202.8 384 192 373.3 192 360s10.75-24 24-24h16v-64H224c-13.25 0-24-10.75-24-24S210.8 224 224 224h32c13.25 0 24 10.75 24 24v88h16c13.25 0 24 10.75 24 24S309.3 384 296 384z"
+            fill="currentColor"
+          />
+        </svg>
+      </button>
+      <div
+        class="timer _StyledTapTimerDisplay-sc-1o47otd-1 khFzrH"
+        role="main"
+      >
+        0.000
+      </div>
+      <div>
+        ao5: -
+      </div>
+      <div>
+        ao12: -
+      </div>
+      <div
+        class="_StyledDiv-sc-1o47otd-2 gZqAEt"
+      />
+    </div>
+    <div
+      class="RecordListWrapper-sc-qpeg56-2 cczzXC"
+    >
+      <div
+        class="SessionToolbar-sc-qpeg56-1 iIbLVN"
+      >
+        <div
+          class="_StyledDiv3-sc-qpeg56-9 fBDqWg"
+        >
+          <button
+            class="_StyledIconButton3-sc-qpeg56-10 iESoDo"
+            disabled=""
+            title="prev session"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-angle-left "
+              data-icon="angle-left"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 256 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M192 448c-8.188 0-16.38-3.125-22.62-9.375l-160-160c-12.5-12.5-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25L77.25 256l137.4 137.4c12.5 12.5 12.5 32.75 0 45.25C208.4 444.9 200.2 448 192 448z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+          <button
+            class="_StyledIconButton5-sc-qpeg56-12 kiNHMo"
+            title="lock session"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-unlock "
+              data-icon="unlock"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 448 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M144 192H384C419.3 192 448 220.7 448 256V448C448 483.3 419.3 512 384 512H64C28.65 512 0 483.3 0 448V256C0 220.7 28.65 192 64 192H80V144C80 64.47 144.5 0 224 0C281.5 0 331 33.69 354.1 82.27C361.7 98.23 354.9 117.3 338.1 124.9C322.1 132.5 303.9 125.7 296.3 109.7C283.4 82.63 255.9 64 224 64C179.8 64 144 99.82 144 144L144 192z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+          <input
+            class="_StyledInput-sc-qpeg56-13 blaTtM"
+            title="session name"
+            value="09-30 session1"
+          />
+          <button
+            class="_StyledIconButton6-sc-qpeg56-14 fmYQLp"
+            disabled=""
+            title="next session"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-angle-right "
+              data-icon="angle-right"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 256 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M64 448c-8.188 0-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L178.8 256L41.38 118.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l160 160c12.5 12.5 12.5 32.75 0 45.25l-160 160C80.38 444.9 72.19 448 64 448z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+          <button
+            class="_StyledIconButton7-sc-qpeg56-15 cxDmuv"
+            title="add session"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-plus "
+              data-icon="plus"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 448 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M432 256c0 17.69-14.33 32.01-32 32.01H256v144c0 17.69-14.33 31.99-32 31.99s-32-14.3-32-31.99v-144H48c-17.67 0-32-14.32-32-32.01s14.33-31.99 32-31.99H192v-144c0-17.69 14.33-32.01 32-32.01s32 14.32 32 32.01v144h144C417.7 224 432 238.3 432 256z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+        </div>
+        <div
+          class="_StyledDiv4-sc-qpeg56-16 bpvqCr"
+        >
+          <button
+            class="_StyledIconButton8-sc-qpeg56-17 fwiIsG"
+            title="session list"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-list "
+              data-icon="list"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 512 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M88 48C101.3 48 112 58.75 112 72V120C112 133.3 101.3 144 88 144H40C26.75 144 16 133.3 16 120V72C16 58.75 26.75 48 40 48H88zM480 64C497.7 64 512 78.33 512 96C512 113.7 497.7 128 480 128H192C174.3 128 160 113.7 160 96C160 78.33 174.3 64 192 64H480zM480 224C497.7 224 512 238.3 512 256C512 273.7 497.7 288 480 288H192C174.3 288 160 273.7 160 256C160 238.3 174.3 224 192 224H480zM480 384C497.7 384 512 398.3 512 416C512 433.7 497.7 448 480 448H192C174.3 448 160 433.7 160 416C160 398.3 174.3 384 192 384H480zM16 232C16 218.7 26.75 208 40 208H88C101.3 208 112 218.7 112 232V280C112 293.3 101.3 304 88 304H40C26.75 304 16 293.3 16 280V232zM88 368C101.3 368 112 378.7 112 392V440C112 453.3 101.3 464 88 464H40C26.75 464 16 453.3 16 440V392C16 378.7 26.75 368 40 368H88z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+          <button
+            aria-controls="record-list"
+            aria-expanded="false"
+            class="_StyledIconButton9-sc-qpeg56-18 dHMtkn"
+            title="open record list"
+          >
+            <svg
+              aria-hidden="true"
+              class="svg-inline--fa fa-angle-up "
+              data-icon="angle-up"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              viewBox="0 0 384 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M352 352c-8.188 0-16.38-3.125-22.62-9.375L192 205.3l-137.4 137.4c-12.5 12.5-32.75 12.5-45.25 0s-12.5-32.75 0-45.25l160-160c12.5-12.5 32.75-12.5 45.25 0l160 160c12.5 12.5 12.5 32.75 0 45.25C368.4 348.9 360.2 352 352 352z"
+                fill="currentColor"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
