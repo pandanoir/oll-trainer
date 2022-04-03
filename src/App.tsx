@@ -1,6 +1,6 @@
 import { useCallback, VFC } from 'react';
 import { MessageFormatElement, IntlProvider } from 'react-intl';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import { GlobalStyles } from 'twin.macro';
 
@@ -46,7 +46,7 @@ export const App: VFC = () => {
   const { showsModal, openModal, closeModal } = useModal();
 
   const app = (
-    <BrowserRouter basename="/oll">
+    <>
       <Header
         onSettingButtonClick={openModal}
         onDarkModeToggle={useCallback(() => {
@@ -73,7 +73,7 @@ export const App: VFC = () => {
           </div>
         </Modal>
       )}
-    </BrowserRouter>
+    </>
   );
 
   return (
