@@ -133,7 +133,7 @@ export const TimeHistogram = ({
         count++;
         i++;
       }
-      histogram.push({ step: `${curStep / 1000}+`, count });
+      histogram.push({ step: `~${curStep / 1000}`, count });
     }
 
     return histogram;
