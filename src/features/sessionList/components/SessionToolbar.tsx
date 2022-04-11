@@ -30,7 +30,9 @@ const pick =
   (items: T) => ({
     default: items[name],
   });
-const TimeGraph = lazy(() => import('./TimeGraph').then(pick('TimeGraph')));
+const timeGraphImport = import('./TimeGraph');
+const TimeGraph = lazy(() => timeGraphImport.then(pick('TimeGraph')));
+const TimeHistogram = lazy(() => timeGraphImport.then(pick('TimeHistogram')));
 
 import { IconButton } from '../../../components/common/IconButton';
 import { LoadingIndicator } from '../../../components/common/LoadingIndicator';
@@ -199,7 +201,10 @@ const SessionRaw: VFC<Props> = ({
                   </div>
                 }
               >
-                <TimeGraph times={times} />
+                <div tw="overflow-y-scroll h-full">
+                  <TimeGraph times={times} />
+                  <TimeHistogram times={times} />
+                </div>
               </Suspense>
             ) : (
               recordListComponent
