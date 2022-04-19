@@ -53,6 +53,7 @@ import {
   useVariationName,
 } from '../features/sessionList/hooks/useSessions';
 import { Timer } from '../features/timer/components/Timer';
+import { useI18nContext } from '../i18n/i18n-react';
 import { exhaustiveCheck } from '../utils/exhaustiveCheck';
 import { useAudio } from '../utils/hooks/useAudio';
 import { useStoragedState } from '../utils/hooks/useLocalStorage';
@@ -77,6 +78,7 @@ SwiperCore.use([Navigation, Keyboard]);
 export const TimerPage: VFC = () => {
   useTitle('Hi-Timer');
   const { formatMessage } = useIntl();
+  const { LL } = useI18nContext();
   const [scrambles, setScrambles] = useState<string[]>([]);
   const [index, setIndex] = useState(0);
   const [swiper, setControlledSwiper] = useState<SwiperCore>();
@@ -132,7 +134,6 @@ export const TimerPage: VFC = () => {
     _closeModal();
     setModalType(null);
   };
-
   return (
     <div tw="relative w-full flex flex-col flex-1 dark:bg-gray-800 dark:text-white">
       <div tw="flex space-x-1 px-3 overflow-x-auto items-center">
@@ -152,11 +153,7 @@ export const TimerPage: VFC = () => {
           checked={inputsTimeManually}
           onChange={setInputsTimeManually}
         >
-          {formatMessage({
-            id: 'Fbp3x5',
-            description: 'ボタン。手動でタイムを入力するかどうか選択する',
-            defaultMessage: '手動でタイムを入力',
-          })}
+          {LL['input time by typing']()}
         </ToggleButton>
         <SecondaryButton onClick={() => openModal(IMPORT_MODAL)}>
           <FontAwesomeIcon icon={faDownload} /> import
