@@ -10,7 +10,6 @@
     "build": "tsc --build src && vite build",
     "serve": "vite preview",
     "test": "jest --coverage",
-    "postinstall": "patch-package",
     "ts-auto-guard": "ts-auto-guard ./src/**/*.ts",
     "typesafe-i18n": "typesafe-i18n"
   },
@@ -43,7 +42,6 @@
     "babel-plugin-styled-components": "^2.0.2",
     "clsx": "^1.1.1",
     "immer": "^9.0.2",
-    "patch-package": "^6.4.7",
     "postcss": "^8.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
