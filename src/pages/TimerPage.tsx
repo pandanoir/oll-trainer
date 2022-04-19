@@ -18,7 +18,6 @@ import {
   VFC,
 } from 'react';
 import 'twin.macro';
-import { useIntl } from 'react-intl';
 import useTitle from 'react-use/lib/useTitle';
 import Scrambo from 'scrambo';
 import SwiperCore, { Navigation, Keyboard } from 'swiper';
@@ -77,7 +76,6 @@ SwiperCore.use([Navigation, Keyboard]);
 
 export const TimerPage: VFC = () => {
   useTitle('Hi-Timer');
-  const { formatMessage } = useIntl();
   const { LL } = useI18nContext();
   const [scrambles, setScrambles] = useState<string[]>([]);
   const [index, setIndex] = useState(0);
@@ -143,11 +141,7 @@ export const TimerPage: VFC = () => {
           onClick={() => setVolume((n) => 1 - n)}
         />
         <ToggleButton checked={usesInspection} onChange={setUsesInspection}>
-          {formatMessage({
-            id: 's3DHhX',
-            description: 'ボタン。インスペクションを使用するか選択する',
-            defaultMessage: 'インスペクションを使用',
-          })}
+          {LL['use inspection']()}
         </ToggleButton>
         <ToggleButton
           checked={inputsTimeManually}
@@ -260,18 +254,8 @@ export const TimerPage: VFC = () => {
               deleteRecord={() => {
                 const deletedRecord = deleteRecord(times.length - 1);
                 openToast({
-                  title: formatMessage({
-                    id: 'nWPbmS',
-                    description:
-                      'トースト。タイムを削除するときに出すメッセージ。',
-                    defaultMessage: '削除しました',
-                  }),
-                  buttonLabel: formatMessage({
-                    id: 'MyF1FU',
-                    description:
-                      'トースト。タイムを削除したあと元に戻すためのボタン。',
-                    defaultMessage: '元に戻す',
-                  }),
+                  title: LL['Deleted'](),
+                  buttonLabel: LL['undo'](),
                   callback: () => {
                     insertRecord(times.length - 1, deletedRecord);
                     closeToast();
@@ -282,9 +266,9 @@ export const TimerPage: VFC = () => {
             />
           ),
           [
+            LL,
             closeToast,
             deleteRecord,
-            formatMessage,
             insertRecord,
             isLocked,
             openToast,

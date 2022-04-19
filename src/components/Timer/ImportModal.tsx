@@ -1,5 +1,4 @@
 import { useContext, VFC } from 'react';
-import { useIntl } from 'react-intl';
 import {
   defaultVariations,
   UserDefinedVariationContext,
@@ -9,6 +8,7 @@ import {
   migration,
   useImportFromUserData,
 } from '../../features/sessionList/hooks/useSessions';
+import { useI18nContext } from '../../i18n/i18n-react';
 import { HiTimerDataJSON } from '../../types/HiTimerDataJSON';
 import {
   isHiTimerDataJSON,
@@ -27,7 +27,7 @@ export const ImportModal: VFC<{
   setVariation: (variation: Variation) => void;
 }> = ({ onClose, setVariation }) => {
   const importSessionCollection = useImportFromUserData();
-  const { formatMessage } = useIntl();
+  const { LL } = useI18nContext();
   const [, updateUserDefinedVariation] = useContext(
     UserDefinedVariationContext
   );
@@ -43,14 +43,7 @@ export const ImportModal: VFC<{
               onClose();
             }}
             onError={() => {
-              alert(
-                formatMessage({
-                  id: 'paDr7J',
-                  description:
-                    'アラートメッセージ。インポート中にエラーが出たときに表示するメッセージ。',
-                  defaultMessage: 'インポート中にエラーが発生しました',
-                })
-              );
+              alert(LL['An error occurred during import']());
             }}
             button={(onClick) => (
               <SecondaryButton
@@ -65,7 +58,7 @@ export const ImportModal: VFC<{
                   }
                 }}
               >
-                csTimer からインポート
+                {LL['Import from csTimer']()}
               </SecondaryButton>
             )}
           />
@@ -99,14 +92,7 @@ export const ImportModal: VFC<{
               onClose();
             }}
             onError={() => {
-              alert(
-                formatMessage({
-                  id: 'paDr7J',
-                  description:
-                    'アラートメッセージ。インポート中にエラーが出たときに表示するメッセージ。',
-                  defaultMessage: 'インポート中にエラーが発生しました',
-                })
-              );
+              alert(LL['An error occurred during import']());
             }}
             button={(onClick) => (
               <SecondaryButton

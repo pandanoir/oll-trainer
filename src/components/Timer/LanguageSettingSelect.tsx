@@ -1,31 +1,32 @@
-import { VFC, Dispatch, SetStateAction } from 'react';
-import { useIntl } from 'react-intl';
+import { VFC } from 'react';
 import 'twin.macro';
+import { useI18nContext } from '../../i18n/i18n-react';
+import { Locales } from '../../i18n/i18n-types';
+import { loadLocaleAsync } from '../../i18n/i18n-util.async';
 
-export const LanguageSettingSelect: VFC<{
-  locale: string;
-  setLocale: Dispatch<SetStateAction<string>>;
-}> = ({ locale, setLocale }) => {
-  const { formatMessage } = useIntl();
+export const LanguageSettingSelect: VFC = () => {
+  const { LL, locale, setLocale } = useI18nContext();
+  const valueLabelTuples: [Locales, string][] = [
+    ['ja', '日本語'],
+    ['en', 'English'],
+  ];
   return (
     <span tw="flex space-x-2">
-      {formatMessage({
-        id: 'ViVJ9R',
-        description: '設定のラベル。使用言語を設定する',
-        defaultMessage: '言語',
-      })}
-      :
+      {LL['Language']()}:
       <select
         tw="bg-transparent"
         value={locale}
-        onChange={({ target: { value } }) => setLocale(value)}
+        onChange={async ({ target: { value } }) => {
+          localStorage.setItem('lang', value);
+          await loadLocaleAsync(value as Locales);
+          setLocale(value as Locales);
+        }}
       >
-        <option tw="text-black" value="ja">
-          日本語
-        </option>
-        <option tw="text-black" value="en">
-          English
-        </option>
+        {valueLabelTuples.map(([value, label]) => (
+          <option tw="text-black" value={value} key={value}>
+            {label}
+          </option>
+        ))}
       </select>
     </span>
   );

@@ -1,6 +1,5 @@
 import { Temporal } from '@js-temporal/polyfill';
 import { VFC, useMemo, useState } from 'react';
-import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 import {
   useDeleteRecord,
@@ -8,6 +7,7 @@ import {
 } from '../../features/sessionList/hooks/useSessions';
 
 import { DNF, TimeData } from '../../features/timer/data/timeData';
+import { useI18nContext } from '../../i18n/i18n-react';
 import { calcAo } from '../../utils/calcAo';
 import { exhaustiveCheck } from '../../utils/exhaustiveCheck';
 import { findIndexOfMax } from '../../utils/findIndexOfMax';
@@ -29,7 +29,7 @@ const SessionRecordListItem = tw.button`text-left border-b border-gray-200 dark:
 export const Times: VFC<{
   times: TimeData[];
 }> = ({ times }) => {
-  const { formatMessage } = useIntl();
+  const { LL } = useI18nContext();
   const ao5 = useMemo(() => calcAo(5, times), [times]);
   const ao12 = useMemo(() => calcAo(12, times), [times]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -169,18 +169,8 @@ export const Times: VFC<{
                       const deletedRecord = deleteRecord(selectedIndex);
                       closeModal();
                       openToast({
-                        title: formatMessage({
-                          id: 'nWPbmS',
-                          description:
-                            'トースト。タイムを削除するときに出すメッセージ。',
-                          defaultMessage: '削除しました',
-                        }),
-                        buttonLabel: formatMessage({
-                          id: 'MyF1FU',
-                          description:
-                            'トースト。タイムを削除したあと元に戻すためのボタン。',
-                          defaultMessage: '元に戻す',
-                        }),
+                        title: LL['Deleted'](),
+                        buttonLabel: LL['undo'](),
                         callback: () => {
                           insertRecord(selectedIndex, deletedRecord);
                           closeToast();
@@ -289,12 +279,7 @@ ${selectedTimes.reduce((acc, time, index) => {
                   >
                     <TweetButton text={tweetText} />
                     <ToggleButton checked={sharesScramble} onChange={onChange}>
-                      {formatMessage({
-                        id: 'dS0Yiz',
-                        description:
-                          'ラベル。タイムをシェアするときにスクランブルを載せるかどうか',
-                        defaultMessage: 'スクランブルをシェアする',
-                      })}
+                      {LL['Share record with scramble']()}
                     </ToggleButton>
                   </span>
                 </div>

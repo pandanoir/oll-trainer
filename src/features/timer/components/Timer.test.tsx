@@ -5,10 +5,9 @@
 import { render, fireEvent, cleanup } from '@testing-library/react';
 import { ComponentProps } from 'react';
 import { act } from 'react-dom/test-utils';
-import { IntlProvider, MessageFormatElement } from 'react-intl';
 import { RecoilRoot } from 'recoil';
-import en from '../../../../compiled-lang/en.json';
-import ja from '../../../../compiled-lang/ja.json';
+import TypesafeI18n from '../../../i18n/i18n-react';
+import { loadLocale } from '../../../i18n/i18n-util.sync';
 import {
   useAddTime,
   useCurrentSessionCollection,
@@ -17,19 +16,6 @@ import {
 import { TimeData } from '../data/timeData';
 import { Timer } from './Timer';
 import '@testing-library/jest-dom';
-
-const selectMessages = (
-  locale: string
-): Record<string, string> | Record<string, MessageFormatElement[]> => {
-  switch (locale) {
-    case 'en':
-      return en;
-    case 'ja':
-      return ja;
-    default:
-      return en;
-  }
-};
 
 jest.mock('../../../sound/steady.mp3', () => '');
 jest.mock('../../../sound/eightSeconds.mp3', () => '');
@@ -40,6 +26,8 @@ jest.mock('../../../utils/playAudio.ts', () => ({
   playSilence: jest.fn(),
 }));
 jest.setTimeout(30000);
+
+loadLocale('en');
 
 describe('Timer', () => {
   beforeEach(() => {
@@ -382,11 +370,7 @@ describe('TypingTimer', () => {
     const { times } = currentSessionCollection.sessions[sessionIndex];
     timesRef.current = times;
     return (
-      <IntlProvider
-        locale="ja"
-        defaultLocale="en"
-        messages={selectMessages('ja')}
-      >
+      <TypesafeI18n locale="en">
         <Timer
           usesInspection={false}
           inputsTimeManually={true}
@@ -411,7 +395,7 @@ describe('TypingTimer', () => {
           statisticsButton={<div />}
           recordModifier={<div />}
         />
-      </IntlProvider>
+      </TypesafeI18n>
     );
   };
   const TestComponent: typeof TestComponent_ = (props) => {

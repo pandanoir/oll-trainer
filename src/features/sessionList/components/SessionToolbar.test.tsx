@@ -13,11 +13,10 @@ import {
   waitFor,
 } from '@testing-library/react';
 import { useMemo } from 'react';
-import { IntlProvider, MessageFormatElement } from 'react-intl';
 import { RecoilRoot } from 'recoil';
-import en from '../../../../compiled-lang/en.json';
-import ja from '../../../../compiled-lang/ja.json';
 import { Times } from '../../../components/Timer/Times';
+import TypesafeI18n from '../../../i18n/i18n-react';
+import { loadLocale } from '../../../i18n/i18n-util.sync';
 import { withPrefix } from '../../../utils/withPrefix';
 import { SessionCollection } from '../../timer/data/timeData';
 import {
@@ -28,23 +27,11 @@ import {
 } from '../hooks/useSessions';
 import { Session } from './SessionToolbar';
 
-const selectMessages = (
-  locale: string
-): Record<string, string> | Record<string, MessageFormatElement[]> => {
-  switch (locale) {
-    case 'en':
-      return en;
-    case 'ja':
-      return ja;
-    default:
-      return en;
-  }
-};
-
 Element.prototype.scrollTo = () => void 0;
 
 jest.mock('../../../components/common/ToggleButton.css', () => '');
 
+loadLocale('en');
 describe('SessionToolbar', () => {
   const currentSession: { current: null | SessionCollection } = {
     current: null,
@@ -63,29 +50,26 @@ describe('SessionToolbar', () => {
       setSessionIndex = useSetSessionIndex();
     currentSession.current = sessions;
     const { times } = currentSessionCollection.sessions[sessionIndex];
+    const recordList = useMemo(
+      () => (
+        <div tw="pt-12">
+          <Times times={times} />
+        </div>
+      ),
+      [times]
+    );
 
     return (
-      <IntlProvider
-        locale={'ja'}
-        defaultLocale="en"
-        messages={selectMessages('ja')}
-      >
+      <TypesafeI18n locale="en">
         <Session
           times={times}
           sessionIndex={sessionIndex}
           setSessionIndex={setSessionIndex}
           sessions={sessions}
-          recordListComponent={useMemo(
-            () => (
-              <div tw="pt-12">
-                <Times times={times} />
-              </div>
-            ),
-            [times]
-          )}
+          recordListComponent={recordList}
         />
         <div id="portal_root" />
-      </IntlProvider>
+      </TypesafeI18n>
     );
   };
   const TestComponent = () => {
@@ -95,7 +79,7 @@ describe('SessionToolbar', () => {
       </RecoilRoot>
     );
   };
-  test('initial state', () => {
+  test('initial state', async () => {
     const { getByRole, queryByTestId } = render(<TestComponent />);
 
     expect(getByRole('textbox', { name: 'session name' })).toHaveValue(

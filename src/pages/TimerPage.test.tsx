@@ -4,6 +4,7 @@
 import { act, render } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { App } from '../App';
+import { loadLocale } from '../i18n/i18n-util.sync';
 
 jest.mock('../components/common/ToggleButton.css', () => '');
 jest.mock('../components/Timer/StatisticsModal', () => '');
@@ -23,8 +24,15 @@ jest.mock('./TimerPage.css', () => '');
 
 jest.mock('../index.css', () => ({ TimerPage: () => null }));
 jest.mock('../swiper.css', () => '');
+
+jest.mock('../utils/hooks/useLoadLocale', () => ({
+  useLoadLocale: () => {
+    return { hasLoaded: true };
+  },
+}));
 jest.useFakeTimers();
 
+loadLocale('en');
 describe('TimerPage', () => {
   beforeEach(() => {
     Object.defineProperty(window, 'matchMedia', {

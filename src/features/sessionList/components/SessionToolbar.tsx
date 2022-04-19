@@ -22,7 +22,6 @@ import {
   useState,
   VFC,
 } from 'react';
-import { useIntl } from 'react-intl';
 import tw from 'twin.macro';
 
 const pick =
@@ -37,6 +36,7 @@ const TimeHistogram = lazy(() => timeGraphImport.then(pick('TimeHistogram')));
 import { IconButton } from '../../../components/common/IconButton';
 import { LoadingIndicator } from '../../../components/common/LoadingIndicator';
 import { useModal } from '../../../components/common/Modal';
+import { useI18nContext } from '../../../i18n/i18n-react';
 import { useStoragedState } from '../../../utils/hooks/useLocalStorage';
 import { withPrefix } from '../../../utils/withPrefix';
 import { TimeData, SessionCollection } from '../../timer/data/timeData';
@@ -72,7 +72,7 @@ const SessionRaw: VFC<Props> = ({
   sessions,
   recordListComponent,
 }) => {
-  const { formatMessage } = useIntl();
+  const { LL } = useI18nContext();
   const recordListRef = useRef<HTMLDivElement>(null);
   const [opensRecordList, setOpensRecordList] = useState(false);
   const currentVariation = useVariationName();
@@ -313,14 +313,9 @@ const SessionRaw: VFC<Props> = ({
               }}
               onDeleteButtonClick={() =>
                 confirm(
-                  formatMessage(
-                    {
-                      id: '4HvXVf',
-                      description: 'アラート。セッション削除時に確認する',
-                      defaultMessage: `セッション {session} を削除しますか?この操作は取り消せません`,
-                    },
-                    { session: session.name }
-                  )
+                  LL[
+                    'Delete session "{session:string}"? This action cannot be undone'
+                  ]({ session: session.name })
                 ) && deleteSession(index)
               }
             />
