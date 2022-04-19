@@ -339,10 +339,10 @@ exports[`TimerPage snapshot 1`] = `
         class="SessionToolbar-sc-qpeg56-1 iIbLVN"
       >
         <div
-          class="_StyledDiv3-sc-qpeg56-9 fBDqWg"
+          class="_StyledDiv4-sc-qpeg56-10 jqudIb"
         >
           <button
-            class="_StyledIconButton3-sc-qpeg56-10 iESoDo"
+            class="_StyledIconButton3-sc-qpeg56-11 hDPfiJ"
             disabled=""
             title="prev session"
           >
@@ -363,7 +363,7 @@ exports[`TimerPage snapshot 1`] = `
             </svg>
           </button>
           <button
-            class="_StyledIconButton5-sc-qpeg56-12 kiNHMo"
+            class="_StyledIconButton5-sc-qpeg56-13 ifgpnJ"
             title="lock session"
           >
             <svg
@@ -383,12 +383,12 @@ exports[`TimerPage snapshot 1`] = `
             </svg>
           </button>
           <input
-            class="_StyledInput-sc-qpeg56-13 blaTtM"
+            class="_StyledInput-sc-qpeg56-14 gThTaL"
             title="session name"
             value="09-30 session1"
           />
           <button
-            class="_StyledIconButton6-sc-qpeg56-14 fmYQLp"
+            class="_StyledIconButton6-sc-qpeg56-15 jJqFyI"
             disabled=""
             title="next session"
           >
@@ -409,7 +409,7 @@ exports[`TimerPage snapshot 1`] = `
             </svg>
           </button>
           <button
-            class="_StyledIconButton7-sc-qpeg56-15 cxDmuv"
+            class="_StyledIconButton7-sc-qpeg56-16 kAVRtA"
             title="add session"
           >
             <svg
@@ -430,10 +430,10 @@ exports[`TimerPage snapshot 1`] = `
           </button>
         </div>
         <div
-          class="_StyledDiv4-sc-qpeg56-16 bpvqCr"
+          class="_StyledDiv5-sc-qpeg56-17 eQmNuH"
         >
           <button
-            class="_StyledIconButton8-sc-qpeg56-17 fwiIsG"
+            class="_StyledIconButton8-sc-qpeg56-18 kaaYWh"
             title="session list"
           >
             <svg
@@ -455,7 +455,7 @@ exports[`TimerPage snapshot 1`] = `
           <button
             aria-controls="record-list"
             aria-expanded="false"
-            class="_StyledIconButton9-sc-qpeg56-18 dHMtkn"
+            class="_StyledIconButton9-sc-qpeg56-19 icvdSe"
             title="open record list"
           >
             <svg
@@ -836,10 +836,10 @@ exports[`TimerPage snapshot 2`] = `
         class="SessionToolbar-sc-qpeg56-1 iIbLVN"
       >
         <div
-          class="_StyledDiv3-sc-qpeg56-9 fBDqWg"
+          class="_StyledDiv4-sc-qpeg56-10 jqudIb"
         >
           <button
-            class="_StyledIconButton3-sc-qpeg56-10 iESoDo"
+            class="_StyledIconButton3-sc-qpeg56-11 hDPfiJ"
             disabled=""
             title="prev session"
           >
@@ -860,7 +860,7 @@ exports[`TimerPage snapshot 2`] = `
             </svg>
           </button>
           <button
-            class="_StyledIconButton5-sc-qpeg56-12 kiNHMo"
+            class="_StyledIconButton5-sc-qpeg56-13 ifgpnJ"
             title="lock session"
           >
             <svg
@@ -880,12 +880,12 @@ exports[`TimerPage snapshot 2`] = `
             </svg>
           </button>
           <input
-            class="_StyledInput-sc-qpeg56-13 blaTtM"
+            class="_StyledInput-sc-qpeg56-14 gThTaL"
             title="session name"
             value="09-30 session1"
           />
           <button
-            class="_StyledIconButton6-sc-qpeg56-14 fmYQLp"
+            class="_StyledIconButton6-sc-qpeg56-15 jJqFyI"
             disabled=""
             title="next session"
           >
@@ -906,7 +906,7 @@ exports[`TimerPage snapshot 2`] = `
             </svg>
           </button>
           <button
-            class="_StyledIconButton7-sc-qpeg56-15 cxDmuv"
+            class="_StyledIconButton7-sc-qpeg56-16 kAVRtA"
             title="add session"
           >
             <svg
@@ -927,10 +927,10 @@ exports[`TimerPage snapshot 2`] = `
           </button>
         </div>
         <div
-          class="_StyledDiv4-sc-qpeg56-16 bpvqCr"
+          class="_StyledDiv5-sc-qpeg56-17 eQmNuH"
         >
           <button
-            class="_StyledIconButton8-sc-qpeg56-17 fwiIsG"
+            class="_StyledIconButton8-sc-qpeg56-18 kaaYWh"
             title="session list"
           >
             <svg
@@ -952,7 +952,7 @@ exports[`TimerPage snapshot 2`] = `
           <button
             aria-controls="record-list"
             aria-expanded="false"
-            class="_StyledIconButton9-sc-qpeg56-18 dHMtkn"
+            class="_StyledIconButton9-sc-qpeg56-19 icvdSe"
             title="open record list"
           >
             <svg
