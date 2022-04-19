@@ -1,9 +1,10 @@
-import { useCallback, VFC } from 'react';
+import { useCallback, useEffect, useState, VFC } from 'react';
 import { MessageFormatElement, IntlProvider } from 'react-intl';
 import { Route, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import { GlobalStyles } from 'twin.macro';
 
+import { localStorageDetector } from 'typesafe-i18n/detectors';
 import en from '../compiled-lang/en.json';
 import ja from '../compiled-lang/ja.json';
 import { Modal, useModal } from './components/common/Modal';
@@ -11,6 +12,9 @@ import { ModalCloseButton } from './components/common/ModalCloseButton';
 import { Header } from './components/Header';
 import { LanguageSettingSelect } from './components/Timer/LanguageSettingSelect';
 import { UserDefinedVariationContext, Variation } from './data/variations';
+import TypesafeI18n from './i18n/i18n-react';
+import { detectLocale } from './i18n/i18n-util';
+import { loadLocaleAsync } from './i18n/i18n-util.async';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { TopPage } from './pages/TopPage';
 import { RouteList } from './route';
@@ -23,6 +27,8 @@ import {
 } from './utils/hooks/useLocalStorage';
 import { withPrefix } from './utils/withPrefix';
 import './index.css';
+
+const detectedLocale = detectLocale(localStorageDetector);
 
 const selectMessages = (
   locale: string
@@ -44,6 +50,12 @@ export const App: VFC = () => {
     navigator.language
   );
   const { showsModal, openModal, closeModal } = useModal();
+
+  const [hasLoaded, setHasLoaded] = useState(false);
+
+  useEffect(() => {
+    loadLocaleAsync(detectedLocale).then(() => setHasLoaded(true));
+  }, []);
 
   const app = (
     <>
@@ -95,7 +107,9 @@ export const App: VFC = () => {
             <DarkModeContext.Provider value={darkMode}>
               <CheckContext.Provider value={useCheck()}>
                 <GlobalStyles />
-                {app}
+                {hasLoaded && (
+                  <TypesafeI18n locale={detectedLocale}>{app}</TypesafeI18n>
+                )}
               </CheckContext.Provider>
             </DarkModeContext.Provider>
           </VolumeContext.Provider>
