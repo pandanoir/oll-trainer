@@ -89,6 +89,14 @@ exports[`Header snapshot 1`] = `
           </li>
           <li>
             <a
+              class="_StyledCustomNavLink2-sc-fsl829-0 bSPkuj"
+              href="/execution"
+            >
+              execution
+            </a>
+          </li>
+          <li>
+            <a
               class="_StyledA2-sc-fsl829-12 hpqlLB"
               href="https://github.com/pandanoir/oll-trainer"
               rel="noreferrer"
