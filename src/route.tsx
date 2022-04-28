@@ -39,4 +39,5 @@ export const RouteInfo: RouteInfo = {
   inspection: RouteList[4],
   'cp check': RouteList[5],
   quiz: RouteList[6],
+  execution: RouteList[7],
 } as const;
