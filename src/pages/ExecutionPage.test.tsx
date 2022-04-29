@@ -45,6 +45,35 @@ describe('solveEdge', () => {
     ] as const;
     expect(solveEdge([...Tperm, 'L2', ...Tperm, 'L2', ...Tperm], 8)).toBe(-1);
   });
+  test('sample1', () => {
+    expect(
+      solveEdge(
+        [
+          `R`,
+          `F'`,
+          `L'`,
+          `U`,
+          `B'`,
+          `D`,
+          `F'`,
+          `U'`,
+          `R`,
+          `F'`,
+          `L'`,
+          `U2`,
+          `B2`,
+          `R2`,
+          `F`,
+          `L'`,
+          `B`,
+          `U`,
+          `B2`,
+          `R`,
+        ],
+        0
+      )
+    ).toEqual(['5', '19', '1', '23', '22', '9', '18', '14', '16', '20']);
+  });
 });
 
 describe('solveCorner', () => {
@@ -91,6 +120,35 @@ describe('solveCorner', () => {
       `F'`,
     ] as const;
     expect(solveCorner([...Tperm, 'L2', ...Tperm, 'L2', ...Tperm], 0)).toBe(-1);
+  });
+  test('sample1', () => {
+    expect(
+      solveCorner(
+        [
+          `R`,
+          `F'`,
+          `L'`,
+          `U`,
+          `B'`,
+          `D`,
+          `F'`,
+          `U'`,
+          `R`,
+          `F'`,
+          `L'`,
+          `U2`,
+          `B2`,
+          `R2`,
+          `F`,
+          `L'`,
+          `B`,
+          `U`,
+          `B2`,
+          `R`,
+        ],
+        2
+      )
+    ).toEqual(['0', '17', '9', '14', '7', '11']);
   });
 });
 // describe('ExecutionPage', () => {
