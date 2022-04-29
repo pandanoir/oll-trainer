@@ -290,7 +290,6 @@ export const solveCorner = (scramble: Direction[], bufferLabel: number) => {
     currentBufferLabel = nextLabel;
   }
   if (solution.length + numberOfCorrectCorner !== 7) {
-    console.log(solution, numberOfCorrectCorner);
     return -1; //ループあり
   }
 
@@ -353,9 +352,9 @@ export const ExecutionPage: VFC = () => {
   );
   const [scramble, setScramble] = useState('');
   const { value: edgeBufferInput, onChange: onEdgeBufferChange } =
-    useInput('さ');
+    useInput('ら');
   const { value: cornerBufferInput, onChange: onCornerBufferChange } =
-    useInput('あ');
+    useInput('え');
 
   const edgeBuffer = useMemo(() => {
     const row = numbering.findIndex((row) =>
@@ -369,7 +368,6 @@ export const ExecutionPage: VFC = () => {
   }, [edgeBufferInput, numbering, numericNumbering]);
 
   const cornerBuffer = useMemo(() => {
-    console.log(cornerBufferInput);
     const row = numbering.findIndex((row) =>
       row
         .filter((_, index) => index % 2 === 0 && index !== 4)
@@ -380,7 +378,6 @@ export const ExecutionPage: VFC = () => {
       (char, index) =>
         index % 2 === 0 && index !== 4 && char === cornerBufferInput
     );
-    console.log(row, index);
     return numericNumbering[row][index];
   }, [cornerBufferInput, numbering, numericNumbering]);
 
@@ -544,41 +541,46 @@ export const ExecutionPage: VFC = () => {
           <div> scramble: {scramble}</div>
           <div>
             edge execution:
-            {edgeSolution?.map((char) => {
-              const row = numericNumbering.findIndex(
-                (row) =>
-                  row[0] === char ||
-                  row[2] === char ||
-                  row[6] === char ||
-                  row[8] === char
-              );
-              if (row === -1) {
-                return '';
-              }
-              const index = numericNumbering[row].findIndex(
-                (cubelet, index) => cubelet === char && index % 2 === 0
-              );
-              return numbering[row][index];
-            })}
+            {edgeSolution
+              ?.map((char) => {
+                const row = numericNumbering.findIndex(
+                  (row) =>
+                    row[1] === char ||
+                    row[3] === char ||
+                    row[5] === char ||
+                    row[7] === char
+                );
+                if (row === -1) {
+                  return '';
+                }
+                const index = numericNumbering[row].findIndex(
+                  (cubelet, index) => cubelet === char && index % 2 === 1
+                );
+                return numbering[row][index];
+              })
+              .join(' ')}
           </div>
           <div>
             corner execution:
-            {cornerSolution?.map((char) => {
-              const row = numericNumbering.findIndex(
-                (row) =>
-                  row[1] === char ||
-                  row[3] === char ||
-                  row[5] === char ||
-                  row[7] === char
-              );
-              if (row === -1) {
-                return '';
-              }
-              const index = numericNumbering[row].findIndex(
-                (cubelet, index) => cubelet === char && index % 2 === 1
-              );
-              return numbering[row][index];
-            })}
+            {cornerSolution
+              ?.map((char) => {
+                const row = numericNumbering.findIndex(
+                  (row) =>
+                    row[0] === char ||
+                    row[2] === char ||
+                    row[6] === char ||
+                    row[8] === char
+                );
+                if (row === -1) {
+                  return '';
+                }
+                const index = numericNumbering[row].findIndex(
+                  (cubelet, index) =>
+                    cubelet === char && index % 2 === 0 && index !== 4
+                );
+                return numbering[row][index];
+              })
+              .join(' ')}
           </div>
         </div>
       )}
