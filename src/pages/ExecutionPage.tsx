@@ -546,50 +546,60 @@ export const ExecutionPage: VFC = () => {
         />
       </div>
       {isValidCornerBuffer(cornerBuffer) && isValidEdgeBuffer(edgeBuffer) && (
-        <div tw="border p-3 rounded my-5 mx-3">
+        <div tw="border border-gray-400 p-3 rounded my-5 mx-3">
           <div> scramble: {scramble}</div>
-          <div>
+          <div tw="flex gap-x-1 w-max">
             edge execution:
-            {edgeSolution
-              ?.map((char) => {
-                const row = numericNumbering.findIndex(
-                  (row) =>
-                    row[1] === char ||
-                    row[3] === char ||
-                    row[5] === char ||
-                    row[7] === char
-                );
-                if (row === -1) {
-                  return '';
-                }
-                const index = numericNumbering[row].findIndex(
-                  (cubelet, index) => cubelet === char && index % 2 === 1
-                );
-                return numbering[row][index];
-              })
-              .join(' ')}
+            {edgeSolution?.map((char) => {
+              const row = numericNumbering.findIndex(
+                (row) =>
+                  row[1] === char ||
+                  row[3] === char ||
+                  row[5] === char ||
+                  row[7] === char
+              );
+              if (row === -1) {
+                return '';
+              }
+              const index = numericNumbering[row].findIndex(
+                (cubelet, index) => cubelet === char && index % 2 === 1
+              );
+              return (
+                <span
+                  key={index}
+                  tw="odd:text-black even:text-blue-600 dark:odd:text-white dark:even:text-gray-400"
+                >
+                  {numbering[row][index]}
+                </span>
+              );
+            })}
           </div>
-          <div>
+          <div tw="flex gap-x-1 w-max">
             corner execution:
-            {cornerSolution
-              ?.map((char) => {
-                const row = numericNumbering.findIndex(
-                  (row) =>
-                    row[0] === char ||
-                    row[2] === char ||
-                    row[6] === char ||
-                    row[8] === char
-                );
-                if (row === -1) {
-                  return '';
-                }
-                const index = numericNumbering[row].findIndex(
-                  (cubelet, index) =>
-                    cubelet === char && index % 2 === 0 && index !== 4
-                );
-                return numbering[row][index];
-              })
-              .join(' ')}
+            {cornerSolution?.map((char) => {
+              const row = numericNumbering.findIndex(
+                (row) =>
+                  row[0] === char ||
+                  row[2] === char ||
+                  row[6] === char ||
+                  row[8] === char
+              );
+              if (row === -1) {
+                return '';
+              }
+              const index = numericNumbering[row].findIndex(
+                (cubelet, index) =>
+                  cubelet === char && index % 2 === 0 && index !== 4
+              );
+              return (
+                <span
+                  key={index}
+                  tw="odd:text-black even:text-blue-600 dark:odd:text-white dark:even:text-gray-400"
+                >
+                  {numbering[row][index]}
+                </span>
+              );
+            })}
           </div>
         </div>
       )}
