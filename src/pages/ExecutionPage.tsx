@@ -11,6 +11,7 @@ import useTitle from 'react-use/lib/useTitle';
 import Scrambo from 'scrambo';
 import tw from 'twin.macro';
 import { PrimaryButton } from '../components/common/PrimaryButton';
+import { SecondaryButton } from '../components/common/SecondaryButton';
 import { useInput } from '../utils/hooks/useInput';
 
 const Cubelet = tw.div`w-8 h-8 text-center align-top text-lg border-r border-b border-gray-800`;
@@ -507,7 +508,7 @@ export const ExecutionPage: VFC = () => {
             : []),
         ]}
       />
-      <PrimaryButton
+      <SecondaryButton
         tw="w-max"
         onClick={() => {
           if (numbering === nagoyancubeNumbering) {
@@ -518,6 +519,14 @@ export const ExecutionPage: VFC = () => {
         }}
       >
         change numbering
+      </SecondaryButton>
+      <PrimaryButton
+        tw="w-max"
+        onClick={() => {
+          renewScramble();
+        }}
+      >
+        renew scramble
       </PrimaryButton>
       <div
         tw="grid grid-cols-2 gap-x-3 gap-y-1"
