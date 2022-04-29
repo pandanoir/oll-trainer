@@ -157,10 +157,10 @@ export const solveEdge = (scramble: Direction[], bufferLabel: number) => {
   });
   const countCorrectEdge = (cube: CubeType) =>
     cube.U.filter(
-      (cubelet, index) => index % 2 === 1 && cubelet === initial.U[index]
+      (cubelet, index) => isEdge(index) && cubelet === initial.U[index]
     ).length +
     cube.D.filter(
-      (cubelet, index) => index % 2 === 1 && cubelet === initial.D[index]
+      (cubelet, index) => isEdge(index) && cubelet === initial.D[index]
     ).length +
     cube.F.filter(
       (cubelet, index) =>
@@ -187,7 +187,7 @@ export const solveEdge = (scramble: Direction[], bufferLabel: number) => {
         initial[face][7] === label
     )[0];
     const index = initial[face].findIndex(
-      (cubelet, index) => cubelet === label && index % 2 === 1
+      (cubelet, index) => cubelet === label && isEdge(index)
     );
     return { face, index };
   };
@@ -235,12 +235,10 @@ export const solveCorner = (scramble: Direction[], bufferLabel: number) => {
   });
   const countCorrectCorner = (cube: CubeType) =>
     cube.U.filter(
-      (cubelet, index) =>
-        index % 2 === 0 && index !== 4 && cubelet === initial.U[index]
+      (cubelet, index) => isCorner(index) && cubelet === initial.U[index]
     ).length +
     cube.D.filter(
-      (cubelet, index) =>
-        index % 2 === 0 && index !== 4 && cubelet === initial.D[index]
+      (cubelet, index) => isCorner(index) && cubelet === initial.D[index]
     ).length;
   const cube = new Cube({
     U: ['0', '0', '12', '4', '-1', '8', '3', '3', '15'],
@@ -259,7 +257,7 @@ export const solveCorner = (scramble: Direction[], bufferLabel: number) => {
         initial[face][8] === label
     )[0];
     const index = initial[face].findIndex(
-      (cubelet, index) => cubelet === label && index % 2 === 0
+      (cubelet, index) => cubelet === label && isCorner(index)
     );
     return { face, index };
   };
@@ -297,6 +295,9 @@ export const solveCorner = (scramble: Direction[], bufferLabel: number) => {
   return solution;
 };
 
+const isEdge = (index: number) => index % 2 === 1;
+const isCorner = (index: number) => index % 2 === 0 && index !== 4;
+
 const myNumbering: [
   string,
   string,
@@ -333,6 +334,12 @@ const nagoyancubeNumbering: [
   ['え', 'あ', 'あ', 'え', ' ', 'い', 'う', 'う', 'い'], // D
   ['せ', 'さ', 'さ', 'せ', ' ', 'し', 'す', 'す', 'し'], // B
 ]; // 白橙緑赤黄青 の順
+
+const getCorners = (numbering: string[][]) =>
+  numbering.map((row) => row.filter((_, index) => isCorner(index)));
+const getEdges = (numbering: string[][]) =>
+  numbering.map((row) => row.filter((_, index) => isEdge(index)));
+
 export const ExecutionPage: VFC = () => {
   useTitle('Practice execution of blindfolded method');
 
@@ -359,51 +366,34 @@ export const ExecutionPage: VFC = () => {
 
   const edgeBuffer = useMemo(() => {
     const row = numbering.findIndex((row) =>
-      row.filter((_, index) => index % 2 === 1).includes(edgeBufferInput)
+      row.filter((_, index) => isEdge(index)).includes(edgeBufferInput)
     );
     if (row === -1) return '';
     const index = numbering[row].findIndex(
-      (char, index) => index % 2 === 1 && char === edgeBufferInput
+      (char, index) => isEdge(index) && char === edgeBufferInput
     );
     return numericNumbering[row][index];
   }, [edgeBufferInput, numbering, numericNumbering]);
 
   const cornerBuffer = useMemo(() => {
     const row = numbering.findIndex((row) =>
-      row
-        .filter((_, index) => index % 2 === 0 && index !== 4)
-        .includes(cornerBufferInput)
+      row.filter((_, index) => isCorner(index)).includes(cornerBufferInput)
     );
     if (row === -1) return '';
     const index = numbering[row].findIndex(
-      (char, index) =>
-        index % 2 === 0 && index !== 4 && char === cornerBufferInput
+      (char, index) => isCorner(index) && char === cornerBufferInput
     );
     return numericNumbering[row][index];
   }, [cornerBufferInput, numbering, numericNumbering]);
 
   const isValidEdgeBuffer = useCallback(
-    (edgeBuffer: string) => {
-      const index = numericNumbering
-        .find((row) =>
-          row.find((label, index) => index % 2 === 1 && label === edgeBuffer)
-        )
-        ?.findIndex((label, index) => index % 2 === 1 && label === edgeBuffer);
-      return typeof index === 'number' && index !== -1;
-    },
+    (edgeBuffer: string) =>
+      getEdges(numericNumbering).some((row) => row.includes(edgeBuffer)),
     [numericNumbering]
   );
   const isValidCornerBuffer = useCallback(
-    (cornerBuffer: string) => {
-      const index = numericNumbering
-        .find((row) =>
-          row.find((label, index) => index % 2 === 0 && label === cornerBuffer)
-        )
-        ?.findIndex(
-          (label, index) => index % 2 === 0 && label === cornerBuffer
-        );
-      return typeof index === 'number' && index !== -1;
-    },
+    (cornerBuffer: string) =>
+      getCorners(numericNumbering).some((row) => row.includes(cornerBuffer)),
     [numericNumbering]
   );
   const renewScramble = useCallback(() => {
@@ -431,16 +421,16 @@ export const ExecutionPage: VFC = () => {
     }
     const index = numericNumbering
       .find((row) =>
-        row.find((label, index) => index % 2 === 1 && label === edgeBuffer)
+        row.find((label, index) => isEdge(index) && label === edgeBuffer)
       )
-      ?.findIndex((label, index) => index % 2 === 1 && label === edgeBuffer);
+      ?.findIndex((label, index) => isEdge(index) && label === edgeBuffer);
     if (typeof index === 'undefined') {
       return undefined;
     }
     return {
       face: ['U', 'L', 'F', 'R', 'D', 'B'][
-        numericNumbering.findIndex((row) =>
-          row.find((label, index) => index % 2 === 1 && label === edgeBuffer)
+        getEdges(numericNumbering).findIndex((edges) =>
+          edges.includes(edgeBuffer)
         )
       ],
       index,
@@ -452,16 +442,16 @@ export const ExecutionPage: VFC = () => {
     }
     const index = numericNumbering
       .find((row) =>
-        row.find((label, index) => index % 2 === 0 && label === cornerBuffer)
+        row.find((label, index) => isCorner(index) && label === cornerBuffer)
       )
-      ?.findIndex((label, index) => index % 2 === 0 && label === cornerBuffer);
+      ?.findIndex((label, index) => isCorner(index) && label === cornerBuffer);
     if (typeof index === 'undefined') {
       return undefined;
     }
     return {
       face: ['U', 'L', 'F', 'R', 'D', 'B'][
-        numericNumbering.findIndex((row) =>
-          row.find((label, index) => index % 2 === 0 && label === cornerBuffer)
+        getCorners(numericNumbering).findIndex((corners) =>
+          corners.includes(cornerBuffer)
         )
       ],
       index,
@@ -551,18 +541,14 @@ export const ExecutionPage: VFC = () => {
           <div tw="flex gap-x-1 w-max">
             edge execution:
             {edgeSolution?.map((char) => {
-              const row = numericNumbering.findIndex(
-                (row) =>
-                  row[1] === char ||
-                  row[3] === char ||
-                  row[5] === char ||
-                  row[7] === char
+              const row = getEdges(numericNumbering).findIndex((edges) =>
+                edges.includes(char)
               );
               if (row === -1) {
                 return '';
               }
               const index = numericNumbering[row].findIndex(
-                (cubelet, index) => cubelet === char && index % 2 === 1
+                (cubelet, index) => cubelet === char && isEdge(index)
               );
               return (
                 <span
@@ -577,19 +563,14 @@ export const ExecutionPage: VFC = () => {
           <div tw="flex gap-x-1 w-max">
             corner execution:
             {cornerSolution?.map((char) => {
-              const row = numericNumbering.findIndex(
-                (row) =>
-                  row[0] === char ||
-                  row[2] === char ||
-                  row[6] === char ||
-                  row[8] === char
+              const row = getCorners(numericNumbering).findIndex((corners) =>
+                corners.includes(char)
               );
               if (row === -1) {
                 return '';
               }
               const index = numericNumbering[row].findIndex(
-                (cubelet, index) =>
-                  cubelet === char && index % 2 === 0 && index !== 4
+                (cubelet, index) => cubelet === char && isCorner(index)
               );
               return (
                 <span
