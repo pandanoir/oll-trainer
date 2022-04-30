@@ -685,7 +685,7 @@ const PracticeMode: VFC<{
               );
               return (
                 <span
-                  key={index}
+                  key={char}
                   tw="odd:text-black even:text-blue-600 dark:odd:text-white dark:even:text-gray-400"
                 >
                   {numbering[row][index]}
@@ -707,7 +707,7 @@ const PracticeMode: VFC<{
               );
               return (
                 <span
-                  key={index}
+                  key={char}
                   tw="odd:text-black even:text-blue-600 dark:odd:text-white dark:even:text-gray-400"
                 >
                   {numbering[row][index]}
