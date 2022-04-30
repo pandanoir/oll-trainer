@@ -38,7 +38,7 @@ const Face: VFC<PropsWithChildren<{ className?: string }>> = ({
   </div>
 );
 const NetDrawing: VFC<{
-  numbering?: string[][];
+  numbering?: readonly string[][];
   selected?: { face: string; index: number }[];
 }> = ({
   numbering = [
@@ -344,7 +344,7 @@ const getEdges = (numbering: string[][]) =>
 
 const CubeletInput = tw.input`w-4 bg-transparent`;
 const NumberingSettingMode: VFC<{
-  currentNumbering: [
+  currentNumbering: readonly [
     string,
     string,
     string,
@@ -356,7 +356,7 @@ const NumberingSettingMode: VFC<{
     string
   ][];
   onFinish: (
-    newNumbering: [
+    newNumbering: readonly [
       string,
       string,
       string,
@@ -371,7 +371,17 @@ const NumberingSettingMode: VFC<{
   onCancel: () => void;
 }> = ({ currentNumbering, onFinish, onCancel }) => {
   const [numbering, setNumbering] = useState<
-    [string, string, string, string, string, string, string, string, string][]
+    readonly [
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      string
+    ][]
   >([...currentNumbering]);
   const updateNumbering = (face: number, index: number, newValue: string) => {
     setNumbering(
@@ -489,6 +499,19 @@ const NumberingSettingMode: VFC<{
           </Face>
         </div>
       </div>
+      <details>
+        <summary>choose from presets</summary>
+        <ul tw="flex gap-x-3">
+          {[myNumbering, nagoyancubeNumbering].map((preset, index) => (
+            <li tw="text-center" key={index}>
+              <NetDrawing numbering={preset} />
+              <SecondaryButton onClick={() => setNumbering(preset)}>
+                use this preset
+              </SecondaryButton>
+            </li>
+          ))}
+        </ul>
+      </details>
       <div tw="flex gap-3">
         <PrimaryButton
           onClick={() => {
@@ -506,7 +529,7 @@ const NumberingSettingMode: VFC<{
 };
 
 const PracticeMode: VFC<{
-  numbering: string[][];
+  numbering: readonly string[][];
   onNumberingSettingClick: () => void;
 }> = ({ numbering, onNumberingSettingClick }) => {
   const numericNumbering = useMemo(
@@ -745,7 +768,17 @@ export const ExecutionPage: VFC = () => {
   useTitle('Practice execution of blindfolded method');
 
   const [numbering, setNumbering] = useStoragedState<
-    [string, string, string, string, string, string, string, string, string][]
+    readonly [
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      string
+    ][]
   >(withPrefix('numbering'), nagoyancubeNumbering);
   const [scene, setScene] = useState<'numberingSetting' | 'practice'>(
     'practice'
@@ -758,19 +791,7 @@ export const ExecutionPage: VFC = () => {
   ) : scene === 'numberingSetting' ? (
     <NumberingSettingMode
       currentNumbering={numbering}
-      onFinish={(
-        newNumbering: [
-          string,
-          string,
-          string,
-          string,
-          string,
-          string,
-          string,
-          string,
-          string
-        ][]
-      ) => {
+      onFinish={(newNumbering) => {
         setNumbering(newNumbering);
         setScene('practice');
       }}
