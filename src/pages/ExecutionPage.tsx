@@ -1,4 +1,5 @@
 import Cube, { CubeType, Direction } from '@pandanoir/rubikscube';
+import immer from 'immer';
 import {
   PropsWithChildren,
   useCallback,
@@ -12,7 +13,10 @@ import Scrambo from 'scrambo';
 import tw from 'twin.macro';
 import { PrimaryButton } from '../components/common/PrimaryButton';
 import { SecondaryButton } from '../components/common/SecondaryButton';
-import { useInput } from '../utils/hooks/useInput';
+import { SecondaryDangerButton } from '../components/common/SecondaryDangerButton';
+import { useInputWithStorage } from '../utils/hooks/useInput';
+import { useStoragedState } from '../utils/hooks/useLocalStorage';
+import { withPrefix } from '../utils/withPrefix';
 
 const Cubelet = tw.div`w-8 h-8 text-center align-top text-lg border-r border-b border-gray-800`;
 const WhiteCubelet = tw(Cubelet)`bg-gray-50 text-black`;
@@ -53,94 +57,92 @@ const NetDrawing: VFC<{
       .filter(({ face }) => face === targetFace)
       .find(({ index }) => index === targetIndex) !== 'undefined';
   return (
-    <div>
-      <div tw="w-max">
-        <div tw="flex justify-center">
-          <Face tw="border-t border-l">
-            {numbering[0].slice(0, 6).map((char, index) => (
-              <WhiteCubelet
-                key={index}
-                css={isSelected('U', index) ? tw`bg-gray-300` : ''}
-              >
-                {char}
-              </WhiteCubelet>
-            ))}
+    <div tw="w-max">
+      <div tw="flex justify-center">
+        <Face tw="border-t border-l">
+          {numbering[0].slice(0, 6).map((char, index) => (
             <WhiteCubelet
-              tw="border-b-0"
-              css={isSelected('U', 6) ? tw`bg-gray-300` : ''}
+              key={index}
+              css={isSelected('U', index) ? tw`bg-gray-300` : ''}
             >
-              {numbering[0][6]}
+              {char}
             </WhiteCubelet>
-            <WhiteCubelet
-              tw="border-b-0"
-              css={isSelected('U', 7) ? tw`bg-gray-300` : ''}
+          ))}
+          <WhiteCubelet
+            tw="border-b-0"
+            css={isSelected('U', 6) ? tw`bg-gray-300` : ''}
+          >
+            {numbering[0][6]}
+          </WhiteCubelet>
+          <WhiteCubelet
+            tw="border-b-0"
+            css={isSelected('U', 7) ? tw`bg-gray-300` : ''}
+          >
+            {numbering[0][7]}
+          </WhiteCubelet>
+          <WhiteCubelet
+            tw="border-b-0"
+            css={isSelected('U', 8) ? tw`bg-gray-300` : ''}
+          >
+            {numbering[0][8]}
+          </WhiteCubelet>
+        </Face>
+      </div>
+      <div tw="flex border-t border-gray-800">
+        <Face tw="border-l">
+          {numbering[1].map((char, index) => (
+            <OrangeCubelet
+              key={index}
+              css={isSelected('L', index) ? tw`bg-orange-700` : ''}
             >
-              {numbering[0][7]}
-            </WhiteCubelet>
-            <WhiteCubelet
-              tw="border-b-0"
-              css={isSelected('U', 8) ? tw`bg-gray-300` : ''}
+              {char}
+            </OrangeCubelet>
+          ))}
+        </Face>
+        <Face>
+          {numbering[2].map((char, index) => (
+            <GreenCubelet
+              key={index}
+              css={isSelected('F', index) ? tw`bg-green-600` : ''}
             >
-              {numbering[0][8]}
-            </WhiteCubelet>
-          </Face>
-        </div>
-        <div tw="flex border-t border-gray-800">
-          <Face tw="border-l">
-            {numbering[1].map((char, index) => (
-              <OrangeCubelet
-                key={index}
-                css={isSelected('L', index) ? tw`bg-orange-700` : ''}
-              >
-                {char}
-              </OrangeCubelet>
-            ))}
-          </Face>
-          <Face>
-            {numbering[2].map((char, index) => (
-              <GreenCubelet
-                key={index}
-                css={isSelected('F', index) ? tw`bg-green-600` : ''}
-              >
-                {char}
-              </GreenCubelet>
-            ))}
-          </Face>
-          <Face>
-            {numbering[3].map((char, index) => (
-              <RedCubelet
-                key={index}
-                css={isSelected('R', index) ? tw`bg-red-700` : ''}
-              >
-                {char}
-              </RedCubelet>
-            ))}
-          </Face>
-        </div>
-        <div tw="flex justify-center">
-          <Face tw="border-l">
-            {numbering[4].map((char, index) => (
-              <YellowCubelet
-                key={index}
-                css={isSelected('D', index) ? tw`bg-yellow-500` : ''}
-              >
-                {char}
-              </YellowCubelet>
-            ))}
-          </Face>
-        </div>
-        <div tw="flex justify-center">
-          <Face tw="border-l">
-            {numbering[5].map((char, index) => (
-              <BlueCubelet
-                key={index}
-                css={isSelected('B', index) ? tw`bg-blue-600` : ''}
-              >
-                {char}
-              </BlueCubelet>
-            ))}
-          </Face>
-        </div>
+              {char}
+            </GreenCubelet>
+          ))}
+        </Face>
+        <Face>
+          {numbering[3].map((char, index) => (
+            <RedCubelet
+              key={index}
+              css={isSelected('R', index) ? tw`bg-red-700` : ''}
+            >
+              {char}
+            </RedCubelet>
+          ))}
+        </Face>
+      </div>
+      <div tw="flex justify-center">
+        <Face tw="border-l">
+          {numbering[4].map((char, index) => (
+            <YellowCubelet
+              key={index}
+              css={isSelected('D', index) ? tw`bg-yellow-500` : ''}
+            >
+              {char}
+            </YellowCubelet>
+          ))}
+        </Face>
+      </div>
+      <div tw="flex justify-center">
+        <Face tw="border-l">
+          {numbering[5].map((char, index) => (
+            <BlueCubelet
+              key={index}
+              css={isSelected('B', index) ? tw`bg-blue-600` : ''}
+            >
+              {char}
+            </BlueCubelet>
+          ))}
+        </Face>
       </div>
     </div>
   );
@@ -340,13 +342,173 @@ const getCorners = (numbering: string[][]) =>
 const getEdges = (numbering: string[][]) =>
   numbering.map((row) => row.filter((_, index) => isEdge(index)));
 
-export const ExecutionPage: VFC = () => {
-  useTitle('Practice execution of blindfolded method');
+const CubeletInput = tw.input`w-4 bg-transparent`;
+const NumberingSettingMode: VFC<{
+  currentNumbering: [
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string
+  ][];
+  onFinish: (
+    newNumbering: [
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      string,
+      string
+    ][]
+  ) => void;
+  onCancel: () => void;
+}> = ({ currentNumbering, onFinish, onCancel }) => {
+  const [numbering, setNumbering] = useState<
+    [string, string, string, string, string, string, string, string, string][]
+  >([...currentNumbering]);
+  const updateNumbering = (face: number, index: number, newValue: string) => {
+    setNumbering(
+      immer((draft) => {
+        draft[face][index] = newValue;
+      })
+    );
+  };
+  return (
+    <div tw="flex flex-col gap-y-3">
+      click and change labels
+      <div tw="w-max">
+        <div tw="flex justify-center">
+          <Face tw="border-t border-l">
+            {numbering[0].slice(0, 6).map((char, index) => (
+              <WhiteCubelet key={index}>
+                <CubeletInput
+                  value={char}
+                  onChange={({ target: { value } }) =>
+                    updateNumbering(0, index, value)
+                  }
+                />
+              </WhiteCubelet>
+            ))}
+            <WhiteCubelet tw="border-b-0">
+              <CubeletInput
+                value={numbering[0][6]}
+                onChange={({ target: { value } }) =>
+                  updateNumbering(0, 6, value)
+                }
+              />
+            </WhiteCubelet>
+            <WhiteCubelet tw="border-b-0">
+              <CubeletInput
+                value={numbering[0][7]}
+                onChange={({ target: { value } }) =>
+                  updateNumbering(0, 7, value)
+                }
+              />
+            </WhiteCubelet>
+            <WhiteCubelet tw="border-b-0">
+              <CubeletInput
+                value={numbering[0][8]}
+                onChange={({ target: { value } }) =>
+                  updateNumbering(0, 8, value)
+                }
+              />
+            </WhiteCubelet>
+          </Face>
+        </div>
+        <div tw="flex border-t border-gray-800">
+          <Face tw="border-l">
+            {numbering[1].map((char, index) => (
+              <OrangeCubelet key={index}>
+                <CubeletInput
+                  value={char}
+                  onChange={({ target: { value } }) =>
+                    updateNumbering(1, index, value)
+                  }
+                />
+              </OrangeCubelet>
+            ))}
+          </Face>
+          <Face>
+            {numbering[2].map((char, index) => (
+              <GreenCubelet key={index}>
+                <CubeletInput
+                  value={char}
+                  onChange={({ target: { value } }) =>
+                    updateNumbering(2, index, value)
+                  }
+                />
+              </GreenCubelet>
+            ))}
+          </Face>
+          <Face>
+            {numbering[3].map((char, index) => (
+              <RedCubelet key={index}>
+                <CubeletInput
+                  value={char}
+                  onChange={({ target: { value } }) =>
+                    updateNumbering(3, index, value)
+                  }
+                />
+              </RedCubelet>
+            ))}
+          </Face>
+        </div>
+        <div tw="flex justify-center">
+          <Face tw="border-l">
+            {numbering[4].map((char, index) => (
+              <YellowCubelet key={index}>
+                <CubeletInput
+                  value={char}
+                  onChange={({ target: { value } }) =>
+                    updateNumbering(4, index, value)
+                  }
+                />
+              </YellowCubelet>
+            ))}
+          </Face>
+        </div>
+        <div tw="flex justify-center">
+          <Face tw="border-l">
+            {numbering[5].map((char, index) => (
+              <BlueCubelet key={index}>
+                <CubeletInput
+                  value={char}
+                  onChange={({ target: { value } }) =>
+                    updateNumbering(5, index, value)
+                  }
+                />
+              </BlueCubelet>
+            ))}
+          </Face>
+        </div>
+      </div>
+      <div tw="flex gap-3">
+        <PrimaryButton
+          onClick={() => {
+            onFinish(numbering);
+          }}
+        >
+          save setting
+        </PrimaryButton>
+        <SecondaryDangerButton tw="w-max" onClick={onCancel}>
+          back to practice without save setting
+        </SecondaryDangerButton>
+      </div>
+    </div>
+  );
+};
 
-  const [numbering, setNumbering] =
-    useState<
-      [string, string, string, string, string, string, string, string, string][]
-    >(nagoyancubeNumbering);
+const PracticeMode: VFC<{
+  numbering: string[][];
+  onNumberingSettingClick: () => void;
+}> = ({ numbering, onNumberingSettingClick }) => {
   const numericNumbering = useMemo(
     () => [
       ['0', '0', '12', '4', ' ', '8', '3', '3', '15'],
@@ -360,9 +522,9 @@ export const ExecutionPage: VFC = () => {
   );
   const [scramble, setScramble] = useState('');
   const { value: edgeBufferInput, onChange: onEdgeBufferChange } =
-    useInput('ら');
+    useInputWithStorage(withPrefix('edgeBufferInput'), 'ら');
   const { value: cornerBufferInput, onChange: onCornerBufferChange } =
-    useInput('え');
+    useInputWithStorage(withPrefix('cornerBufferInput'), 'え');
 
   const edgeBuffer = useMemo(() => {
     const row = numbering.findIndex((row) =>
@@ -498,17 +660,8 @@ export const ExecutionPage: VFC = () => {
             : []),
         ]}
       />
-      <SecondaryButton
-        tw="w-max"
-        onClick={() => {
-          if (numbering === nagoyancubeNumbering) {
-            setNumbering(myNumbering);
-          } else {
-            setNumbering(nagoyancubeNumbering);
-          }
-        }}
-      >
-        change numbering
+      <SecondaryButton onClick={onNumberingSettingClick} tw="w-max">
+        change numbering setting
       </SecondaryButton>
       <PrimaryButton
         tw="w-max"
@@ -522,13 +675,13 @@ export const ExecutionPage: VFC = () => {
         tw="grid grid-cols-2 gap-x-3 gap-y-1"
         css="grid-template-columns: max-content max-content"
       >
-        <span>select corner buffer: </span>
+        <span>corner buffer: </span>
         <input
           value={cornerBufferInput}
           onChange={onCornerBufferChange}
           tw="text-black rounded"
         />
-        <span>select edge buffer: </span>
+        <span>edge buffer: </span>
         <input
           value={edgeBufferInput}
           onChange={onEdgeBufferChange}
@@ -586,4 +739,42 @@ export const ExecutionPage: VFC = () => {
       )}
     </div>
   );
+};
+
+export const ExecutionPage: VFC = () => {
+  useTitle('Practice execution of blindfolded method');
+
+  const [numbering, setNumbering] = useStoragedState<
+    [string, string, string, string, string, string, string, string, string][]
+  >(withPrefix('numbering'), nagoyancubeNumbering);
+  const [scene, setScene] = useState<'numberingSetting' | 'practice'>(
+    'practice'
+  );
+  return scene === 'practice' ? (
+    <PracticeMode
+      numbering={numbering}
+      onNumberingSettingClick={() => setScene('numberingSetting')}
+    />
+  ) : scene === 'numberingSetting' ? (
+    <NumberingSettingMode
+      currentNumbering={numbering}
+      onFinish={(
+        newNumbering: [
+          string,
+          string,
+          string,
+          string,
+          string,
+          string,
+          string,
+          string,
+          string
+        ][]
+      ) => {
+        setNumbering(newNumbering);
+        setScene('practice');
+      }}
+      onCancel={() => setScene('practice')}
+    />
+  ) : null;
 };
