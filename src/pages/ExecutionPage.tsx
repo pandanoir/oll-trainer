@@ -10,7 +10,7 @@ import {
 } from 'react';
 import useTitle from 'react-use/lib/useTitle';
 import Scrambo from 'scrambo';
-import tw from 'twin.macro';
+import tw, { styled } from 'twin.macro';
 import { PrimaryButton } from '../components/common/PrimaryButton';
 import { SecondaryButton } from '../components/common/SecondaryButton';
 import { SecondaryDangerButton } from '../components/common/SecondaryDangerButton';
@@ -19,12 +19,30 @@ import { useStoragedState } from '../utils/hooks/useLocalStorage';
 import { withPrefix } from '../utils/withPrefix';
 
 const Cubelet = tw.div`w-8 h-8 text-center align-top text-lg border-r border-b border-gray-800`;
-const WhiteCubelet = tw(Cubelet)`bg-gray-50 text-black`;
-const GreenCubelet = tw(Cubelet)`bg-green-500 text-black`;
-const RedCubelet = tw(Cubelet)`bg-red-600`;
-const BlueCubelet = tw(Cubelet)`bg-blue-500`;
-const OrangeCubelet = tw(Cubelet)`bg-orange-500`;
-const YellowCubelet = tw(Cubelet)`bg-yellow-300 text-black`;
+const WhiteCubelet = styled(Cubelet)(
+  ({ selected = false }: { selected?: boolean }) =>
+    selected ? tw`bg-gray-300 text-black` : tw`bg-gray-50 text-black`
+);
+const GreenCubelet = styled(Cubelet)(
+  ({ selected = false }: { selected?: boolean }) =>
+    selected ? tw`bg-green-600 text-black` : tw`bg-green-500 text-black`
+);
+const RedCubelet = styled(Cubelet)(
+  ({ selected = false }: { selected?: boolean }) =>
+    selected ? tw`bg-red-700` : tw`bg-red-600`
+);
+const BlueCubelet = styled(Cubelet)(
+  ({ selected = false }: { selected?: boolean }) =>
+    selected ? tw`bg-blue-600` : tw`bg-blue-500`
+);
+const OrangeCubelet = styled(Cubelet)(
+  ({ selected = false }: { selected?: boolean }) =>
+    selected ? tw`bg-orange-700` : tw`bg-orange-500`
+);
+const YellowCubelet = styled(Cubelet)(
+  ({ selected = false }: { selected?: boolean }) =>
+    selected ? tw`bg-yellow-500 text-black` : tw`bg-yellow-300 text-black`
+);
 
 const Face: VFC<PropsWithChildren<{ className?: string }>> = ({
   children,
@@ -61,29 +79,17 @@ const NetDrawing: VFC<{
       <div tw="flex justify-center">
         <Face tw="border-t border-l">
           {numbering[0].slice(0, 6).map((char, index) => (
-            <WhiteCubelet
-              key={index}
-              css={isSelected('U', index) ? tw`bg-gray-300` : ''}
-            >
+            <WhiteCubelet key={index} selected={isSelected('U', index)}>
               {char}
             </WhiteCubelet>
           ))}
-          <WhiteCubelet
-            tw="border-b-0"
-            css={isSelected('U', 6) ? tw`bg-gray-300` : ''}
-          >
+          <WhiteCubelet tw="border-b-0" selected={isSelected('U', 6)}>
             {numbering[0][6]}
           </WhiteCubelet>
-          <WhiteCubelet
-            tw="border-b-0"
-            css={isSelected('U', 7) ? tw`bg-gray-300` : ''}
-          >
+          <WhiteCubelet tw="border-b-0" selected={isSelected('U', 7)}>
             {numbering[0][7]}
           </WhiteCubelet>
-          <WhiteCubelet
-            tw="border-b-0"
-            css={isSelected('U', 8) ? tw`bg-gray-300` : ''}
-          >
+          <WhiteCubelet tw="border-b-0" selected={isSelected('U', 8)}>
             {numbering[0][8]}
           </WhiteCubelet>
         </Face>
@@ -91,30 +97,21 @@ const NetDrawing: VFC<{
       <div tw="flex border-t border-gray-800">
         <Face tw="border-l">
           {numbering[1].map((char, index) => (
-            <OrangeCubelet
-              key={index}
-              css={isSelected('L', index) ? tw`bg-orange-700` : ''}
-            >
+            <OrangeCubelet key={index} selected={isSelected('L', index)}>
               {char}
             </OrangeCubelet>
           ))}
         </Face>
         <Face>
           {numbering[2].map((char, index) => (
-            <GreenCubelet
-              key={index}
-              css={isSelected('F', index) ? tw`bg-green-600` : ''}
-            >
+            <GreenCubelet key={index} selected={isSelected('F', index)}>
               {char}
             </GreenCubelet>
           ))}
         </Face>
         <Face>
           {numbering[3].map((char, index) => (
-            <RedCubelet
-              key={index}
-              css={isSelected('R', index) ? tw`bg-red-700` : ''}
-            >
+            <RedCubelet key={index} selected={isSelected('R', index)}>
               {char}
             </RedCubelet>
           ))}
@@ -123,10 +120,7 @@ const NetDrawing: VFC<{
       <div tw="flex justify-center">
         <Face tw="border-l">
           {numbering[4].map((char, index) => (
-            <YellowCubelet
-              key={index}
-              css={isSelected('D', index) ? tw`bg-yellow-500` : ''}
-            >
+            <YellowCubelet key={index} selected={isSelected('D', index)}>
               {char}
             </YellowCubelet>
           ))}
@@ -135,10 +129,7 @@ const NetDrawing: VFC<{
       <div tw="flex justify-center">
         <Face tw="border-l">
           {numbering[5].map((char, index) => (
-            <BlueCubelet
-              key={index}
-              css={isSelected('B', index) ? tw`bg-blue-600` : ''}
-            >
+            <BlueCubelet key={index} selected={isSelected('B', index)}>
               {char}
             </BlueCubelet>
           ))}
@@ -511,9 +502,9 @@ const PracticeMode: VFC<{
   );
   const [scramble, setScramble] = useState('');
   const { value: edgeBufferInput, onChange: onEdgeBufferChange } =
-    useInputWithStorage(withPrefix('edgeBufferInput'), 'ら');
+    useInputWithStorage(withPrefix('edgeBufferInput'), 'さ');
   const { value: cornerBufferInput, onChange: onCornerBufferChange } =
-    useInputWithStorage(withPrefix('cornerBufferInput'), 'え');
+    useInputWithStorage(withPrefix('cornerBufferInput'), 'あ');
 
   const edgeBuffer = useMemo(() => {
     const row = numbering.findIndex((row) =>
