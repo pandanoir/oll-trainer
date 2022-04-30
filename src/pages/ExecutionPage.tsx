@@ -14,6 +14,7 @@ import tw, { styled } from 'twin.macro';
 import { PrimaryButton } from '../components/common/PrimaryButton';
 import { SecondaryButton } from '../components/common/SecondaryButton';
 import { SecondaryDangerButton } from '../components/common/SecondaryDangerButton';
+import { useI18nContext } from '../i18n/i18n-react';
 import { useInputWithStorage } from '../utils/hooks/useInput';
 import { useStoragedState } from '../utils/hooks/useLocalStorage';
 import { withPrefix } from '../utils/withPrefix';
@@ -332,6 +333,7 @@ const NumberingSettingMode: VFC<{
   onFinish: (newNumbering: Numbering) => void;
   onCancel: () => void;
 }> = ({ currentNumbering, onFinish, onCancel }) => {
+  const { LL } = useI18nContext();
   const [numbering, setNumbering] = useState<Numbering>(currentNumbering);
 
   const updateNumbering = (face: number, index: number, newValue: string) => {
@@ -343,7 +345,7 @@ const NumberingSettingMode: VFC<{
   };
   return (
     <div tw="flex flex-col gap-y-3">
-      click and change labels
+      {LL['click and change labels']()}
       <div tw="w-max">
         <div tw="flex justify-center">
           <Face tw="border-t border-l">
@@ -451,13 +453,13 @@ const NumberingSettingMode: VFC<{
         </div>
       </div>
       <details>
-        <summary>choose from presets</summary>
+        <summary>{LL['choose from presets']()}</summary>
         <ul tw="flex gap-x-3">
           {numberingPresets.map((preset, index) => (
             <li tw="text-center" key={index}>
               <NetDrawing numbering={preset} />
               <SecondaryButton onClick={() => setNumbering(preset)}>
-                use this preset
+                {LL['use this preset']()}
               </SecondaryButton>
             </li>
           ))}
@@ -469,7 +471,7 @@ const NumberingSettingMode: VFC<{
             onFinish(numbering);
           }}
         >
-          save setting
+          {LL['save setting']()}
         </PrimaryButton>
         <SecondaryDangerButton
           tw="w-max"
@@ -478,7 +480,7 @@ const NumberingSettingMode: VFC<{
               onCancel();
           }}
         >
-          back to practice without save setting
+          {LL['back to practice without save setting']()}
         </SecondaryDangerButton>
       </div>
     </div>
@@ -489,6 +491,7 @@ const PracticeMode: VFC<{
   numbering: Numbering;
   onNumberingSettingClick: () => void;
 }> = ({ numbering, onNumberingSettingClick }) => {
+  const { LL } = useI18nContext();
   const numericNumbering = useMemo(
     () => [
       ['0', '0', '12', '4', ' ', '8', '3', '3', '15'],
@@ -641,7 +644,7 @@ const PracticeMode: VFC<{
         ]}
       />
       <SecondaryButton onClick={onNumberingSettingClick} tw="w-max">
-        change numbering setting
+        {LL['change numbering setting']()}
       </SecondaryButton>
       <PrimaryButton
         tw="w-max"
@@ -649,19 +652,19 @@ const PracticeMode: VFC<{
           renewScramble();
         }}
       >
-        renew scramble
+        {LL['renew scramble']()}
       </PrimaryButton>
       <div
         tw="grid grid-cols-2 gap-x-3 gap-y-1"
         css="grid-template-columns: max-content max-content"
       >
-        <span>corner buffer: </span>
+        <span>{LL['corner buffer']()}: </span>
         <input
           value={cornerBufferInput}
           onChange={onCornerBufferChange}
           tw="text-black rounded"
         />
-        <span>edge buffer: </span>
+        <span>{LL['edge buffer']()}: </span>
         <input
           value={edgeBufferInput}
           onChange={onEdgeBufferChange}
@@ -672,7 +675,7 @@ const PracticeMode: VFC<{
         <div tw="border border-gray-400 p-3 rounded my-5 mx-3">
           <div> scramble: {scramble}</div>
           <div tw="flex gap-x-1 w-max">
-            edge execution:
+            {LL['edge execution']()}:
             {edgeSolution?.map((char) => {
               const row = getEdges(numericNumbering).findIndex((edges) =>
                 edges.includes(char)
@@ -694,7 +697,7 @@ const PracticeMode: VFC<{
             })}
           </div>
           <div tw="flex gap-x-1 w-max">
-            corner execution:
+            {LL['corner execution']()}:
             {cornerSolution?.map((char) => {
               const row = getCorners(numericNumbering).findIndex((corners) =>
                 corners.includes(char)

@@ -12,6 +12,18 @@ const en: BaseTranslation = {
   undo: 'undo',
   'Delete session "{session:string}"? This action cannot be undone':
     'Delete session "{session:string}"? This action cannot be undone',
+  'change numbering setting': 'change numbering setting',
+  'renew scramble': 'renew scramble',
+  'corner buffer': 'corner buffer',
+  'edge buffer': 'edge buffer',
+  'edge execution': 'edge execution',
+  'corner execution': 'corner execution',
+  'choose from presets': 'choose from presets',
+  'use this preset': 'use this preset',
+  'save setting': 'save setting',
+  'back to practice without save setting':
+    'back to practice without save setting',
+  'click and change labels': 'click and change labels',
 };
 
 export default en;

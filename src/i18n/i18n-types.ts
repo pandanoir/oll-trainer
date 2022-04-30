@@ -55,6 +55,50 @@ type RootTranslation = {
 	 * @param {string} session
 	 */
 	'Delete session "{session:string}"? This action cannot be undone': RequiredParams<'session'>
+	/**
+	 * change numbering setting
+	 */
+	'change numbering setting': string
+	/**
+	 * renew scramble
+	 */
+	'renew scramble': string
+	/**
+	 * corner buffer
+	 */
+	'corner buffer': string
+	/**
+	 * edge buffer
+	 */
+	'edge buffer': string
+	/**
+	 * edge execution
+	 */
+	'edge execution': string
+	/**
+	 * corner execution
+	 */
+	'corner execution': string
+	/**
+	 * choose from presets
+	 */
+	'choose from presets': string
+	/**
+	 * use this preset
+	 */
+	'use this preset': string
+	/**
+	 * save setting
+	 */
+	'save setting': string
+	/**
+	 * back to practice without save setting
+	 */
+	'back to practice without save setting': string
+	/**
+	 * click and change labels
+	 */
+	'click and change labels': string
 }
 
 export type TranslationFunctions = {
@@ -98,6 +142,50 @@ export type TranslationFunctions = {
 	 * Delete session "{session}"? This action cannot be undone
 	 */
 	'Delete session "{session:string}"? This action cannot be undone': (arg: { session: string }) => LocalizedString
+	/**
+	 * change numbering setting
+	 */
+	'change numbering setting': () => LocalizedString
+	/**
+	 * renew scramble
+	 */
+	'renew scramble': () => LocalizedString
+	/**
+	 * corner buffer
+	 */
+	'corner buffer': () => LocalizedString
+	/**
+	 * edge buffer
+	 */
+	'edge buffer': () => LocalizedString
+	/**
+	 * edge execution
+	 */
+	'edge execution': () => LocalizedString
+	/**
+	 * corner execution
+	 */
+	'corner execution': () => LocalizedString
+	/**
+	 * choose from presets
+	 */
+	'choose from presets': () => LocalizedString
+	/**
+	 * use this preset
+	 */
+	'use this preset': () => LocalizedString
+	/**
+	 * save setting
+	 */
+	'save setting': () => LocalizedString
+	/**
+	 * back to practice without save setting
+	 */
+	'back to practice without save setting': () => LocalizedString
+	/**
+	 * click and change labels
+	 */
+	'click and change labels': () => LocalizedString
 }
 
 export type Formatters = {}
