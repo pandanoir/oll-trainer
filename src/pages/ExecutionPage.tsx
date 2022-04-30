@@ -38,7 +38,7 @@ const Face: VFC<PropsWithChildren<{ className?: string }>> = ({
   </div>
 );
 const NetDrawing: VFC<{
-  numbering?: readonly string[][];
+  numbering?: Numbering;
   selected?: { face: string; index: number }[];
 }> = ({
   numbering = [
@@ -147,6 +147,36 @@ const NetDrawing: VFC<{
     </div>
   );
 };
+
+type Numbering = readonly [
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string
+][];
+const numberingPresets: Numbering[] = [
+  [
+    ['あ', 'あ', 'た', 'か', '', 'さ', 'え', 'え', 'て'],
+    ['な', 'な', 'ね', 'に', '', 'ね', 'に', 'ぬ', 'ぬ'],
+    ['け', 'て', 'せ', 'け', '', 'せ', 'く', 'つ', 'す'],
+    ['れ', 'ら', 'ら', 'れ', '', 'り', 'る', 'る', 'り'],
+    ['う', 'う', 'つ', 'く', '', 'す', 'い', 'い', 'ち'],
+    ['き', 'ち', 'し', 'き', '', 'し', 'か', 'た', 'さ'],
+  ],
+  [
+    ['え', 'あ', 'あ', 'え', '', 'い', 'う', 'う', 'い'],
+    ['て', 'た', 'た', 'て', '', 'ち', 'つ', 'つ', 'ち'],
+    ['せ', 'さ', 'さ', 'せ', '', 'し', 'す', 'す', 'し'],
+    ['め', 'ま', 'ま', 'め', '', 'み', 'む', 'む', 'み'],
+    ['れ', 'ら', 'ら', 'れ', '', 'り', 'る', 'る', 'り'],
+    ['き', 'く', 'く', 'き', '', 'け', 'か', 'か', 'け'],
+  ],
+];
 
 export const solveEdge = (scramble: Direction[], bufferLabel: number) => {
   const initial = Object.freeze({
@@ -300,43 +330,6 @@ export const solveCorner = (scramble: Direction[], bufferLabel: number) => {
 const isEdge = (index: number) => index % 2 === 1;
 const isCorner = (index: number) => index % 2 === 0 && index !== 4;
 
-const myNumbering: [
-  string,
-  string,
-  string,
-  string,
-  string,
-  string,
-  string,
-  string,
-  string
-][] = [
-  ['あ', 'あ', 'た', 'か', '', 'さ', 'え', 'え', 'て'],
-  ['な', 'な', 'ね', 'に', '', 'ね', 'に', 'ぬ', 'ぬ'],
-  ['け', 'て', 'せ', 'け', '', 'せ', 'く', 'つ', 'す'],
-  ['れ', 'ら', 'ら', 'れ', '', 'り', 'る', 'る', 'り'],
-  ['う', 'う', 'つ', 'く', '', 'す', 'い', 'い', 'ち'],
-  ['き', 'ち', 'し', 'き', '', 'し', 'か', 'た', 'さ'],
-]; // 白橙緑赤黄青 の順
-const nagoyancubeNumbering: [
-  string,
-  string,
-  string,
-  string,
-  string,
-  string,
-  string,
-  string,
-  string
-][] = [
-  ['れ', 'ら', 'ら', 'れ', ' ', 'り', 'る', 'る', 'り'], //U
-  ['ち', 'つ', 'つ', 'ち', ' ', 'て', 'た', 'た', 'て'], // L
-  ['き', 'く', 'く', 'き', ' ', 'け', 'か', 'か', 'け'], // F
-  ['み', 'む', 'む', 'み', ' ', 'め', 'ま', 'ま', 'め'], // R
-  ['え', 'あ', 'あ', 'え', ' ', 'い', 'う', 'う', 'い'], // D
-  ['せ', 'さ', 'さ', 'せ', ' ', 'し', 'す', 'す', 'し'], // B
-]; // 白橙緑赤黄青 の順
-
 const getCorners = (numbering: string[][]) =>
   numbering.map((row) => row.filter((_, index) => isCorner(index)));
 const getEdges = (numbering: string[][]) =>
@@ -344,45 +337,12 @@ const getEdges = (numbering: string[][]) =>
 
 const CubeletInput = tw.input`w-4 bg-transparent`;
 const NumberingSettingMode: VFC<{
-  currentNumbering: readonly [
-    string,
-    string,
-    string,
-    string,
-    string,
-    string,
-    string,
-    string,
-    string
-  ][];
-  onFinish: (
-    newNumbering: readonly [
-      string,
-      string,
-      string,
-      string,
-      string,
-      string,
-      string,
-      string,
-      string
-    ][]
-  ) => void;
+  currentNumbering: Numbering;
+  onFinish: (newNumbering: Numbering) => void;
   onCancel: () => void;
 }> = ({ currentNumbering, onFinish, onCancel }) => {
-  const [numbering, setNumbering] = useState<
-    readonly [
-      string,
-      string,
-      string,
-      string,
-      string,
-      string,
-      string,
-      string,
-      string
-    ][]
-  >([...currentNumbering]);
+  const [numbering, setNumbering] = useState<Numbering>(currentNumbering);
+
   const updateNumbering = (face: number, index: number, newValue: string) => {
     setNumbering(
       immer((draft) => {
@@ -502,7 +462,7 @@ const NumberingSettingMode: VFC<{
       <details>
         <summary>choose from presets</summary>
         <ul tw="flex gap-x-3">
-          {[myNumbering, nagoyancubeNumbering].map((preset, index) => (
+          {numberingPresets.map((preset, index) => (
             <li tw="text-center" key={index}>
               <NetDrawing numbering={preset} />
               <SecondaryButton onClick={() => setNumbering(preset)}>
@@ -520,7 +480,13 @@ const NumberingSettingMode: VFC<{
         >
           save setting
         </PrimaryButton>
-        <SecondaryDangerButton tw="w-max" onClick={onCancel}>
+        <SecondaryDangerButton
+          tw="w-max"
+          onClick={() => {
+            if (numbering === currentNumbering || confirm('discard changes?'))
+              onCancel();
+          }}
+        >
           back to practice without save setting
         </SecondaryDangerButton>
       </div>
@@ -529,7 +495,7 @@ const NumberingSettingMode: VFC<{
 };
 
 const PracticeMode: VFC<{
-  numbering: readonly string[][];
+  numbering: Numbering;
   onNumberingSettingClick: () => void;
 }> = ({ numbering, onNumberingSettingClick }) => {
   const numericNumbering = useMemo(
@@ -767,19 +733,10 @@ const PracticeMode: VFC<{
 export const ExecutionPage: VFC = () => {
   useTitle('Practice execution of blindfolded method');
 
-  const [numbering, setNumbering] = useStoragedState<
-    readonly [
-      string,
-      string,
-      string,
-      string,
-      string,
-      string,
-      string,
-      string,
-      string
-    ][]
-  >(withPrefix('numbering'), nagoyancubeNumbering);
+  const [numbering, setNumbering] = useStoragedState<Numbering>(
+    withPrefix('numbering'),
+    numberingPresets[0]
+  );
   const [scene, setScene] = useState<'numberingSetting' | 'practice'>(
     'practice'
   );
