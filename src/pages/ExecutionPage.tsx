@@ -631,95 +631,101 @@ const PracticeMode: VFC<{
   }, [cornerBuffer, isValidCornerBuffer, scramble]);
 
   return (
-    <div tw="flex flex-col gap-y-2">
-      <NetDrawing
-        numbering={numbering}
-        selected={[
-          ...(typeof edgeBufferPosition !== 'undefined'
-            ? [edgeBufferPosition]
-            : []),
-          ...(typeof cornerBufferPosition !== 'undefined'
-            ? [cornerBufferPosition]
-            : []),
-        ]}
-      />
-      <SecondaryButton onClick={onNumberingSettingClick} tw="w-max">
-        {LL['change numbering setting']()}
-      </SecondaryButton>
-      <PrimaryButton
-        tw="w-max"
-        onClick={() => {
-          renewScramble();
-        }}
-      >
-        {LL['renew scramble']()}
-      </PrimaryButton>
-      <div
-        tw="grid grid-cols-2 gap-x-3 gap-y-1"
-        css="grid-template-columns: max-content max-content"
-      >
-        <span>{LL['corner buffer']()}: </span>
-        <input
-          value={cornerBufferInput}
-          onChange={onCornerBufferChange}
-          tw="text-black rounded"
-        />
-        <span>{LL['edge buffer']()}: </span>
-        <input
-          value={edgeBufferInput}
-          onChange={onEdgeBufferChange}
-          tw="text-black rounded"
-        />
+    <div tw="flex flex-col gap-y-2 md:flex-row">
+      <div tw="flex-1 flex flex-col gap-y-2 px-3">
+        {isValidCornerBuffer(cornerBuffer) && isValidEdgeBuffer(edgeBuffer) && (
+          <div tw="border border-gray-400 p-3 rounded">
+            <div> scramble: {scramble}</div>
+            <div tw="flex gap-x-1 w-max">
+              {LL['edge execution']()}:
+              {edgeSolution?.map((char) => {
+                const row = getEdges(numericNumbering).findIndex((edges) =>
+                  edges.includes(char)
+                );
+                if (row === -1) {
+                  return '';
+                }
+                const index = numericNumbering[row].findIndex(
+                  (cubelet, index) => cubelet === char && isEdge(index)
+                );
+                return (
+                  <span
+                    key={char}
+                    tw="odd:text-black even:text-blue-600 dark:odd:text-white dark:even:text-gray-400"
+                  >
+                    {numbering[row][index]}
+                  </span>
+                );
+              })}
+            </div>
+            <div tw="flex gap-x-1 w-max">
+              {LL['corner execution']()}:
+              {cornerSolution?.map((char) => {
+                const row = getCorners(numericNumbering).findIndex((corners) =>
+                  corners.includes(char)
+                );
+                if (row === -1) {
+                  return '';
+                }
+                const index = numericNumbering[row].findIndex(
+                  (cubelet, index) => cubelet === char && isCorner(index)
+                );
+                return (
+                  <span
+                    key={char}
+                    tw="odd:text-black even:text-blue-600 dark:odd:text-white dark:even:text-gray-400"
+                  >
+                    {numbering[row][index]}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        )}
+        <PrimaryButton
+          tw="w-max"
+          onClick={() => {
+            renewScramble();
+          }}
+        >
+          {LL['renew scramble']()}
+        </PrimaryButton>{' '}
       </div>
-      {isValidCornerBuffer(cornerBuffer) && isValidEdgeBuffer(edgeBuffer) && (
-        <div tw="border border-gray-400 p-3 rounded my-5 mx-3">
-          <div> scramble: {scramble}</div>
-          <div tw="flex gap-x-1 w-max">
-            {LL['edge execution']()}:
-            {edgeSolution?.map((char) => {
-              const row = getEdges(numericNumbering).findIndex((edges) =>
-                edges.includes(char)
-              );
-              if (row === -1) {
-                return '';
-              }
-              const index = numericNumbering[row].findIndex(
-                (cubelet, index) => cubelet === char && isEdge(index)
-              );
-              return (
-                <span
-                  key={char}
-                  tw="odd:text-black even:text-blue-600 dark:odd:text-white dark:even:text-gray-400"
-                >
-                  {numbering[row][index]}
-                </span>
-              );
-            })}
-          </div>
-          <div tw="flex gap-x-1 w-max">
-            {LL['corner execution']()}:
-            {cornerSolution?.map((char) => {
-              const row = getCorners(numericNumbering).findIndex((corners) =>
-                corners.includes(char)
-              );
-              if (row === -1) {
-                return '';
-              }
-              const index = numericNumbering[row].findIndex(
-                (cubelet, index) => cubelet === char && isCorner(index)
-              );
-              return (
-                <span
-                  key={char}
-                  tw="odd:text-black even:text-blue-600 dark:odd:text-white dark:even:text-gray-400"
-                >
-                  {numbering[row][index]}
-                </span>
-              );
-            })}
-          </div>
+      <div tw="px-3 flex flex-col gap-y-2">
+        <div tw="flex justify-center">
+          <NetDrawing
+            numbering={numbering}
+            selected={[
+              ...(typeof edgeBufferPosition !== 'undefined'
+                ? [edgeBufferPosition]
+                : []),
+              ...(typeof cornerBufferPosition !== 'undefined'
+                ? [cornerBufferPosition]
+                : []),
+            ]}
+          />
         </div>
-      )}
+        <div
+          tw="grid grid-cols-2 gap-x-3 gap-y-1"
+          css="grid-template-columns: max-content max-content"
+        >
+          <span>{LL['corner buffer']()}: </span>
+          <input
+            value={cornerBufferInput}
+            onChange={onCornerBufferChange}
+            tw="text-black rounded"
+          />
+          <span>{LL['edge buffer']()}: </span>
+          <input
+            value={edgeBufferInput}
+            onChange={onEdgeBufferChange}
+            tw="text-black rounded"
+          />
+        </div>
+        <SecondaryButton onClick={onNumberingSettingClick} tw="w-max">
+          {LL['change numbering setting']()}
+        </SecondaryButton>
+      </div>
     </div>
   );
 };
