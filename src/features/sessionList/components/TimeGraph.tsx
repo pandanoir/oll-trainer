@@ -36,7 +36,7 @@ export const TimeGraph = ({ times }: { times: TimeData[] }) => {
 
   const darkMode = useDarkModeState();
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="100%" height="95%">
       <LineChart
         width={500}
         height={300}
@@ -141,7 +141,7 @@ export const TimeHistogram = ({
   const darkMode = useDarkModeState();
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="100%" height="95%">
       <BarChart
         width={500}
         height={300}
@@ -156,10 +156,13 @@ export const TimeHistogram = ({
         <Legend />
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="step" stroke={darkMode ? '#fff' : '#000'} />
-        <YAxis dataKey="count" stroke={darkMode ? '#fff' : '#000'} />
+        <YAxis
+          dataKey="count"
+          stroke={darkMode ? '#fff' : '#000'}
+          allowDecimals={false}
+        />
         <Tooltip
           contentStyle={{ background: darkMode ? '#1f2937' : '#fff' }}
-          formatter={(value: number) => value.toFixed(3)}
           cursor={darkMode ? { fill: '#555' } : true}
         />
         <Legend />
