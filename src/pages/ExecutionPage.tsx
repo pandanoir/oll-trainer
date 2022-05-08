@@ -1,6 +1,8 @@
 import Cube, { CubeType, Direction } from '@pandanoir/rubikscube';
 import immer from 'immer';
 import {
+  ComponentProps,
+  forwardRef,
   PropsWithChildren,
   useCallback,
   useEffect,
@@ -44,6 +46,27 @@ const YellowCubelet = styled(BaseCubelet)(
   ({ selected = false }: { selected?: boolean }) =>
     selected ? tw`bg-yellow-500 text-black` : tw`bg-yellow-300 text-black`
 );
+const Cubelet = forwardRef<
+  HTMLDivElement,
+  ComponentProps<typeof BaseCubelet> & {
+    selected?: boolean;
+    color: 'white' | 'green' | 'red' | 'blue' | 'orange' | 'yellow';
+  }
+>(function Cubelet({ color, ...props }, ref) {
+  return color === 'white' ? (
+    <WhiteCubelet {...props} ref={ref} />
+  ) : color === 'green' ? (
+    <GreenCubelet {...props} ref={ref} />
+  ) : color === 'red' ? (
+    <RedCubelet {...props} ref={ref} />
+  ) : color === 'blue' ? (
+    <BlueCubelet {...props} ref={ref} />
+  ) : color === 'orange' ? (
+    <OrangeCubelet {...props} ref={ref} />
+  ) : color === 'yellow' ? (
+    <YellowCubelet {...props} ref={ref} />
+  ) : null;
+});
 
 const Face: VFC<PropsWithChildren<{ className?: string }>> = ({
   children,
@@ -59,6 +82,15 @@ const Face: VFC<PropsWithChildren<{ className?: string }>> = ({
 const NetDrawing: VFC<{
   numbering?: Numbering;
   selected?: { face: string; index: number }[];
+  faceColor: {
+    [k in 'U' | 'L' | 'F' | 'R' | 'D' | 'B']:
+      | 'white'
+      | 'green'
+      | 'red'
+      | 'blue'
+      | 'orange'
+      | 'yellow';
+  };
 }> = ({
   numbering = [
     ['', '', '', '', '', '', '', '', ''],
@@ -69,6 +101,7 @@ const NetDrawing: VFC<{
     ['', '', '', '', '', '', '', '', ''],
   ],
   selected,
+  faceColor,
 }) => {
   const isSelected = (targetFace: string, targetIndex: number) =>
     !!selected &&
@@ -80,59 +113,95 @@ const NetDrawing: VFC<{
       <div tw="flex justify-center">
         <Face tw="border-t border-l">
           {numbering[0].slice(0, 6).map((char, index) => (
-            <WhiteCubelet key={index} selected={isSelected('U', index)}>
+            <Cubelet
+              color={faceColor.U}
+              key={index}
+              selected={isSelected('U', index)}
+            >
               {char}
-            </WhiteCubelet>
+            </Cubelet>
           ))}
-          <WhiteCubelet tw="border-b-0" selected={isSelected('U', 6)}>
+          <Cubelet
+            color={faceColor.U}
+            tw="border-b-0"
+            selected={isSelected('U', 6)}
+          >
             {numbering[0][6]}
-          </WhiteCubelet>
-          <WhiteCubelet tw="border-b-0" selected={isSelected('U', 7)}>
+          </Cubelet>
+          <Cubelet
+            color={faceColor.U}
+            tw="border-b-0"
+            selected={isSelected('U', 7)}
+          >
             {numbering[0][7]}
-          </WhiteCubelet>
-          <WhiteCubelet tw="border-b-0" selected={isSelected('U', 8)}>
+          </Cubelet>
+          <Cubelet
+            color={faceColor.U}
+            tw="border-b-0"
+            selected={isSelected('U', 8)}
+          >
             {numbering[0][8]}
-          </WhiteCubelet>
+          </Cubelet>
         </Face>
       </div>
       <div tw="flex border-t border-gray-800">
         <Face tw="border-l">
           {numbering[1].map((char, index) => (
-            <OrangeCubelet key={index} selected={isSelected('L', index)}>
+            <Cubelet
+              color={faceColor.L}
+              key={index}
+              selected={isSelected('L', index)}
+            >
               {char}
-            </OrangeCubelet>
+            </Cubelet>
           ))}
         </Face>
         <Face>
           {numbering[2].map((char, index) => (
-            <GreenCubelet key={index} selected={isSelected('F', index)}>
+            <Cubelet
+              color={faceColor.F}
+              key={index}
+              selected={isSelected('F', index)}
+            >
               {char}
-            </GreenCubelet>
+            </Cubelet>
           ))}
         </Face>
         <Face>
           {numbering[3].map((char, index) => (
-            <RedCubelet key={index} selected={isSelected('R', index)}>
+            <Cubelet
+              color={faceColor.R}
+              key={index}
+              selected={isSelected('R', index)}
+            >
               {char}
-            </RedCubelet>
+            </Cubelet>
           ))}
         </Face>
       </div>
       <div tw="flex justify-center">
         <Face tw="border-l">
           {numbering[4].map((char, index) => (
-            <YellowCubelet key={index} selected={isSelected('D', index)}>
+            <Cubelet
+              color={faceColor.D}
+              key={index}
+              selected={isSelected('D', index)}
+            >
               {char}
-            </YellowCubelet>
+            </Cubelet>
           ))}
         </Face>
       </div>
       <div tw="flex justify-center">
         <Face tw="border-l">
           {numbering[5].map((char, index) => (
-            <BlueCubelet key={index} selected={isSelected('B', index)}>
+            <Cubelet
+              color={faceColor.B}
+              key={index}
+              selected={isSelected('B', index)}
+            >
               {char}
-            </BlueCubelet>
+            </Cubelet>
           ))}
         </Face>
       </div>
@@ -457,7 +526,17 @@ const NumberingSettingMode: VFC<{
         <ul tw="flex gap-x-3">
           {numberingPresets.map((preset, index) => (
             <li tw="text-center" key={index}>
-              <NetDrawing numbering={preset} />
+              <NetDrawing
+                numbering={preset}
+                faceColor={{
+                  U: 'white',
+                  L: 'orange',
+                  F: 'green',
+                  R: 'red',
+                  B: 'blue',
+                  D: 'yellow',
+                }}
+              />
               <SecondaryButton onClick={() => setNumbering(preset)}>
                 {LL['use this preset']()}
               </SecondaryButton>
@@ -631,95 +710,109 @@ const PracticeMode: VFC<{
   }, [cornerBuffer, isValidCornerBuffer, scramble]);
 
   return (
-    <div tw="flex flex-col gap-y-2">
-      <NetDrawing
-        numbering={numbering}
-        selected={[
-          ...(typeof edgeBufferPosition !== 'undefined'
-            ? [edgeBufferPosition]
-            : []),
-          ...(typeof cornerBufferPosition !== 'undefined'
-            ? [cornerBufferPosition]
-            : []),
-        ]}
-      />
-      <SecondaryButton onClick={onNumberingSettingClick} tw="w-max">
-        {LL['change numbering setting']()}
-      </SecondaryButton>
-      <PrimaryButton
-        tw="w-max"
-        onClick={() => {
-          renewScramble();
-        }}
-      >
-        {LL['renew scramble']()}
-      </PrimaryButton>
-      <div
-        tw="grid grid-cols-2 gap-x-3 gap-y-1"
-        css="grid-template-columns: max-content max-content"
-      >
-        <span>{LL['corner buffer']()}: </span>
-        <input
-          value={cornerBufferInput}
-          onChange={onCornerBufferChange}
-          tw="text-black rounded"
-        />
-        <span>{LL['edge buffer']()}: </span>
-        <input
-          value={edgeBufferInput}
-          onChange={onEdgeBufferChange}
-          tw="text-black rounded"
-        />
+    <div tw="flex flex-col gap-y-2 md:flex-row">
+      <div tw="flex-1 flex flex-col gap-y-2 px-3">
+        {isValidCornerBuffer(cornerBuffer) && isValidEdgeBuffer(edgeBuffer) && (
+          <div tw="border border-gray-400 p-3 rounded">
+            <div> scramble: {scramble}</div>
+            <div tw="flex gap-x-1 w-max">
+              {LL['edge execution']()}:
+              {edgeSolution?.map((char) => {
+                const row = getEdges(numericNumbering).findIndex((edges) =>
+                  edges.includes(char)
+                );
+                if (row === -1) {
+                  return '';
+                }
+                const index = numericNumbering[row].findIndex(
+                  (cubelet, index) => cubelet === char && isEdge(index)
+                );
+                return (
+                  <span
+                    key={char}
+                    tw="odd:text-black even:text-blue-600 dark:odd:text-white dark:even:text-gray-400"
+                  >
+                    {numbering[row][index]}
+                  </span>
+                );
+              })}
+            </div>
+            <div tw="flex gap-x-1 w-max">
+              {LL['corner execution']()}:
+              {cornerSolution?.map((char) => {
+                const row = getCorners(numericNumbering).findIndex((corners) =>
+                  corners.includes(char)
+                );
+                if (row === -1) {
+                  return '';
+                }
+                const index = numericNumbering[row].findIndex(
+                  (cubelet, index) => cubelet === char && isCorner(index)
+                );
+                return (
+                  <span
+                    key={char}
+                    tw="odd:text-black even:text-blue-600 dark:odd:text-white dark:even:text-gray-400"
+                  >
+                    {numbering[row][index]}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        )}
+        <PrimaryButton
+          tw="w-max"
+          onClick={() => {
+            renewScramble();
+          }}
+        >
+          {LL['renew scramble']()}
+        </PrimaryButton>{' '}
       </div>
-      {isValidCornerBuffer(cornerBuffer) && isValidEdgeBuffer(edgeBuffer) && (
-        <div tw="border border-gray-400 p-3 rounded my-5 mx-3">
-          <div> scramble: {scramble}</div>
-          <div tw="flex gap-x-1 w-max">
-            {LL['edge execution']()}:
-            {edgeSolution?.map((char) => {
-              const row = getEdges(numericNumbering).findIndex((edges) =>
-                edges.includes(char)
-              );
-              if (row === -1) {
-                return '';
-              }
-              const index = numericNumbering[row].findIndex(
-                (cubelet, index) => cubelet === char && isEdge(index)
-              );
-              return (
-                <span
-                  key={char}
-                  tw="odd:text-black even:text-blue-600 dark:odd:text-white dark:even:text-gray-400"
-                >
-                  {numbering[row][index]}
-                </span>
-              );
-            })}
-          </div>
-          <div tw="flex gap-x-1 w-max">
-            {LL['corner execution']()}:
-            {cornerSolution?.map((char) => {
-              const row = getCorners(numericNumbering).findIndex((corners) =>
-                corners.includes(char)
-              );
-              if (row === -1) {
-                return '';
-              }
-              const index = numericNumbering[row].findIndex(
-                (cubelet, index) => cubelet === char && isCorner(index)
-              );
-              return (
-                <span
-                  key={char}
-                  tw="odd:text-black even:text-blue-600 dark:odd:text-white dark:even:text-gray-400"
-                >
-                  {numbering[row][index]}
-                </span>
-              );
-            })}
-          </div>
+      <div tw="px-3 flex flex-col gap-y-2">
+        <div tw="flex justify-center">
+          <NetDrawing
+            numbering={numbering}
+            selected={[
+              ...(typeof edgeBufferPosition !== 'undefined'
+                ? [edgeBufferPosition]
+                : []),
+              ...(typeof cornerBufferPosition !== 'undefined'
+                ? [cornerBufferPosition]
+                : []),
+            ]}
+            faceColor={{
+              U: 'white',
+              L: 'orange',
+              F: 'green',
+              R: 'red',
+              B: 'blue',
+              D: 'yellow',
+            }}
+          />
         </div>
-      )}
+        <div
+          tw="grid grid-cols-2 gap-x-3 gap-y-1"
+          css="grid-template-columns: max-content max-content"
+        >
+          <span>{LL['corner buffer']()}: </span>
+          <input
+            value={cornerBufferInput}
+            onChange={onCornerBufferChange}
+            tw="text-black rounded"
+          />
+          <span>{LL['edge buffer']()}: </span>
+          <input
+            value={edgeBufferInput}
+            onChange={onEdgeBufferChange}
+            tw="text-black rounded"
+          />
+        </div>
+        <SecondaryButton onClick={onNumberingSettingClick} tw="w-max">
+          {LL['change numbering setting']()}
+        </SecondaryButton>
+      </div>
     </div>
   );
 };
