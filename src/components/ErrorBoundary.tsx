@@ -1,4 +1,4 @@
-import { ErrorInfo, PureComponent } from 'react';
+import { ErrorInfo, PropsWithChildren, PureComponent } from 'react';
 
 const localStorageToString = () => {
   const localStorageValue: Record<string, string> = {};
@@ -11,7 +11,9 @@ const localStorageToString = () => {
   }
   return JSON.stringify(localStorageValue);
 };
-export class ErrorBoundary extends PureComponent<Record<string, unknown>> {
+export class ErrorBoundary extends PureComponent<
+  PropsWithChildren<Record<string, unknown>>
+> {
   state = { hasError: false, errorMessage: '' };
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     this.setState({
