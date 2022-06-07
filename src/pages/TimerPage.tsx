@@ -133,7 +133,7 @@ export const TimerPage: VFC = () => {
     setModalType(null);
   };
   return (
-    <div tw="relative w-full flex flex-col flex-1 dark:bg-gray-800 dark:text-white">
+    <div tw="relative w-full flex flex-col flex-1 dark:bg-gray-800 dark:text-white pb-safe">
       <div tw="flex space-x-1 px-3 overflow-x-auto items-center">
         <IconButton
           tw="inline-block cursor-pointer select-none px-2"
