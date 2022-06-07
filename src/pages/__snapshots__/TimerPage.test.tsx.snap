@@ -176,7 +176,7 @@ exports[`TimerPage snapshot 1`] = `
     </nav>
   </header>
   <div
-    class="_StyledDiv-sc-170dy2y-0 cbIpbm"
+    class="_StyledDiv-sc-170dy2y-0 hOQcgh"
   >
     <div
       class="_StyledDiv2-sc-170dy2y-1 jGUjgK"
@@ -300,7 +300,7 @@ exports[`TimerPage snapshot 1`] = `
         role="button"
       />
       <button
-        class="Button-sc-5ehw98-0 PrimaryButton-sc-mwlz5h-0 _StyledPrimaryButton-sc-170dy2y-3 iuRQrk ULDak bAbZGT"
+        class="Button-sc-5ehw98-0 PrimaryButton-sc-mwlz5h-0 _StyledPrimaryButton-sc-170dy2y-3 iuRQrk kGCOCJ bAbZGT"
       >
         3x3
       </button>
@@ -665,7 +665,7 @@ exports[`TimerPage snapshot 2`] = `
     </nav>
   </header>
   <div
-    class="_StyledDiv-sc-170dy2y-0 cbIpbm"
+    class="_StyledDiv-sc-170dy2y-0 hOQcgh"
   >
     <div
       class="_StyledDiv2-sc-170dy2y-1 jGUjgK"
@@ -805,7 +805,7 @@ exports[`TimerPage snapshot 2`] = `
         role="button"
       />
       <button
-        class="Button-sc-5ehw98-0 PrimaryButton-sc-mwlz5h-0 _StyledPrimaryButton-sc-170dy2y-3 iuRQrk ULDak bAbZGT"
+        class="Button-sc-5ehw98-0 PrimaryButton-sc-mwlz5h-0 _StyledPrimaryButton-sc-170dy2y-3 iuRQrk kGCOCJ bAbZGT"
       >
         3x3
       </button>
