@@ -12,7 +12,7 @@ const en: BaseTranslation = {
   undo: 'undo',
   'Delete session "{session:string}"? This action cannot be undone':
     'Delete session "{session:string}"? This action cannot be undone',
-  'change numbering setting': 'change numbering setting',
+  'change cube setting': 'change cube setting',
   'renew scramble': 'renew scramble',
   'corner buffer': 'corner buffer',
   'edge buffer': 'edge buffer',

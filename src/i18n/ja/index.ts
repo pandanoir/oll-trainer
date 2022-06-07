@@ -12,7 +12,7 @@ const ja: Translation = {
   undo: '元に戻す',
   'Delete session "{session:string}"? This action cannot be undone':
     'セッション {session} を削除しますか?この操作は取り消せません',
-  'change numbering setting': 'ナンバリング設定を変更する',
+  'change cube setting': 'キューブ設定を変更する',
   'renew scramble': '次のスクランブル',
   'corner buffer': 'コーナーバッファ',
   'edge buffer': 'エッジバッファ',

@@ -56,9 +56,9 @@ type RootTranslation = {
 	 */
 	'Delete session "{session:string}"? This action cannot be undone': RequiredParams<'session'>
 	/**
-	 * change numbering setting
+	 * change cube setting
 	 */
-	'change numbering setting': string
+	'change cube setting': string
 	/**
 	 * renew scramble
 	 */
@@ -143,9 +143,9 @@ export type TranslationFunctions = {
 	 */
 	'Delete session "{session:string}"? This action cannot be undone': (arg: { session: string }) => LocalizedString
 	/**
-	 * change numbering setting
+	 * change cube setting
 	 */
-	'change numbering setting': () => LocalizedString
+	'change cube setting': () => LocalizedString
 	/**
 	 * renew scramble
 	 */

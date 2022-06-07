@@ -238,7 +238,65 @@ const numberingPresets: Numbering[] = [
     ['き', 'く', 'く', 'き', '', 'け', 'か', 'か', 'け'],
   ],
 ];
-
+type FaceColor = {
+  [key in 'U' | 'L' | 'F' | 'R' | 'D' | 'B']:
+    | 'white'
+    | 'green'
+    | 'red'
+    | 'blue'
+    | 'orange'
+    | 'yellow';
+};
+const oppositeColorDict = {
+  white: 'yellow',
+  green: 'blue',
+  red: 'orange',
+  blue: 'green',
+  orange: 'red',
+  yellow: 'white',
+} as const;
+const getFaceColor = (
+  u: FaceColor['U'],
+  f: FaceColor['F']
+): FaceColor | null => {
+  const [normalizedU, normalizedF] =
+    u === 'yellow' || u === 'blue' || u === 'orange'
+      ? [oppositeColorDict[u], oppositeColorDict[f]]
+      : [u, f]; // これで normalizedU は白緑赤のいずれかになった
+  const l = (
+    {
+      white: {
+        green: 'orange',
+        red: 'green',
+        blue: 'red',
+        orange: 'blue',
+      },
+      green: {
+        white: 'red',
+        red: 'yellow',
+        yellow: 'orange',
+        orange: 'white',
+      },
+      red: {
+        white: 'blue',
+        blue: 'yellow',
+        yellow: 'green',
+        green: 'white',
+      },
+    } as const
+  )[normalizedU][normalizedF];
+  if (typeof l === 'undefined') {
+    return null;
+  }
+  return {
+    U: u,
+    L: l,
+    F: f,
+    R: oppositeColorDict[l],
+    D: oppositeColorDict[u],
+    B: oppositeColorDict[f],
+  };
+};
 export const solveEdge = (scramble: Direction[], bufferLabel: number) => {
   const initial = Object.freeze({
     U: ['0', '0', '12', '4', '-1', '8', '3', '3', '15'],
@@ -397,11 +455,12 @@ const getEdges = (numbering: string[][]) =>
   numbering.map((row) => row.filter((_, index) => isEdge(index)));
 
 const CubeletInput = tw.input`w-4 bg-transparent`;
-const NumberingSettingMode: VFC<{
+const CubeSettingMode: VFC<{
   currentNumbering: Numbering;
-  onFinish: (newNumbering: Numbering) => void;
+  currentFaceColor: FaceColor;
+  onFinish: (newNumbering: Numbering, newFaceColor: FaceColor) => void;
   onCancel: () => void;
-}> = ({ currentNumbering, onFinish, onCancel }) => {
+}> = ({ currentNumbering, currentFaceColor, onFinish, onCancel }) => {
   const { LL } = useI18nContext();
   const [numbering, setNumbering] = useState<Numbering>(currentNumbering);
 
@@ -412,6 +471,24 @@ const NumberingSettingMode: VFC<{
       })
     );
   };
+  const [uFaceColor, setUFaceColor] = useState<FaceColor['U']>(
+    currentFaceColor.U
+  );
+  const [fFaceColor, setFFaceColor] = useState<FaceColor['F']>(
+    currentFaceColor.F
+  );
+  const isValidFaceColor =
+    uFaceColor !== fFaceColor && oppositeColorDict[uFaceColor] !== fFaceColor;
+  const faceColor: FaceColor = isValidFaceColor
+    ? (getFaceColor(uFaceColor, fFaceColor) as FaceColor) // valid でない場合に null がくる想定なので assertion 使って OK
+    : {
+        U: 'white',
+        L: 'white',
+        F: 'white',
+        R: 'white',
+        D: 'white',
+        B: 'white',
+      };
   return (
     <div tw="flex flex-col gap-y-3">
       {LL['click and change labels']()}
@@ -419,104 +496,104 @@ const NumberingSettingMode: VFC<{
         <div tw="flex justify-center">
           <Face tw="border-t border-l">
             {numbering[0].slice(0, 6).map((char, index) => (
-              <WhiteCubelet key={index}>
+              <Cubelet color={faceColor.U} key={index}>
                 <CubeletInput
                   value={char}
                   onChange={({ target: { value } }) =>
                     updateNumbering(0, index, value)
                   }
                 />
-              </WhiteCubelet>
+              </Cubelet>
             ))}
-            <WhiteCubelet tw="border-b-0">
+            <Cubelet color={faceColor.U} tw="border-b-0">
               <CubeletInput
                 value={numbering[0][6]}
                 onChange={({ target: { value } }) =>
                   updateNumbering(0, 6, value)
                 }
               />
-            </WhiteCubelet>
-            <WhiteCubelet tw="border-b-0">
+            </Cubelet>
+            <Cubelet color={faceColor.U} tw="border-b-0">
               <CubeletInput
                 value={numbering[0][7]}
                 onChange={({ target: { value } }) =>
                   updateNumbering(0, 7, value)
                 }
               />
-            </WhiteCubelet>
-            <WhiteCubelet tw="border-b-0">
+            </Cubelet>
+            <Cubelet color={faceColor.U} tw="border-b-0">
               <CubeletInput
                 value={numbering[0][8]}
                 onChange={({ target: { value } }) =>
                   updateNumbering(0, 8, value)
                 }
               />
-            </WhiteCubelet>
+            </Cubelet>
           </Face>
         </div>
         <div tw="flex border-t border-gray-800">
           <Face tw="border-l">
             {numbering[1].map((char, index) => (
-              <OrangeCubelet key={index}>
+              <Cubelet color={faceColor.L} key={index}>
                 <CubeletInput
                   value={char}
                   onChange={({ target: { value } }) =>
                     updateNumbering(1, index, value)
                   }
                 />
-              </OrangeCubelet>
+              </Cubelet>
             ))}
           </Face>
           <Face>
             {numbering[2].map((char, index) => (
-              <GreenCubelet key={index}>
+              <Cubelet color={faceColor.F} key={index}>
                 <CubeletInput
                   value={char}
                   onChange={({ target: { value } }) =>
                     updateNumbering(2, index, value)
                   }
                 />
-              </GreenCubelet>
+              </Cubelet>
             ))}
           </Face>
           <Face>
             {numbering[3].map((char, index) => (
-              <RedCubelet key={index}>
+              <Cubelet color={faceColor.R} key={index}>
                 <CubeletInput
                   value={char}
                   onChange={({ target: { value } }) =>
                     updateNumbering(3, index, value)
                   }
                 />
-              </RedCubelet>
+              </Cubelet>
             ))}
           </Face>
         </div>
         <div tw="flex justify-center">
           <Face tw="border-l">
             {numbering[4].map((char, index) => (
-              <YellowCubelet key={index}>
+              <Cubelet color={faceColor.D} key={index}>
                 <CubeletInput
                   value={char}
                   onChange={({ target: { value } }) =>
                     updateNumbering(4, index, value)
                   }
                 />
-              </YellowCubelet>
+              </Cubelet>
             ))}
           </Face>
         </div>
         <div tw="flex justify-center">
           <Face tw="border-l">
             {numbering[5].map((char, index) => (
-              <BlueCubelet key={index}>
+              <Cubelet color={faceColor.B} key={index}>
                 <CubeletInput
                   value={char}
                   onChange={({ target: { value } }) =>
                     updateNumbering(5, index, value)
                   }
                 />
-              </BlueCubelet>
+              </Cubelet>
             ))}
           </Face>
         </div>
@@ -526,17 +603,7 @@ const NumberingSettingMode: VFC<{
         <ul tw="flex gap-x-3">
           {numberingPresets.map((preset, index) => (
             <li tw="text-center" key={index}>
-              <NetDrawing
-                numbering={preset}
-                faceColor={{
-                  U: 'white',
-                  L: 'orange',
-                  F: 'green',
-                  R: 'red',
-                  B: 'blue',
-                  D: 'yellow',
-                }}
-              />
+              <NetDrawing numbering={preset} faceColor={faceColor} />
               <SecondaryButton onClick={() => setNumbering(preset)}>
                 {LL['use this preset']()}
               </SecondaryButton>
@@ -544,10 +611,43 @@ const NumberingSettingMode: VFC<{
           ))}
         </ul>
       </details>
+      <div>
+        U面:{' '}
+        <select
+          tw="text-black"
+          value={uFaceColor}
+          onChange={({ target: { value } }) =>
+            setUFaceColor(value as FaceColor['U'])
+          }
+        >
+          {['white', 'orange', 'green', 'red', 'yellow', 'blue'].map(
+            (color) => (
+              <option key={color}>{color}</option>
+            )
+          )}
+        </select>
+        <br />
+        F面:
+        <select
+          tw="text-black"
+          value={fFaceColor}
+          onChange={({ target: { value } }) =>
+            setFFaceColor(value as FaceColor['F'])
+          }
+        >
+          {['white', 'orange', 'green', 'red', 'yellow', 'blue'].map(
+            (color) => (
+              <option key={color}>{color}</option>
+            )
+          )}
+        </select>
+        {!isValidFaceColor && 'invalid color pattern!'}
+      </div>
       <div tw="flex gap-3">
         <PrimaryButton
+          disabled={!isValidFaceColor}
           onClick={() => {
-            onFinish(numbering);
+            onFinish(numbering, faceColor);
           }}
         >
           {LL['save setting']()}
@@ -568,8 +668,9 @@ const NumberingSettingMode: VFC<{
 
 const PracticeMode: VFC<{
   numbering: Numbering;
-  onNumberingSettingClick: () => void;
-}> = ({ numbering, onNumberingSettingClick }) => {
+  faceColor: FaceColor;
+  onCubeSettingClick: () => void;
+}> = ({ numbering, faceColor, onCubeSettingClick: onCubeSettingClick }) => {
   const { LL } = useI18nContext();
   const numericNumbering = useMemo(
     () => [
@@ -782,14 +883,7 @@ const PracticeMode: VFC<{
                 ? [cornerBufferPosition]
                 : []),
             ]}
-            faceColor={{
-              U: 'white',
-              L: 'orange',
-              F: 'green',
-              R: 'red',
-              B: 'blue',
-              D: 'yellow',
-            }}
+            faceColor={faceColor}
           />
         </div>
         <div
@@ -809,8 +903,8 @@ const PracticeMode: VFC<{
             tw="text-black rounded"
           />
         </div>
-        <SecondaryButton onClick={onNumberingSettingClick} tw="w-max">
-          {LL['change numbering setting']()}
+        <SecondaryButton onClick={onCubeSettingClick} tw="w-max">
+          {LL['change cube setting']()}
         </SecondaryButton>
       </div>
     </div>
@@ -824,19 +918,31 @@ export const ExecutionPage: VFC = () => {
     withPrefix('numbering'),
     numberingPresets[0]
   );
-  const [scene, setScene] = useState<'numberingSetting' | 'practice'>(
-    'practice'
+  const [faceColor, setFaceColor] = useStoragedState<FaceColor>(
+    withPrefix('execution--faceColor'),
+    {
+      U: 'white',
+      L: 'orange',
+      F: 'green',
+      R: 'red',
+      D: 'yellow',
+      B: 'blue',
+    }
   );
+  const [scene, setScene] = useState<'cubeSetting' | 'practice'>('practice');
   return scene === 'practice' ? (
     <PracticeMode
       numbering={numbering}
-      onNumberingSettingClick={() => setScene('numberingSetting')}
+      faceColor={faceColor}
+      onCubeSettingClick={() => setScene('cubeSetting')}
     />
-  ) : scene === 'numberingSetting' ? (
-    <NumberingSettingMode
+  ) : scene === 'cubeSetting' ? (
+    <CubeSettingMode
       currentNumbering={numbering}
-      onFinish={(newNumbering) => {
+      currentFaceColor={faceColor}
+      onFinish={(newNumbering, newFaceColor) => {
         setNumbering(newNumbering);
+        setFaceColor(newFaceColor);
         setScene('practice');
       }}
       onCancel={() => setScene('practice')}
