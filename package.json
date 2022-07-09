@@ -65,7 +65,7 @@
     "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {
-    "@testing-library/dom": "8.14.0",
+    "@testing-library/dom": "8.14.1",
     "@testing-library/react": "12.1.5",
     "@testing-library/react-hooks": "8.0.1",
     "@typescript-eslint/eslint-plugin": "5.30.5",
