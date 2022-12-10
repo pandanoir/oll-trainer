@@ -31,7 +31,7 @@
     "@pandanoir/rubikscube": "^0.1.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@types/jest": "^28.0.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^18.0.0",
     "@types/styled-components": "^5.1.17",
