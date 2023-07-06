@@ -127,6 +127,14 @@ export const Header: VFC<{
           </ul>
         </span>
         <span tw="flex space-x-2">
+          <a
+            href="https://hi-timer.vercel.app"
+            target="_blank"
+            rel="noreferrer"
+            tw="px-2 border-2 border-transparent bg-yellow-400 font-bold text-white dark:border-yellow-500 dark:bg-transparent dark:text-yellow-300"
+          >
+            new timer available!
+          </a>
           <IconButton
             tw="w-8 h-8 rounded-full bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-white"
             icon={faCog}
